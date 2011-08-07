@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "GameUILayer.h"
-#import "GameBackgroundLayer.h"
-#import "GameActionLayer.h"
+#import "VolcanoBackgroundLayer.h"
+#import "VolcanoActionLayer.h"
 
-@interface GameScene : CCScene {
+@interface VolcanoScene : CCScene {
     GameUILayer *uiLayer;
     GameBackgroundLayer *backgroundLayer;
 }

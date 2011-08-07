@@ -6,12 +6,12 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "GameScene.h"
+#import "VolcanoScene.h"
 //#import "GameActionLayer.h"
 //#import "GameUILayer.h"
 
 
-@implementation GameScene
+@implementation VolcanoScene
 
 -(id) init {
     if ((self = [super init])) {

@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "GameActionLayer.h"
+#import "VolcanoActionLayer.h"
 #import "GameUILayer.h"
 #import "GameManager.h"
 #import "SimpleQueryCallback.h"
@@ -14,7 +14,7 @@
 #import "Mushroom.h"
 #import "Turtle.h"
 
-@implementation GameActionLayer
+@implementation VolcanoActionLayer
 
 @synthesize contactListener;
 @synthesize visibleMushrooms;

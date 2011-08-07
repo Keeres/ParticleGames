@@ -12,7 +12,7 @@
 #import "GLES-Render.h"
 #import "Constants.h"
 #import "GameUILayer.h"
-#import "GameBackgroundLayer.h"
+#import "VolcanoBackgroundLayer.h"
 #import "MushroomCache.h"
 #import "EnemyCache.h"
 #import "PlatformCache.h"
@@ -24,7 +24,7 @@
 @class EnemyCache;
 
 
-@interface GameActionLayer : CCLayer {
+@interface VolcanoActionLayer : CCLayer {
     b2World *world;
     b2Body *groundBody;
     b2Body *sideBody;

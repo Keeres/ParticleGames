@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@interface GameBackgroundLayer : CCLayer {
+@interface VolcanoBackgroundLayer : CCLayer {
     CCSprite *background;
 }
 

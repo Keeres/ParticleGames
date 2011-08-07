@@ -6,9 +6,9 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "GameBackgroundLayer.h"
+#import "VolcanoBackgroundLayer.h"
 
-@implementation GameBackgroundLayer
+@implementation VolcanoBackgroundLayer
 
 -(void) updateOffset:(float)offset {
     self.position = ccp(-offset,self.position.y);
