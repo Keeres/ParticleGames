@@ -8,11 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "CommonProtocols.h"
+#import "Constants.h"
 
 @interface GameBackgroundLayer : CCLayer {
     CCSprite *background;
+    CCParallaxNode *parallax;
+    
+    //volcano variables
+    VolcanoState volcanoState;
 }
 
 -(void) updateOffset:(float)offset;
+-(void) volcanoChangeState:(float)offset;
 
 @end

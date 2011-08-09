@@ -520,6 +520,7 @@
     }    
     [platformCache updatePlatforms:offset withScale:self.scale];
     [backgroundLayer updateOffset:offset];
+   [backgroundLayer volcanoChangeState:offset];
     
     ////////////////////////////
     //Spawn Enemy randomly
