@@ -344,7 +344,7 @@
             tempEnemy.isTouchingGround = NO;
         }
     }
-
+    
     std::vector<MyContact>::iterator pos;
     for (pos = contactListener->_contacts.begin(); pos != contactListener->_contacts.end(); ++pos) {
         MyContact contact = *pos;
@@ -367,19 +367,53 @@
                 if (tempEnemy.type == kTurtleType) {
                     Turtle *tempTurtle = [visibleEnemies objectAtIndex:j];
                     
-                    if ((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempTurtle.body) || (contact.fixtureA->GetBody() == tempTurtle.body && contact.fixtureB->GetBody() == groundBody)) {
+                    //Check is turtle is touching ground
+                    if ((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempTurtle.body) || 
+                        (contact.fixtureA->GetBody() == tempTurtle.body && contact.fixtureB->GetBody() == groundBody)) {
                         tempTurtle.isTouchingGround = YES;
                     }
                     
-                    if ((contact.fixtureA->GetBody() == tempTurtle.body && contact.fixtureB->GetBody() == tempMushroom.body) || (contact.fixtureA->GetBody() == tempMushroom.body && contact.fixtureB->GetBody() == tempTurtle.body)) {
+                    //Check if turtle is touching mushroom
+                    if ((contact.fixtureA->GetBody() == tempTurtle.body && contact.fixtureB->GetBody() == tempMushroom.body) || 
+                        (contact.fixtureA->GetBody() == tempMushroom.body && contact.fixtureB->GetBody() == tempTurtle.body)) {
                         
-                        if ((tempTurtle.blueColor == NO && tempMushroom.blueColor == NO) || (tempTurtle.blueColor == YES && tempMushroom.blueColor == YES)) {
+                        //Check if turtle and mushroom are same color and turtle being eaten by mushroom - make new mushroom
+                        if ((tempTurtle.blueColor == NO && tempMushroom.blueColor == NO && tempMushroom.eating) || 
+                            (tempTurtle.blueColor == YES && tempMushroom.blueColor == YES && tempMushroom.eating)) {
+                            
                             if (tempMushroom.hitEnemy == NO) {
                                 tempTurtle.isHit = YES;
                                 [self spawnMushroomAtPoint:tempTurtle.position isNewSpawn:NO];
                                 tempMushroom.hitEnemy = YES;
                             }
-                        } else {
+                        } 
+                        //Check if turtle and mushroom are same color - no new mushroom, knock turtle off platform
+                        else if ((tempTurtle.blueColor == NO && tempMushroom.blueColor == NO) || 
+                                 (tempTurtle.blueColor == YES && tempMushroom.blueColor == YES)) {
+                            
+                            if (tempMushroom.hitEnemy == NO) {
+                                b2Filter tempFilter;
+                                for (b2Fixture *f = tempTurtle.body->GetFixtureList(); f; f = f->GetNext()) {
+                                    f->GetFilterData();
+                                    tempFilter.categoryBits = kCategoryEnemy;
+                                    tempFilter.maskBits = 0x0000;
+                                    tempFilter.groupIndex = kGroupEnemy;
+                                    f->SetFilterData(tempFilter);
+                                }
+                                
+                                //tempTurtle.isHit = YES;
+                            }
+                            
+                        }
+                        //Check if turtle and mushroom hit each other and mushroom is in changing state - no new mushroom, kill turtle
+                        else if (tempMushroom.characterState == kStateChange) {
+                            if (tempMushroom.hitEnemy == NO) {
+                                tempTurtle.isHit = YES;
+                            }
+                        }
+                        //Turtle and mushroom are wrong color - no new mushroom, knock mushroom off platform
+                        else {
+                            
                             //Code to change the filter data on the fly.
                             b2Filter tempFilter;
                             for (b2Fixture *f = tempMushroom.body->GetFixtureList(); f; f = f->GetNext()) {
@@ -399,7 +433,7 @@
                         
                         tempBee.isHit = YES;
                         
-                        if ((tempBee.blueColor == NO && tempMushroom.blueColor == NO) || (tempBee.blueColor == YES && tempMushroom.blueColor == YES)) {
+                        if ((tempBee.blueColor == NO && tempMushroom.blueColor == NO && tempMushroom.eating) || (tempBee.blueColor == YES && tempMushroom.blueColor == YES && tempMushroom.eating)) {
                             if (tempMushroom.hitEnemy == NO) {
                                 [self spawnMushroomAtPoint:tempBee.position isNewSpawn:NO];
                                 tempMushroom.hitEnemy = YES;
@@ -422,7 +456,7 @@
                         
                         tempJumper.isHit = YES;
                         
-                        if ((tempJumper.blueColor == NO && tempMushroom.blueColor == NO) || (tempJumper.blueColor == YES && tempMushroom.blueColor == YES)) {
+                        if ((tempJumper.blueColor == NO && tempMushroom.blueColor == NO && tempMushroom.eating) || (tempJumper.blueColor == YES && tempMushroom.blueColor == YES && tempMushroom.eating)) {
                             if (tempMushroom.hitEnemy == NO) {
                                 [self spawnMushroomAtPoint:tempJumper.position isNewSpawn:NO];
                                 tempMushroom.hitEnemy = YES;
@@ -431,7 +465,7 @@
                             tempMushroom.hitByJumper = YES;
                         }
                     }
-
+                    
                 }
             }
         }
@@ -510,11 +544,23 @@
     return CGRectContainsPoint(leftBox, touchLocation);
 }
 
+-(BOOL) isTouchingRightSideA:(CGPoint)touchLocation {
+    CGRect rightBoxA = CGRectMake(winSize.width/2,0,winSize.width/4, winSize.height);
+    return CGRectContainsPoint(rightBoxA, touchLocation);
+}
+
+-(BOOL) isTouchingRightSideB:(CGPoint)touchLocation {
+    CGRect rightBoxB = CGRectMake(3*winSize.width/4,0,winSize.width/4, winSize.height);
+    return CGRectContainsPoint(rightBoxB, touchLocation);
+}
+
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     for( UITouch *touch in touches ) {
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
         BOOL isTouchingLeftSide = [self isTouchingLeftSide:location];
+        BOOL isTouchingRightSideA = [self isTouchingRightSideA:location];
+        BOOL isTouchingRightSideB = [self isTouchingRightSideB:location];
         
         if (isTouchingLeftSide) { //Make mushroom jump
             jumpStarted = YES;
@@ -529,35 +575,48 @@
                     jumpCount = 0;
                 }
             }
-        } else {
+        } else if (isTouchingRightSideB) {
+            CCLOG(@"eat");
+            eatStarted = YES;
+        } else if (isTouchingRightSideA) {
+            CCLOG(@"switch");
             morphStarted = YES;
         }
     }
 }
+
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     for( UITouch *touch in touches ) {
         CGPoint location = [touch locationInView:[touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
         BOOL isTouchingLeftSide = [self isTouchingLeftSide:location];
+        BOOL isTouchingRightSideA = [self isTouchingRightSideA:location];
+        BOOL isTouchingRightSideB = [self isTouchingRightSideB:location];
+        
         if (isTouchingLeftSide) { //Make mushroom jump
             if ([visibleMushrooms count] > 0) {
                 Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:0];
                 if (mushroomCache.isMushroomJumping == YES) {
                     touchStarted = NO;
-                    [tempMushroom changeState:kStateLanding];
+                    //[tempMushroom changeState:kStateLanding];
                 }
             }
-        } else { //Mushroom switch ends
-            if (mushroomCache.blueColor) {
-                mushroomCache.blueColor = NO;
-            } else {
-                mushroomCache.blueColor = YES;
-            }
-
-            for (int i = 0; i < [visibleMushrooms count]; i++) {
-                Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:i];
-                [tempMushroom changeState:kStateChange];
+        } else if (isTouchingRightSideB) {
+            eatStarted = NO;
+        } else if (isTouchingRightSideA) { //Mushroom switch ends
+            if (morphStarted) {
+                if (mushroomCache.blueColor) {
+                    mushroomCache.blueColor = NO;
+                } else {
+                    mushroomCache.blueColor = YES;
+                }
+                
+                for (int i = 0; i < [visibleMushrooms count]; i++) {
+                    Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:i];
+                    [tempMushroom changeState:kStateChange];
+                }
+                morphStarted = NO;
             }
         }
     }

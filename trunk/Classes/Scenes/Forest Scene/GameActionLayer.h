@@ -33,17 +33,21 @@
     CCArray *totalMushrooms;
     NSMutableArray *visibleMushrooms;
     NSMutableArray *visibleEnemies;
-        
+    
     int jumpCount;
     BOOL touchStarted;
     BOOL jumpStarted;
     BOOL morphStarted;
+    BOOL eatStarted;
     BOOL gameStarted;
     float PIXELS_PER_SECOND;
     float currentSpeed;
     float offset;
     float previousOffset;
     float timePassed;
+    float mushroomEatTime;
+    float mushroomCrampTime;
+    CGPoint prevTouchLocation;
     int totalDistance;
     
     GLESDebugDraw *debugDraw;
