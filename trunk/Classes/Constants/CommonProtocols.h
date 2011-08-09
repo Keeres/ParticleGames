@@ -43,3 +43,13 @@ typedef enum {
     kSidePlatform,
     kMaxPlatform,
 } PlatformType;
+
+#pragma mark -
+#pragma mark volcano constants
+typedef enum {
+    kVolcanoDormant,
+    kVolcanoSmoke,
+    kVolcanoLava,
+    kVolcanoErupt,
+}VolcanoState;
+
