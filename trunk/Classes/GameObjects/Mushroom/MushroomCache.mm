@@ -7,6 +7,7 @@
 //
 
 #import "MushroomCache.h"
+#import "VolcanoActionLayer.h"
 
 @implementation MushroomCache
 
@@ -48,6 +49,27 @@
 	}
 	return self;
 }
+
+//temp for volcano stage testing
+-(id) initWithWorld2:(b2World*)theWorld withActionLayer:(VolcanoActionLayer *)gameActionLayer {
+	if ((self = [super init])) {
+        winSize = [CCDirector sharedDirector].winSize;
+        world = theWorld;
+        //actionLayer = gameActionLayer;
+        
+		[self initMuchroomsInWorld:world];
+        garbageMushrooms = [[NSMutableArray alloc] init];
+        
+        isMushroomJumping = NO;
+        jumpJustBegan = NO;
+        blueColor = NO;
+        
+        jumpPercentage = 0.2;
+        currentSpeed = 200.0;
+	}
+	return self;
+}
+
 
 -(float) calculateForceForMushroom:(b2Body*)mushroomBody atTime:(ccTime)dt{
     b2Vec2 velocityOfBody = mushroomBody->GetLinearVelocity();

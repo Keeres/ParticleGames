@@ -15,7 +15,7 @@
 #define kMushroomMaxJumpingHeight 100.0
 #define kMushroomJumpYVector 6.0
 #define kMushroomIdleTimer 2.0
-
+#define kMushroomZValue 1000
 
 typedef enum {
     kCategoryMushroom = 0x0001,
