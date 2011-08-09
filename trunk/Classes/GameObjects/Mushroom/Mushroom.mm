@@ -272,11 +272,11 @@
                 blueColor = NO;
                 //[self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"red_mushroom_run_1.png"]];                
                 action = [CCAnimate actionWithAnimation:redJumpAnim restoreOriginalFrame:NO];
-                
-                
+                                
+
             } else {
                 blueColor = YES;
-                [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blue_mushroom_run_1.png"]];
+                //[self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blue_mushroom_run_1.png"]];
                 action = [CCAnimate actionWithAnimation:blueJumpAnim restoreOriginalFrame:NO];
                 
             }

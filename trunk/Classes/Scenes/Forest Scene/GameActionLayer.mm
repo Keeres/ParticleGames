@@ -329,6 +329,33 @@
         jumpCount++;
     }
     
+    //////////////////
+    //Mushroom Eating
+    //////////////////
+    if ([visibleMushrooms count] > 0) {
+        if (eatStarted) {
+            mushroomEatTime += dt;
+            Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:0];
+            if (mushroomEatTime < 4.0 && mushroomCrampTime <= 0.0) {
+                tempMushroom.eating = YES;
+            } else {
+                tempMushroom.eating = NO;
+                tempMushroom.cramping = YES;
+                mushroomCrampTime = 1.0;
+            }
+        } else {
+            Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:0];
+            if (mushroomEatTime > 0.0) {
+                tempMushroom.eating = NO;
+                mushroomEatTime -= 5*dt;
+            }
+            if (mushroomCrampTime > 0.0) {
+                tempMushroom.cramping = NO;
+                mushroomCrampTime -= dt;
+            }
+        }
+    }
+    
     ///////////////////////////////
     //Detect contacts from listener
     ///////////////////////////////
@@ -523,7 +550,7 @@
     
     if ([uiLayer jumpButton].value == 1) {
         [uiLayer jumpButton].value = 0;
-        if (jumpStarted && morphStarted) {
+        if (jumpStarted) {
             gameStarted = YES;
             for (int i = 0; i < [totalMushrooms count]; i++) {
                 Mushroom *tempMushroom = [totalMushrooms objectAtIndex:i];
