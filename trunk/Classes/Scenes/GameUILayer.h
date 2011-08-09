@@ -16,6 +16,9 @@
     SneakyButton *jumpButton;
     SneakyButton *changeButton;
     
+    CCSprite *eatSprite;
+    CCSprite *changeSprite;
+    
     CCLabelTTF *distanceLabel;
     int totalDistance;
 }

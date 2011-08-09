@@ -20,7 +20,7 @@
     
     CGPoint jumpButtonPosition;
     CGPoint changeButtonPosition;
-
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         // The device is an iPad running iPhone 3.2 or later.
         CCLOG(@"Positioning Joystick and Buttons for iPad");
@@ -72,6 +72,13 @@
     distanceLabel = [[CCLabelTTF alloc] initWithString:@"Distance:" fontName:@"Helvetica" fontSize:20.0];
     distanceLabel.position = ccp(winSize.width/2, winSize.height - distanceLabel.contentSize.height/2);
     [self addChild:distanceLabel z:2];
+    
+    eatSprite = [[CCSprite alloc] initWithFile:@"handUp.png"];
+    eatSprite.position = ccp(3*winSize.width/4 + eatSprite.contentSize.width, eatSprite.contentSize.height/2);
+    [self addChild:eatSprite z:2];
+    changeSprite = [[CCSprite alloc] initWithFile:@"handUp.png"];
+    changeSprite.position = ccp(winSize.width/2 + changeSprite.contentSize.width, changeSprite.contentSize.height/2);
+    [self addChild:changeSprite z:2];
 }
 
 -(void) updateStats:(float)offset {
