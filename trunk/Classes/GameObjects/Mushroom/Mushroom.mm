@@ -21,7 +21,10 @@
 @synthesize hitByBee;
 @synthesize hitByJumper;
 @synthesize hitEnemy;
+@synthesize eating;
+@synthesize cramping;
 @synthesize blueColor;
+@synthesize mushroomStartPositionX;
 @synthesize mushroomStartHeight;
 @synthesize mushroomCurrentHeight;
 @synthesize mushroomMaxEndHeight;
@@ -33,12 +36,16 @@
 @synthesize blueHitAnim;
 @synthesize blueGetHitAnim;
 @synthesize blueSpawnAnim;
+@synthesize blueEatAnim;
+@synthesize blueCrampAnim;
 @synthesize redWalkAnim;
 @synthesize redJumpAnim;
 @synthesize redLandAnim;
 @synthesize redHitAnim;
 @synthesize redGetHitAnim;
 @synthesize redSpawnAnim;
+@synthesize redEatAnim;
+@synthesize redCrampAnim;
 
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
@@ -55,7 +62,7 @@
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &shape;
     
-    fixtureDef.density = 0.05;
+    fixtureDef.density = 0.01;
     fixtureDef.friction = 0.0;
     fixtureDef.restitution = 0.0;
     fixtureDef.filter.categoryBits = kCategoryMushroom;
@@ -97,6 +104,12 @@
     [self setBlueSpawnAnim:[self loadPlistForAnimationWithName:@"blueSpawnAnim" andClassName:NSStringFromClass([self class])]];
     [[CCAnimationCache sharedAnimationCache] addAnimation:blueSpawnAnim name:@"blueSpawnAnim"];
     
+    [self setBlueEatAnim:[self loadPlistForAnimationWithName:@"blueEatAnim" andClassName:NSStringFromClass([self class])]];
+    [[CCAnimationCache sharedAnimationCache] addAnimation:blueEatAnim name:@"blueEatAnim"];
+    
+    [self setBlueCrampAnim:[self loadPlistForAnimationWithName:@"blueCrampAnim" andClassName:NSStringFromClass([self class])]];
+    [[CCAnimationCache sharedAnimationCache] addAnimation:blueCrampAnim name:@"blueCrampAnim"];
+    
     [self setRedWalkAnim:[self loadPlistForAnimationWithName:@"redWalkingAnim" andClassName:NSStringFromClass([self class])]];
     [[CCAnimationCache sharedAnimationCache] addAnimation:redWalkAnim name:@"redWalkingAnim"];
     
@@ -114,6 +127,12 @@
     
     [self setRedSpawnAnim:[self loadPlistForAnimationWithName:@"redSpawnAnim" andClassName:NSStringFromClass([self class])]];
     [[CCAnimationCache sharedAnimationCache] addAnimation:redSpawnAnim name:@"redSpawnAnim"];
+    
+    [self setRedEatAnim:[self loadPlistForAnimationWithName:@"redEatAnim" andClassName:NSStringFromClass([self class])]];
+    [[CCAnimationCache sharedAnimationCache] addAnimation:redEatAnim name:@"redEatAnim"];
+    
+    [self setRedCrampAnim:[self loadPlistForAnimationWithName:@"redCrampAnim" andClassName:NSStringFromClass([self class])]];
+    [[CCAnimationCache sharedAnimationCache] addAnimation:redCrampAnim name:@"redCrampAnim"];
 }
 
 -(id) initWithWorld:(b2World*)world {
@@ -135,6 +154,8 @@
         hitByBee = NO;
         hitByJumper = NO;
         hitEnemy = NO;
+        eating = NO;
+        cramping = NO;
         blueColor = NO;
         //self.scale = 0.75;
         self.scale = 1.0;
@@ -145,7 +166,7 @@
         mushroomCurrentHeight = 0.0;
         mushroomMaxEndHeight = 0.0;
         speed = 0.0;
-
+        
         [self initAnimations];
     }
     return self;
@@ -156,7 +177,7 @@
     body->SetLinearVelocity(b2Vec2(0.0, 0.0));
     self.position = location;
     self.visible = YES;
-
+    
     b2Filter tempFilter;
     for (b2Fixture *f = self.body->GetFixtureList(); f; f = f->GetNext()) {
         f->GetFilterData();
@@ -175,13 +196,15 @@
     hitByBee = NO;
     hitByJumper = NO;
     hitEnemy = NO;
+    eating = NO;
+    cramping = NO;
     blueColor = color;
     
     msTimeSpentIdle = 0.0;
     
     self.characterState = kStateNone;
     [self changeState:kStateSpawning];
-        
+    
     body->SetActive(YES);
 }
 
@@ -216,7 +239,7 @@
         case kStateWalking: {
             //mushroomReady = YES;
             CCAnimate *walking;
-
+            
             if (blueColor) {
                 walking = [CCAnimate actionWithAnimation:blueWalkAnim restoreOriginalFrame:NO];
             } else {
@@ -247,15 +270,19 @@
         case kStateChange: {
             if (blueColor) {
                 blueColor = NO;
-                [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"red_mushroom_run_1.png"]];
-
+                //[self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"red_mushroom_run_1.png"]];                
+                action = [CCAnimate actionWithAnimation:redJumpAnim restoreOriginalFrame:NO];
+                
+                
             } else {
                 blueColor = YES;
                 [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blue_mushroom_run_1.png"]];
+                action = [CCAnimate actionWithAnimation:blueJumpAnim restoreOriginalFrame:NO];
+                
             }
             break;
         }
-        
+            
         case kStateHitWall:
             if (blueColor) {
                 action = [CCRepeatForever actionWithAction:[CCSequence actions:[CCRotateBy actionWithDuration:-0.5f angle:360], nil]];
@@ -308,14 +335,34 @@
         case kStateCauseHit: {
             if (blueColor) {
                 action = [CCAnimate actionWithAnimation:blueHitAnim restoreOriginalFrame:NO];
-
+                
             } else {
                 action = [CCAnimate actionWithAnimation:redHitAnim restoreOriginalFrame:NO];
             }
             self.hitEnemy = NO;
             break;
         }
-                        
+            
+        case kStateEating: {
+            if (blueColor) {
+                action = [CCAnimate actionWithAnimation:blueEatAnim restoreOriginalFrame:NO];
+                
+            } else {
+                action = [CCAnimate actionWithAnimation:redEatAnim restoreOriginalFrame:NO];
+            }
+            break;
+        }
+            
+        case kStateCramping: {
+            if (blueColor) {
+                action = [CCAnimate actionWithAnimation:blueCrampAnim restoreOriginalFrame:NO];
+                
+            } else {
+                action = [CCAnimate actionWithAnimation:redCrampAnim restoreOriginalFrame:NO];
+            }
+            break;
+            
+        }
         case kStateDead:
             [self despawn];
             break;
@@ -335,11 +382,11 @@
     }
     
     
-    if (!self.hitPlatformSide && !self.hitByTurtle && self.gameStarted && self.mushroomReady) {
+    if (!self.hitPlatformSide && !self.hitByTurtle && !self.hitByBee && !self.hitByJumper && self.gameStarted && self.mushroomReady) {
         
         b2Vec2 mushroomVel = self.body->GetLinearVelocity();
         self.body->SetLinearVelocity(b2Vec2(speed/PTM_RATIO, mushroomVel.y));
-        if (self.isTouchingGround) {
+        if (self.isTouchingGround && !self.eating && !self.cramping) {
             if ([self numberOfRunningActions] == 0) {
                 [self changeState:kStateWalking];
             }    
@@ -367,7 +414,15 @@
     if (self.hitEnemy) {
         [self changeState:kStateCauseHit];
     }
-
+    
+    if (self.eating && !self.hitByTurtle && !self.hitByBee && !self.hitByJumper) {
+        [self changeState:kStateEating];
+    }
+    
+    if (self.cramping && !self.hitByTurtle && !self.hitByBee && !self.hitByJumper) {
+        [self changeState:kStateCramping];
+    }
+    
     if ([self numberOfRunningActions] == 0) {
         if (self.characterState == kStateIdle) {
             msTimeSpentIdle += deltaTime;
@@ -384,7 +439,7 @@
 }
 
 -(void) dealloc {
-
+    
     [super dealloc];
 }
 

@@ -25,8 +25,11 @@
     BOOL hitByBee;
     BOOL hitByJumper;
     BOOL hitEnemy;
+    BOOL eating;
+    BOOL cramping;
     BOOL blueColor;
-
+    
+    float mushroomStartPositionX;
     float mushroomStartHeight;
     float mushroomCurrentHeight;
     float mushroomMaxEndHeight;
@@ -40,12 +43,16 @@
     CCAnimation *blueHitAnim;
     CCAnimation *blueGetHitAnim;
     CCAnimation *blueSpawnAnim;
+    CCAnimation *blueEatAnim;
+    CCAnimation *blueCrampAnim;
     CCAnimation *redWalkAnim;
     CCAnimation *redJumpAnim;
     CCAnimation *redLandAnim;
     CCAnimation *redHitAnim;
     CCAnimation *redGetHitAnim;
     CCAnimation *redSpawnAnim;
+    CCAnimation *redEatAnim;
+    CCAnimation *redCrampAnim;
 }
 
 @property MushroomType type;
@@ -58,7 +65,10 @@
 @property BOOL hitByBee;
 @property BOOL hitByJumper;
 @property BOOL hitEnemy;
+@property BOOL eating;
+@property BOOL cramping;
 @property BOOL blueColor;
+@property float mushroomStartPositionX;
 @property float mushroomStartHeight;
 @property float mushroomCurrentHeight;
 @property float mushroomMaxEndHeight;
@@ -70,6 +80,8 @@
 @property (nonatomic, retain) CCAnimation *blueHitAnim;
 @property (nonatomic, retain) CCAnimation *blueGetHitAnim;
 @property (nonatomic, retain) CCAnimation *blueSpawnAnim;
+@property (nonatomic, retain) CCAnimation *blueEatAnim;
+@property (nonatomic, retain) CCAnimation *blueCrampAnim;
 
 @property (nonatomic, retain) CCAnimation *redWalkAnim;
 @property (nonatomic, retain) CCAnimation *redJumpAnim;
@@ -77,6 +89,8 @@
 @property (nonatomic, retain) CCAnimation *redHitAnim;
 @property (nonatomic, retain) CCAnimation *redGetHitAnim;
 @property (nonatomic, retain) CCAnimation *redSpawnAnim;
+@property (nonatomic, retain) CCAnimation *redEatAnim;
+@property (nonatomic, retain) CCAnimation *redCrampAnim;
 
 
 -(id) initWithWorld:(b2World*)world;

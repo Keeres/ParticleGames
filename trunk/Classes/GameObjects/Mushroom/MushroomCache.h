@@ -21,7 +21,7 @@
     //CCArray *blackMushrooms;
     //CCArray *blueMushrooms;
     CCArray *totalMushrooms;
-
+    
     NSMutableArray *visibleMushrooms;
     NSMutableArray *garbageMushrooms;
     

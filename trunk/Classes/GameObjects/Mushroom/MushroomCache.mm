@@ -7,7 +7,6 @@
 //
 
 #import "MushroomCache.h"
-#import "VolcanoActionLayer.h"
 
 @implementation MushroomCache
 
@@ -36,26 +35,6 @@
         winSize = [CCDirector sharedDirector].winSize;
         world = theWorld;
         actionLayer = gameActionLayer;
-
-		[self initMuchroomsInWorld:world];
-        garbageMushrooms = [[NSMutableArray alloc] init];
-        
-        isMushroomJumping = NO;
-        jumpJustBegan = NO;
-        blueColor = NO;
-        
-        jumpPercentage = 0.2;
-        currentSpeed = 200.0;
-	}
-	return self;
-}
-
-//temp for volcano stage testing
--(id) initWithWorld2:(b2World*)theWorld withActionLayer:(VolcanoActionLayer *)gameActionLayer {
-	if ((self = [super init])) {
-        winSize = [CCDirector sharedDirector].winSize;
-        world = theWorld;
-        //actionLayer = gameActionLayer;
         
 		[self initMuchroomsInWorld:world];
         garbageMushrooms = [[NSMutableArray alloc] init];
@@ -69,7 +48,6 @@
 	}
 	return self;
 }
-
 
 -(float) calculateForceForMushroom:(b2Body*)mushroomBody atTime:(ccTime)dt{
     b2Vec2 velocityOfBody = mushroomBody->GetLinearVelocity();
@@ -109,10 +87,11 @@
             if (isMushroomJumping) {
                 if (jumpJustBegan) {
                     jumpJustBegan = NO;
+                    tempMushroom.mushroomStartPositionX = tempMushroom.position.x;
                     tempMushroom.mushroomStartHeight = tempMushroom.position.y;
                     tempMushroom.mushroomCurrentHeight = tempMushroom.position.y;
                     tempMushroom.mushroomMaxEndHeight = tempMushroom.mushroomStartHeight + kMushroomMaxJumpingHeight;
-                    [tempMushroom changeState:kStateJumping];
+                    //[tempMushroom changeState:kStateJumping];
                 }
                 
                 if (tempMushroom.mushroomCurrentHeight < tempMushroom.mushroomMaxEndHeight) {
@@ -123,32 +102,34 @@
                     
                     tempMushroom.mushroomCurrentHeight = tempMushroom.position.y;
                     
-                    float percentageOfJump = (tempMushroom.mushroomCurrentHeight - tempMushroom.mushroomStartHeight)/(tempMushroom.mushroomMaxEndHeight - tempMushroom.mushroomStartHeight);
-                    
-                    if (([visibleMushrooms count] > (i+1)) && percentageOfJump > jumpPercentage) {
-                        tempMushroom.mushroomJumped = YES;
+                    if ((i+1) != [visibleMushrooms count]) {
+                        Mushroom *backMushroom = [visibleMushrooms objectAtIndex:(i+1)];
+                        if (backMushroom.mushroomReady) {
+                            tempMushroom.mushroomJumped = YES;
+                            
+                        }
                     }
                 } else {
                     if ([visibleMushrooms count] > (i+1)) {
                         tempMushroom.mushroomJumped = YES;
                         tempMushroom.mushroomMaxEndHeight = tempMushroom.mushroomCurrentHeight;
                     }
-                    [tempMushroom changeState:kStateLanding];
+                    //[tempMushroom changeState:kStateLanding];
                     isMushroomJumping = NO;
                 }
-            }
+            } 
         } else {
-            
             Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:i];
             Mushroom *frontMushroom = [visibleMushrooms objectAtIndex:(i-1)];
             
-            if ([visibleMushrooms count] > i && frontMushroom.mushroomJumped && tempMushroom.mushroomReady) {
+            if ([visibleMushrooms count] > i && tempMushroom.position.x > frontMushroom.mushroomStartPositionX &&frontMushroom.mushroomJumped && tempMushroom.mushroomReady) {
                 if (tempMushroom.isTouchingGround) {
+                    tempMushroom.mushroomStartPositionX = tempMushroom.position.x;
                     tempMushroom.mushroomStartHeight = tempMushroom.position.y;
                     tempMushroom.mushroomCurrentHeight = tempMushroom.position.y;
                     tempMushroom.mushroomMaxEndHeight = frontMushroom.mushroomStartHeight + kMushroomMaxJumpingHeight;
                     tempMushroom.mushroomJumpStarted = YES;
-                    [tempMushroom changeState:kStateJumping];
+                    //[tempMushroom changeState:kStateJumping];
                 }
                 
                 b2Vec2 mushroomVelocity = tempMushroom.body->GetLinearVelocity();
@@ -160,10 +141,12 @@
                     
                     tempMushroom.mushroomCurrentHeight = tempMushroom.position.y;
                     
-                    float percentageOfJump = (tempMushroom.mushroomCurrentHeight - tempMushroom.mushroomStartHeight)/(tempMushroom.mushroomMaxEndHeight - tempMushroom.mushroomStartHeight);
-                    
-                    if (([visibleMushrooms count] > (i+1)) && percentageOfJump > jumpPercentage && (i+1) != [visibleMushrooms count]) {
-                        tempMushroom.mushroomJumped = YES;
+                    if ((i+1) != [visibleMushrooms count]) {
+                        Mushroom *backMushroom = [visibleMushrooms objectAtIndex:(i+1)];
+                        if (backMushroom.mushroomReady) {
+                            tempMushroom.mushroomJumped = YES;
+                            
+                        }
                     }
                 } else {
                     if (tempMushroom.mushroomJumpStarted) {
@@ -171,7 +154,7 @@
                             tempMushroom.mushroomJumped = YES;
                             tempMushroom.mushroomMaxEndHeight = tempMushroom.mushroomCurrentHeight;
                         }
-                        [tempMushroom changeState:kStateLanding];
+                        //[tempMushroom changeState:kStateLanding];
                         frontMushroom.mushroomJumped = NO;
                         tempMushroom.mushroomJumpStarted = NO;
                     }
@@ -179,6 +162,89 @@
             }
         }
     }
+    
+    /*for (int i = 0; i < [visibleMushrooms count]; i++) {
+     if (i == 0) {
+     Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:i];
+     
+     if (isMushroomJumping) {
+     if (jumpJustBegan) {
+     jumpJustBegan = NO;
+     tempMushroom.mushroomStartPositionX = tempMushroom.position.x;
+     tempMushroom.mushroomStartHeight = tempMushroom.position.y;
+     tempMushroom.mushroomCurrentHeight = tempMushroom.position.y;
+     tempMushroom.mushroomMaxEndHeight = tempMushroom.mushroomStartHeight + kMushroomMaxJumpingHeight;
+     [tempMushroom changeState:kStateJumping];
+     }
+     
+     if (tempMushroom.mushroomCurrentHeight < tempMushroom.mushroomMaxEndHeight) {
+     tempMushroom.isTouchingGround = NO;
+     
+     float force = [self calculateForceForMushroom:tempMushroom.body atTime:dt];
+     [self mushroomJump:i withYForce:force];
+     
+     tempMushroom.mushroomCurrentHeight = tempMushroom.position.y;
+     
+     //float percentageOfJump = (tempMushroom.mushroomCurrentHeight - tempMushroom.mushroomStartHeight)/(tempMushroom.mushroomMaxEndHeight - tempMushroom.mushroomStartHeight);
+     
+     
+     //if (([visibleMushrooms count] > (i+1)) && percentageOfJump > jumpPercentage) {
+     //    tempMushroom.mushroomJumped = YES;
+     //}
+     } else {
+     if ([visibleMushrooms count] > (i+1)) {
+     tempMushroom.mushroomJumped = YES;
+     tempMushroom.mushroomMaxEndHeight = tempMushroom.mushroomCurrentHeight;
+     }
+     [tempMushroom changeState:kStateLanding];
+     isMushroomJumping = NO;
+     }
+     }
+     } else {
+     
+     Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:i];
+     Mushroom *frontMushroom = [visibleMushrooms objectAtIndex:(i-1)];
+     
+     if ([visibleMushrooms count] > i && frontMushroom.mushroomJumped && tempMushroom.mushroomReady) {
+     if (tempMushroom.isTouchingGround) {
+     tempMushroom.mushroomStartPositionX = tempMushroom.position.x;
+     tempMushroom.mushroomStartHeight = tempMushroom.position.y;
+     tempMushroom.mushroomCurrentHeight = tempMushroom.position.y;
+     tempMushroom.mushroomMaxEndHeight = frontMushroom.mushroomStartHeight + kMushroomMaxJumpingHeight;
+     tempMushroom.mushroomJumpStarted = YES;
+     [tempMushroom changeState:kStateJumping];
+     }
+     
+     b2Vec2 mushroomVelocity = tempMushroom.body->GetLinearVelocity();
+     
+     if (tempMushroom.mushroomCurrentHeight < frontMushroom.mushroomMaxEndHeight && mushroomVelocity.y >= -0.1) {
+     tempMushroom.isTouchingGround = NO;
+     float force = [self calculateForceForMushroom:tempMushroom.body atTime:dt];
+     [self mushroomJump:i withYForce:force];
+     
+     tempMushroom.mushroomCurrentHeight = tempMushroom.position.y;
+     
+     //float percentageOfJump = (tempMushroom.mushroomCurrentHeight - tempMushroom.mushroomStartHeight)/(tempMushroom.mushroomMaxEndHeight - tempMushroom.mushroomStartHeight);
+     
+     //if (([visibleMushrooms count] > (i+1)) && percentageOfJump > jumpPercentage && (i+1) != [visibleMushrooms count]) {
+     if (([visibleMushrooms count] > (i+1)) && tempMushroom.position.x > frontMushroom.mushroomStartPositionX && (i+1) != [visibleMushrooms count]) {
+     
+     tempMushroom.mushroomJumped = YES;
+     }
+     } else {
+     if (tempMushroom.mushroomJumpStarted) {
+     if ([visibleMushrooms count] > (i+1) && (i+1) != [visibleMushrooms count]) {
+     tempMushroom.mushroomJumped = YES;
+     tempMushroom.mushroomMaxEndHeight = tempMushroom.mushroomCurrentHeight;
+     }
+     [tempMushroom changeState:kStateLanding];
+     frontMushroom.mushroomJumped = NO;
+     tempMushroom.mushroomJumpStarted = NO;
+     }
+     }
+     }
+     }
+     }*/
 }
 
 -(void) pushMushroomForward:(Mushroom*)body2 toFrontMushroom:(Mushroom*)body1 atTime:(ccTime) dt {
@@ -250,7 +316,7 @@
     for (int j = 0; j < [visibleMushrooms count]; j++) {
         Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:j];
         if (tempMushroom.position.x < -winSize.width || tempMushroom.position.y < -winSize.height/2) {
-
+            
             [tempMushroom changeState:kStateDead];
             [visibleMushrooms removeObjectAtIndex:j];
         }
