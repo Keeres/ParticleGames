@@ -17,22 +17,23 @@
 #import "EnemyCache.h"
 #import "PlatformCache.h"
 #import "MyContactListener.h"
-
+#import "StageEffectCache.h"
 
 @class GameUILayer;
 @class MushroomCache;
 @class EnemyCache;
-
+//@class StageEffectCache;
 
 @interface GameActionLayer : CCLayer {
     b2World *world;
     b2Body *groundBody;
     b2Body *sideBody;
     CGSize winSize;
-    
+
     CCArray *totalMushrooms;
     NSMutableArray *visibleMushrooms;
     NSMutableArray *visibleEnemies;
+    NSMutableArray *visibleStageEffect;
     
     int jumpCount;
     BOOL touchStarted;
@@ -47,6 +48,7 @@
     float timePassed;
     float mushroomEatTime;
     float mushroomCrampTime;
+    float mushroomSpeed;
     CGPoint prevTouchLocation;
     int totalDistance;
     
@@ -58,7 +60,8 @@
     MushroomCache *mushroomCache;
     EnemyCache *enemyCache;
     PlatformCache *platformCache;
-    
+    StageEffectCache *stageEffectCache;
+
     MyContactListener *contactListener;
 }
 

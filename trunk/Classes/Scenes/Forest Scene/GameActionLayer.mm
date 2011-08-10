@@ -13,6 +13,7 @@
 #import "SimpleAudioEngine.h"
 #import "Mushroom.h"
 #import "Turtle.h"
+#import "StageEffectCache.h"
 
 @implementation GameActionLayer
 
@@ -26,10 +27,10 @@
     world = new b2World(gravity, doSleep);            
 }
 
-- (void)setupDebugDraw {    
+- (void)setupDebugDraw {  
     debugDraw = new GLESDebugDraw(PTM_RATIO * [[CCDirector sharedDirector] contentScaleFactor]);
     world->SetDebugDraw(debugDraw);
-    debugDraw->SetFlags(b2DebugDraw::e_shapeBit);    
+    debugDraw->SetFlags(b2DebugDraw::e_shapeBit);  
 }
 
 -(void) draw {
@@ -47,7 +48,7 @@
 
 - (void)createMushroom {
     mushroomCache = [[MushroomCache alloc] initWithWorld:world withActionLayer:self];
-
+    
     totalMushrooms = [mushroomCache totalMushrooms];
     
     for (int i = 0; i < [totalMushrooms count]; i++) {
@@ -55,6 +56,7 @@
     }
     visibleMushrooms = [mushroomCache visibleMushrooms];
 }
+
 
 -(void) spawnMushroomAtPoint:(CGPoint)point isNewSpawn:(BOOL)newSpawn {
     
@@ -119,6 +121,19 @@
         }
     }
     visibleEnemies = [enemyCache visibleEnemies];
+    
+}
+
+//NEEDS EDIT possibly change z value
+- (void) createStageEffects{
+    stageEffectCache = [[StageEffectCache alloc] initWithWorld:world withStageEffectType:kVolcanoLava];
+    for (int i=0; i < [[stageEffectCache totalStageEffectType] capacity]; i++) {
+        CCArray *stageEffectOfType = [[stageEffectCache totalStageEffectType] objectAtIndex:i];
+        for(int j=0; j<[stageEffectOfType capacity];j++){
+            [sceneSpriteBatchNode addChild:[stageEffectOfType objectAtIndex:j] z:1000];
+        }
+    }
+    visibleStageEffect = [stageEffectCache visibleStageObjects];
 }
 
 - (void) resetGame {
@@ -155,6 +170,7 @@
     timePassed = 0.0;
     totalDistance = 0;
     
+    backgroundLayer.backgroundState = kVolcanoDormant;
     [self spawnMushroomAtPoint:ccp(0, 0) isNewSpawn:YES];
 }
 
@@ -177,12 +193,12 @@
         self.scale = .50;
         
         /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"scene3atlas-hd.plist"];
-            sceneSpriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"scene3atlas-hd.png"];
-        } else {
-            [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"scene3atlas.plist"];
-            sceneSpriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"scene3atlas.png"];
-        }*/
+         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"scene3atlas-hd.plist"];
+         sceneSpriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"scene3atlas-hd.png"];
+         } else {
+         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"scene3atlas.plist"];
+         sceneSpriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"scene3atlas.png"];
+         }*/
         
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game1atlas.plist"];
         sceneSpriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"game1atlas.png"];
@@ -193,7 +209,8 @@
         [self createMushroom];
         [self createPlatforms];
         [self createTurtles];
-
+        [self createStageEffects];
+        
         //Update Tick
         [self scheduleUpdate];
         
@@ -216,23 +233,23 @@
     ////////////////////////////////
     
     /*timePassed += dt;
-    //currentSpeed = mushroomCache.currentSpeed;
-    if (timePassed >= 5.0) {
-        if (currentSpeed < 800.0) {
-            //currentSpeed += 50.0;
-        }
-        
-        if (mushroomCache.jumpPercentage > 0.2) {
-            //mushroomCache.jumpPercentage -= 0.05;
-        }
-        timePassed = 0.0;
-    }
-
-    if ([visibleMushrooms count] > 0) {
-        PIXELS_PER_SECOND = currentSpeed/self.scale;
-    } else {
-        PIXELS_PER_SECOND = 0.0;
-    }*/
+     //currentSpeed = mushroomCache.currentSpeed;
+     if (timePassed >= 5.0) {
+     if (currentSpeed < 800.0) {
+     //currentSpeed += 50.0;
+     }
+     
+     if (mushroomCache.jumpPercentage > 0.2) {
+     //mushroomCache.jumpPercentage -= 0.05;
+     }
+     timePassed = 0.0;
+     }
+     
+     if ([visibleMushrooms count] > 0) {
+     PIXELS_PER_SECOND = currentSpeed/self.scale;
+     } else {
+     PIXELS_PER_SECOND = 0.0;
+     }*/
     
     for (int i = 0; i < [visibleMushrooms count]; i++) {
         Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:i];
@@ -245,7 +262,7 @@
             tempEnemy.speed = 250 + [visibleMushrooms count] * 50;
         }
     }
-
+    
     ////////////////////////////////////
     //Disable gravity on certain objects
     ////////////////////////////////////
@@ -277,7 +294,7 @@
     while (timeAccumulator >= UPDATE_INTERVAL) {        
         timeAccumulator -= UPDATE_INTERVAL;        
         world->Step(UPDATE_INTERVAL, 
-                     velocityIterations, positionIterations);        
+                    velocityIterations, positionIterations);        
         //world->ClearForces();
         
         for(b2Body *b = world->GetBodyList(); b != NULL; b = b->GetNext()) {    
@@ -290,15 +307,15 @@
     }
     
     /*int32 velocityIterations = 3;
-    int32 positionIterations = 2;
-    world->Step(dt, velocityIterations, positionIterations);
-    for(b2Body *b = world->GetBodyList(); b != NULL; b = b->GetNext()) {    
-        if (b->GetUserData() != NULL) {
-            Box2DSprite *sprite = (Box2DSprite *) b->GetUserData();
-            sprite.position = ccp(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
-            sprite.rotation = CC_RADIANS_TO_DEGREES(b->GetAngle() * -1);
-        }        
-    }*/
+     int32 positionIterations = 2;
+     world->Step(dt, velocityIterations, positionIterations);
+     for(b2Body *b = world->GetBodyList(); b != NULL; b = b->GetNext()) {    
+     if (b->GetUserData() != NULL) {
+     Box2DSprite *sprite = (Box2DSprite *) b->GetUserData();
+     sprite.position = ccp(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
+     sprite.rotation = CC_RADIANS_TO_DEGREES(b->GetAngle() * -1);
+     }        
+     }*/
     
     //////////////////////
     //Mushrooms Jump Check
@@ -495,13 +512,38 @@
                     
                 }
             }
-        }
-    }
+            for(int j=0 ; j < [visibleStageEffect count]; j++){
+                if (backgroundLayer.backgroundEffectType == kVolcanoType) {
+                    VolcanicRock *tempVolcanicRock = [visibleStageEffect objectAtIndex:j];
+                    
+                    if((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempVolcanicRock.body) || (contact.fixtureA->GetBody() == tempVolcanicRock.body && contact.fixtureB->GetBody() == groundBody)){
+                        tempVolcanicRock.hasLanded = TRUE;
+                        CCLOG(@"landed");
+                    }
+                }
+            }//end for j < [visbleStageEffect count]
+        }//end for i < [visibleMushrooms count]
+    }//end for contactListeners                     
+                
+                       
+                       
     
     ///////////////////////////
     //Mushroom Line Space Check
     ///////////////////////////
     [mushroomCache lineSpaceCheck:dt withOffset:offset];
+    
+    /////////////////////
+    //Stage Effect Update
+    /////////////////////
+    // if(backgroundLayer.volcanoState == kVolcanoErupt)
+    
+    for (int i = 0; i < [visibleStageEffect count]; i++) {
+        VolcanicRock *tempVolcanicRock = [visibleStageEffect objectAtIndex:i];
+        tempVolcanicRock.rockSpeed = 250 + [visibleMushrooms count] * 50;
+    }
+    [stageEffectCache spawnStageEffectForBackgroundState:backgroundLayer.backgroundState atTime:dt atOffset:offset andScale:self.scale];
+    
     
     ///////////////////////////
     //Platform Update
@@ -528,6 +570,8 @@
     if (gameStarted) {
         [enemyCache randomlySpawnEnemy:dt atOffset:offset andScale:self.scale];
     }
+    
+    
     
     //Checks to see if Turtle is close to mushroom. If so, ram the mushroom.
     [enemyCache detectMushroomCheck];

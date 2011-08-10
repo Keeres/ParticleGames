@@ -14,10 +14,13 @@
 @interface GameBackgroundLayer : CCLayer {
     CCSprite *background;
     CCParallaxNode *parallax;
-    
-    //volcano variables
-    VolcanoState volcanoState;
+   
+    BackgroundState backgroundState;
+    BackgroundEffectType backgroundEffectType;
 }
+
+@property BackgroundState backgroundState;
+@property BackgroundEffectType backgroundEffectType;
 
 -(void) updateOffset:(float)offset;
 -(void) volcanoChangeState:(float)offset;

@@ -9,6 +9,8 @@
 #import "GameBackgroundLayer.h"
 
 @implementation GameBackgroundLayer
+@synthesize backgroundState;
+@synthesize backgroundEffectType;
 
 -(void) updateOffset:(float)offset {
     self.position = ccp(-offset,self.position.y);
@@ -16,26 +18,26 @@
 
 //Change volcano state based on distance traveled
 -(void) volcanoChangeState:(float)offset{
-    
+
     //change logic statement later to:
     //if(offset/PTM_RATIO == 25 + numberOfPreviousStages*statgeDistance
     CCSprite *volcanoSmoke;
-    if(floor(offset/PTM_RATIO) == 25 && volcanoState == kVolcanoDormant){
-        volcanoState = kVolcanoSmoke;
+    if(floor(offset/PTM_RATIO) == 25 && backgroundState == kVolcanoDormant){
+        backgroundState = kVolcanoSmoke;
         CCLOG(@"volcano state = smoke");
         volcanoSmoke = [CCSprite spriteWithFile:@"volcanoSmoke.png"];
         
         //need to modify to play animation and location of the animation
         [parallax addChild:volcanoSmoke z:-9 parallaxRatio:ccp(0.03f, 0.05f)positionOffset:ccp(230,285)]; 
-    } else if(floor(offset/PTM_RATIO) == 40 && volcanoState == kVolcanoSmoke){
-        volcanoState = kVolcanoLava;
+    } else if(floor(offset/PTM_RATIO) == 40 && backgroundState == kVolcanoSmoke){
+        backgroundState = kVolcanoLava;
         CCLOG(@"volcano state = lava");
         CCSprite *volcanoLava = [CCSprite spriteWithFile:@"volcanoLava.png"];
         
         //need to modify to play animation and location of the animation
         [parallax addChild:volcanoLava z:-9 parallaxRatio:ccp(0.03f, 0.05f)positionOffset:ccp(200,190)]; 
-    } else if(floor(offset/PTM_RATIO) == 50 && volcanoState == kVolcanoLava){
-        volcanoState = kVolcanoErupt;
+    } else if(floor(offset/PTM_RATIO) == 50 && backgroundState == kVolcanoLava){
+        backgroundState = kVolcanoErupt;
         CCLOG(@"volcano state = erupt");
         CCSprite *volcanoLava = [CCSprite spriteWithFile:@"volcanoErupt.png"];
         //CCNode *tempNode = [parallax 
@@ -63,7 +65,9 @@
             positionOffset:ccp(0,120)];  
         
         //if(initial stage == volcano)
-        volcanoState = kVolcanoDormant;
+        backgroundState = kVolcanoDormant;
+        backgroundEffectType = kVolcanoType;
+        
         CCSprite *volcano = [CCSprite spriteWithFile:@"Volcano.png"];
         [parallax addChild:volcano z:-9 parallaxRatio:ccp(0.03f, 0.05f)positionOffset:ccp(200,170)]; 
         
