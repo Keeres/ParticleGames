@@ -44,6 +44,13 @@ typedef enum {
     kMaxPlatform,
 } PlatformType;
 
+typedef enum{
+    kVolcanoType,
+ //   kSnowEffects,
+ //   kLightningEffects,
+    kMaxStageEffectType,
+}BackgroundEffectType;
+
 #pragma mark -
 #pragma mark volcano constants
 typedef enum {
@@ -51,5 +58,6 @@ typedef enum {
     kVolcanoSmoke,
     kVolcanoLava,
     kVolcanoErupt,
-}VolcanoState;
+}BackgroundState;
+
 
