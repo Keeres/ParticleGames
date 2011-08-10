@@ -82,7 +82,7 @@
 }
 
 -(void) updateStats:(float)offset {
-    totalDistance = (int) (offset/PTM_RATIO);
+    totalDistance = (int) (offset/PTM_RATIO*2) - 9.0;
     [distanceLabel setString:[NSString stringWithFormat:@"distance:%i", totalDistance]];
 }
 
