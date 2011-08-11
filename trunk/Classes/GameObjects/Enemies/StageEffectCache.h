@@ -11,9 +11,8 @@
 #import "Box2D.h"
 #import "Enemy.h"
 #import "CommonProtocols.h"
-#import "VolcanicRock.h"
- 
-//@class GameActionLayer;
+#import "VolcanoFireball.h"
+
 @interface StageEffectCache : CCNode {
      CCArray *totalStageEffectType;
     NSMutableArray *visibleStageObjects;
@@ -31,8 +30,13 @@
 @property (nonatomic, retain) NSMutableArray *visibleStageObjects;
 @property (nonatomic, retain) NSMutableArray *garbageStageObjects;
 
--(id) initWithWorld:(b2World*)theWorld withStageEffectType:(int) backgroundType;
+
+-(id) initWithWorld:(b2World*)theWorld;
 
 -(void) spawnStageEffectForBackgroundState:(int)Type atTime:(ccTime)dt atOffset:(float)newOffset andScale:(float)scale;
+
+//-(void) cleanStageEffect;
+-(void) cleanStageEffectUsingMushroomPosition:(float)cleanOffset ;
+
 
 @end

@@ -1,28 +1,26 @@
 //
-//  VolcanicRockAir.m
+//  VolcanoFireball.m
 //  mushroom
 //
 //  Created by Steven Chen on 8/9/11.
 //  Copyright 2011 UIUC. All rights reserved.
 //
 
-#import "VolcanicRock.h"
+#import "VolcanoFireball.h"
 
 
-@implementation VolcanicRock
+@implementation VolcanoFireball
 
 @synthesize hasLanded;
-@synthesize isHitAir;
-@synthesize isHitLand;
-//@synthesize rockOffset;
+@synthesize isLanding;
 @synthesize rockSpeed;
+@synthesize rockSensorBody;
 
 -(void) createSensorWithWorld:(b2World *)world{
     b2BodyDef bodydef;
-    bodydef.type = b2_staticBody;
+    bodydef.type = b2_dynamicBody;
     bodydef.position = b2Vec2(0,0);
-   //  bodydef.allowSleep = false;
-    // bodydef.fixedRotation = true;
+    bodydef.isGravitated = false;
     body = world->CreateBody(&bodydef);
     body->SetUserData(self);
 
@@ -30,24 +28,27 @@
     shape.m_radius = (self.contentSize.width/2)/PTM_RATIO;
     
     b2FixtureDef fixtureDef;
-    fixtureDef.density = 0.25;
+    fixtureDef.density = 0.05;
     fixtureDef.shape = &shape;
+    fixtureDef.filter.categoryBits = kCategoryStageEffect;
+    fixtureDef.filter.maskBits = kMaskStageEffect;
     fixtureDef.isSensor = true;
     
-    RockSensorAir = body->CreateFixture(&fixtureDef);
-    body->SetActive(YES);
+    RockSensor = body->CreateFixture(&fixtureDef);
+    body->SetActive(NO);
 }
 
 -(void) spawn:(CGPoint)location{
     CCLOG(@"rock spawned");
-
-    body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
-    self.position = location;
     self.visible = YES;
-    self.hasLanded = NO;
-    self.isHitLand = NO;
+    self.hasLanded = FALSE;
+    self.position = location;
+    self.isLanding = FALSE;
     self.characterState = kStateSpawning;
+     [self changeState:kStateSpawning];
+    landingOffset = 0;
     body->SetActive(YES);
+      body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
 }
 
 
@@ -68,10 +69,8 @@
             //insert animation here
             break;
         case kStateLanding:
-            CCLOG(@"state landing");
-            //insert animation here
+            //insert landing animation here
             break;
-            //initiate with landing image with new sensor size
         case kStateDead:
             [self despawn];
             
@@ -86,37 +85,53 @@
 
 
 -(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
+    //   CGSize winSize = [CCDirector sharedDirector].winSize;
     if(self.characterState == kStateSpawning)
         [self changeState:kStateFlying];
+    else if(isLanding == TRUE && hasLanded == FALSE){
+        b2Vec2 rockPosition = self.body->GetPosition();
+        self.body->SetTransform(b2Vec2(rockPosition.x + rockSpeed*deltaTime/PTM_RATIO, rockPosition.y - 10/PTM_RATIO), 0.0);
+        [self changeState:kStateLanding];
+        
+        //landing offset provides a smoother landing, matches falling speed until it is at a certain distance below platform then turns off all movements
+        landingOffset += 10;
+        if(landingOffset == 30){
+            self.hasLanded = TRUE;
+            self.isLanding = FALSE;
+            landingOffset = 0;
+        }
+    }
     else if(self.characterState == kStateFlying){
-       // CCLOG(@"time update");
+    //CCLOG(@"time update");
        // [self changeState:kStateFlying];
         b2Vec2 rockPosition = self.body->GetPosition();
         self.body->SetTransform(b2Vec2(rockPosition.x + rockSpeed*deltaTime/PTM_RATIO, rockPosition.y - 10/PTM_RATIO), 0.0);
-    }else if(hasLanded == TRUE){
-        [self changeState:kStateLanding];
-     //   b2Vec2 rockPosition = self.body->GetPosition();
-   //     self.body->SetTransform(b2Vec2(rockPosition.x, rockPosition.y - self.contentSize.height/2/PTM_RATIO), 0.0);
     }
         
 }
 
 -(id) initWithWorld:(b2World *)world {
     if((self=[super init])) {
-       //type = ?
-      //  NSString *rockFrameName = @"RockAirTemp.png";
+       type = kVolcanoType;
+        
      // [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"RockAirTemp.png"]];
         
         //place holder
          [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:  @"red_mushroom_jump_1.png"]];
         
         [self createSensorWithWorld:world];
-        isHitLand = NO;
-        isHitAir = NO;
         hasLanded = NO;
+        isLanding = NO;
         self.visible = NO;
     }
     return self;
+}
+
+-(void) despawn {
+    body->SetActive(NO);
+    self.visible = NO;
+    self.hasLanded = NO;
+    self.isLanding = NO;
 }
         
 -(void) dealloc{

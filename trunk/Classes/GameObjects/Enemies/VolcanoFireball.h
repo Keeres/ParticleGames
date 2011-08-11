@@ -1,5 +1,5 @@
 //
-//  VolcanicRockAir.h
+//  VolcanicFireball.h
 //  mushroom
 //
 //  Created by Steven Chen on 8/9/11.
@@ -7,22 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Enemy.h"
+#import "StageEffect.h"
 
-@interface VolcanicRock : Enemy {
-    b2Fixture *RockSensorAir;
-    b2Fixture *RockSensorLand;
+@interface VolcanoFireball : StageEffect {
+    b2Fixture *RockSensor;
+    b2Body *RockSensorBody;
+   // b2Fixture *RockSensorLand;
     
     BOOL hasLanded;
-    BOOL isHitLand;
-    BOOL isHitAir;
-  //  float rockOffset;
+    BOOL isLanding;
+    float landingOffset;
     float rockSpeed;
 }
 
 @property BOOL hasLanded;
 @property BOOL isHitLand;
 @property BOOL isHitAir;
+@property BOOL isLanding;
+@property b2Body *rockSensorBody;
 //@property float rockOffset;
 @property float rockSpeed;
 
