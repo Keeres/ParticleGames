@@ -20,9 +20,11 @@
 typedef enum {
     kCategoryMushroom = 0x0001,
     kCategoryEnemy = 0x0002,
-    kCategoryGround  = 0x0004,
+    kCategoryGround = 0x0004,
+    kCategoryStageEffect = 0x0008,
     kMaskMushroom = ~kCategoryMushroom,
     kMaskEnemy = ~kCategoryEnemy,
+    kMaskStageEffect = -1,  //-1 eables collision with every category
     kMaskGround = -1,
     kGroupMushroom = -1,
     kGroupEnemy = -2,

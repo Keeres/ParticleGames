@@ -49,7 +49,7 @@ typedef enum{
  //   kSnowEffects,
  //   kLightningEffects,
     kMaxStageEffectType,
-}BackgroundEffectType;
+}StageEffectType;
 
 #pragma mark -
 #pragma mark volcano constants
