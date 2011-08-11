@@ -10,7 +10,7 @@
 
 @implementation GameBackgroundLayer
 @synthesize backgroundState;
-@synthesize backgroundEffectType;
+@synthesize stageEffectType;
 
 -(void) updateOffset:(float)offset {
     self.position = ccp(-offset,self.position.y);
@@ -66,7 +66,7 @@
         
         //if(initial stage == volcano)
         backgroundState = kVolcanoDormant;
-        backgroundEffectType = kVolcanoType;
+        stageEffectType = kVolcanoType;
         
         CCSprite *volcano = [CCSprite spriteWithFile:@"Volcano.png"];
         [parallax addChild:volcano z:-9 parallaxRatio:ccp(0.03f, 0.05f)positionOffset:ccp(200,170)]; 

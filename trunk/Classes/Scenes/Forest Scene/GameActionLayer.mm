@@ -126,7 +126,7 @@
 
 //NEEDS EDIT possibly change z value
 - (void) createStageEffects{
-    stageEffectCache = [[StageEffectCache alloc] initWithWorld:world withStageEffectType:kVolcanoLava];
+    stageEffectCache = [[StageEffectCache alloc] initWithWorld:world];
     for (int i=0; i < [[stageEffectCache totalStageEffectType] capacity]; i++) {
         CCArray *stageEffectOfType = [[stageEffectCache totalStageEffectType] objectAtIndex:i];
         for(int j=0; j<[stageEffectOfType capacity];j++){
@@ -156,6 +156,7 @@
     
     [visibleMushrooms removeAllObjects];
     [visibleEnemies removeAllObjects];
+    [visibleStageEffect removeAllObjects];
     
     platformCache.fromKeyPointI = 0.0;
     platformCache.toKeyPointI = 0.0;
@@ -276,7 +277,7 @@
             
         }
     }
-    
+  
     /////////////////////
     //Physics Simulations
     /////////////////////
@@ -511,20 +512,26 @@
                     }
                     
                 }
-            }
-            for(int j=0 ; j < [visibleStageEffect count]; j++){
-                if (backgroundLayer.backgroundEffectType == kVolcanoType) {
-                    VolcanicRock *tempVolcanicRock = [visibleStageEffect objectAtIndex:j];
+            
+            for(int k=0 ; k < [visibleStageEffect count]; k++){
+                if (backgroundLayer.stageEffectType == kVolcanoType) {
+                    VolcanoFireball *tempVolcanicFireball = [visibleStageEffect objectAtIndex:k];
                     
-                    if((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempVolcanicRock.body) || (contact.fixtureA->GetBody() == tempVolcanicRock.body && contact.fixtureB->GetBody() == groundBody)){
-                        tempVolcanicRock.hasLanded = TRUE;
-                        CCLOG(@"landed");
+                    //detecting contact between volcano rock and ground
+                    if((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempVolcanicFireball.body) || (contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == groundBody) && tempVolcanicFireball.characterState == kStateFlying){
+                        tempVolcanicFireball.isLanding = TRUE;
+                     //   CCLOG(@"landing");
                     }
+                    
+                    //detects contact between volcano rock and mushroom
+                    
+                    
                 }
+            }
             }//end for j < [visbleStageEffect count]
         }//end for i < [visibleMushrooms count]
     }//end for contactListeners                     
-                
+    
                        
                        
     
@@ -539,8 +546,8 @@
     // if(backgroundLayer.volcanoState == kVolcanoErupt)
     
     for (int i = 0; i < [visibleStageEffect count]; i++) {
-        VolcanicRock *tempVolcanicRock = [visibleStageEffect objectAtIndex:i];
-        tempVolcanicRock.rockSpeed = 250 + [visibleMushrooms count] * 50;
+        VolcanoFireball *tempVolcanoFireball = [visibleStageEffect objectAtIndex:i];
+        tempVolcanoFireball.rockSpeed = 250 + [visibleMushrooms count] * 50;
     }
     [stageEffectCache spawnStageEffectForBackgroundState:backgroundLayer.backgroundState atTime:dt atOffset:offset andScale:self.scale];
     
@@ -609,6 +616,8 @@
     ////////////////////
     [mushroomCache cleanMushrooms];
     [enemyCache cleanEnemies];
+    [stageEffectCache cleanStageEffectUsingMushroomPosition:offset];
+
 }
 
 -(BOOL) isTouchingLeftSide:(CGPoint)touchLocation {

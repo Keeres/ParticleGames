@@ -16,11 +16,11 @@
     CCParallaxNode *parallax;
    
     BackgroundState backgroundState;
-    BackgroundEffectType backgroundEffectType;
+    StageEffectType stageEffectType;
 }
 
 @property BackgroundState backgroundState;
-@property BackgroundEffectType backgroundEffectType;
+@property StageEffectType stageEffectType;
 
 -(void) updateOffset:(float)offset;
 -(void) volcanoChangeState:(float)offset;
