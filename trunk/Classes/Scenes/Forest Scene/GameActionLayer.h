@@ -18,6 +18,7 @@
 #import "PlatformCache.h"
 #import "MyContactListener.h"
 #import "StageEffectCache.h"
+#import "Box2DHelpers.h"
 
 @class GameUILayer;
 @class MushroomCache;

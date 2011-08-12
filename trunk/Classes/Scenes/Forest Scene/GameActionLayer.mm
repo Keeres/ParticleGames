@@ -277,7 +277,7 @@
             
         }
     }
-  
+    
     /////////////////////
     //Physics Simulations
     /////////////////////
@@ -430,27 +430,18 @@
                                 tempTurtle.isHit = YES;
                                 [self spawnMushroomAtPoint:tempTurtle.position isNewSpawn:NO];
                                 tempMushroom.hitEnemy = YES;
+                                tempTurtle.isHit = YES;
                             }
                         } 
                         //Check if turtle and mushroom are same color - no new mushroom, knock turtle off platform
                         else if ((tempTurtle.blueColor == NO && tempMushroom.blueColor == NO) || 
                                  (tempTurtle.blueColor == YES && tempMushroom.blueColor == YES)) {
-                            
-                            if (tempMushroom.hitEnemy == NO) {
-                                b2Filter tempFilter;
-                                for (b2Fixture *f = tempTurtle.body->GetFixtureList(); f; f = f->GetNext()) {
-                                    f->GetFilterData();
-                                    tempFilter.categoryBits = kCategoryEnemy;
-                                    tempFilter.maskBits = 0x0000;
-                                    tempFilter.groupIndex = kGroupEnemy;
-                                    f->SetFilterData(tempFilter);
-                                }
-                                
-                                //tempTurtle.isHit = YES;
-                            }
-                            
+                            setBodyMask(tempTurtle.body, 0);
+                               
                         }
+                    
                         //Check if turtle and mushroom hit each other and mushroom is in changing state - no new mushroom, kill turtle
+                        //  need to modify so when change to wrong state/color the turtle hits mushroom and not die: prevents player from spamming change state to kill everything
                         else if (tempMushroom.characterState == kStateChange) {
                             if (tempMushroom.hitEnemy == NO) {
                                 tempTurtle.isHit = YES;
@@ -458,16 +449,7 @@
                         }
                         //Turtle and mushroom are wrong color - no new mushroom, knock mushroom off platform
                         else {
-                            
-                            //Code to change the filter data on the fly.
-                            b2Filter tempFilter;
-                            for (b2Fixture *f = tempMushroom.body->GetFixtureList(); f; f = f->GetNext()) {
-                                f->GetFilterData();
-                                tempFilter.categoryBits = kCategoryMushroom;
-                                tempFilter.maskBits = 0x0000;
-                                tempFilter.groupIndex = kGroupMushroom;
-                                f->SetFilterData(tempFilter);
-                            }
+                            setBodyMask(tempMushroom.body, 0);
                             tempMushroom.hitByTurtle = YES;
                         }
                     }
@@ -476,18 +458,26 @@
                     
                     if ((contact.fixtureA->GetBody() == tempBee.body && contact.fixtureB->GetBody() == tempMushroom.body) || (contact.fixtureA->GetBody() == tempMushroom.body && contact.fixtureB->GetBody() == tempBee.body)) {
                         
-                        tempBee.isHit = YES;
+                        // tempBee.isHit = YES;
                         
                         if ((tempBee.blueColor == NO && tempMushroom.blueColor == NO && tempMushroom.eating) || (tempBee.blueColor == YES && tempMushroom.blueColor == YES && tempMushroom.eating)) {
-                            if (tempMushroom.hitEnemy == NO) {
                                 [self spawnMushroomAtPoint:tempBee.position isNewSpawn:NO];
                                 tempMushroom.hitEnemy = YES;
-                            }
-                        } else {
+                                tempBee.isHit = YES;
+                        }
+                        //Knocks enemy off platform if mushroom is in the same color state and not eating
+                        else if((tempBee.blueColor == NO && tempMushroom.blueColor == NO && tempMushroom.eating == NO) || (tempBee.blueColor == YES && tempMushroom.blueColor == YES && tempMushroom.eating == NO)){
+                            setBodyMask(tempBee.body, 0);
+                        }
+                        //insert condition about mushroom.changestate
+                        else{
                             tempMushroom.hitByBee = YES;
+                            tempBee.isHit = YES;
                         }
                     }
-                } else if (tempEnemy.type == kJumperType) {
+                    
+                } //end else if (tempEnemy.type == kBeeType
+                else if (tempEnemy.type == kJumperType) {
                     Jumper *tempJumper = [visibleEnemies objectAtIndex:j];
                     
                     if ((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempJumper.body) || (contact.fixtureA->GetBody() == tempJumper.body && contact.fixtureB->GetBody() == groundBody)) {
@@ -499,41 +489,50 @@
                     
                     if ((contact.fixtureA->GetBody() == tempJumper.body && contact.fixtureB->GetBody() == tempMushroom.body) || (contact.fixtureA->GetBody() == tempMushroom.body && contact.fixtureB->GetBody() == tempJumper.body)) {
                         
-                        tempJumper.isHit = YES;
+                        // tempJumper.isHit = YES;
                         
                         if ((tempJumper.blueColor == NO && tempMushroom.blueColor == NO && tempMushroom.eating) || (tempJumper.blueColor == YES && tempMushroom.blueColor == YES && tempMushroom.eating)) {
-                            if (tempMushroom.hitEnemy == NO) {
                                 [self spawnMushroomAtPoint:tempJumper.position isNewSpawn:NO];
                                 tempMushroom.hitEnemy = YES;
-                            }
-                        } else {
-                            tempMushroom.hitByJumper = YES;
+                                tempJumper.isHit = YES;
                         }
+                        //Knocks enemy off platform if mushroom is in the same color state and not eating
+                        else if((tempJumper.blueColor == NO && tempMushroom.blueColor == NO && tempMushroom.eating == NO) || (tempJumper.blueColor == YES && tempMushroom.blueColor == YES && tempMushroom.eating == NO)){
+                            setBodyMask(tempJumper.body, 0);
+                        }
+                        //insert condition about mushroom.changestate
+                        else{
+                            tempJumper.isHit = YES;
+                            tempMushroom.hitByJumper = YES;
+                        }   
                     }
-                    
-                }
-            
-            for(int k=0 ; k < [visibleStageEffect count]; k++){
-                if (backgroundLayer.stageEffectType == kVolcanoType) {
-                    VolcanoFireball *tempVolcanicFireball = [visibleStageEffect objectAtIndex:k];
-                    
-                    //detecting contact between volcano rock and ground
-                    if((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempVolcanicFireball.body) || (contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == groundBody) && tempVolcanicFireball.characterState == kStateFlying){
-                        tempVolcanicFireball.isLanding = TRUE;
-                     //   CCLOG(@"landing");
-                    }
-                    
-                    //detects contact between volcano rock and mushroom
-                    
-                    
-                }
-            }
-            }//end for j < [visbleStageEffect count]
+                }//end else if (tempEnemy.type == kJumperType)
+                
+                for(int k=0 ; k < [visibleStageEffect count]; k++){
+                    if (backgroundLayer.stageEffectType == kVolcanoType) {
+                        VolcanoFireball *tempVolcanicFireball = [visibleStageEffect objectAtIndex:k];
+                        
+                        //detecting contact between volcano rock and ground
+                        if((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempVolcanicFireball.body) || (contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == groundBody) && tempVolcanicFireball.characterState == kStateFlying){
+                            tempVolcanicFireball.isLanding = TRUE;
+                            //   CCLOG(@"landing");
+                        }
+                        
+                        //detects contact between volcano fireball and mushroom
+                        if ((contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == tempMushroom.body) || 
+                            (contact.fixtureA->GetBody() == tempMushroom.body && contact.fixtureB->GetBody() == tempVolcanicFireball.body)) {
+                            CCLOG(@"mushroom detect");
+                            tempMushroom.hitByFireball = YES;
+                        }
+                        //add detect contact with turtle, bee, and jumper
+                    }//end if (backgroundLayer.stageEffectType == kVolcanoType)
+                }//end for k<[visibleStageEffect count]
+            }//end for j < [visibleEnemies count]
         }//end for i < [visibleMushrooms count]
     }//end for contactListeners                     
     
-                       
-                       
+    
+    
     
     ///////////////////////////
     //Mushroom Line Space Check
@@ -615,9 +614,10 @@
     //Clean up mushrooms
     ////////////////////
     [mushroomCache cleanMushrooms];
-    [enemyCache cleanEnemies];
+   // [enemyCache cleanEnemies];
+    [enemyCache cleanEnemiesUsingMushroomPosition:offset];
     [stageEffectCache cleanStageEffectUsingMushroomPosition:offset];
-
+    
 }
 
 -(BOOL) isTouchingLeftSide:(CGPoint)touchLocation {
