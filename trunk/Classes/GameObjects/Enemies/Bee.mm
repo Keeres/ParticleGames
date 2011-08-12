@@ -111,7 +111,8 @@
             }
             break;
         }
-            
+        case kStateBurning: 
+            break;
         case kStateDead:
             [self despawn];
             break;
@@ -158,6 +159,14 @@
         //float force = [self calculateForceToFly:self.body atTime:deltaTime];
         //self.body->ApplyForce(b2Vec2(0.0, force), self.body->GetPosition());
     }
+}
+
+-(void) despawn {
+    body->SetLinearVelocity(b2Vec2(0.0, 0.0));
+    body -> SetActive(NO);
+    self.visible = NO;
+    self.isHit = NO;
+    setBodyMask(self.body, kMaskEnemy);
 }
 
 -(void) dealloc {

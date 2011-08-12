@@ -172,6 +172,14 @@
     }
 }
 
+-(void) despawn {
+    body->SetLinearVelocity(b2Vec2(0.0, 0.0));
+    body -> SetActive(NO);
+    self.visible = NO;
+    self.isHit = NO;
+    setBodyMask(self.body, kMaskEnemy);
+}
+
 -(void) dealloc {
     [super dealloc];
 }

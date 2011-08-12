@@ -151,7 +151,7 @@
 
 -(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
     if (self.isHit) {
-        //[self changeState:kStateDead];
+        [self changeState:kStateDead];
     }
     
     if (self.isTouchingGround && !detectMushroom && self.characterState != kStateIdle) {
@@ -183,6 +183,15 @@
             [self changeState:kStateWalking];
         }
     }
+}
+
+-(void) despawn {
+    body->SetLinearVelocity(b2Vec2(0.0, 0.0));
+    body -> SetActive(NO);
+    self.visible = NO;
+    self.isHit = NO;
+    self.detectMushroom = NO;
+    setBodyMask(self.body, kMaskEnemy);
 }
 
 -(void) dealloc {

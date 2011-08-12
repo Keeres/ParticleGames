@@ -157,13 +157,18 @@
     }
 }
 
--(void) cleanEnemies {
+-(void)  cleanEnemiesUsingMushroomPosition:(float)cleanOffset  {
     for (int i = 0; i < [visibleEnemies count]; i++) {
-        Turtle *tempTurtle = [visibleEnemies objectAtIndex:i];
-        if (tempTurtle.isHit || tempTurtle.position.x < -winSize.width/2 || tempTurtle.position.y < -winSize.height/2) {
-            [tempTurtle changeState:kStateDead];
+        Enemy *tempEnemy = [visibleEnemies objectAtIndex:i];
+        //   if (tempTurtle.isHit || tempTurtle.position.x < -winSize.width/2 || tempTurtle.position.y < -winSize.height/2) {
+        //     [tempTurtle changeState:kStateDead];
+        //   [visibleEnemies removeObjectAtIndex:i];
+        b2Vec2 tempPosition = tempEnemy.body->GetPosition();
+        if (tempPosition.x < (cleanOffset-400)/PTM_RATIO) {
+            [tempEnemy changeState:kStateDead];
             [visibleEnemies removeObjectAtIndex:i];
         }
+        
     }
 }
 

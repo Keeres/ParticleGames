@@ -40,6 +40,8 @@
 -(id) initWithWorld:(b2World*)theWorld withActionLayer:(GameActionLayer*)gameActionLayer;
 -(void) randomlySpawnEnemy:(ccTime)dt atOffset:(float)newOffset andScale:(float)scale;
 -(void) detectMushroomCheck;
--(void) cleanEnemies;
+//-(void) cleanEnemies;
+-(void)  cleanEnemiesUsingMushroomPosition:(float)cleanOffset;
+
 
 @end

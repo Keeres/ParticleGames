@@ -90,7 +90,6 @@
         StageEffect *tempStageEffect = [visibleStageObjects objectAtIndex:i];
         b2Vec2 tempPosition = tempStageEffect.body->GetPosition();
         if (tempPosition.x < (cleanOffset-400)/PTM_RATIO) {
-            CCLOG(@"cleaned");
             [tempStageEffect changeState:kStateDead];
             [visibleStageObjects removeObjectAtIndex:i];
         }

@@ -21,8 +21,8 @@
 }
 
 @property BOOL hasLanded;
-@property BOOL isHitLand;
-@property BOOL isHitAir;
+//@property BOOL isHitLand;
+//@property BOOL isHitAir;
 @property BOOL isLanding;
 @property b2Body *rockSensorBody;
 //@property float rockOffset;

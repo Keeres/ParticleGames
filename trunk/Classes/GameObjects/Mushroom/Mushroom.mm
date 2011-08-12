@@ -21,6 +21,7 @@
 @synthesize hitByBee;
 @synthesize hitByJumper;
 @synthesize hitEnemy;
+@synthesize hitByFireball;
 @synthesize eating;
 @synthesize cramping;
 @synthesize blueColor;
@@ -157,6 +158,7 @@
         eating = NO;
         cramping = NO;
         blueColor = NO;
+        hitByFireball = NO;
         //self.scale = 0.75;
         self.scale = 1.0;
         self.flipX = NO;
@@ -196,6 +198,7 @@
     hitByBee = NO;
     hitByJumper = NO;
     hitEnemy = NO;
+    hitByFireball = NO;
     eating = NO;
     cramping = NO;
     blueColor = color;
@@ -212,6 +215,7 @@
     body->SetLinearVelocity(b2Vec2(0.0, 0.0));
     body->SetActive(NO);
     self.visible = NO;
+    self.hitByFireball = NO;
 }
 
 -(void) changeState:(CharacterStates)newState {
@@ -363,6 +367,13 @@
             break;
             
         }
+        case kStateBurning:{
+            CCAnimate *getHit = [CCAnimate actionWithAnimation:blueGetHitAnim restoreOriginalFrame:NO];
+            CCMoveBy *moveByAction = [CCMoveBy actionWithDuration:2.0f position:ccp(0.0f, 100.0f)];
+            action = [CCSequence actions:[CCSpawn actions:getHit, moveByAction,nil], [CCCallFunc actionWithTarget:self selector:@selector(despawn)], nil];
+            //play burning animation
+            break;
+    }
         case kStateDead:
             [self despawn];
             break;
@@ -413,6 +424,10 @@
     
     if (self.hitEnemy) {
         [self changeState:kStateCauseHit];
+    }
+    
+    if (self.hitByFireball){
+        [self changeState:kStateBurning];
     }
     
     if (self.eating && !self.hitByTurtle && !self.hitByBee && !self.hitByJumper) {

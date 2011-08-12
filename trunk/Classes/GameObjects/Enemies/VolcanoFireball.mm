@@ -32,6 +32,7 @@
     fixtureDef.shape = &shape;
     fixtureDef.filter.categoryBits = kCategoryStageEffect;
     fixtureDef.filter.maskBits = kMaskStageEffect;
+    fixtureDef.filter.groupIndex = kGroupStageEffect;
     fixtureDef.isSensor = true;
     
     RockSensor = body->CreateFixture(&fixtureDef);
@@ -44,10 +45,10 @@
     self.hasLanded = FALSE;
     self.position = location;
     self.isLanding = FALSE;
+     body->SetActive(YES);
     self.characterState = kStateSpawning;
      [self changeState:kStateSpawning];
     landingOffset = 0;
-    body->SetActive(YES);
       body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
 }
 
