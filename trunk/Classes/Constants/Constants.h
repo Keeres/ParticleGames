@@ -24,11 +24,12 @@ typedef enum {
     kCategoryStageEffect = 0x0008,
     kMaskMushroom = ~kCategoryMushroom,
     kMaskEnemy = ~kCategoryEnemy,
-    kMaskStageEffect = -1,  //-1 eables collision with every category
+    kMaskStageEffect = ~kCategoryStageEffect,
     kMaskGround = -1,
     kGroupMushroom = -1,
     kGroupEnemy = -2,
     kGroupGround = 1,
+    kGroupStageEffect = 2,
 } FilterValues;
 
 

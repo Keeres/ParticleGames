@@ -18,6 +18,7 @@ typedef enum {
     kStateDead,
     kStateEating,
     kStateCramping,
+    kStateBurning,
 } CharacterStates;
 
 typedef enum {
