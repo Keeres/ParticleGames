@@ -26,3 +26,15 @@ bool isBodyCollidingWithObjectType(b2Body *body, GameObjectType objectType) {
     }    
     return false;
 }
+
+//may need to modify to include category and group
+void setBodyMask(b2Body *body, uint16 maskBits){
+    b2Filter tempFilter;
+    for (b2Fixture *f = body->GetFixtureList(); f; f = f->GetNext()) {
+        f->GetFilterData();
+     //   tempFilter.categoryBits = kCategoryEnemy;
+        tempFilter.maskBits = maskBits;
+       // tempFilter.groupIndex = kGroupEnemy;
+        f->SetFilterData(tempFilter);
+    }
+}
