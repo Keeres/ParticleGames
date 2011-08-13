@@ -394,6 +394,11 @@
     for (pos = contactListener->_contacts.begin(); pos != contactListener->_contacts.end(); ++pos) {
         MyContact contact = *pos;
         
+        //declare tempEnemies variables, local within for(contactListener)
+        Bee *tempBee;
+        Turtle *tempTurtle;
+        Jumper *tempJumper;
+        
         for (int i = 0; i < [visibleMushrooms count]; i++) {
             Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:i];
             
@@ -410,7 +415,7 @@
                 Enemy *tempEnemy = [visibleEnemies objectAtIndex:j];
                 
                 if (tempEnemy.type == kTurtleType) {
-                    Turtle *tempTurtle = [visibleEnemies objectAtIndex:j];
+                     tempTurtle = [visibleEnemies objectAtIndex:j];
                     
                     //Check is turtle is touching ground
                     if ((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempTurtle.body) || 
@@ -454,7 +459,7 @@
                         }
                     }
                 } else if (tempEnemy.type == kBeeType) {
-                    Bee *tempBee = [visibleEnemies objectAtIndex:j];
+                     tempBee = [visibleEnemies objectAtIndex:j];
                     
                     if ((contact.fixtureA->GetBody() == tempBee.body && contact.fixtureB->GetBody() == tempMushroom.body) || (contact.fixtureA->GetBody() == tempMushroom.body && contact.fixtureB->GetBody() == tempBee.body)) {
                         
@@ -470,6 +475,11 @@
                             setBodyMask(tempBee.body, 0);
                         }
                         //insert condition about mushroom.changestate
+                        else if (tempMushroom.characterState == kStateChange) {
+                            if (tempMushroom.hitEnemy == NO) {
+                                tempBee.isHit = YES;
+                            }
+                        }
                         else{
                             tempMushroom.hitByBee = YES;
                             tempBee.isHit = YES;
@@ -478,7 +488,7 @@
                     
                 } //end else if (tempEnemy.type == kBeeType
                 else if (tempEnemy.type == kJumperType) {
-                    Jumper *tempJumper = [visibleEnemies objectAtIndex:j];
+                     tempJumper = [visibleEnemies objectAtIndex:j];
                     
                     if ((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempJumper.body) || (contact.fixtureA->GetBody() == tempJumper.body && contact.fixtureB->GetBody() == groundBody)) {
                         b2Vec2 velocity = tempJumper.body->GetLinearVelocity();
@@ -501,6 +511,11 @@
                             setBodyMask(tempJumper.body, 0);
                         }
                         //insert condition about mushroom.changestate
+                        else if (tempMushroom.characterState == kStateChange) {
+                            if (tempMushroom.hitEnemy == NO) {
+                                tempJumper.isHit = YES;
+                            }
+                        }
                         else{
                             tempJumper.isHit = YES;
                             tempMushroom.hitByJumper = YES;
@@ -521,8 +536,18 @@
                         //detects contact between volcano fireball and mushroom
                         if ((contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == tempMushroom.body) || 
                             (contact.fixtureA->GetBody() == tempMushroom.body && contact.fixtureB->GetBody() == tempVolcanicFireball.body)) {
-                            CCLOG(@"mushroom detect");
-                            tempMushroom.hitByFireball = YES;
+                          
+                           // tempMushroom.hitByFireball = YES;
+                        }
+                        if((contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == tempEnemy.body) || (contact.fixtureA->GetBody() == tempEnemy.body && contact.fixtureB->GetBody() == tempVolcanicFireball.body)){
+                           
+                            if (tempEnemy.type == kBeeType) {
+                                tempBee.isBurning = TRUE;
+                            } else if (tempEnemy.type == kJumperType){
+                                tempJumper.isBurning = TRUE;
+                            }else if (tempEnemy.type == kTurtleType){
+                                tempTurtle.isBurning = TRUE;
+                            }
                         }
                         //add detect contact with turtle, bee, and jumper
                     }//end if (backgroundLayer.stageEffectType == kVolcanoType)
