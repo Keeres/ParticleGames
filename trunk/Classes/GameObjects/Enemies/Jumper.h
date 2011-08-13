@@ -13,6 +13,7 @@
     
     BOOL isHit;
     BOOL blueColor;
+    BOOL isBurning;
     
     float jumpTimer;
     
@@ -24,6 +25,7 @@
 
 @property BOOL isHit;
 @property BOOL blueColor;
+@property BOOL isBurning;
 
 @property (nonatomic, retain) CCAnimation *blueJumpAnim;
 @property (nonatomic, retain) CCAnimation *blueLandAnim;

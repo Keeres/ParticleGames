@@ -275,13 +275,13 @@
             if (blueColor) {
                 blueColor = NO;
                 //[self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"red_mushroom_run_1.png"]];                
-                action = [CCAnimate actionWithAnimation:redJumpAnim restoreOriginalFrame:NO];
+                action = [CCAnimate actionWithAnimation:redJumpAnim restoreOriginalFrame:YES];
                                 
 
             } else {
                 blueColor = YES;
                 //[self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blue_mushroom_run_1.png"]];
-                action = [CCAnimate actionWithAnimation:blueJumpAnim restoreOriginalFrame:NO];
+                action = [CCAnimate actionWithAnimation:blueJumpAnim restoreOriginalFrame:YES];
                 
             }
             break;
@@ -369,7 +369,7 @@
         }
         case kStateBurning:{
             CCAnimate *getHit = [CCAnimate actionWithAnimation:blueGetHitAnim restoreOriginalFrame:NO];
-            CCMoveBy *moveByAction = [CCMoveBy actionWithDuration:2.0f position:ccp(0.0f, 100.0f)];
+            CCMoveBy *moveByAction = [CCMoveBy actionWithDuration:0.05f position:ccp(0.0f, 100.0f)];
             action = [CCSequence actions:[CCSpawn actions:getHit, moveByAction,nil], [CCCallFunc actionWithTarget:self selector:@selector(despawn)], nil];
             //play burning animation
             break;
@@ -391,7 +391,6 @@
     if (self.characterState == kStateDead) {
         return;
     }
-    
     
     if (!self.hitPlatformSide && !self.hitByTurtle && !self.hitByBee && !self.hitByJumper && self.gameStarted && self.mushroomReady) {
         

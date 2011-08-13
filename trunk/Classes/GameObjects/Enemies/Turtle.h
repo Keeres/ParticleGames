@@ -12,6 +12,7 @@
     b2Fixture *turtleFixture;
     
     BOOL isHit;
+    BOOL isBurning;
     BOOL blueColor;
     BOOL detectMushroom;
     
@@ -20,6 +21,7 @@
 }
 
 @property BOOL isHit;
+@property BOOL isBurning;
 @property BOOL blueColor;
 @property BOOL detectMushroom;
 

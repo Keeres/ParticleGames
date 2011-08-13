@@ -16,6 +16,7 @@
 @synthesize blueLandAnim;
 @synthesize redJumpAnim;
 @synthesize redLandAnim;
+@synthesize isBurning;
 
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
@@ -136,6 +137,11 @@
             break;
         }
             
+        case kStateBurning: {
+            [self despawn];
+           break;
+        }
+            
         case kStateDead:
             [self despawn];
             break;
@@ -152,6 +158,10 @@
 -(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {    
     if (self.isHit) {
         [self changeState:kStateDead];
+    }
+    
+    if (self.isBurning){
+        [self changeState:kStateBurning];
     }
     
     if (self.isTouchingGround) {
@@ -177,6 +187,7 @@
     body -> SetActive(NO);
     self.visible = NO;
     self.isHit = NO;
+    self.isBurning = NO;
     setBodyMask(self.body, kMaskEnemy);
 }
 

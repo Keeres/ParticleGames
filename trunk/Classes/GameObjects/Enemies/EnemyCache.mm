@@ -158,17 +158,37 @@
 }
 
 -(void)  cleanEnemiesUsingMushroomPosition:(float)cleanOffset  {
+    Turtle *tempTurtle;
+    Bee *tempBee;
+    Jumper * tempJumper;
+    b2Vec2 tempPosition;
+    
     for (int i = 0; i < [visibleEnemies count]; i++) {
         Enemy *tempEnemy = [visibleEnemies objectAtIndex:i];
-        //   if (tempTurtle.isHit || tempTurtle.position.x < -winSize.width/2 || tempTurtle.position.y < -winSize.height/2) {
-        //     [tempTurtle changeState:kStateDead];
-        //   [visibleEnemies removeObjectAtIndex:i];
-        b2Vec2 tempPosition = tempEnemy.body->GetPosition();
-        if (tempPosition.x < (cleanOffset-400)/PTM_RATIO) {
-            [tempEnemy changeState:kStateDead];
-            [visibleEnemies removeObjectAtIndex:i];
-        }
-        
+        if (tempEnemy.type == kTurtleType) {
+            tempTurtle = [visibleEnemies objectAtIndex:i];
+            tempPosition = tempTurtle.body->GetPosition();
+            
+            if (tempTurtle.isHit || tempTurtle.isBurning || tempPosition.x < (cleanOffset-300)/PTM_RATIO || tempPosition.y < -120/PTM_RATIO) {
+                [tempTurtle changeState:kStateDead];
+                [visibleEnemies removeObjectAtIndex :i];
+            }
+        } else if (tempEnemy.type == kBeeType){
+            tempBee = [visibleEnemies objectAtIndex:i];
+            tempPosition = tempBee.body->GetPosition();
+            
+            if (tempBee.isHit || tempBee.isBurning || tempPosition.x < (cleanOffset-300)/PTM_RATIO || tempPosition.y < -120/PTM_RATIO) {
+                [tempBee changeState:kStateDead];
+                [visibleEnemies removeObjectAtIndex :i];
+            }
+        } else if (tempEnemy.type == kJumperType){
+            tempJumper = [visibleEnemies objectAtIndex:i];
+            tempPosition = tempJumper.body->GetPosition();
+            if ( tempJumper.isHit || tempJumper.isBurning || tempPosition.x < (cleanOffset-300)/PTM_RATIO || tempPosition.y < -150/PTM_RATIO){
+                [tempJumper changeState:kStateDead];
+                [visibleEnemies removeObjectAtIndex :i];
+            }
+        }        
     }
 }
 

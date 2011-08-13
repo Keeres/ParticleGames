@@ -11,6 +11,7 @@
 @implementation Turtle
 
 @synthesize isHit;
+@synthesize isBurning;
 @synthesize blueColor;
 @synthesize detectMushroom;
 @synthesize blueWalkAnim;
@@ -136,6 +137,11 @@
             break;
         }
             
+        case kStateBurning:{
+            [self despawn];
+            break;
+        }
+            
         case kStateDead:
             [self despawn];
             break;
@@ -152,6 +158,11 @@
 -(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
     if (self.isHit) {
         [self changeState:kStateDead];
+    }
+    
+   if(self.isBurning){
+        [self changeState:kStateBurning];
+   // detectMushroom = FALSE;
     }
     
     if (self.isTouchingGround && !detectMushroom && self.characterState != kStateIdle) {
@@ -190,6 +201,7 @@
     body -> SetActive(NO);
     self.visible = NO;
     self.isHit = NO;
+    self.isBurning = NO;
     self.detectMushroom = NO;
     setBodyMask(self.body, kMaskEnemy);
 }

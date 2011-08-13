@@ -15,6 +15,7 @@
 @synthesize onLeftSide;
 @synthesize blueFlyAnim;
 @synthesize redFlyAnim;
+@synthesize isBurning;
 
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
@@ -51,6 +52,7 @@
     
     [self setRedFlyAnim:[self loadPlistForAnimationWithName:@"redFlyingAnim" andClassName:NSStringFromClass([self class])]];
     [[CCAnimationCache sharedAnimationCache] addAnimation:redFlyAnim name:@"redFlyingAnim"];
+    
 }
 
 -(id) initWithWorld:(b2World *)world {
@@ -84,6 +86,7 @@
     self.position = location;
     self.isHit = NO;
     self.visible = YES;
+    self.isBurning = NO;
     self.characterState = kStateNone;
     [self changeState:kStateSpawning];
     body->SetActive(YES);
@@ -111,8 +114,12 @@
             }
             break;
         }
-        case kStateBurning: 
+            
+        case kStateBurning: {
+            [self despawn];
             break;
+        }
+            
         case kStateDead:
             [self despawn];
             break;
@@ -145,6 +152,10 @@
         [self changeState:kStateDead];
     }
     
+    if (self.isBurning) {
+        [self changeState:kStateBurning];
+    }
+    
     if (self.characterState != kStateDead) {
         [self changeState:kStateFlying];
         b2Vec2 beePosition = self.body->GetPosition();
@@ -166,6 +177,7 @@
     body -> SetActive(NO);
     self.visible = NO;
     self.isHit = NO;
+    self.isBurning = NO;
     setBodyMask(self.body, kMaskEnemy);
 }
 

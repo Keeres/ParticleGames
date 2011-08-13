@@ -68,12 +68,16 @@
 -(void) spawnStageEffectForBackgroundState:(int)Type atTime:(ccTime)dt atOffset:(float)newOffset andScale:(float)scale{
     randomOffset = (arc4random()%5)*50;
     self.scale = scale;
-   
+    int randomSpawn = random()%5;
+    
     offset = newOffset + 300 + randomOffset;
     if (Type == kVolcanoErupt) {
         float randomTime = arc4random() % 5 + 2;
         if (stageEffectTiming > randomTime) {
-            stageEffectTiming = 0.0;
+            if(randomSpawn != 0)
+                stageEffectTiming = 0.0;
+            else
+                stageEffectTiming -= 1;
             if ([visibleStageObjects count] < 4) {
                 int randomStageEffect = arc4random() % 2;
                 if (randomStageEffect == 0) {
@@ -89,7 +93,7 @@
     for (int i=0; i < [visibleStageObjects count]; i++) {
         StageEffect *tempStageEffect = [visibleStageObjects objectAtIndex:i];
         b2Vec2 tempPosition = tempStageEffect.body->GetPosition();
-        if (tempPosition.x < (cleanOffset-400)/PTM_RATIO) {
+        if (tempPosition.x < (cleanOffset-400)/PTM_RATIO ||tempPosition.y < - 150/PTM_RATIO) {
             [tempStageEffect changeState:kStateDead];
             [visibleStageObjects removeObjectAtIndex:i];
         }
