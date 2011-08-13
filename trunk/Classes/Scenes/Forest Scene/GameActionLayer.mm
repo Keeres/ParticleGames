@@ -528,7 +528,7 @@
                         VolcanoFireball *tempVolcanicFireball = [visibleStageEffect objectAtIndex:k];
                         
                         //detecting contact between volcano rock and ground
-                        if((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempVolcanicFireball.body) || (contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == groundBody) && tempVolcanicFireball.characterState == kStateFlying){
+                        if(((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempVolcanicFireball.body) || (contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == groundBody)) && tempVolcanicFireball.characterState == kStateFlying){
                             tempVolcanicFireball.isLanding = TRUE;
                             //   CCLOG(@"landing");
                         }
