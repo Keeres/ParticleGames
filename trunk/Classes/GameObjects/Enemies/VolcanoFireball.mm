@@ -87,16 +87,18 @@
 
 -(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
     //   CGSize winSize = [CCDirector sharedDirector].winSize;
+
     if(self.characterState == kStateSpawning)
         [self changeState:kStateFlying];
-    else if(isLanding == TRUE && hasLanded == FALSE){
+    else if(isLanding == TRUE){
         b2Vec2 rockPosition = self.body->GetPosition();
-        self.body->SetTransform(b2Vec2(rockPosition.x + rockSpeed*deltaTime/PTM_RATIO, rockPosition.y - 10/PTM_RATIO), 0.0);
+        self.body->SetTransform(b2Vec2(rockPosition.x + rockSpeed*deltaTime/PTM_RATIO, rockPosition.y - 10.0f/PTM_RATIO), 0.0);
         [self changeState:kStateLanding];
         
         //landing offset provides a smoother landing, matches falling speed until it is at a certain distance below platform then turns off all movements
-        landingOffset += 10;
-        if(landingOffset == 30){
+        landingOffset += 10.0f;
+        if(landingOffset >= 30.0f){
+            CCLOG(@"Landed");
             self.hasLanded = TRUE;
             self.isLanding = FALSE;
             landingOffset = 0;
@@ -119,7 +121,7 @@
         
         //place holder
          [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:  @"red_mushroom_jump_1.png"]];
-        
+ 
         [self createSensorWithWorld:world];
         hasLanded = NO;
         isLanding = NO;
