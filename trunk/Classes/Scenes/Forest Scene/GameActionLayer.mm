@@ -154,6 +154,10 @@
         tempPlatformSprite.visible = NO;
     }
     
+    for (int i = 0; i< [visibleStageEffect count]; i++){
+        [[visibleStageEffect objectAtIndex:i] despawn];
+    }
+    
     [visibleMushrooms removeAllObjects];
     [visibleEnemies removeAllObjects];
     [visibleStageEffect removeAllObjects];
@@ -528,11 +532,12 @@
                         VolcanoFireball *tempVolcanicFireball = [visibleStageEffect objectAtIndex:k];
                         
                         //detecting contact between volcano rock and ground
-                        if(((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempVolcanicFireball.body) || (contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == groundBody)) && tempVolcanicFireball.characterState == kStateFlying){
+                        if((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == tempVolcanicFireball.body) || (contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == groundBody)){
+                            if (tempVolcanicFireball.hasLanded == FALSE){
+                                CCLOG(@"landing");
                             tempVolcanicFireball.isLanding = TRUE;
-                            //   CCLOG(@"landing");
+                            }
                         }
-                        
                         //detects contact between volcano fireball and mushroom
                         if ((contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == tempMushroom.body) || 
                             (contact.fixtureA->GetBody() == tempMushroom.body && contact.fixtureB->GetBody() == tempVolcanicFireball.body)) {
@@ -574,7 +579,6 @@
         tempVolcanoFireball.rockSpeed = 250 + [visibleMushrooms count] * 50;
     }
     [stageEffectCache spawnStageEffectForBackgroundState:backgroundLayer.backgroundState atTime:dt atOffset:offset andScale:self.scale];
-    
     
     ///////////////////////////
     //Platform Update
@@ -740,6 +744,7 @@
     
     [mushroomCache release];
     [platformCache release];
+    [stageEffectCache release];
     
     [super dealloc];
 }
