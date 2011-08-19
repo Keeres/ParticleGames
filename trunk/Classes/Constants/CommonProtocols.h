@@ -46,9 +46,11 @@ typedef enum {
 } PlatformType;
 
 typedef enum{
+    kNormalType,
     kVolcanoType,
  //   kSnowEffects,
  //   kLightningEffects,
+    kBonusType,
     kMaxStageEffectType,
 }StageEffectType;
 
