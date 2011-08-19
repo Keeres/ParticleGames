@@ -129,7 +129,7 @@
     stageEffectCache = [[StageEffectCache alloc] initWithWorld:world];
     for (int i=0; i < [[stageEffectCache totalStageEffectType] capacity]; i++) {
         CCArray *stageEffectOfType = [[stageEffectCache totalStageEffectType] objectAtIndex:i];
-        for(int j=0; j<[stageEffectOfType capacity];j++){
+        for(int j=0; j<[stageEffectOfType count];j++){
             [sceneSpriteBatchNode addChild:[stageEffectOfType objectAtIndex:j] z:1000];
         }
     }
@@ -576,7 +576,7 @@
     
     for (int i = 0; i < [visibleStageEffect count]; i++) {
         VolcanoFireball *tempVolcanoFireball = [visibleStageEffect objectAtIndex:i];
-        tempVolcanoFireball.rockSpeed = 250 + [visibleMushrooms count] * 50;
+        tempVolcanoFireball.fireballSpeed = 250 + [visibleMushrooms count] * 50;
     }
     [stageEffectCache spawnStageEffectForBackgroundState:backgroundLayer.backgroundState atTime:dt atOffset:offset andScale:self.scale];
     
