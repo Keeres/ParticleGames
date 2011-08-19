@@ -28,7 +28,31 @@
         case LargePlatformD:
             platformFrameName = @"large_D.png";
             break;
-        case SmallPlatformA:
+        case VolcanoLargePlatformA:
+            platformFrameName = @"volcano_large_A.png";
+            break;
+        case VolcanoLargePlatformB:
+            platformFrameName = @"volcano_large_B.png";
+            break;
+        case VolcanoLargePlatformC:
+            platformFrameName = @"volcano_large_C.png";
+            break;
+        case VolcanoLargePlatformD:
+            platformFrameName = @"volcano_large_D.png";
+            break;
+        case BonusLargePlatformA:
+            platformFrameName = @"bonus_large_A.png";
+            break;
+        case BonusLargePlatformB:
+            platformFrameName = @"bonus_large_B.png";
+            break;
+        case BonusLargePlatformC:
+            platformFrameName = @"bonus_large_C.png";
+            break;
+        case BonusLargePlatformD:
+            platformFrameName = @"bonus_large_D.png";
+            break;
+        /*case SmallPlatformA:
             platformFrameName = @"small_A.png";
             break;
         case SmallPlatformB:
@@ -39,7 +63,7 @@
             break;
         case SmallPlatformD:
             platformFrameName = @"small_D.png";
-            break;
+            break;*/
             
         default:
             [NSException exceptionWithName:@"Platform Exception" reason:@"unhandled platform type" userInfo:nil];
