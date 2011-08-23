@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>redFlyingAnim</key>
+	<dict>
+		<key>delay</key>
+		<real>0.6</real>
+		<key>filenamePrefix</key>
+		<string>red_bee_flying_</string>
+		<key>animationFrames</key>
+		<string>1,2</string>
+	</dict>
+	<key>blueFlyingAnim</key>
+	<dict>
+		<key>delay</key>
+		<real>0.6</real>
+		<key>filenamePrefix</key>
+		<string>blue_bee_flying_</string>
+		<key>animationFrames</key>
+		<string>1,2</string>
+	</dict>
+</dict>
+</plist>
