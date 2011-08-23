@@ -43,7 +43,7 @@
             case LargePlatformD:
                 capacity = 20;
                 break;
-            case SmallPlatformA:
+            /*case SmallPlatformA:
                 capacity = 20;
                 break;
             case SmallPlatformB:
@@ -54,7 +54,7 @@
                 break;
             case SmallPlatformD:
                 capacity = 20;
-                break;
+                break;*/
                 
             default:
                 [NSException exceptionWithName:@"PlatformCache Exception" reason:@"unhandled platform type" userInfo:nil];
@@ -353,7 +353,7 @@
         winSize = [CCDirector sharedDirector].winSize;
         world = theWorld;
         self.scale = scale;
-        CCSpriteFrame *textureFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platform.png"];
+        CCSpriteFrame *textureFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"large_A.png"];
         batch = [CCSpriteBatchNode batchNodeWithTexture:textureFrame.texture];
         fromKeyPointI = 0;
         toKeyPointI = 0;
