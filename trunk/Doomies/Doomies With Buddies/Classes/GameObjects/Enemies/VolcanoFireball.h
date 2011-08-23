@@ -17,7 +17,7 @@
     BOOL hasLanded;
     BOOL isLanding;
     float landingOffset;
-    float rockSpeed;
+    float fireballSpeed;
 }
 
 @property BOOL hasLanded;
@@ -26,7 +26,7 @@
 @property BOOL isLanding;
 @property b2Body *rockSensorBody;
 //@property float rockOffset;
-@property float rockSpeed;
+@property float fireballSpeed;
 
 -(id) initWithWorld:(b2World *)world;
 

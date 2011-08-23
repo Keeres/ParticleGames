@@ -13,7 +13,7 @@
 
 @synthesize hasLanded;
 @synthesize isLanding;
-@synthesize rockSpeed;
+@synthesize fireballSpeed;
 @synthesize rockSensorBody;
 
 -(void) createSensorWithWorld:(b2World *)world{
@@ -92,7 +92,7 @@
         [self changeState:kStateFlying];
     else if(isLanding == TRUE){
         b2Vec2 rockPosition = self.body->GetPosition();
-        self.body->SetTransform(b2Vec2(rockPosition.x + rockSpeed*deltaTime/PTM_RATIO, rockPosition.y - 10.0f/PTM_RATIO), 0.0);
+        self.body->SetTransform(b2Vec2(rockPosition.x + fireballSpeed*deltaTime/PTM_RATIO, rockPosition.y - 10.0f/PTM_RATIO), 0.0);
         [self changeState:kStateLanding];
         
         //landing offset provides a smoother landing, matches falling speed until it is at a certain distance below platform then turns off all movements
@@ -108,7 +108,7 @@
     //CCLOG(@"time update");
        // [self changeState:kStateFlying];
         b2Vec2 rockPosition = self.body->GetPosition();
-        self.body->SetTransform(b2Vec2(rockPosition.x + rockSpeed*deltaTime/PTM_RATIO, rockPosition.y - 10/PTM_RATIO), 0.0);
+        self.body->SetTransform(b2Vec2(rockPosition.x + fireballSpeed*deltaTime/PTM_RATIO, rockPosition.y - 10/PTM_RATIO), 0.0);
     }
         
 }
