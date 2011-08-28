@@ -8,6 +8,7 @@
 #define kVikingMalletDamage 40
 #define kRadarDishTagValue 10
 
+
 #define kMainMenuTagValue 10
 #define kSceneMenuTagValue 20
 
@@ -29,7 +30,7 @@ typedef enum {
     kGroupMushroom = -1,
     kGroupEnemy = -2,
     kGroupGround = 1,
-    kGroupStageEffect = 2,
+    kGroupStageEffect = -3,
 } FilterValues;
 
 

@@ -19,6 +19,9 @@ typedef enum {
     kStateEating,
     kStateCramping,
     kStateBurning,
+    kStateRolling,
+    kStateFrozen,
+    kStateExplode,
 } CharacterStates;
 
 typedef enum {
@@ -46,21 +49,24 @@ typedef enum {
 } PlatformType;
 
 typedef enum{
-    kNormalType,
     kVolcanoType,
- //   kSnowEffects,
- //   kLightningEffects,
-    kBonusType,
+    kSnowType,
+  //  kStormType,
+    //kBonusType,
     kMaxStageEffectType,
+    kNormalType,
+    kRandomType,
 }StageEffectType;
 
 #pragma mark -
 #pragma mark volcano constants
 typedef enum {
+    kNormal,
     kVolcanoDormant,
     kVolcanoSmoke,
     kVolcanoLava,
     kVolcanoErupt,
+    kSnowFall,
 }BackgroundState;
 
 
