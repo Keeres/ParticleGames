@@ -12,6 +12,7 @@
 #import "Enemy.h"
 #import "CommonProtocols.h"
 #import "VolcanoFireball.h"
+#import "Snowball.h"
 
 @interface StageEffectCache : CCNode {
      CCArray *totalStageEffectType;

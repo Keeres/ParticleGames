@@ -14,7 +14,7 @@
 @synthesize hasLanded;
 @synthesize isLanding;
 @synthesize fireballSpeed;
-@synthesize rockSensorBody;
+@synthesize fireballSensorBody;
 
 -(void) createSensorWithWorld:(b2World *)world{
     b2BodyDef bodydef;
@@ -35,12 +35,12 @@
     fixtureDef.filter.groupIndex = kGroupStageEffect;
     fixtureDef.isSensor = true;
     
-    RockSensor = body->CreateFixture(&fixtureDef);
+    fireballSensor = body->CreateFixture(&fixtureDef);
     body->SetActive(NO);
 }
 
 -(void) spawn:(CGPoint)location{
-    CCLOG(@"rock spawned");
+    CCLOG(@"fireball spawned");
     self.visible = YES;
     self.hasLanded = FALSE;
     self.position = location;
@@ -86,7 +86,6 @@
 
 
 -(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
-    //   CGSize winSize = [CCDirector sharedDirector].winSize;
 
     if(self.characterState == kStateSpawning)
         [self changeState:kStateFlying];
@@ -105,8 +104,6 @@
         }
     }
     else if(self.characterState == kStateFlying){
-    //CCLOG(@"time update");
-       // [self changeState:kStateFlying];
         b2Vec2 rockPosition = self.body->GetPosition();
         self.body->SetTransform(b2Vec2(rockPosition.x + fireballSpeed*deltaTime/PTM_RATIO, rockPosition.y - 10/PTM_RATIO), 0.0);
     }
@@ -116,8 +113,6 @@
 -(id) initWithWorld:(b2World *)world {
     if((self=[super init])) {
        type = kVolcanoType;
-        
-     // [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"RockAirTemp.png"]];
         
         //place holder
          [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:  @"red_mushroom_jump_1.png"]];
@@ -140,4 +135,5 @@
 -(void) dealloc{
     [super dealloc];
 }
+
 @end

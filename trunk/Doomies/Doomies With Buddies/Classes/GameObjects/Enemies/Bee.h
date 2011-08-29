@@ -15,6 +15,7 @@
     BOOL isBurning;
     BOOL blueColor;
     BOOL onLeftSide;
+    BOOL isFrozen;
     
     CCAnimation *blueFlyAnim;
     CCAnimation *redFlyAnim;
@@ -24,6 +25,7 @@
 @property BOOL blueColor;
 @property BOOL onLeftSide;
 @property BOOL isBurning;
+@property BOOL isFrozen;
 
 @property (nonatomic, retain) CCAnimation *blueFlyAnim;
 @property (nonatomic, retain) CCAnimation *redFlyAnim;

@@ -16,6 +16,7 @@
 @synthesize blueFlyAnim;
 @synthesize redFlyAnim;
 @synthesize isBurning;
+@synthesize isFrozen;
 
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
@@ -87,6 +88,7 @@
     self.isHit = NO;
     self.visible = YES;
     self.isBurning = NO;
+    self.isFrozen = NO;
     self.characterState = kStateNone;
     [self changeState:kStateSpawning];
     body->SetActive(YES);
@@ -117,6 +119,18 @@
             
         case kStateBurning: {
             [self despawn];
+            break;
+        }
+            
+        case kStateFrozen: {
+           //insert frozen animation
+            self.body->SetLinearVelocity(b2Vec2(0, 0));
+
+               setBodyMask(self.body, kMaskStageEffect); 
+            CCMoveBy *moveBy = [CCMoveBy actionWithDuration:0.5 position:ccp(0, 100)];
+            self.body->ApplyForce(b2Vec2(0, 15), self.body->GetPosition());
+            
+            action = [CCSequence actions:moveBy, [CCCallFunc actionWithTarget:self selector:@selector(despawn)], nil];
             break;
         }
             
@@ -152,11 +166,15 @@
         [self changeState:kStateDead];
     }
     
-    if (self.isBurning) {
+    else if (self.isBurning) {
         [self changeState:kStateBurning];
     }
     
-    if (self.characterState != kStateDead) {
+    else if (self.isFrozen){
+        [self changeState:kStateFrozen];
+    }
+    
+    else if (self.characterState != kStateDead) {
         [self changeState:kStateFlying];
         b2Vec2 beePosition = self.body->GetPosition();
         if (onLeftSide) {
@@ -178,6 +196,7 @@
     self.visible = NO;
     self.isHit = NO;
     self.isBurning = NO;
+    self.isFrozen = NO;
     setBodyMask(self.body, kMaskEnemy);
 }
 

@@ -13,6 +13,7 @@
     
     BOOL isHit;
     BOOL isBurning;
+    BOOL isFrozen;
     BOOL blueColor;
     BOOL detectMushroom;
     
@@ -22,6 +23,7 @@
 
 @property BOOL isHit;
 @property BOOL isBurning;
+@property BOOL isFrozen;
 @property BOOL blueColor;
 @property BOOL detectMushroom;
 

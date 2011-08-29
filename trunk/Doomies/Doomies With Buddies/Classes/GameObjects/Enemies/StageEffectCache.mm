@@ -28,6 +28,9 @@
             case kVolcanoType:
                 capacity = 8;
                 break;
+            case kSnowType:
+                capacity = 8;
+                break;
             default:
                 [NSException exceptionWithName:@"StageEffectCache Exception" reason:@"unhandled stage effect" userInfo:nil];
                 break;
@@ -45,6 +48,11 @@
                 VolcanoFireball *volcanoFireball = [[[VolcanoFireball alloc] initWithWorld:theWorld] autorelease];
                 [stageEffectOfType addObject:volcanoFireball];      
             }
+        } else if (i == kSnowType){
+            for (int j = 0; j < numberStageEffectType; j++) {
+                Snowball *snowball = [[[Snowball alloc] initWithWorld:theWorld] autorelease];
+                [stageEffectOfType addObject:snowball];      
+            }  
         }
     }
 }
@@ -64,14 +72,31 @@
     }
 }
 
+-(void) chooseSnowEffect {
+    CCArray *stageEffectOfType = [totalStageEffectType objectAtIndex:kSnowType];
+    for (int i = 0; i < [stageEffectOfType capacity]; i++) {
+        Snowball *tempSnowball = [stageEffectOfType objectAtIndex:i];
+        
+        if (tempSnowball.visible == NO) {
+            CGPoint location;
+         //   CCLOG(@"offset %f", offset);
+        location = ccp(offset + winSize.width*1.5, winSize.height/2);  
+            [[stageEffectOfType objectAtIndex:i] spawn:location];
+            [visibleStageObjects addObject:tempSnowball];
+            return;
+        }
+    }
+}
+
 //Called by update method in gameActionLayer to spawn stage effect objects corresponding to backgroundState
 -(void) spawnStageEffectForBackgroundState:(int)Type atTime:(ccTime)dt atOffset:(float)newOffset andScale:(float)scale{
     randomOffset = (arc4random()%5)*50;
     self.scale = scale;
     int randomSpawn = random()%5;
-    
-    offset = newOffset + 300 + randomOffset;
+   
+ //   offset = newOffset + 300 + randomOffset;
     if (Type == kVolcanoErupt) {
+        offset = newOffset + 300 + randomOffset;
         float randomTime = arc4random() % 5 + 2;
         if (stageEffectTiming > randomTime) {
             if(randomSpawn != 0)
@@ -82,6 +107,22 @@
                 int randomStageEffect = arc4random() % 2;
                 if (randomStageEffect == 0) {
                     [self chooseVolcanoEffect];
+                }
+            }
+        }   
+        stageEffectTiming += dt;
+    } else if(Type == kSnowFall){
+         offset = newOffset;
+        float randomTime = arc4random() % 5 + 2;
+        if (stageEffectTiming > randomTime) {
+            if(randomSpawn != 0)
+                stageEffectTiming = 0.0;
+            else
+                stageEffectTiming -= 1;
+            if ([visibleStageObjects count] < 4) {
+                int randomStageEffect = arc4random() % 2;
+                if (randomStageEffect == 0) {
+                    [self chooseSnowEffect];
                 }
             }
         }   

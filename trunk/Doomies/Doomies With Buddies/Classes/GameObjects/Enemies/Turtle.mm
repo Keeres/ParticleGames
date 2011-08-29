@@ -12,6 +12,7 @@
 
 @synthesize isHit;
 @synthesize isBurning;
+@synthesize isFrozen;
 @synthesize blueColor;
 @synthesize detectMushroom;
 @synthesize blueWalkAnim;
@@ -107,7 +108,6 @@
                 action = [CCAnimate actionWithAnimation:redWalkAnim restoreOriginalFrame:NO];
             }
             break;
-            break;
             
         case kStateSpawning:
             break;
@@ -142,6 +142,18 @@
             break;
         }
             
+        case kStateFrozen: {
+            //insert frozen animation
+            self.body->SetLinearVelocity(b2Vec2(0, 0));
+
+            setBodyMask(self.body, kMaskStageEffect);
+            CCMoveBy *moveBy = [CCMoveBy actionWithDuration:0.5 position:ccp(0, 100)];
+            self.body->ApplyForce(b2Vec2(0,15), self.body->GetPosition());
+
+            action = [CCSequence actions:moveBy, [CCCallFunc actionWithTarget:self selector:@selector(despawn)], nil];
+            break;
+        }
+            
         case kStateDead:
             [self despawn];
             break;
@@ -164,8 +176,10 @@
         [self changeState:kStateBurning];
    // detectMushroom = FALSE;
     }
-    
-    if (self.isTouchingGround && !detectMushroom && self.characterState != kStateIdle) {
+   else if(self.isFrozen){
+       [self changeState:kStateFrozen];
+   }
+    else if (self.isTouchingGround && !detectMushroom && self.characterState != kStateIdle) {
         b2Vec2 turtlePos = self.body->GetPosition();
 
         if (self.flipX) {

@@ -17,6 +17,7 @@
 @synthesize redJumpAnim;
 @synthesize redLandAnim;
 @synthesize isBurning;
+@synthesize isFrozen;
 
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
@@ -69,8 +70,9 @@
         [self createBodyWithWorld:world];
         blueColor = YES;
         self.visible = NO;
-        isTouchingGround = NO;
-        isHit = NO;
+        self.isTouchingGround = NO;
+        self.isHit = NO;
+        self.isFrozen = NO;
         jumpTimer = 0.0;
         self.scale = 1;
         
@@ -141,6 +143,19 @@
             [self despawn];
            break;
         }
+          
+        case kStateFrozen: {
+            //insert frozen animation
+            self.body->SetLinearVelocity(b2Vec2(0, 0));
+
+                setBodyMask(self.body, kMaskStageEffect);
+            CCMoveBy *moveBy = [CCMoveBy actionWithDuration:0.5 position:ccp(0, 100)];
+            self.body->ApplyForce(b2Vec2(0,15), self.body->GetPosition());
+            
+            action = [CCSequence actions:moveBy, [CCCallFunc actionWithTarget:self selector:@selector(despawn)], nil];
+;
+            break;
+        }
             
         case kStateDead:
             [self despawn];
@@ -155,31 +170,39 @@
     }
 }
 
--(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {    
+-(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {  
+     jumpTimer += deltaTime;
     if (self.isHit) {
         [self changeState:kStateDead];
     }
     
-    if (self.isBurning){
+    else if (self.isBurning){
         [self changeState:kStateBurning];
     }
     
-    if (self.isTouchingGround) {
-        [self changeState:kStateLanding];
+    else if (self.isFrozen){
+        [self changeState:kStateFrozen];
     }
     
-    if (!self.isTouchingGround && self.characterState == kStateJumping) {
+    else if (self.isTouchingGround) {
+        [self changeState:kStateLanding];
+        if (jumpTimer > 1.0) {
+                self.body->ApplyLinearImpulse(b2Vec2(0.0,15.0/PTM_RATIO), self.body->GetPosition());
+                [self changeState:kStateJumping];
+            }
+    }
+    
+    else if (!self.isTouchingGround && self.characterState == kStateJumping) {
         b2Vec2 jumperPosition = self.body->GetPosition();
         self.body->SetTransform(b2Vec2(jumperPosition.x-50.0*deltaTime/PTM_RATIO, jumperPosition.y), 0.0);
     }
     
-    jumpTimer += deltaTime;
-    if (jumpTimer > 1.0) {
+  /* if (jumpTimer > 1.0) {
         if (self.isTouchingGround) {
             self.body->ApplyLinearImpulse(b2Vec2(0.0,15.0/PTM_RATIO), self.body->GetPosition());
             [self changeState:kStateJumping];
         }
-    }
+    }*/
 }
 
 -(void) despawn {
@@ -188,6 +211,7 @@
     self.visible = NO;
     self.isHit = NO;
     self.isBurning = NO;
+    self.isFrozen = NO;
     setBodyMask(self.body, kMaskEnemy);
 }
 

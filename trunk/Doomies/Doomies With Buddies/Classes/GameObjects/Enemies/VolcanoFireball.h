@@ -10,9 +10,8 @@
 #import "StageEffect.h"
 
 @interface VolcanoFireball : StageEffect {
-    b2Fixture *RockSensor;
-    b2Body *RockSensorBody;
-   // b2Fixture *RockSensorLand;
+    b2Fixture *fireballSensor;
+    b2Body *fireballSensorBody;
     
     BOOL hasLanded;
     BOOL isLanding;
@@ -21,11 +20,8 @@
 }
 
 @property BOOL hasLanded;
-//@property BOOL isHitLand;
-//@property BOOL isHitAir;
 @property BOOL isLanding;
-@property b2Body *rockSensorBody;
-//@property float rockOffset;
+@property b2Body *fireballSensorBody;
 @property float fireballSpeed;
 
 -(id) initWithWorld:(b2World *)world;
