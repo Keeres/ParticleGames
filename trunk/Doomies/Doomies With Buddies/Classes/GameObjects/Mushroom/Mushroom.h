@@ -29,6 +29,7 @@
     BOOL cramping;
     BOOL blueColor;
     BOOL hitByFireball;
+    BOOL hitBySnowball;
     
     float mushroomStartPositionX;
     float mushroomStartHeight;
@@ -67,6 +68,7 @@
 @property BOOL hitByJumper;
 @property BOOL hitEnemy;
 @property BOOL hitByFireball;
+@property BOOL hitBySnowball;
 @property BOOL eating;
 @property BOOL cramping;
 @property BOOL blueColor;

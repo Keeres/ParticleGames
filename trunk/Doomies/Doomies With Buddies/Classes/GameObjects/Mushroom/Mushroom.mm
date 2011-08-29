@@ -22,6 +22,7 @@
 @synthesize hitByJumper;
 @synthesize hitEnemy;
 @synthesize hitByFireball;
+@synthesize hitBySnowball;
 @synthesize eating;
 @synthesize cramping;
 @synthesize blueColor;
@@ -216,6 +217,8 @@
     body->SetActive(NO);
     self.visible = NO;
     self.hitByFireball = NO;
+    self.hitBySnowball = NO;
+    setBodyMask(self.body, kMaskMushroom);
 }
 
 -(void) changeState:(CharacterStates)newState {
@@ -368,12 +371,27 @@
             
         }
         case kStateBurning:{
+            self.body->SetLinearVelocity(b2Vec2(0, 0));
             CCAnimate *getHit = [CCAnimate actionWithAnimation:blueGetHitAnim restoreOriginalFrame:NO];
-            CCMoveBy *moveByAction = [CCMoveBy actionWithDuration:0.05f position:ccp(0.0f, 100.0f)];
-            action = [CCSequence actions:[CCSpawn actions:getHit, moveByAction,nil], [CCCallFunc actionWithTarget:self selector:@selector(despawn)], nil];
+            self.body->ApplyForce(b2Vec2(0,5), self.body->GetPosition());
+            action = [CCSequence actions:getHit, [CCCallFunc actionWithTarget:self selector:@selector(despawn)], nil];
             //play burning animation
             break;
     }
+            
+        case kStateFrozen: {
+            self.body->SetLinearVelocity(b2Vec2(0, 0));
+          setBodyMask(self.body, kMaskStageEffect);
+
+            CCAnimate *getHit = [CCAnimate actionWithAnimation:blueGetHitAnim restoreOriginalFrame:NO];
+            self.body->ApplyForce(b2Vec2(0,7), self.body->GetPosition());
+
+            action = [CCSequence actions:getHit, [CCCallFunc actionWithTarget:self selector:@selector(despawn)], nil];
+            //play frozen animation
+        
+            break;
+        }
+            
         case kStateDead:
             [self despawn];
             break;
@@ -392,7 +410,7 @@
         return;
     }
     
-    if (!self.hitPlatformSide && !self.hitByTurtle && !self.hitByBee && !self.hitByJumper && self.gameStarted && self.mushroomReady) {
+    if (!self.hitPlatformSide && !self.hitByTurtle && !self.hitByBee && !self.hitByJumper && !self.hitBySnowball && !self.hitByFireball && self.gameStarted && self.mushroomReady) {
         
         b2Vec2 mushroomVel = self.body->GetLinearVelocity();
         self.body->SetLinearVelocity(b2Vec2(speed/PTM_RATIO, mushroomVel.y));
