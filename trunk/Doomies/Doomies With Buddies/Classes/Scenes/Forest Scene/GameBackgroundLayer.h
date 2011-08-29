@@ -17,12 +17,21 @@
    
     BackgroundState backgroundState;
     StageEffectType stageEffectType;
+    
+    CCParticleSystem *snowEmitter;
+    float snowEmitterSpeed;
+    BOOL gameStarted;
 }
 
 @property BackgroundState backgroundState;
 @property StageEffectType stageEffectType;
+@property StageEffectType initialStageType;
+@property (retain) CCParticleSystem *snowEmitter;
+@property float snowEmitterSpeed;
+@property BOOL gameStarted;
 
 -(void) updateOffset:(float)offset;
 -(void) volcanoChangeState:(float)offset;
+- (id) initWithInitialStageType: (int) initialStage;
 
 @end

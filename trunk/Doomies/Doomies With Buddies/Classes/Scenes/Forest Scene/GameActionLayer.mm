@@ -137,6 +137,8 @@
 }
 
 - (void) resetGame {
+    CGSize screenSize = [CCDirector sharedDirector].winSize;
+
     for (int i = 0; i < [visibleMushrooms count]; i++) {
         Mushroom *tempMushroom = [visibleMushrooms objectAtIndex:i];
         [tempMushroom despawn];
@@ -175,7 +177,12 @@
     timePassed = 0.0;
     totalDistance = 0;
     
-    backgroundLayer.backgroundState = kVolcanoDormant;
+    if(backgroundLayer.stageEffectType == kVolcanoType)
+        backgroundLayer.backgroundState = kVolcanoDormant;
+    else if(backgroundLayer.stageEffectType == kSnowType){
+        [backgroundLayer.snowEmitter setPosition:ccp(screenSize.width*2, screenSize.height*1.5)];
+    }
+    
     [self spawnMushroomAtPoint:ccp(0, 0) isNewSpawn:YES];
 }
 
@@ -445,8 +452,7 @@
                         //Check if turtle and mushroom are same color - no new mushroom, knock turtle off platform
                         else if ((tempTurtle.blueColor == NO && tempMushroom.blueColor == NO) || 
                                  (tempTurtle.blueColor == YES && tempMushroom.blueColor == YES)) {
-                            setBodyMask(tempTurtle.body, 0);
-                               
+                           setBodyMask(tempTurtle.body, 0);                               
                         }
                     
                         //Check if turtle and mushroom hit each other and mushroom is in changing state - no new mushroom, kill turtle
@@ -527,6 +533,7 @@
                     }
                 }//end else if (tempEnemy.type == kJumperType)
                 
+                //Stage Effect Contact Conditions
                 for(int k=0 ; k < [visibleStageEffect count]; k++){
                     if (backgroundLayer.stageEffectType == kVolcanoType) {
                         VolcanoFireball *tempVolcanicFireball = [visibleStageEffect objectAtIndex:k];
@@ -542,8 +549,9 @@
                         if ((contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == tempMushroom.body) || 
                             (contact.fixtureA->GetBody() == tempMushroom.body && contact.fixtureB->GetBody() == tempVolcanicFireball.body)) {
                           
-                           // tempMushroom.hitByFireball = YES;
+                            tempMushroom.hitByFireball = YES;
                         }
+                        //detects contact between firball and enemies
                         if((contact.fixtureA->GetBody() == tempVolcanicFireball.body && contact.fixtureB->GetBody() == tempEnemy.body) || (contact.fixtureA->GetBody() == tempEnemy.body && contact.fixtureB->GetBody() == tempVolcanicFireball.body)){
                            
                             if (tempEnemy.type == kBeeType) {
@@ -554,8 +562,41 @@
                                 tempTurtle.isBurning = TRUE;
                             }
                         }
-                        //add detect contact with turtle, bee, and jumper
                     }//end if (backgroundLayer.stageEffectType == kVolcanoType)
+                    else if( backgroundLayer.stageEffectType == kSnowType){
+                        Snowball *tempSnowball = [visibleStageEffect objectAtIndex:k];
+                        //detects contact between snowall and mushroom
+                        if ((contact.fixtureA->GetBody() == tempSnowball.snowballSensor && contact.fixtureB->GetBody() == tempMushroom.body) || 
+                            (contact.fixtureA->GetBody() == tempMushroom.body && contact.fixtureB->GetBody() == tempSnowball.snowballSensor)){
+                            
+                            if(tempMushroom.characterState == kStateChange){
+                                setBodyMask(tempSnowball.body, 0);
+                                tempSnowball.isHit = TRUE;
+                            } else{
+                            tempMushroom.hitBySnowball = TRUE;
+                            ;
+                            [tempMushroom changeState:kStateFrozen]; 
+                            }
+                        }
+                        
+                        
+                        
+                         //detects contact between snowball and enemies
+                        if((contact.fixtureA->GetBody() == tempSnowball.snowballSensor && contact.fixtureB->GetBody() == tempEnemy.body) || (contact.fixtureA->GetBody() == tempEnemy.body && contact.fixtureB->GetBody() == tempSnowball.snowballSensor)){
+                            
+                            if (tempEnemy.type == kBeeType) {
+                                tempBee.isFrozen = TRUE;
+                               // [tempBee changeState:kStateFrozen];
+                            }
+                            else if (tempEnemy.type == kJumperType){
+                                tempJumper.isFrozen = TRUE;
+                            }else if (tempEnemy.type == kTurtleType){
+                                tempTurtle.isFrozen = TRUE;
+                              //  [tempTurtle changeState:kStateFrozen];
+                            }
+                        }
+
+                    }
                 }//end for k<[visibleStageEffect count]
             }//end for j < [visibleEnemies count]
         }//end for i < [visibleMushrooms count]
@@ -572,13 +613,22 @@
     /////////////////////
     //Stage Effect Update
     /////////////////////
-    // if(backgroundLayer.volcanoState == kVolcanoErupt)
-    
-    for (int i = 0; i < [visibleStageEffect count]; i++) {
+  //  CCLOG(@"background state, %i", backgroundLayer.backgroundState);
+     if(backgroundLayer.backgroundState == kVolcanoErupt){
+         for (int i = 0; i < [visibleStageEffect count]; i++) {
         VolcanoFireball *tempVolcanoFireball = [visibleStageEffect objectAtIndex:i];
         tempVolcanoFireball.fireballSpeed = 250 + [visibleMushrooms count] * 50;
-    }
+         }
+     
     [stageEffectCache spawnStageEffectForBackgroundState:backgroundLayer.backgroundState atTime:dt atOffset:offset andScale:self.scale];
+     } else if (backgroundLayer.backgroundState == kSnowFall){
+         backgroundLayer.snowEmitterSpeed = previousOffset - offset;
+        [stageEffectCache spawnStageEffectForBackgroundState:backgroundLayer.backgroundState atTime:dt atOffset:offset andScale:self.scale];
+         if ([visibleMushrooms count] == 0) {
+             backgroundLayer.snowEmitterSpeed = 0;
+         }
+         
+     }
     
     ///////////////////////////
     //Platform Update
@@ -635,6 +685,7 @@
             for (int i = 0; i < [totalMushrooms count]; i++) {
                 Mushroom *tempMushroom = [totalMushrooms objectAtIndex:i];
                 tempMushroom.gameStarted = YES;
+                backgroundLayer.gameStarted = YES;
             }
         }
     }

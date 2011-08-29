@@ -11,10 +11,14 @@
 #import "GameUILayer.h"
 #import "GameBackgroundLayer.h"
 #import "GameActionLayer.h"
+//#import "TempMenuLayer.h"
 
 @interface GameScene : CCScene {
     GameUILayer *uiLayer;
     GameBackgroundLayer *backgroundLayer;
+        
+    CCMenu *tempMainMenu;
+    int initialStageType;
 }
 
 @end
