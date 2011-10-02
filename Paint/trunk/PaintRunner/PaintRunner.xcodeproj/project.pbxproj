@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B6281D92142D77C7008A1DAB /* Box2DHelpers.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6281D8C142D77C7008A1DAB /* Box2DHelpers.mm */; };
-		B6281D93142D77C7008A1DAB /* Box2DSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6281D8E142D77C7008A1DAB /* Box2DSprite.mm */; };
-		B6281D94142D77C7008A1DAB /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6281D90142D77C7008A1DAB /* MyContactListener.mm */; };
 		B6281D9D142D7C6D008A1DAB /* GameCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = B6281D99142D7C6D008A1DAB /* GameCharacter.m */; };
 		B6281D9E142D7C6D008A1DAB /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B6281D9A142D7C6D008A1DAB /* GameObject.m */; };
 		B6281DB0142D930E008A1DAB /* game1atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = B6281DAC142D930E008A1DAB /* game1atlas.png */; };
 		B6281DB1142D930E008A1DAB /* game1atlas-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6281DAD142D930E008A1DAB /* game1atlas-hd.png */; };
 		B6281DB2142D930E008A1DAB /* game1atlas.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6281DAE142D930E008A1DAB /* game1atlas.plist */; };
 		B6281DB3142D930E008A1DAB /* game1atlas-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6281DAF142D930E008A1DAB /* game1atlas-hd.plist */; };
+		B68CF3B01437E79600EB6516 /* Box2DHelpers.mm in Sources */ = {isa = PBXBuildFile; fileRef = B68CF3A91437E79600EB6516 /* Box2DHelpers.mm */; };
+		B68CF3B11437E79600EB6516 /* Box2DSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = B68CF3AA1437E79600EB6516 /* Box2DSprite.mm */; };
+		B68CF3B21437E79600EB6516 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = B68CF3AB1437E79600EB6516 /* MyContactListener.mm */; };
 		B697ABA7142A6EFA00E4FE3B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B697ABA6142A6EFA00E4FE3B /* QuartzCore.framework */; };
 		B697ABA9142A6EFA00E4FE3B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B697ABA8142A6EFA00E4FE3B /* OpenGLES.framework */; };
 		B697ABAB142A6EFA00E4FE3B /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B697ABAA142A6EFA00E4FE3B /* OpenAL.framework */; };
@@ -182,15 +182,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B6281D8B142D77C7008A1DAB /* Box2DHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DHelpers.h; sourceTree = "<group>"; };
-		B6281D8C142D77C7008A1DAB /* Box2DHelpers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Box2DHelpers.mm; sourceTree = "<group>"; };
-		B6281D8D142D77C7008A1DAB /* Box2DSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DSprite.h; sourceTree = "<group>"; };
-		B6281D8E142D77C7008A1DAB /* Box2DSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Box2DSprite.mm; sourceTree = "<group>"; };
-		B6281D8F142D77C7008A1DAB /* MyContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContactListener.h; sourceTree = "<group>"; };
-		B6281D90142D77C7008A1DAB /* MyContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyContactListener.mm; sourceTree = "<group>"; };
-		B6281D91142D77C7008A1DAB /* SimpleQueryCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleQueryCallback.h; sourceTree = "<group>"; };
-		B6281D97142D7B89008A1DAB /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
-		B6281D98142D7B89008A1DAB /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B6281D99142D7C6D008A1DAB /* GameCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameCharacter.m; path = GameObjects/GameCharacter.m; sourceTree = "<group>"; };
 		B6281D9A142D7C6D008A1DAB /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameObject.m; path = GameObjects/GameObject.m; sourceTree = "<group>"; };
 		B6281D9B142D7C6D008A1DAB /* GameCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameCharacter.h; path = GameObjects/GameCharacter.h; sourceTree = "<group>"; };
@@ -199,6 +190,15 @@
 		B6281DAD142D930E008A1DAB /* game1atlas-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "game1atlas-hd.png"; path = "Images/game1atlas-hd.png"; sourceTree = "<group>"; };
 		B6281DAE142D930E008A1DAB /* game1atlas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = game1atlas.plist; path = Images/game1atlas.plist; sourceTree = "<group>"; };
 		B6281DAF142D930E008A1DAB /* game1atlas-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "game1atlas-hd.plist"; path = "Images/game1atlas-hd.plist"; sourceTree = "<group>"; };
+		B68CF39A1437E77E00EB6516 /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
+		B68CF39B1437E77E00EB6516 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		B68CF3A91437E79600EB6516 /* Box2DHelpers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Box2DHelpers.mm; sourceTree = "<group>"; };
+		B68CF3AA1437E79600EB6516 /* Box2DSprite.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Box2DSprite.mm; sourceTree = "<group>"; };
+		B68CF3AB1437E79600EB6516 /* MyContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyContactListener.mm; sourceTree = "<group>"; };
+		B68CF3AC1437E79600EB6516 /* Box2DHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DHelpers.h; sourceTree = "<group>"; };
+		B68CF3AD1437E79600EB6516 /* Box2DSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DSprite.h; sourceTree = "<group>"; };
+		B68CF3AE1437E79600EB6516 /* MyContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyContactListener.h; sourceTree = "<group>"; };
+		B68CF3AF1437E79600EB6516 /* SimpleQueryCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleQueryCallback.h; sourceTree = "<group>"; };
 		B697ABA2142A6EFA00E4FE3B /* PaintRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaintRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B697ABA6142A6EFA00E4FE3B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B697ABA8142A6EFA00E4FE3B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -550,29 +550,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B6281D8A142D77C7008A1DAB /* Box2D */ = {
-			isa = PBXGroup;
-			children = (
-				B6281D8B142D77C7008A1DAB /* Box2DHelpers.h */,
-				B6281D8C142D77C7008A1DAB /* Box2DHelpers.mm */,
-				B6281D8D142D77C7008A1DAB /* Box2DSprite.h */,
-				B6281D8E142D77C7008A1DAB /* Box2DSprite.mm */,
-				B6281D8F142D77C7008A1DAB /* MyContactListener.h */,
-				B6281D90142D77C7008A1DAB /* MyContactListener.mm */,
-				B6281D91142D77C7008A1DAB /* SimpleQueryCallback.h */,
-			);
-			path = Box2D;
-			sourceTree = "<group>";
-		};
-		B6281D96142D7B89008A1DAB /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				B6281D97142D7B89008A1DAB /* CommonProtocols.h */,
-				B6281D98142D7B89008A1DAB /* Constants.h */,
-			);
-			path = Constants;
-			sourceTree = "<group>";
-		};
 		B6281D9F142D85EF008A1DAB /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,6 +562,29 @@
 				B6281DAF142D930E008A1DAB /* game1atlas-hd.plist */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		B68CF3911437E77E00EB6516 /* Box2D */ = {
+			isa = PBXGroup;
+			children = (
+				B68CF3A91437E79600EB6516 /* Box2DHelpers.mm */,
+				B68CF3AA1437E79600EB6516 /* Box2DSprite.mm */,
+				B68CF3AB1437E79600EB6516 /* MyContactListener.mm */,
+				B68CF3AC1437E79600EB6516 /* Box2DHelpers.h */,
+				B68CF3AD1437E79600EB6516 /* Box2DSprite.h */,
+				B68CF3AE1437E79600EB6516 /* MyContactListener.h */,
+				B68CF3AF1437E79600EB6516 /* SimpleQueryCallback.h */,
+			);
+			path = Box2D;
+			sourceTree = "<group>";
+		};
+		B68CF3991437E77E00EB6516 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				B68CF39A1437E77E00EB6516 /* CommonProtocols.h */,
+				B68CF39B1437E77E00EB6516 /* Constants.h */,
+			);
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		B697AB97142A6EF900E4FE3B = {
@@ -623,8 +623,6 @@
 			isa = PBXGroup;
 			children = (
 				B6281D9F142D85EF008A1DAB /* Images */,
-				B6281D8A142D77C7008A1DAB /* Box2D */,
-				B6281D96142D7B89008A1DAB /* Constants */,
 				B697AD9C142A752900E4FE3B /* GameObjects */,
 				B697AD8F142A6FA100E4FE3B /* Scene */,
 				B697AD7B142A6EFE00E4FE3B /* AppDelegate.h */,
@@ -1117,6 +1115,8 @@
 		B697AD9C142A752900E4FE3B /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
+				B68CF3911437E77E00EB6516 /* Box2D */,
+				B68CF3991437E77E00EB6516 /* Constants */,
 				B6A329851434CF500058415A /* Collectables */,
 				B6C75D1D1432554900C5DD47 /* Platforms */,
 				B697AD9D142A754800E4FE3B /* Player.h */,
@@ -1366,15 +1366,15 @@
 				B697AD98142A705200E4FE3B /* GameActionLayer.mm in Sources */,
 				B697AD9B142A706100E4FE3B /* GameUILayer.mm in Sources */,
 				B697AD9F142A754800E4FE3B /* Player.mm in Sources */,
-				B6281D92142D77C7008A1DAB /* Box2DHelpers.mm in Sources */,
-				B6281D93142D77C7008A1DAB /* Box2DSprite.mm in Sources */,
-				B6281D94142D77C7008A1DAB /* MyContactListener.mm in Sources */,
 				B6281D9D142D7C6D008A1DAB /* GameCharacter.m in Sources */,
 				B6281D9E142D7C6D008A1DAB /* GameObject.m in Sources */,
 				B6C75D211432556800C5DD47 /* Platform.mm in Sources */,
 				B6BCB7151433A656009792B7 /* PlatformCache.mm in Sources */,
 				B6A329891434CF7C0058415A /* PaintChip.mm in Sources */,
 				B6A3298C1434CF960058415A /* PaintChipCache.mm in Sources */,
+				B68CF3B01437E79600EB6516 /* Box2DHelpers.mm in Sources */,
+				B68CF3B11437E79600EB6516 /* Box2DSprite.mm in Sources */,
+				B68CF3B21437E79600EB6516 /* MyContactListener.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

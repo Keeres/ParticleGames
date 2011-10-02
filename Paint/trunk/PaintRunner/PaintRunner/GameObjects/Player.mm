@@ -76,6 +76,9 @@
 -(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
     previousPosition = openGLPosition;
     openGLPosition = [[CCDirector sharedDirector] convertToGL:self.position];
+    
+    //b2Vec2 bodyVel = self.body->GetLinearVelocity();
+    //self.body->SetLinearVelocity(b2Vec2(50.0/PTM_RATIO, bodyVel.y));
 
     //rotate player while moving
     /*static float degree = 0;

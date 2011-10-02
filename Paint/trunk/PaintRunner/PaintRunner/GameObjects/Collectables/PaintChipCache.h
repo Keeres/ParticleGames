@@ -26,5 +26,7 @@
 
 -(id) initWithWorld:(b2World*)theWorld;
 -(void) addPaintChips;
+-(void) updatePaintChipsWithTime:(ccTime)dt andSpeed:(float)speed;
+-(void) cleanPaintChips;
 
 @end

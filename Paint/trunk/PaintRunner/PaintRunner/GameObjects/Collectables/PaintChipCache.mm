@@ -37,13 +37,14 @@
 }
 
 -(void) addPaintChips {
-    static int count = 3;
+    //static int count = 3;
+    int count = (arc4random() % 5) + 3;
     for (int i = 0; i < count; i++) {
         for (int j = 0; j < [totalPaintChips count]; j++) {
             PaintChip *tempPC = [totalPaintChips objectAtIndex:j];
             
             if (tempPC.visible == NO) {
-                CGPoint location = ccp((winSize.width/2)+(30*i), (winSize.height/4));
+            CGPoint location = ccp((winSize.width)+(15*i), (winSize.height/4));
                 tempPC.position = location;
                 tempPC.visible = YES;
                 tempPC.body->SetActive(YES);
@@ -55,10 +56,25 @@
     }
 }
 
+-(void) updatePaintChipsWithTime:(ccTime)dt andSpeed:(float)speed {
+    for (int i = 0; i < [visiblePaintChips count]; i++) {
+        PaintChip *tempPC = [visiblePaintChips objectAtIndex:i];
+        b2Vec2 bodyPos = tempPC.body->GetPosition();
+        tempPC.body->SetTransform(b2Vec2(bodyPos.x-speed*dt/PTM_RATIO,bodyPos.y), 0.0);
+    }
+    [self cleanPaintChips];
+}
+
 -(void) cleanPaintChips {
     for (int i = 0; i < [visiblePaintChips count]; i++) {
         PaintChip *tempPC = [visiblePaintChips objectAtIndex:i];
         if (tempPC.visible == NO) {
+            [tempPC despawn];
+            [visiblePaintChips removeObject:tempPC];
+        }
+        
+        if (tempPC.position.x < 0) {
+            [tempPC despawn];
             [visiblePaintChips removeObject:tempPC];
         }
     }

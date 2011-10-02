@@ -21,5 +21,6 @@
 @property BOOL isHit;
 
 -(id) initWithWorld:(b2World*)world;
+-(void) despawn;
 
 @end

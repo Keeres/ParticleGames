@@ -97,7 +97,8 @@
         playerStartJump = NO;
         playerEndJump = NO;
         screenOffset = 0.0;
-        PIXELS_PER_SECOND = 200.0;
+        timePassed = 0.0;
+        PIXELS_PER_SECOND = 50.0;
 
         
         /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -119,9 +120,7 @@
         [self createPlayer];
         [self createPlatforms];
         [self createPaintChips];
-        
-        [paintChipCache addPaintChips];
-        
+                
         //Create contact listener
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
@@ -225,6 +224,14 @@
     }
 }
 
+-(void) paintChipControl:(ccTime)dt {
+    timePassed += dt;
+    if (timePassed > 3) {
+        [paintChipCache addPaintChips];
+        timePassed = 0.0;
+    }
+}
+
 -(void) updateStatesOfObjects:(ccTime)dt {
     //////////////////////////////
     //Update states of all objects
@@ -252,8 +259,12 @@
     [self physicsSimulation:dt];
     [self detectContacts:dt];
     [self playerJumpBuffer];
+    
+    [self paintChipControl:dt];
+    
     [self updateStatesOfObjects:dt];
     [self updateBackgroundState:dt];
+    [paintChipCache updatePaintChipsWithTime:dt andSpeed:PIXELS_PER_SECOND];
 }
 
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -294,6 +305,9 @@
     }
     
     [player release];
+    [platformCache release];
+    [paintChipCache release];
+    [sceneSpriteBatchNode release];
     [super dealloc];
 }
 

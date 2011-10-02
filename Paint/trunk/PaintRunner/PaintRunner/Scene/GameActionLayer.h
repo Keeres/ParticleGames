@@ -36,6 +36,7 @@
     BOOL playerStartJump;
     BOOL playerEndJump;
     float screenOffset;
+    float timePassed;
     float PIXELS_PER_SECOND;
     
     //Layers

@@ -61,6 +61,12 @@
     }
 }
 
+-(void) despawn {
+    self.visible = NO;
+    self.isHit = NO;
+    self.body->SetActive(NO);
+}
+
 -(void) dealloc {
     [super dealloc];
 }
