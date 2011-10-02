@@ -73,7 +73,7 @@
     return self;
 }
 
--(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {
+-(void)updateStateWithDeltaTime:(ccTime)deltaTime {
     previousPosition = openGLPosition;
     openGLPosition = [[CCDirector sharedDirector] convertToGL:self.position];
     

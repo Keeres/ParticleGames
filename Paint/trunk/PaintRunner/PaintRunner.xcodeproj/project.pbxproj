@@ -569,10 +569,10 @@
 			children = (
 				B68CF3A91437E79600EB6516 /* Box2DHelpers.mm */,
 				B68CF3AA1437E79600EB6516 /* Box2DSprite.mm */,
-				B68CF3AB1437E79600EB6516 /* MyContactListener.mm */,
 				B68CF3AC1437E79600EB6516 /* Box2DHelpers.h */,
 				B68CF3AD1437E79600EB6516 /* Box2DSprite.h */,
 				B68CF3AE1437E79600EB6516 /* MyContactListener.h */,
+				B68CF3AB1437E79600EB6516 /* MyContactListener.mm */,
 				B68CF3AF1437E79600EB6516 /* SimpleQueryCallback.h */,
 			);
 			path = Box2D;
@@ -581,8 +581,8 @@
 		B68CF3991437E77E00EB6516 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				B68CF39A1437E77E00EB6516 /* CommonProtocols.h */,
 				B68CF39B1437E77E00EB6516 /* Constants.h */,
+				B68CF39A1437E77E00EB6516 /* CommonProtocols.h */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -1122,8 +1122,8 @@
 				B697AD9D142A754800E4FE3B /* Player.h */,
 				B697AD9E142A754800E4FE3B /* Player.mm */,
 				B6281D99142D7C6D008A1DAB /* GameCharacter.m */,
-				B6281D9A142D7C6D008A1DAB /* GameObject.m */,
 				B6281D9B142D7C6D008A1DAB /* GameCharacter.h */,
+				B6281D9A142D7C6D008A1DAB /* GameObject.m */,
 				B6281D9C142D7C6D008A1DAB /* GameObject.h */,
 			);
 			name = GameObjects;

@@ -98,7 +98,7 @@
         playerEndJump = NO;
         screenOffset = 0.0;
         timePassed = 0.0;
-        PIXELS_PER_SECOND = 50.0;
+        PIXELS_PER_SECOND = 200.0;
 
         
         /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -115,7 +115,7 @@
         
         //Create world and objects
         [self setupWorld];
-        [self setupDebugDraw];
+        //[self setupDebugDraw];
         [self createGround];
         [self createPlayer];
         [self createPlatforms];
@@ -190,6 +190,7 @@
         if ((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == player.body) || 
             (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == groundBody)) {
             player.isTouchingGround = YES;
+            player.doubleJumpAvailable = YES;
         }
         
         
@@ -238,7 +239,7 @@
     //////////////////////////////
     CCArray *listOfGameObjects = [sceneSpriteBatchNode children];
     for (GameCharacter *tempChar in listOfGameObjects) {
-        [tempChar updateStateWithDeltaTime:dt andListOfGameObjects:listOfGameObjects];
+        [tempChar updateStateWithDeltaTime:dt];
     }
 }
 

@@ -23,7 +23,7 @@
 
 }
 
-@property (nonatomic, retain) CCSprite *background;
+@property (nonatomic,retain) CCSprite *background;
 @property (nonatomic,retain) CCRenderTexture *renderTexture;
 @property (nonatomic,retain) CCSprite* brush;
 @property ccColor3B baseBrushColor;

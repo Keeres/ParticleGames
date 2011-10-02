@@ -54,7 +54,7 @@
     return self;
 }
 
--(void) updateStateWithDeltaTime:(ccTime)deltaTime andListOfGameObjects:(CCArray *)listOfGameObjects {    
+-(void) updateStateWithDeltaTime:(ccTime)deltaTime {    
     if (self.isHit) {
         self.visible = NO;
         self.body->SetActive(NO);
