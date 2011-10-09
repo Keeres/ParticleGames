@@ -22,6 +22,7 @@
     CGPoint previousPosition;
     BOOL isJumping;
     BOOL doubleJumpAvailable;
+    BOOL hitObstacle;
     float basePlayerScale;
     float previousPlayerScale;
     float jumpTime;
@@ -31,6 +32,7 @@
 @property CGPoint previousPosition;
 @property BOOL isJumping;
 @property BOOL doubleJumpAvailable;
+@property BOOL hitObstacle;
 @property float basePlayerScale;
 @property float jumpTime;
 

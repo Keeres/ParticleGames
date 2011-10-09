@@ -42,6 +42,32 @@
     //Layers
     GameUILayer *uiLayer;
     GameBackgroundLayer *backgroundLayer;
+    
+    //obstacle variables
+    CGSize pixelWinSize;
+    b2Body *obstacleTopBody;
+    b2Body *obstacleBottomBody;
+    b2Body *obstacleSideBody;
+    float obstacleTimePassed;
+    float airObstacleTimePassed;
+    int obstacleSpawnTimer;
+    int airObstacleSpawnTimer;
+    BOOL spawnObstacle;
+    BOOL spawnAirObstacle;
+    
+    NSMutableArray *obstacleCentersX;
+    NSMutableArray *obstacleCentersY;
+    NSMutableArray *obstacleWidths;
+    NSMutableArray *obstacleHeights;
+    CGPoint obstacleCenter;
+    CGPoint obstacleVertices[100];
+    CGPoint obstacleBox2dVertices[100];
+    ccColor4F obstacleColor[100];
+    
+    int obstacleCount;
+    int nObstalceBox2dVertices;
+    int nObstalceVertices;
+    double PTP_Ratio;  //pixel to point ratio
 }
 
 @property (nonatomic, readwrite) MyContactListener *contactListener;

@@ -16,6 +16,7 @@
 @synthesize doubleJumpAvailable;
 @synthesize basePlayerScale;
 @synthesize jumpTime;
+@synthesize hitObstacle;
 
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
@@ -83,12 +84,15 @@
     //rotate player while moving
     /*static float degree = 0;
     degree += 270*deltaTime;
-    if (degree > 360) {
-        degree = 0;
+     if (degree > 360) {
+     degree = 0;
+     }
+     self.rotation += degree;*/
+    if (hitObstacle) {
+        //placeholder
+      //  CCLOG(@"hit obstacle");
     }
-    self.rotation += degree;*/
-    
-    if (isJumping) {
+    else if (isJumping) {
         jumpTime += deltaTime;
         self.body->ApplyForce(b2Vec2(0.0, 5.0/PTM_RATIO), self.body->GetPosition());
         b2Vec2 velocity = self.body->GetLinearVelocity();
@@ -96,18 +100,18 @@
             self.body->SetLinearVelocity(b2Vec2(velocity.x, 5.0));
         }
         if (jumpTime > 0.20) {
-           isJumping = NO;
+            isJumping = NO;
         }
     }
     
-    if (previousPosition.y > openGLPosition.y) {
+    else if (previousPosition.y > openGLPosition.y) {
         float playerScale = (previousPosition.y - openGLPosition.y)/100.0;
         if (basePlayerScale < 1) {
             basePlayerScale = basePlayerScale + playerScale;
         }
     }
     
-    if (previousPosition.y < openGLPosition.y) {
+    else  if (previousPosition.y < openGLPosition.y) {
         float playerScale = (previousPosition.y - openGLPosition.y)/100.0;
         if (basePlayerScale > 0.35) {
             basePlayerScale = basePlayerScale + playerScale;
@@ -115,7 +119,7 @@
     }
     
     previousPlayerScale = basePlayerScale;
-
+    
 }
 
 -(void) dealloc {
