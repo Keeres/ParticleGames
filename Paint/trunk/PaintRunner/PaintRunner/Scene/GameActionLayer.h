@@ -35,9 +35,12 @@
     int jumpBufferCount;
     BOOL playerStartJump;
     BOOL playerEndJump;
+    BOOL levelMovingRight;
     float screenOffset;
-    float timePassed;
+    float levelTimePassed;
+    float paintTimePassed;
     float PIXELS_PER_SECOND;
+    float MAX_PIXELS_PER_SECOND;
     
     //Layers
     GameUILayer *uiLayer;

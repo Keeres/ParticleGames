@@ -126,9 +126,9 @@
     glDisableClientState(GL_COLOR_ARRAY);
 
     //begin drawing obstacle
-    glColor4f(1.0, 1.0, 1.0, 1.0);
-    glVertexPointer(2, GL_FLOAT, 0, obstacleVertices);
-    glDrawArrays(GL_TRIANGLES, 0, nObstalceVertices);
+    //glColor4f(1.0, 1.0, 1.0, 1.0);
+    //glVertexPointer(2, GL_FLOAT, 0, obstacleVertices);
+    //glDrawArrays(GL_TRIANGLES, 0, nObstalceVertices);
     //end drawing obstacle
 
     world->DrawDebugData();
@@ -240,12 +240,12 @@
     groundFixtureDef.density = 0.0;
     groundShape.SetAsEdge(lowerLeft, lowerRight);
     groundBody->CreateFixture(&groundFixtureDef);
-    groundShape.SetAsEdge(lowerRight, upperRight);
-    groundBody->CreateFixture(&groundFixtureDef);
-    groundShape.SetAsEdge(upperRight, upperLeft);
-    groundBody->CreateFixture(&groundFixtureDef);
-    groundShape.SetAsEdge(upperLeft, lowerLeft);
-    groundBody->CreateFixture(&groundFixtureDef);
+    //groundShape.SetAsEdge(lowerRight, upperRight);
+    //groundBody->CreateFixture(&groundFixtureDef);
+    //groundShape.SetAsEdge(upperRight, upperLeft);
+    //groundBody->CreateFixture(&groundFixtureDef);
+    //groundShape.SetAsEdge(upperLeft, lowerLeft);
+    //groundBody->CreateFixture(&groundFixtureDef);
 }
 
 -(void) createPlayer {
@@ -280,10 +280,13 @@
         jumpBufferCount = 0;
         playerStartJump = NO;
         playerEndJump = NO;
+        levelMovingRight = YES;
         screenOffset = 0.0;
-        timePassed = 0.0;
-        PIXELS_PER_SECOND = 200.0;
-
+        levelTimePassed = 0.0;
+        paintTimePassed = 0.0;
+        PIXELS_PER_SECOND = 0.0;
+        MAX_PIXELS_PER_SECOND = 200.0;
+        
         //For obstacle drawing
         //determines screen size in pixels
         pixelWinSize = [[[UIScreen mainScreen] currentMode] size];
@@ -317,7 +320,7 @@
         
         //Create world and objects
         [self setupWorld];
-      //  [self setupDebugDraw];
+        [self setupDebugDraw];
         [self createGround];
         [self createPlayer];
         [self createPlatforms];
@@ -337,11 +340,51 @@
     //////////////////////////////////
     //Calculate offset to shift screen
     //////////////////////////////////
+    levelTimePassed += dt;
+    
+    if (levelTimePassed > 20.0) {
+        levelTimePassed = 0;
+        
+        if (levelMovingRight) {
+            levelMovingRight = NO;
+            if (MAX_PIXELS_PER_SECOND < 500.0) {
+                MAX_PIXELS_PER_SECOND = (MAX_PIXELS_PER_SECOND + 50) * -1;
+            }
+        } else {
+            levelMovingRight = YES;
+            if (MAX_PIXELS_PER_SECOND > -500.0) {
+                MAX_PIXELS_PER_SECOND = (MAX_PIXELS_PER_SECOND * -1) + 50;
+            }
+        }
+    }
+    
+    if (levelMovingRight) {
+        if (PIXELS_PER_SECOND < MAX_PIXELS_PER_SECOND) {
+            float change = MAX_PIXELS_PER_SECOND/5;
+            PIXELS_PER_SECOND += change*dt;
+        }
+    } else {
+        if (PIXELS_PER_SECOND > MAX_PIXELS_PER_SECOND) {
+            float change = MAX_PIXELS_PER_SECOND/5;
+            //PIXELS_PER_SECOND -= 50.0*dt;
+            PIXELS_PER_SECOND += change*dt;
+        }
+    }
+    
     screenOffset += PIXELS_PER_SECOND * dt;
     float backgroundWidth = [backgroundLayer background].contentSize.width;
     if(screenOffset >= backgroundWidth) {
         screenOffset = screenOffset - backgroundWidth;
     }
+    
+    //Comment top part out for one way scrolling
+    //Uncomment bottom part as well
+    /*PIXELS_PER_SECOND = 200.0;
+    screenOffset += PIXELS_PER_SECOND * dt;
+    float backgroundWidth = [backgroundLayer background].contentSize.width;
+    if(screenOffset >= backgroundWidth) {
+        screenOffset = screenOffset - backgroundWidth;
+    }*/
 }
 
 -(void) physicsSimulation:(ccTime)dt {
@@ -405,14 +448,14 @@
             }
         }
         
-        //Check if player has touched the top of the obstacle 
+        //Check if player has touched the top of the obstacle
         if ((contact.fixtureA->GetBody() == obstacleTopBody && contact.fixtureB->GetBody() == player.body) || 
             (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == obstacleTopBody)) {
             player.isTouchingGround = YES;
             player.doubleJumpAvailable = YES;
         }
         
-         //Checks for contact between player and side face of obstacle
+        //Checks for contact between player and side face of obstacle
         for (int i=0; i<obstacleCount; i++) {
             if ((contact.fixtureA->GetBody() == obstacleSideBody && contact.fixtureB->GetBody() == player.body) || 
                 (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == obstacleSideBody)) {
@@ -442,10 +485,10 @@
 }
 
 -(void) paintChipControl:(ccTime)dt {
-    timePassed += dt;
-    if (timePassed > 3) {
+    paintTimePassed += dt;
+    if (paintTimePassed > 3) {
         [paintChipCache addPaintChips];
-        timePassed = 0.0;
+        paintTimePassed = 0.0;
     }
 }
 
@@ -476,12 +519,12 @@
     [self physicsSimulation:dt];
     [self detectContacts:dt];
     [self playerJumpBuffer];
-    
     [self paintChipControl:dt];
     [self createObstacleBody];
     
     [self updateStatesOfObjects:dt];
     [self updateBackgroundState:dt];
+    [player updateStateWithDeltaTime:dt andSpeed:PIXELS_PER_SECOND];
     [paintChipCache updatePaintChipsWithTime:dt andSpeed:PIXELS_PER_SECOND];
     
     //obstacle updates
@@ -489,19 +532,55 @@
     [self updateObstacleVerticesWithTime:dt andSpeed:PIXELS_PER_SECOND];
 }
 
+-(BOOL) isTouchingLeftSide:(CGPoint)touchLocation {
+    CGRect leftBox = CGRectMake(0,0,winSize.width/2, winSize.height);
+    return CGRectContainsPoint(leftBox, touchLocation);
+}
+
+/*-(BOOL) isTouchingRightSide:(CGPoint)touchLocation {
+    CGRect rightBox = CGRectMake(winSize.width/2,0,winSize.width/2, winSize.height);
+    return CGRectContainsPoint(rightBox, touchLocation);
+}*/
+
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (player.isTouchingGround || player.doubleJumpAvailable) {
-        if (player.doubleJumpAvailable == NO) {
-            player.doubleJumpAvailable = YES;
+    for( UITouch *touch in touches ) {
+        CGPoint location = [touch locationInView:[touch view]];
+        location = [[CCDirector sharedDirector] convertToGL:location];
+        BOOL isTouchingLeftSide = [self isTouchingLeftSide:location];
+        //BOOL isTouchingRightSide = [self isTouchingRightSide:location];
+        
+        if (isTouchingLeftSide) {
+            if (player.isTouchingGround || player.doubleJumpAvailable) {
+                if (player.doubleJumpAvailable == NO) {
+                    player.doubleJumpAvailable = YES;
+                } else {
+                    player.doubleJumpAvailable = NO;
+                }
+                
+                playerStartJump = YES;
+                player.isJumpingLeft = YES;
+                player.jumpTime = 0.0;
+                backgroundLayer.baseBrushColor = [backgroundLayer randomBrushColor];
+                jumpBufferCount = 0;
+            }
         } else {
-            player.doubleJumpAvailable = NO;
+            if (player.isTouchingGround || player.doubleJumpAvailable) {
+                if (player.doubleJumpAvailable == NO) {
+                    player.doubleJumpAvailable = YES;
+                } else {
+                    player.doubleJumpAvailable = NO;
+                }
+                
+                playerStartJump = YES;
+                player.isJumpingLeft = NO;
+                player.jumpTime = 0.0;
+                backgroundLayer.baseBrushColor = [backgroundLayer randomBrushColor];
+                jumpBufferCount = 0;
+            }
         }
         
-        playerStartJump = YES;
-        player.jumpTime = 0.0;
-        backgroundLayer.baseBrushColor = [backgroundLayer randomBrushColor];
-        jumpBufferCount = 0;
     }
+
 }
 
 -(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {

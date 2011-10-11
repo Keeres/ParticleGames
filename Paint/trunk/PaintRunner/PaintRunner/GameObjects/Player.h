@@ -21,6 +21,8 @@
     CGPoint openGLPosition;
     CGPoint previousPosition;
     BOOL isJumping;
+    BOOL isJumpingLeft;
+    //BOOL isJumpingRight;
     BOOL doubleJumpAvailable;
     BOOL hitObstacle;
     float basePlayerScale;
@@ -31,11 +33,14 @@
 @property CGPoint openGLPosition;
 @property CGPoint previousPosition;
 @property BOOL isJumping;
+@property BOOL isJumpingLeft;
+//@property BOOL isJumpingRight;
 @property BOOL doubleJumpAvailable;
 @property BOOL hitObstacle;
 @property float basePlayerScale;
 @property float jumpTime;
 
 -(id) initWithWorld:(b2World*)world;
+-(void)updateStateWithDeltaTime:(ccTime)deltaTime andSpeed:(float)speed;
 
 @end

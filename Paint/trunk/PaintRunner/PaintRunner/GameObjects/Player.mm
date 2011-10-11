@@ -13,6 +13,8 @@
 @synthesize openGLPosition;
 @synthesize previousPosition;
 @synthesize isJumping;
+@synthesize isJumpingLeft;
+//@synthesize isJumpingRight;
 @synthesize doubleJumpAvailable;
 @synthesize basePlayerScale;
 @synthesize jumpTime;
@@ -65,6 +67,8 @@
         
         //Initialize Variables
         isJumping = NO;
+        isJumpingLeft = NO;
+        //isJumpingRight = NO;
         doubleJumpAvailable = NO;
         previousPosition = self.position;
         self.tag = kPlayerType;
@@ -74,9 +78,23 @@
     return self;
 }
 
--(void)updateStateWithDeltaTime:(ccTime)deltaTime {
+-(void)updateStateWithDeltaTime:(ccTime)deltaTime andSpeed:(float)speed {
     previousPosition = openGLPosition;
     openGLPosition = [[CCDirector sharedDirector] convertToGL:self.position];
+    
+    //Check to see if off screen
+    //Reset to middle of screen 
+    if (self.position.x < 10 || self.position.x > 470) {
+        self.body->SetTransform(b2Vec2(winSize.width/2/PTM_RATIO, winSize.height/2/PTM_RATIO), 0);
+    }
+    
+    
+    if (isTouchingGround) {
+        b2Vec2 velocity = self.body->GetLinearVelocity();
+        self.body->SetLinearVelocity(b2Vec2(0.0, velocity.y));
+        b2Vec2 position = self.body->GetPosition();
+        self.body->SetTransform(b2Vec2(position.x - speed*deltaTime/PTM_RATIO, position.y), 0);
+    }
     
     //b2Vec2 bodyVel = self.body->GetLinearVelocity();
     //self.body->SetLinearVelocity(b2Vec2(50.0/PTM_RATIO, bodyVel.y));
@@ -92,26 +110,47 @@
         //placeholder
       //  CCLOG(@"hit obstacle");
     }
-    else if (isJumping) {
+    
+    if (isJumping) {
         jumpTime += deltaTime;
-        self.body->ApplyForce(b2Vec2(0.0, 5.0/PTM_RATIO), self.body->GetPosition());
-        b2Vec2 velocity = self.body->GetLinearVelocity();
-        if (velocity.y > 5.0) {
-            self.body->SetLinearVelocity(b2Vec2(velocity.x, 5.0));
+        
+        if (isJumpingLeft) {
+            self.body->ApplyForce(b2Vec2(-0.5/PTM_RATIO, 5.0/PTM_RATIO), self.body->GetPosition());
+            b2Vec2 velocity = self.body->GetLinearVelocity();
+
+            if (velocity.x < -0.5) {
+                self.body->SetLinearVelocity(b2Vec2(-0.5, velocity.y));
+            }
+            
+            if (velocity.y > 5.0) {
+                self.body->SetLinearVelocity(b2Vec2(velocity.x, 5.0));
+            }
+        } else {
+            self.body->ApplyForce(b2Vec2(0.5/PTM_RATIO, 5.0/PTM_RATIO), self.body->GetPosition());
+            b2Vec2 velocity = self.body->GetLinearVelocity();
+
+            if (velocity.x > 0.5) {
+                self.body->SetLinearVelocity(b2Vec2(0.5, velocity.y));
+            }
+            
+            if (velocity.y > 5.0) {
+                self.body->SetLinearVelocity(b2Vec2(velocity.x, 5.0));
+            }
         }
+        
         if (jumpTime > 0.20) {
             isJumping = NO;
         }
     }
     
-    else if (previousPosition.y > openGLPosition.y) {
+    if (previousPosition.y > openGLPosition.y) {
         float playerScale = (previousPosition.y - openGLPosition.y)/100.0;
         if (basePlayerScale < 1) {
             basePlayerScale = basePlayerScale + playerScale;
         }
     }
     
-    else  if (previousPosition.y < openGLPosition.y) {
+    if (previousPosition.y < openGLPosition.y) {
         float playerScale = (previousPosition.y - openGLPosition.y)/100.0;
         if (basePlayerScale > 0.35) {
             basePlayerScale = basePlayerScale + playerScale;

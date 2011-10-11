@@ -246,6 +246,7 @@ andPlayerPreviousPosition:(CGPoint)playerPrevPoint
         brush.scale = tempBrushScale;
         
         brush.position = playerPosition;
+        brush.opacity = 125;
         [brush visit];
         
         //Calculate the buffer brush stroke to eliminate the cut off at edges
