@@ -27,7 +27,13 @@
 -(void) spawnObstacleAtTime:(ccTime)dt{
     obstacleTimePassed += dt;
     airObstacleTimePassed += dt;
-    
+        
+    double widthOffset; 
+    if (levelMovingLeft) {
+        widthOffset = winSize.width*2.0;
+    }else{
+        widthOffset = -winSize.width;
+    }
     if (spawnObstacle == FALSE) {
         obstacleSpawnTimer = arc4random()%5 + 1;
         spawnObstacle = TRUE;
@@ -42,7 +48,7 @@
         
         [obstacleWidths insertObject:[NSNumber numberWithDouble:(10.0*tempWidth+40.0)*PTP_Ratio] atIndex:obstacleCount];
         [obstacleHeights insertObject:[NSNumber numberWithDouble:(20.0*tempHeight+40.0)*PTP_Ratio] atIndex:obstacleCount];
-        [obstacleCentersX insertObject:[NSNumber numberWithDouble:winSize.width*PTP_Ratio + 80*PTP_Ratio + [[obstacleWidths objectAtIndex:obstacleCount] doubleValue]/2.0] atIndex:obstacleCount];
+        [obstacleCentersX insertObject:[NSNumber numberWithDouble:widthOffset*PTP_Ratio + [[obstacleWidths objectAtIndex:obstacleCount] doubleValue]/2.0] atIndex:obstacleCount];
         [obstacleCentersY insertObject:[NSNumber numberWithDouble:10*PTP_Ratio + [[obstacleHeights objectAtIndex:obstacleCount]doubleValue]/2.0] atIndex:obstacleCount];
         
         obstacleCount ++ ;
@@ -67,13 +73,18 @@
         int tempWidth = arc4random()%7;
         int tempHeight = arc4random()%3;
         int spawnHeight = arc4random()%10;
+        if (levelMovingLeft) {
+            widthOffset = winSize.width*2.0 + 30.0;
+        }else{
+            widthOffset = -winSize.width;
+        }
         
         [obstacleWidths insertObject:[NSNumber numberWithDouble:(20.0*tempWidth+40.0)*PTP_Ratio] atIndex:obstacleCount];
         [obstacleHeights insertObject:[NSNumber numberWithDouble:(10.0*tempHeight+20.0)*PTP_Ratio] atIndex:obstacleCount];
-        [obstacleCentersX insertObject:[NSNumber numberWithDouble:winSize.width*PTP_Ratio + 80*PTP_Ratio + [[obstacleWidths objectAtIndex:obstacleCount] doubleValue]/2.0] atIndex:obstacleCount];
-        [obstacleCentersY insertObject:[NSNumber numberWithDouble:winSize.height/2.0*PTP_Ratio + [[obstacleHeights objectAtIndex:obstacleCount]doubleValue]/2.0 + spawnHeight*10.0*PTP_Ratio] atIndex:obstacleCount];
+        [obstacleCentersX insertObject:[NSNumber numberWithDouble:widthOffset*PTP_Ratio + [[obstacleWidths objectAtIndex:obstacleCount] doubleValue]/2.0] atIndex:obstacleCount];
+        [obstacleCentersY insertObject:[NSNumber numberWithDouble:winSize.height/2.0*PTP_Ratio + [[obstacleHeights objectAtIndex:obstacleCount]doubleValue]/2.0 + (spawnHeight*10.0+15.0)*PTP_Ratio] atIndex:obstacleCount];
         
-        obstacleCount ++ ;
+        obstacleCount ++;
         spawnAirObstacle = FALSE;
         airObstacleTimePassed = 0.0;
     }
@@ -100,7 +111,6 @@
         obstacleVertices[nObstalceVertices++] = CGPointMake(x2, y2);
         obstacleVertices[nObstalceVertices++] = CGPointMake(x1, y1);
         obstacleVertices[nObstalceVertices++] = CGPointMake(x2, y1);
-
         
         obstacleBox2dVertices[nObstalceBox2dVertices++] = CGPointMake(x1/PTP_Ratio, y1/PTP_Ratio);
         obstacleBox2dVertices[nObstalceBox2dVertices++] = CGPointMake(x1/PTP_Ratio, y2/PTP_Ratio);
@@ -108,27 +118,38 @@
         obstacleBox2dVertices[nObstalceBox2dVertices++] = CGPointMake(x2/PTP_Ratio, y2/PTP_Ratio);
     }
     
-    for (int i=0; i<obstacleCount; i++) {
-        if ([[obstacleCentersX objectAtIndex:i]doubleValue] < -[[obstacleWidths objectAtIndex:i]doubleValue]) {
-            [obstacleCentersX removeObjectAtIndex:i];
-            [obstacleCentersY removeObjectAtIndex:i];
-            [obstacleWidths removeObjectAtIndex:i];
-            [obstacleHeights removeObjectAtIndex:i];
-            obstacleCount--;
+    if (levelMovingLeft) {
+        for (int i=0; i<obstacleCount; i++) {
+            if ([[obstacleCentersX objectAtIndex:i]doubleValue] < -[[obstacleWidths objectAtIndex:i]doubleValue]) {
+                [obstacleCentersX removeObjectAtIndex:i];
+                [obstacleCentersY removeObjectAtIndex:i];
+                [obstacleWidths removeObjectAtIndex:i];
+                [obstacleHeights removeObjectAtIndex:i];
+                obstacleCount--;
+            }
+        }
+    }else{
+        for (int i=obstacleCount-1; i>0; i--) {
+            if ([[obstacleCentersX objectAtIndex:i]doubleValue] > winSize.width*PTP_Ratio + [[obstacleWidths objectAtIndex:i]doubleValue]){
+                [obstacleCentersX removeObjectAtIndex:i];
+                [obstacleCentersY removeObjectAtIndex:i];
+                [obstacleWidths removeObjectAtIndex:i];
+                [obstacleHeights removeObjectAtIndex:i];
+                obstacleCount--;
+            }
         }
     }
 }
 
 -(void) draw {
-    //Draws obstacle
     glDisable(GL_TEXTURE_2D);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
 
     //begin drawing obstacle
-    glColor4f(1.0, 1.0, 1.0, 1.0);
+ /*   glColor4f(1.0, 1.0, 1.0, 1.0);
     glVertexPointer(2, GL_FLOAT, 0, obstacleVertices);
-    glDrawArrays(GL_TRIANGLES, 0, nObstalceVertices);
+    glDrawArrays(GL_TRIANGLES, 0, nObstalceVertices);*/
     //end drawing obstacle
 
     world->DrawDebugData();
@@ -197,24 +218,22 @@
     //////////////////////////////////
     b2Vec2 lowerLeft, lowerRight, upperLeft, upperRight;
     for (int i=0; i<nObstalceBox2dVertices; i+=4) {
-        //obstacle top
-        upperLeft = b2Vec2(obstacleBox2dVertices[i+1].x/PTM_RATIO, obstacleBox2dVertices[i+1].y/PTM_RATIO);
-        upperRight =  b2Vec2(obstacleBox2dVertices[i+3].x/PTM_RATIO, obstacleBox2dVertices[i+1].y/PTM_RATIO);
-        lowerLeft = b2Vec2(obstacleBox2dVertices[i].x/PTM_RATIO, obstacleBox2dVertices[i].y/PTM_RATIO);
-        lowerRight =  b2Vec2(obstacleBox2dVertices[i+2].x/PTM_RATIO, obstacleBox2dVertices[i+2].y/PTM_RATIO);
-
+        //obstacle top and bottom bodies
+        upperLeft = b2Vec2((obstacleBox2dVertices[i+1].x+5.0)/PTM_RATIO, obstacleBox2dVertices[i+1].y/PTM_RATIO);
+        upperRight =  b2Vec2((obstacleBox2dVertices[i+3].x-5.0)/PTM_RATIO, obstacleBox2dVertices[i+1].y/PTM_RATIO);
+        lowerLeft = b2Vec2((obstacleBox2dVertices[i].x+5.0)/PTM_RATIO, obstacleBox2dVertices[i].y/PTM_RATIO);
+        lowerRight =  b2Vec2((obstacleBox2dVertices[i+2].x-5.0)/PTM_RATIO, obstacleBox2dVertices[i+2].y/PTM_RATIO);
+        
         obstacleTopshape.SetAsEdge(upperLeft, upperRight);
         obstacleTopBody->CreateFixture(&obstacleTopFixture);
         obstacleBottomShape.SetAsEdge(lowerLeft, lowerRight);
         obstacleBottomBody->CreateFixture(&obstacleBottomFixture);
-
-        //obstacle bottom
         
-        //obstacle side
-        lowerLeft = b2Vec2(obstacleBox2dVertices[i].x/PTM_RATIO, (obstacleBox2dVertices[i].y+5.0)/PTM_RATIO);
-        upperLeft = b2Vec2(obstacleBox2dVertices[i+1].x/PTM_RATIO, (obstacleBox2dVertices[i+1].y-5.0)/PTM_RATIO);
-        lowerRight =  b2Vec2(obstacleBox2dVertices[i+2].x/PTM_RATIO, (obstacleBox2dVertices[i+2].y+5.0)/PTM_RATIO);
-        upperRight =  b2Vec2(obstacleBox2dVertices[i+3].x/PTM_RATIO, (obstacleBox2dVertices[i+3].y-5.0)/PTM_RATIO);
+        //obstacle side bodies
+        lowerLeft = b2Vec2(obstacleBox2dVertices[i].x/PTM_RATIO, obstacleBox2dVertices[i].y/PTM_RATIO);
+        upperLeft = b2Vec2(obstacleBox2dVertices[i+1].x/PTM_RATIO, obstacleBox2dVertices[i+1].y/PTM_RATIO);
+        lowerRight =  b2Vec2(obstacleBox2dVertices[i+2].x/PTM_RATIO, obstacleBox2dVertices[i+2].y/PTM_RATIO);
+        upperRight =  b2Vec2(obstacleBox2dVertices[i+3].x/PTM_RATIO, obstacleBox2dVertices[i+3].y/PTM_RATIO);
         
         obstacleSideShape.SetAsEdge(lowerLeft, upperLeft);
         obstacleSideBody->CreateFixture(&obstacleSideFixture);
@@ -281,7 +300,7 @@
         playerStartJump = NO;
         playerEndJump = NO;
         changeDirectionToLeft = YES;
-        levelMovingLeft = NO;
+        levelMovingLeft = YES;
         screenOffset = 0.0;
         levelTimePassed = 0.0;
         paintTimePassed = 0.0;
@@ -343,17 +362,17 @@
     //////////////////////////////////
     levelTimePassed += dt;
     
-    if (levelTimePassed > 20.0) {
+    if (levelTimePassed > 15.0) {
         levelTimePassed = 0;
         
         if (changeDirectionToLeft) {
             changeDirectionToLeft = NO;
-            if (MAX_PIXELS_PER_SECOND < 400.0) {
+            if (MAX_PIXELS_PER_SECOND < 300.0) {
                 MAX_PIXELS_PER_SECOND = MAX_PIXELS_PER_SECOND + 50;
             }
         } else {
             changeDirectionToLeft = YES;
-            if (MAX_PIXELS_PER_SECOND > -400.0) {
+            if (MAX_PIXELS_PER_SECOND > -300.0) {
                 MAX_PIXELS_PER_SECOND = MAX_PIXELS_PER_SECOND - 50;
             }
         }
