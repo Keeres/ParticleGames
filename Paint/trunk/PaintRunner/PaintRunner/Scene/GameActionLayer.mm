@@ -280,7 +280,8 @@
         jumpBufferCount = 0;
         playerStartJump = NO;
         playerEndJump = NO;
-        levelMovingRight = YES;
+        changeDirectionToLeft = YES;
+        levelMovingLeft = NO;
         screenOffset = 0.0;
         levelTimePassed = 0.0;
         paintTimePassed = 0.0;
@@ -345,13 +346,13 @@
     if (levelTimePassed > 20.0) {
         levelTimePassed = 0;
         
-        if (levelMovingRight) {
-            levelMovingRight = NO;
+        if (changeDirectionToLeft) {
+            changeDirectionToLeft = NO;
             if (MAX_PIXELS_PER_SECOND < 400.0) {
                 MAX_PIXELS_PER_SECOND = MAX_PIXELS_PER_SECOND + 50;
             }
         } else {
-            levelMovingRight = YES;
+            changeDirectionToLeft = YES;
             if (MAX_PIXELS_PER_SECOND > -400.0) {
                 MAX_PIXELS_PER_SECOND = MAX_PIXELS_PER_SECOND - 50;
             }
@@ -360,7 +361,7 @@
         MAX_PIXELS_PER_SECOND *= -1;
     }
     
-    if (levelMovingRight) {
+    if (changeDirectionToLeft) {
         if (PIXELS_PER_SECOND < MAX_PIXELS_PER_SECOND) {
             float change = MAX_PIXELS_PER_SECOND/2;
             PIXELS_PER_SECOND += change*dt;
@@ -371,6 +372,12 @@
             //PIXELS_PER_SECOND -= 50.0*dt;
             PIXELS_PER_SECOND += change*dt;
         }
+    }
+    
+    if (PIXELS_PER_SECOND > 0) {
+        levelMovingLeft = YES;
+    } else {
+        levelMovingLeft = NO;
     }
     
     screenOffset += PIXELS_PER_SECOND * dt;

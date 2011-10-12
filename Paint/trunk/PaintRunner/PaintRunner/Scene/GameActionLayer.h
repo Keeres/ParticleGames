@@ -35,7 +35,8 @@
     int jumpBufferCount;
     BOOL playerStartJump;
     BOOL playerEndJump;
-    BOOL levelMovingRight;
+    BOOL changeDirectionToLeft;
+    BOOL levelMovingLeft;
     float screenOffset;
     float levelTimePassed;
     float paintTimePassed;

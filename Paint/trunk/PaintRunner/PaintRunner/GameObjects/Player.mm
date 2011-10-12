@@ -85,6 +85,7 @@
     //Check to see if off screen
     //Reset to middle of screen 
     if (self.position.x < 10 || self.position.x > 470) {
+        self.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
         self.body->SetTransform(b2Vec2(winSize.width/2/PTM_RATIO, winSize.height/2/PTM_RATIO), 0);
     }
     
