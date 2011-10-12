@@ -126,9 +126,9 @@
     glDisableClientState(GL_COLOR_ARRAY);
 
     //begin drawing obstacle
-    //glColor4f(1.0, 1.0, 1.0, 1.0);
-    //glVertexPointer(2, GL_FLOAT, 0, obstacleVertices);
-    //glDrawArrays(GL_TRIANGLES, 0, nObstalceVertices);
+    glColor4f(1.0, 1.0, 1.0, 1.0);
+    glVertexPointer(2, GL_FLOAT, 0, obstacleVertices);
+    glDrawArrays(GL_TRIANGLES, 0, nObstalceVertices);
     //end drawing obstacle
 
     world->DrawDebugData();
@@ -347,25 +347,27 @@
         
         if (levelMovingRight) {
             levelMovingRight = NO;
-            if (MAX_PIXELS_PER_SECOND < 500.0) {
-                MAX_PIXELS_PER_SECOND = (MAX_PIXELS_PER_SECOND + 50) * -1;
+            if (MAX_PIXELS_PER_SECOND < 400.0) {
+                MAX_PIXELS_PER_SECOND = MAX_PIXELS_PER_SECOND + 50;
             }
         } else {
             levelMovingRight = YES;
-            if (MAX_PIXELS_PER_SECOND > -500.0) {
-                MAX_PIXELS_PER_SECOND = (MAX_PIXELS_PER_SECOND * -1) + 50;
+            if (MAX_PIXELS_PER_SECOND > -400.0) {
+                MAX_PIXELS_PER_SECOND = MAX_PIXELS_PER_SECOND - 50;
             }
         }
+        
+        MAX_PIXELS_PER_SECOND *= -1;
     }
     
     if (levelMovingRight) {
         if (PIXELS_PER_SECOND < MAX_PIXELS_PER_SECOND) {
-            float change = MAX_PIXELS_PER_SECOND/5;
+            float change = MAX_PIXELS_PER_SECOND/2;
             PIXELS_PER_SECOND += change*dt;
         }
     } else {
         if (PIXELS_PER_SECOND > MAX_PIXELS_PER_SECOND) {
-            float change = MAX_PIXELS_PER_SECOND/5;
+            float change = MAX_PIXELS_PER_SECOND/2;
             //PIXELS_PER_SECOND -= 50.0*dt;
             PIXELS_PER_SECOND += change*dt;
         }
