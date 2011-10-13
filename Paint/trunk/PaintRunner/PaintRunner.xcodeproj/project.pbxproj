@@ -1121,10 +1121,10 @@
 				B6C75D1D1432554900C5DD47 /* Platforms */,
 				B697AD9D142A754800E4FE3B /* Player.h */,
 				B697AD9E142A754800E4FE3B /* Player.mm */,
-				B6281D99142D7C6D008A1DAB /* GameCharacter.m */,
 				B6281D9B142D7C6D008A1DAB /* GameCharacter.h */,
-				B6281D9A142D7C6D008A1DAB /* GameObject.m */,
+				B6281D99142D7C6D008A1DAB /* GameCharacter.m */,
 				B6281D9C142D7C6D008A1DAB /* GameObject.h */,
+				B6281D9A142D7C6D008A1DAB /* GameObject.m */,
 			);
 			name = GameObjects;
 			sourceTree = "<group>";

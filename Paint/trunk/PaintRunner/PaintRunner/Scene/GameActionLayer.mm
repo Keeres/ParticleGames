@@ -360,7 +360,7 @@
     //////////////////////////////////
     //Calculate offset to shift screen
     //////////////////////////////////
-    levelTimePassed += dt;
+    /*levelTimePassed += dt;
     
     if (levelTimePassed > 15.0) {
         levelTimePassed = 0;
@@ -403,16 +403,16 @@
     float backgroundWidth = [backgroundLayer background].contentSize.width;
     if(screenOffset >= backgroundWidth) {
         screenOffset = screenOffset - backgroundWidth;
-    }
+    }*/
     
     //Comment top part out for one way scrolling
     //Uncomment bottom part as well
-    /*PIXELS_PER_SECOND = 200.0;
+    PIXELS_PER_SECOND = 200.0;
     screenOffset += PIXELS_PER_SECOND * dt;
     float backgroundWidth = [backgroundLayer background].contentSize.width;
     if(screenOffset >= backgroundWidth) {
         screenOffset = screenOffset - backgroundWidth;
-    }*/
+    }
 }
 
 -(void) physicsSimulation:(ccTime)dt {
@@ -547,7 +547,7 @@
     [self physicsSimulation:dt];
     [self detectContacts:dt];
     [self playerJumpBuffer];
-    [self paintChipControl:dt];
+    //[self paintChipControl:dt];
     [self createObstacleBody];
     
     [self updateStatesOfObjects:dt];

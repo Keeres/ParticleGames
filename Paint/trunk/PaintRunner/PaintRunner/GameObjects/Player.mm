@@ -23,7 +23,7 @@
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position = b2Vec2(winSize.width/2/PTM_RATIO, winSize.height/2/PTM_RATIO);
+    bodyDef.position = b2Vec2(winSize.width/6/PTM_RATIO, winSize.height/2/PTM_RATIO);
     bodyDef.allowSleep = false;
     //bodyDef.fixedRotation = true;
     //bodyDef.isGravitated = false;
@@ -68,8 +68,8 @@
         //Initialize Variables
         isJumping = NO;
         isJumpingLeft = NO;
-        //isJumpingRight = NO;
         doubleJumpAvailable = NO;
+        hitObstacle = NO;
         previousPosition = self.position;
         self.tag = kPlayerType;
         
@@ -84,9 +84,9 @@
     
     //Check to see if off screen
     //Reset to middle of screen 
-    if (self.position.x < 10 || self.position.x > 470) {
+    if (self.position.x < 10 || self.position.x > 470 || self.hitObstacle) {
         self.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
-        self.body->SetTransform(b2Vec2(winSize.width/2/PTM_RATIO, winSize.height/2/PTM_RATIO), 0);
+        self.body->SetTransform(b2Vec2(winSize.width/6/PTM_RATIO, winSize.height/2/PTM_RATIO), 0);
     }
     
     
@@ -94,7 +94,7 @@
         b2Vec2 velocity = self.body->GetLinearVelocity();
         self.body->SetLinearVelocity(b2Vec2(0.0, velocity.y));
         b2Vec2 position = self.body->GetPosition();
-        self.body->SetTransform(b2Vec2(position.x - speed*deltaTime/PTM_RATIO, position.y), 0);
+        //self.body->SetTransform(b2Vec2(position.x - speed*deltaTime/PTM_RATIO, position.y), 0);
     }
     
     //b2Vec2 bodyVel = self.body->GetLinearVelocity();
@@ -115,7 +115,7 @@
     if (isJumping) {
         jumpTime += deltaTime;
         
-        if (isJumpingLeft) {
+        /*if (isJumpingLeft) {
             self.body->ApplyForce(b2Vec2(-0.5/PTM_RATIO, 5.0/PTM_RATIO), self.body->GetPosition());
             b2Vec2 velocity = self.body->GetLinearVelocity();
 
@@ -137,6 +137,13 @@
             if (velocity.y > 5.0) {
                 self.body->SetLinearVelocity(b2Vec2(velocity.x, 5.0));
             }
+        }*/
+        
+        self.body->ApplyForce(b2Vec2(0.0, 5.0/PTM_RATIO), self.body->GetPosition());
+        b2Vec2 velocity = self.body->GetLinearVelocity();
+        
+        if (velocity.y > 5.0) {
+            self.body->SetLinearVelocity(b2Vec2(velocity.x, 5.0));
         }
         
         if (jumpTime > 0.20) {
