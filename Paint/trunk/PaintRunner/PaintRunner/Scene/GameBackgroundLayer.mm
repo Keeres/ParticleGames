@@ -23,7 +23,7 @@
     // 2: Call CCRenderTexture:begin
     //[renderTexture beginWithClear:c1.r g:c1.g b:c1.b a:c1.a];
     //[renderTexture beginWithClear:255 g:255 b:255 a:255];
-    [renderTexture beginWithClear:0 g:0 b:0 a:255];
+    [renderTexture beginWithClear:125.0/255.0 g:145.0/255.0 b:160.0/255.0 a:1.0];
     
     // 3: Draw into the texture    
     
@@ -156,7 +156,9 @@
     int nStripes = ((arc4random() % (int)(4 * CC_CONTENT_SCALE_FACTOR())) + 1) * 2;
     background = [self stripedSpriteWithColor1:bgColor color2:color2 textureSize:1024 stripes:nStripes];
         
-    background.position = ccp(background.contentSize.width/2, winSize.height - background.contentSize.height/2);
+    //background.position = ccp(background.contentSize.width/2, winSize.height - background.contentSize.height/2);
+
+    background.position = ccp(background.contentSize.width/2, winSize.height/2);
 
     ccTexParams tp = {GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_REPEAT};
     [background.texture setTexParameters:&tp];
@@ -193,20 +195,23 @@
 andPlayerPreviousPosition:(CGPoint)playerPrevPoint 
        andPlayerOnGround:(BOOL)isTouchingGround 
           andPlayerScale:(float)playerScale
-         andScreenOffset:(float)screenOffset{
+        andScreenOffsetX:(float)screenOffsetX
+        andScreenOffsetY:(float)screenOffsetY 
+                andScale:(float)screenScale {
     
-    //Speed up game as time passes
-    /*timePassed += dt;
-    if (timePassed > 10.0) {
-        timePassed = 0.0;
-        PIXELS_PER_SECOND += 20;
-        if (PIXELS_PER_SECOND > 400) {
-            PIXELS_PER_SECOND = 200;
-        }
-    }*/
+    //Calculates how much to shift the background up to match the player's jump
+    float yPos = background.position.y + screenOffsetY;
+    background.position = ccp(background.position.x, yPos);
+
+    //Change scale to match the action layer's scale
+    background.scale = screenScale;
     
+    //Calculates how much to shift the screen to the left based on the zooming (scale) effect
+    float scaledOffsetX = background.contentSize.width/2*(1-background.scale);
+    background.position = ccp(background.contentSize.width/2-scaledOffsetX, background.position.y);
+
     timePassed += dt;
-    offset = screenOffset;
+    offset = screenOffsetX;
     
     CGSize textureSize = background.textureRect.size;
     [background setTextureRect:CGRectMake(offset, 0, textureSize.width, textureSize.height)];
@@ -228,7 +233,7 @@ andPlayerPreviousPosition:(CGPoint)playerPrevPoint
         
         [renderTexture begin];
         
-        CGPoint playerPosition = playerPoint;
+        CGPoint playerPosition = ccpAdd(playerPoint, ccp(0,352)); //Offsetting playerPoint by y:352 so that background will draw correctly on the openGL coordinate system.
         
         //Calculating where the player is located on the moving background.
         //Because the player is stagnant and only the background is moving, we need to find the remainder of the current offset to the background size.
@@ -282,6 +287,8 @@ andPlayerPreviousPosition:(CGPoint)playerPrevPoint
         //This section does the randomizing for size, color, opacity of the brush stroke.
         //The section also contains brush buffer code
         
+        CGPoint playerPositionPrev = ccpAdd(playerPrevPoint, ccp(0,352)); //Offsetting playerPrevPoint by y:352 so that background will draw correctly on the openGL coordinate system.
+        
         //float distance = ccpDistance(playerPoint, playerPrevPoint);
         float distance = 0; //Turn off bottom if statement
         if (distance > 1)
@@ -289,13 +296,15 @@ andPlayerPreviousPosition:(CGPoint)playerPrevPoint
             int d = (int)distance;
             for (int i = 0; i < d; i++)
             {
-                float difx = playerPrevPoint.x - playerPoint.x;
-                float dify = playerPrevPoint.y - playerPoint.y;
+                CGPoint playerPositionPoint = ccpAdd(playerPoint, ccp(0,352)); //Offsetting playerPoint by y:352 so that background will draw correctly on the openGL coordinate system.
+
+                float difx = playerPositionPrev.x - playerPositionPoint.x;
+                float dify = playerPositionPrev.y - playerPositionPoint.y;
                 float delta = (float)i / distance;
                 CGPoint deltaPosition = ccp(playerPosition.x + (difx * delta), playerPosition.y + (dify * delta));
                 brush.position = deltaPosition;
                 //[brush setRotation:rand()%360];
-                //[brush setOpacity:(arc4random() % 175) + 25];
+                [brush setOpacity:(arc4random() % 175) + 25];
                 
                 //Modify scale of each brush stroke against the base brush size.
                 //The base brush size is increased when moving up (jumping) and decreased when moving down (dropping)

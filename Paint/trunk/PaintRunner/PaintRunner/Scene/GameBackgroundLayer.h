@@ -28,7 +28,14 @@
 @property (nonatomic,retain) CCSprite* brush;
 @property ccColor3B baseBrushColor;
 
--(void) updateBackground:(ccTime)dt playerPosition:(CGPoint)playerPoint andPlayerPreviousPosition:(CGPoint)playerPrevPoint andPlayerOnGround:(BOOL)isTouchingGround andPlayerScale:(float)playerScale andScreenOffset:(float)screenOffset;
+-(void) updateBackground:(ccTime)dt 
+          playerPosition:(CGPoint)playerPoint 
+andPlayerPreviousPosition:(CGPoint)playerPrevPoint 
+       andPlayerOnGround:(BOOL)isTouchingGround 
+          andPlayerScale:(float)playerScale
+        andScreenOffsetX:(float)screenOffsetX
+        andScreenOffsetY:(float)screenOffsetY
+                andScale:(float)screenScale;
 
 -(ccColor3B) randomBrushColor;
 

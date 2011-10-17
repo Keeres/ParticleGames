@@ -37,7 +37,8 @@
     BOOL playerEndJump;
     BOOL changeDirectionToLeft;
     BOOL levelMovingLeft;
-    float screenOffset;
+    float screenOffsetX;
+    float screenOffsetY;
     float levelTimePassed;
     float paintTimePassed;
     float PIXELS_PER_SECOND;

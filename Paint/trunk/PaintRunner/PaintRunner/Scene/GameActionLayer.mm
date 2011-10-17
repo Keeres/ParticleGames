@@ -147,9 +147,9 @@
     glDisableClientState(GL_COLOR_ARRAY);
 
     //begin drawing obstacle
- /*   glColor4f(1.0, 1.0, 1.0, 1.0);
-    glVertexPointer(2, GL_FLOAT, 0, obstacleVertices);
-    glDrawArrays(GL_TRIANGLES, 0, nObstalceVertices);*/
+    //glColor4f(1.0, 1.0, 1.0, 1.0);
+    //glVertexPointer(2, GL_FLOAT, 0, obstacleVertices);
+    //glDrawArrays(GL_TRIANGLES, 0, nObstalceVertices);
     //end drawing obstacle
 
     world->DrawDebugData();
@@ -301,7 +301,8 @@
         playerEndJump = NO;
         changeDirectionToLeft = YES;
         levelMovingLeft = YES;
-        screenOffset = 0.0;
+        screenOffsetX = 0.0;
+        screenOffsetY = 0.0;
         levelTimePassed = 0.0;
         paintTimePassed = 0.0;
         PIXELS_PER_SECOND = 0.0;
@@ -356,7 +357,7 @@
     return self;
 }
 
--(void) screenOffset:(ccTime)dt {
+-(void) screenOffsetX:(ccTime)dt {
     //////////////////////////////////
     //Calculate offset to shift screen
     //////////////////////////////////
@@ -399,20 +400,46 @@
         levelMovingLeft = NO;
     }
     
-    screenOffset += PIXELS_PER_SECOND * dt;
+    screenOffsetX += PIXELS_PER_SECOND * dt;
     float backgroundWidth = [backgroundLayer background].contentSize.width;
-    if(screenOffset >= backgroundWidth) {
-        screenOffset = screenOffset - backgroundWidth;
+    if(screenOffsetX >= backgroundWidth) {
+        screenOffsetX = screenOffsetX - backgroundWidth;
     }*/
     
     //Comment top part out for one way scrolling
     //Uncomment bottom part as well
+    //Calculates how fast to scroll the level based on PIXELS_PER_SECOND
     PIXELS_PER_SECOND = 200.0;
-    screenOffset += PIXELS_PER_SECOND * dt;
+    screenOffsetX += PIXELS_PER_SECOND * dt;
     float backgroundWidth = [backgroundLayer background].contentSize.width;
-    if(screenOffset >= backgroundWidth) {
-        screenOffset = screenOffset - backgroundWidth;
+    if(screenOffsetX >= backgroundWidth) {
+        screenOffsetX = screenOffsetX - backgroundWidth;
     }
+    
+    //Calculates when to scroll the screen to keep the player within the screen when jumping too high. Right now the screen will start to scroll when player jumps over half the screen (winSize.height/2).
+    float prevScreenOffsetY = screenOffsetY;
+    if (player.position.y > winSize.height/2) {
+        screenOffsetY = (winSize.height/2 - player.position.y)*0.4;
+        self.position = ccp(self.position.x, screenOffsetY);
+    } 
+    
+    //Calculates how much to scale the screen when screen begins to scroll.
+    float yPos = screenOffsetY - prevScreenOffsetY;
+    self.scale = self.scale + yPos*dt/10;
+    
+    //Calculates how much to move the X offset of the layer to keep the player in the same location on screen with the zoom out effect
+    float scaledOffsetX = winSize.width/2*(1-self.scale);
+    self.position = ccp(-scaledOffsetX, self.position.y);
+        
+    //Updates the background with the correct offsets so that the drawing will match where the player is on screen.
+    [backgroundLayer updateBackground:dt 
+                       playerPosition:[player openGLPosition] 
+            andPlayerPreviousPosition:[player previousPosition] 
+                    andPlayerOnGround:player.isTouchingGround 
+                       andPlayerScale:[player basePlayerScale]
+                     andScreenOffsetX:screenOffsetX
+                     andScreenOffsetY:yPos
+                             andScale:self.scale];
 }
 
 -(void) physicsSimulation:(ccTime)dt {
@@ -534,24 +561,19 @@
     //////////////////////////////
     //Update background art
     //////////////////////////////
-    [backgroundLayer updateBackground:dt 
-                       playerPosition:[player openGLPosition] 
-            andPlayerPreviousPosition:[player previousPosition] 
-                    andPlayerOnGround:player.isTouchingGround 
-                       andPlayerScale:[player basePlayerScale]
-                      andScreenOffset:screenOffset];
+
 }
 
 -(void) update:(ccTime)dt {
-    [self screenOffset:dt];
+    [self screenOffsetX:dt];
     [self physicsSimulation:dt];
     [self detectContacts:dt];
     [self playerJumpBuffer];
-    //[self paintChipControl:dt];
+    [self paintChipControl:dt];
     [self createObstacleBody];
     
     [self updateStatesOfObjects:dt];
-    [self updateBackgroundState:dt];
+    //[self updateBackgroundState:dt];
     [player updateStateWithDeltaTime:dt andSpeed:PIXELS_PER_SECOND];
     [paintChipCache updatePaintChipsWithTime:dt andSpeed:PIXELS_PER_SECOND];
     
