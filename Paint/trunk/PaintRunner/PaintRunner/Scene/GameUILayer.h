@@ -7,9 +7,22 @@
 //
 
 #import "cocos2d.h"
+#import "GameActionLayer.h"
+#import "GameBackgroundLayer.h"
+
+@class GameActionLayer;
 
 @interface GameUILayer : CCLayer {
+    //Variables
+    CGSize winSize;
+    CCMenu *pauseMenu;
+    CCLabelBMFont *scoreLabel;
+    BOOL gamePaused;
     
+    //Layers
+    GameActionLayer *actionLayer;
 }
+
+-(void) setGameActionLayer:(GameActionLayer*)gameActionLayer;
 
 @end

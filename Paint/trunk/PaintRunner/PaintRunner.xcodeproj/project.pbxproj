@@ -13,6 +13,8 @@
 		B6281DB1142D930E008A1DAB /* game1atlas-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6281DAD142D930E008A1DAB /* game1atlas-hd.png */; };
 		B6281DB2142D930E008A1DAB /* game1atlas.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6281DAE142D930E008A1DAB /* game1atlas.plist */; };
 		B6281DB3142D930E008A1DAB /* game1atlas-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6281DAF142D930E008A1DAB /* game1atlas-hd.plist */; };
+		B62A80081458A27400AFC3F9 /* testFont.png in Resources */ = {isa = PBXBuildFile; fileRef = B62A80061458A27400AFC3F9 /* testFont.png */; };
+		B62A80091458A27400AFC3F9 /* testFont.fnt in Resources */ = {isa = PBXBuildFile; fileRef = B62A80071458A27400AFC3F9 /* testFont.fnt */; };
 		B68CF3B01437E79600EB6516 /* Box2DHelpers.mm in Sources */ = {isa = PBXBuildFile; fileRef = B68CF3A91437E79600EB6516 /* Box2DHelpers.mm */; };
 		B68CF3B11437E79600EB6516 /* Box2DSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = B68CF3AA1437E79600EB6516 /* Box2DSprite.mm */; };
 		B68CF3B21437E79600EB6516 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = B68CF3AB1437E79600EB6516 /* MyContactListener.mm */; };
@@ -190,6 +192,8 @@
 		B6281DAD142D930E008A1DAB /* game1atlas-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "game1atlas-hd.png"; path = "Images/game1atlas-hd.png"; sourceTree = "<group>"; };
 		B6281DAE142D930E008A1DAB /* game1atlas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = game1atlas.plist; path = Images/game1atlas.plist; sourceTree = "<group>"; };
 		B6281DAF142D930E008A1DAB /* game1atlas-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "game1atlas-hd.plist"; path = "Images/game1atlas-hd.plist"; sourceTree = "<group>"; };
+		B62A80061458A27400AFC3F9 /* testFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = testFont.png; path = Images/testFont.png; sourceTree = "<group>"; };
+		B62A80071458A27400AFC3F9 /* testFont.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = testFont.fnt; path = Images/testFont.fnt; sourceTree = "<group>"; };
 		B68CF39A1437E77E00EB6516 /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		B68CF39B1437E77E00EB6516 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B68CF3A91437E79600EB6516 /* Box2DHelpers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Box2DHelpers.mm; sourceTree = "<group>"; };
@@ -553,6 +557,8 @@
 		B6281D9F142D85EF008A1DAB /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B62A80061458A27400AFC3F9 /* testFont.png */,
+				B62A80071458A27400AFC3F9 /* testFont.fnt */,
 				B6BCB7161433B636009792B7 /* brush-hd.png */,
 				B6BCB7181433B63E009792B7 /* brush.png */,
 				B6F1B5E81430FA030022B504 /* Noise.png */,
@@ -562,6 +568,13 @@
 				B6281DAF142D930E008A1DAB /* game1atlas-hd.plist */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		B62A800014589BBE00AFC3F9 /* Special Effects */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Special Effects";
 			sourceTree = "<group>";
 		};
 		B68CF3911437E77E00EB6516 /* Box2D */ = {
@@ -1119,6 +1132,7 @@
 				B68CF3991437E77E00EB6516 /* Constants */,
 				B6A329851434CF500058415A /* Collectables */,
 				B6C75D1D1432554900C5DD47 /* Platforms */,
+				B62A800014589BBE00AFC3F9 /* Special Effects */,
 				B697AD9D142A754800E4FE3B /* Player.h */,
 				B697AD9E142A754800E4FE3B /* Player.mm */,
 				B6281D9B142D7C6D008A1DAB /* GameCharacter.h */,
@@ -1218,6 +1232,8 @@
 				B6F1B5E91430FA030022B504 /* Noise.png in Resources */,
 				B6BCB7171433B636009792B7 /* brush-hd.png in Resources */,
 				B6BCB7191433B63E009792B7 /* brush.png in Resources */,
+				B62A80081458A27400AFC3F9 /* testFont.png in Resources */,
+				B62A80091458A27400AFC3F9 /* testFont.fnt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

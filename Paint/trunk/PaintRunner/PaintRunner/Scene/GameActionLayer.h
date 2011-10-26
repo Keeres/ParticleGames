@@ -18,6 +18,9 @@
 #import "PaintChipCache.h"
 #import "MyContactListener.h"
 
+@class GameUILayer;
+@class GameBackgroundLayer;
+
 @interface GameActionLayer : CCLayer {
     //Box2D Variables
     b2World *world;
@@ -43,6 +46,8 @@
     float paintTimePassed;
     float PIXELS_PER_SECOND;
     float MAX_PIXELS_PER_SECOND;
+    float gameScore;
+
     
     //Layers
     GameUILayer *uiLayer;
@@ -76,7 +81,9 @@
 }
 
 @property (nonatomic, readwrite) MyContactListener *contactListener;
+@property float gameScore;
 
 -(id) initWithGameUILayer:(GameUILayer *)gameUILayer andBackgroundLayer:(GameBackgroundLayer*)gameBGLayer;
+-(void) resetGame;
 
 @end

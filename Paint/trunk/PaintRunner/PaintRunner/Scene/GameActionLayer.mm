@@ -11,6 +11,7 @@
 @implementation GameActionLayer
 
 @synthesize contactListener;
+@synthesize gameScore;
 
 -(void) setupWorld {    
     b2Vec2 gravity = b2Vec2(0.0f, -20.0f);
@@ -286,6 +287,27 @@
     }
 }
 
+-(void) resetGame {
+    jumpBufferCount = 0;
+    playerStartJump = NO;
+    playerEndJump = NO;
+    changeDirectionToLeft = YES;
+    levelMovingLeft = YES;
+    screenOffsetX = 0.0;
+    screenOffsetY = 0.0;
+    levelTimePassed = 0.0;
+    paintTimePassed = 0.0;
+    PIXELS_PER_SECOND = 0.0;
+    MAX_PIXELS_PER_SECOND = 200.0;
+    gameScore = 0;
+    
+    //Clean background
+    
+    //Remove platforms
+    
+    //Reset player position
+}
+
 -(id) initWithGameUILayer:(GameUILayer *)gameUILayer andBackgroundLayer:(GameBackgroundLayer*)gameBGLayer {
     if ((self = [super init])) {
         winSize = [CCDirector sharedDirector].winSize;
@@ -293,6 +315,7 @@
         //Setup layers
         uiLayer = gameUILayer;
         backgroundLayer = gameBGLayer;
+        [uiLayer setGameActionLayer:self];
         
         //Setup initialial variables
         self.isTouchEnabled = YES;
@@ -307,6 +330,7 @@
         paintTimePassed = 0.0;
         PIXELS_PER_SECOND = 0.0;
         MAX_PIXELS_PER_SECOND = 200.0;
+        gameScore = 0;
         
         //For obstacle drawing
         //determines screen size in pixels
@@ -357,7 +381,7 @@
     return self;
 }
 
--(void) screenOffsetX:(ccTime)dt {
+-(void) updateBackgroundState:(ccTime)dt {
     //////////////////////////////////
     //Calculate offset to shift screen
     //////////////////////////////////
@@ -421,7 +445,10 @@
     if (player.position.y > winSize.height/2) {
         screenOffsetY = (winSize.height/2 - player.position.y)*0.4;
         self.position = ccp(self.position.x, screenOffsetY);
-    } 
+    } else if (player.position.y <= winSize.height/2) {
+        self.position = ccp(self.position.x, 0.0);
+        self.scale = 1.0;
+    }
     
     //Calculates how much to scale the screen when screen begins to scroll.
     float yPos = screenOffsetY - prevScreenOffsetY;
@@ -440,6 +467,10 @@
                      andScreenOffsetX:screenOffsetX
                      andScreenOffsetY:yPos
                              andScale:self.scale];
+}
+
+-(void) updateScore:(ccTime)dt {
+    gameScore += dt;
 }
 
 -(void) physicsSimulation:(ccTime)dt {
@@ -500,6 +531,7 @@
             if ((contact.fixtureA->GetBody() == tempPC.body && contact.fixtureB->GetBody() == player.body) || 
                 (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == tempPC.body)) {
                 tempPC.isHit = YES;
+                gameScore += 10;
             }
         }
         
@@ -557,15 +589,9 @@
     }
 }
 
--(void) updateBackgroundState:(ccTime)dt {
-    //////////////////////////////
-    //Update background art
-    //////////////////////////////
-
-}
-
 -(void) update:(ccTime)dt {
-    [self screenOffsetX:dt];
+    [self updateBackgroundState:dt];
+    [self updateScore:dt];
     [self physicsSimulation:dt];
     [self detectContacts:dt];
     [self playerJumpBuffer];
@@ -573,7 +599,6 @@
     [self createObstacleBody];
     
     [self updateStatesOfObjects:dt];
-    //[self updateBackgroundState:dt];
     [player updateStateWithDeltaTime:dt andSpeed:PIXELS_PER_SECOND];
     [paintChipCache updatePaintChipsWithTime:dt andSpeed:PIXELS_PER_SECOND];
     
@@ -586,11 +611,6 @@
     CGRect leftBox = CGRectMake(0,0,winSize.width/2, winSize.height);
     return CGRectContainsPoint(leftBox, touchLocation);
 }
-
-/*-(BOOL) isTouchingRightSide:(CGPoint)touchLocation {
-    CGRect rightBox = CGRectMake(winSize.width/2,0,winSize.width/2, winSize.height);
-    return CGRectContainsPoint(rightBox, touchLocation);
-}*/
 
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     for( UITouch *touch in touches ) {
