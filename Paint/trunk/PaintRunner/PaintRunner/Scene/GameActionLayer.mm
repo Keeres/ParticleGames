@@ -25,7 +25,80 @@
     debugDraw->SetFlags(b2DebugDraw::e_shapeBit);  
 }
 
+-(void) createPlatforms {
+    int tempWidth = arc4random()%5 + 5;
+    int tempHeight = arc4random()%10 + 1;
+    int tempSpacing = arc4random()%4 + 2;
+    double spacingWidth = tempSpacing*20.0;
+    double initialOffset = 50.0;
+    double heightOffset = 5.0;
+    if (initialPlatform == TRUE) {
+        [platformsWidths insertObject:[NSNumber numberWithDouble:(50.0*tempWidth+winSize.width)*PTP_Ratio] atIndex:platformCount];
+        [platformsHeights insertObject:[NSNumber numberWithDouble:10*PTP_Ratio] atIndex:platformCount];
+        [platformsCentersX insertObject:[NSNumber numberWithDouble: initialOffset*PTP_Ratio+[[platformsWidths objectAtIndex:platformCount] doubleValue]/2.0] atIndex:platformCount];
+        [platformsCentersY insertObject:[NSNumber numberWithDouble: tempHeight*heightOffset*PTP_Ratio + [[platformsHeights objectAtIndex:platformCount]doubleValue]/2.0] atIndex:platformCount];
+        
+        initialPlatform = FALSE;
+        platformCount ++;
+    }else if(player.position.x*PTP_Ratio > [[platformsCentersX objectAtIndex:0]doubleValue]-200*PTP_Ratio && spawnPlatform == TRUE){
+        [platformsWidths insertObject:[NSNumber numberWithDouble:(50.0*tempWidth+winSize.width)*PTP_Ratio] atIndex:platformCount];
+        [platformsHeights insertObject:[NSNumber numberWithDouble:10*PTP_Ratio] atIndex:platformCount];
+        
+        //cetner.x[n] = (center[n-1].x + width[n-1]/2 + width[n]/2) where n is the current platform
+        [platformsCentersX insertObject:[NSNumber numberWithDouble:                                                             [[platformsCentersX objectAtIndex:platformCount-1]doubleValue] + spacingWidth*PTP_Ratio +                           [[platformsWidths objectAtIndex:platformCount-1] doubleValue]/2.0 +                                                 [[platformsWidths objectAtIndex:platformCount] doubleValue]/2.0] atIndex:platformCount];
+        [platformsCentersY insertObject:[NSNumber numberWithDouble: tempHeight*heightOffset*PTP_Ratio + [[platformsHeights objectAtIndex:platformCount]doubleValue]/2.0] atIndex:platformCount];
+        
+        spawnPlatform = FALSE;
+        platformCount ++;   
+    }
+}
+
+-(void) updatePlatformVerticesWithTime:(ccTime)dt andSpeed:(float)speed{
+    
+    nPlatformsVertices = 0;
+    nPlatformsBox2dVertices = 0;
+    if (pixelWinSize.width > 480.0) { 
+        speed = speed*PTP_Ratio;
+    }
+    for (int i=0; i<platformCount; i++) {
+        [platformsCentersX replaceObjectAtIndex:i withObject:[NSNumber numberWithDouble:[[platformsCentersX objectAtIndex:i]doubleValue] - speed*dt]];
+        
+        float x1 = [[platformsCentersX objectAtIndex:i]doubleValue] - [[platformsWidths objectAtIndex:i]doubleValue]/2.0;
+        float x2 = [[platformsCentersX objectAtIndex:i]doubleValue] + [[platformsWidths objectAtIndex:i]doubleValue]/2.0;  
+        float y1 = [[platformsCentersY objectAtIndex:i]doubleValue] - [[platformsHeights objectAtIndex:i]doubleValue]/2.0;    
+        float y2 = [[platformsCentersY objectAtIndex:i]doubleValue] + [[platformsHeights objectAtIndex:i]doubleValue]/2.0;    
+        
+        //sets up vertices for drawing
+        platformsVertices[nPlatformsVertices++] = CGPointMake(x1, y1);
+        platformsVertices[nPlatformsVertices++] = CGPointMake(x1, y2);
+        platformsVertices[nPlatformsVertices++] = CGPointMake(x2, y2);
+        platformsVertices[nPlatformsVertices++] = CGPointMake(x2, y2);
+        platformsVertices[nPlatformsVertices++] = CGPointMake(x1, y1);
+        platformsVertices[nPlatformsVertices++] = CGPointMake(x2, y1);
+        
+        platformsBox2dVertices[nPlatformsBox2dVertices++] = CGPointMake(x1/PTP_Ratio, y1/PTP_Ratio);
+        platformsBox2dVertices[nPlatformsBox2dVertices++] = CGPointMake(x1/PTP_Ratio, y2/PTP_Ratio);
+        platformsBox2dVertices[nPlatformsBox2dVertices++] = CGPointMake(x2/PTP_Ratio, y1/PTP_Ratio);
+        platformsBox2dVertices[nPlatformsBox2dVertices++] = CGPointMake(x2/PTP_Ratio, y2/PTP_Ratio);
+    }
+    
+    for (int i=0; i<platformCount; i++) {
+        if ([[platformsCentersX objectAtIndex:i]doubleValue] < -[[platformsWidths objectAtIndex:i]doubleValue]) {
+            [platformsCentersX removeObjectAtIndex:i];
+            [platformsCentersY removeObjectAtIndex:i];
+            [platformsWidths removeObjectAtIndex:i];
+            [platformsHeights removeObjectAtIndex:i];
+            platformCount--;
+            
+            spawnPlatform = TRUE;
+        }
+    }
+}
+
 -(void) spawnObstacleAtTime:(ccTime)dt{
+  /* CGPoint tempVert[100];
+    [obstacles setVertices:tempVert];*/
+    
     obstacleTimePassed += dt;
     airObstacleTimePassed += dt;
         
@@ -36,7 +109,7 @@
         widthOffset = -winSize.width;
     }
     if (spawnObstacle == FALSE) {
-        obstacleSpawnTimer = arc4random()%5 + 1;
+        obstacleSpawnTimer = arc4random()%3 + 1;
         spawnObstacle = TRUE;
     }
     if (spawnAirObstacle == FALSE) {
@@ -47,15 +120,42 @@
         int tempWidth = arc4random()%5;
         int tempHeight = arc4random()%5;
         
-        [obstacleWidths insertObject:[NSNumber numberWithDouble:(10.0*tempWidth+40.0)*PTP_Ratio] atIndex:obstacleCount];
-        [obstacleHeights insertObject:[NSNumber numberWithDouble:(20.0*tempHeight+40.0)*PTP_Ratio] atIndex:obstacleCount];
+        [obstacleWidths insertObject:[NSNumber numberWithDouble:(40.0*tempWidth+100.0)*PTP_Ratio] atIndex:obstacleCount];
+        [obstacleHeights insertObject:[NSNumber numberWithDouble:10.0*PTP_Ratio] atIndex:obstacleCount];
         [obstacleCentersX insertObject:[NSNumber numberWithDouble:widthOffset*PTP_Ratio + [[obstacleWidths objectAtIndex:obstacleCount] doubleValue]/2.0] atIndex:obstacleCount];
-        [obstacleCentersY insertObject:[NSNumber numberWithDouble:10*PTP_Ratio + [[obstacleHeights objectAtIndex:obstacleCount]doubleValue]/2.0] atIndex:obstacleCount];
+        [obstacleCentersY insertObject:[NSNumber numberWithDouble:30*PTP_Ratio + [[obstacleHeights objectAtIndex:obstacleCount]doubleValue]/2.0] atIndex:obstacleCount];
         
         obstacleCount ++ ;
         
+        //sets up layers count of obstacle
+        int tempLayerHeight = arc4random()%3;
+        int layerCount = arc4random()%2;
+        double layerHeight = tempLayerHeight*20.0 + 40.0;
+        if (layerCount == 1) {
+            [obstacleWidths insertObject:[NSNumber numberWithDouble:(40.0*tempWidth+100.0)*PTP_Ratio] atIndex:obstacleCount];
+            [obstacleHeights insertObject:[NSNumber numberWithDouble:10.0*PTP_Ratio] atIndex:obstacleCount];
+            [obstacleCentersX insertObject:[NSNumber numberWithDouble:[[obstacleCentersX objectAtIndex:obstacleCount-1]doubleValue]] atIndex:obstacleCount];
+            [obstacleCentersY insertObject:[NSNumber numberWithDouble:[[obstacleCentersY objectAtIndex:obstacleCount-1]doubleValue] + layerHeight*PTP_Ratio] atIndex:obstacleCount];
+            
+            obstacleCount ++ ;   
+            
+            [obstacleWidths insertObject:[NSNumber numberWithDouble:(40.0*tempWidth+100.0)*PTP_Ratio] atIndex:obstacleCount];
+            [obstacleHeights insertObject:[NSNumber numberWithDouble:10.0*PTP_Ratio] atIndex:obstacleCount];
+            [obstacleCentersX insertObject:[NSNumber numberWithDouble:[[obstacleCentersX objectAtIndex:obstacleCount-1]doubleValue]] atIndex:obstacleCount];
+            [obstacleCentersY insertObject:[NSNumber numberWithDouble:[[obstacleCentersY objectAtIndex:obstacleCount-1]doubleValue] + layerHeight*PTP_Ratio] atIndex:obstacleCount];
+            
+            obstacleCount ++ ;  
+        }else if(layerCount == 0){
+            [obstacleWidths insertObject:[NSNumber numberWithDouble:(40.0*tempWidth+100.0)*PTP_Ratio] atIndex:obstacleCount];
+            [obstacleHeights insertObject:[NSNumber numberWithDouble:10.0*PTP_Ratio] atIndex:obstacleCount];
+            [obstacleCentersX insertObject:[NSNumber numberWithDouble:[[obstacleCentersX objectAtIndex:obstacleCount-1]doubleValue]] atIndex:obstacleCount];
+            [obstacleCentersY insertObject:[NSNumber numberWithDouble:[[obstacleCentersY objectAtIndex:obstacleCount-1]doubleValue] + layerHeight*PTP_Ratio] atIndex:obstacleCount];
+            
+            obstacleCount ++ ;  
+        }
+        
         //if true sets up another obstacle next to the current one
-        if (arc4random()%3 == 0) {
+  /*      if (arc4random()%3 == 0) {
             tempWidth = arc4random()%5;
             tempHeight = arc4random()%5;
             
@@ -65,7 +165,7 @@
             [obstacleCentersY insertObject:[NSNumber numberWithDouble:10*PTP_Ratio + [[obstacleHeights objectAtIndex:obstacleCount]doubleValue]/2.0] atIndex:obstacleCount];
             
             obstacleCount ++ ;            
-        }
+        }*/
         spawnObstacle = FALSE;
         obstacleTimePassed = 0.0;
     }
@@ -92,6 +192,7 @@
 }
 
 -(void) updateObstacleVerticesWithTime:(ccTime)dt andSpeed:(float)speed{
+   
     nObstalceVertices = 0;
     nObstalceBox2dVertices = 0;
     if (pixelWinSize.width > 480.0) { 
@@ -147,11 +248,16 @@
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_COLOR_ARRAY);
 
-    //begin drawing obstacle
-    //glColor4f(1.0, 1.0, 1.0, 1.0);
-    //glVertexPointer(2, GL_FLOAT, 0, obstacleVertices);
-    //glDrawArrays(GL_TRIANGLES, 0, nObstalceVertices);
-    //end drawing obstacle
+    //begin drawing obstacle/platforms
+  /*  glColor4f(0.1, 0.1, 0.1, 1.0);
+    glVertexPointer(2, GL_FLOAT, 0, obstacleVertices);
+    glDrawArrays(GL_TRIANGLES, 0, nObstalceVertices);*/
+    
+    glColor4f(0.5, 0.5, 0.5, 0.75);
+    glVertexPointer(2, GL_FLOAT, 0, platformsVertices);
+    glDrawArrays(GL_TRIANGLES, 0, nPlatformsVertices);
+
+    //end drawing obstacle/platforms
 
     world->DrawDebugData();
     
@@ -243,6 +349,72 @@
     }
 }
 
+- (void) createPlatformBody {
+    ///////////////////////////////////
+    //Creates top body for platforms 
+    ///////////////////////////////////
+    if(platformsTopAndBottomBody) {
+        world->DestroyBody(platformsTopAndBottomBody);
+    }
+    
+    b2BodyDef platformsTopAndBottomBodyDef;
+    platformsTopAndBottomBodyDef.type = b2_staticBody;
+    platformsTopAndBottomBodyDef.position = b2Vec2(0,0);
+    platformsTopAndBottomBody = world->CreateBody(&platformsTopAndBottomBodyDef);
+    
+    b2PolygonShape platformsTopAndBottomshape;
+    b2FixtureDef platformsTopAndBottomFixture;
+    platformsTopAndBottomFixture.shape = &platformsTopAndBottomshape;
+    platformsTopAndBottomFixture.restitution = 0.0;
+    // obstacleTopFixture.friction = 0.0;
+    
+    //////////////////////////////////
+    //Creates side body for platforms 
+    //////////////////////////////////
+    if (platformsSideBody) {
+        world->DestroyBody(platformsSideBody);
+    }
+    
+    b2BodyDef platformsSideBodyDef;
+    platformsSideBodyDef.type = b2_staticBody;
+    platformsSideBodyDef.position = b2Vec2(0,0);
+    platformsSideBody = world->CreateBody(&platformsSideBodyDef);
+    
+    b2PolygonShape platformsSideShape;    
+    b2FixtureDef platformsSideFixture;
+    platformsSideFixture.shape = &platformsSideShape;
+    platformsSideFixture.density = 1.0;
+    platformsSideFixture.restitution = 0.0;
+
+    //////////////////////////////////
+    //Setsup obstacle vertices
+    //////////////////////////////////
+    b2Vec2 lowerLeft, lowerRight, upperLeft, upperRight;
+    for (int i=0; i<nPlatformsBox2dVertices; i+=4) {
+        //obstacle top and bottom bodies
+        upperLeft = b2Vec2((platformsBox2dVertices[i+1].x+5.0)/PTM_RATIO, platformsBox2dVertices[i+1].y/PTM_RATIO);
+        upperRight =  b2Vec2((platformsBox2dVertices[i+3].x-5.0)/PTM_RATIO, platformsBox2dVertices[i+1].y/PTM_RATIO);
+        lowerLeft = b2Vec2((platformsBox2dVertices[i].x+5.0)/PTM_RATIO, platformsBox2dVertices[i].y/PTM_RATIO);
+        lowerRight =  b2Vec2((platformsBox2dVertices[i+2].x-5.0)/PTM_RATIO, platformsBox2dVertices[i+2].y/PTM_RATIO);
+        
+        platformsTopAndBottomshape.SetAsEdge(upperLeft, upperRight);
+        platformsTopAndBottomBody->CreateFixture(&platformsTopAndBottomFixture);
+        platformsTopAndBottomshape.SetAsEdge(lowerLeft, lowerRight);
+        platformsTopAndBottomBody->CreateFixture(&platformsTopAndBottomFixture);
+        
+        //obstacle side bodies
+        lowerLeft = b2Vec2(platformsBox2dVertices[i].x/PTM_RATIO, platformsBox2dVertices[i].y/PTM_RATIO);
+        upperLeft = b2Vec2(platformsBox2dVertices[i+1].x/PTM_RATIO, platformsBox2dVertices[i+1].y/PTM_RATIO);
+        lowerRight =  b2Vec2(platformsBox2dVertices[i+2].x/PTM_RATIO, platformsBox2dVertices[i+2].y/PTM_RATIO);
+        upperRight =  b2Vec2(platformsBox2dVertices[i+3].x/PTM_RATIO, platformsBox2dVertices[i+3].y/PTM_RATIO);
+        
+        platformsSideShape.SetAsEdge(lowerLeft, upperLeft);
+        platformsSideBody->CreateFixture(&platformsSideFixture);
+        platformsSideShape.SetAsEdge(lowerRight, upperRight);
+        platformsSideBody->CreateFixture(&platformsSideFixture);
+    }
+}
+
 -(void) createGround {
     float32 margin = 10.0f;
     b2Vec2 lowerLeft = b2Vec2(margin/PTM_RATIO, margin/PTM_RATIO);
@@ -273,10 +445,6 @@
     [sceneSpriteBatchNode addChild:player z:1000];
 }
 
--(void) createPlatforms {
-    platformCache = [[PlatformCache alloc] initWithWorld:world];
-    [self addChild:platformCache z:0];
-}
 
 -(void) createPaintChips {
     paintChipCache = [[PaintChipCache alloc] initWithWorld:world];
@@ -334,6 +502,7 @@
         
         //For obstacle drawing
         //determines screen size in pixels
+       // obstacles = [Obstacles node];
         pixelWinSize = [[[UIScreen mainScreen] currentMode] size];
         if (pixelWinSize.width > 480.0) {
             PTP_Ratio = 2.0;  
@@ -350,6 +519,15 @@
         obstacleSpawnTimer = 0;
         airObstacleSpawnTimer = 0;
         spawnObstacle = FALSE;
+        
+        //Draws platform
+        platformsCentersX = [[NSMutableArray alloc] init];
+        platformsCentersY = [[NSMutableArray alloc] init];
+        platformsWidths = [[NSMutableArray alloc] init];
+        platformsHeights = [[NSMutableArray alloc] init];
+        platformCount = 0;
+        initialPlatform = TRUE;
+        spawnPlatform = TRUE;
         
         /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
          [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"scene3atlas-hd.plist"];
@@ -368,9 +546,9 @@
         [self setupDebugDraw];
         [self createGround];
         [self createPlayer];
-        [self createPlatforms];
         [self createPaintChips];
-        
+        [self createPlatforms];
+
         //Create contact listener
         contactListener = new MyContactListener();
         world->SetContactListener(contactListener);
@@ -459,14 +637,14 @@
     self.position = ccp(-scaledOffsetX, self.position.y);
         
     //Updates the background with the correct offsets so that the drawing will match where the player is on screen.
-    [backgroundLayer updateBackground:dt 
+ /*   [backgroundLayer updateBackground:dt 
                        playerPosition:[player openGLPosition] 
             andPlayerPreviousPosition:[player previousPosition] 
                     andPlayerOnGround:player.isTouchingGround 
                        andPlayerScale:[player basePlayerScale]
                      andScreenOffsetX:screenOffsetX
                      andScreenOffsetY:yPos
-                             andScale:self.scale];
+                             andScale:self.scale];*/
 }
 
 -(void) updateScore:(ccTime)dt {
@@ -541,6 +719,11 @@
             player.isTouchingGround = YES;
             player.doubleJumpAvailable = YES;
         }
+        if ((contact.fixtureA->GetBody() == platformsTopAndBottomBody && contact.fixtureB->GetBody() == player.body) || 
+            (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == platformsTopAndBottomBody)) {
+            player.isTouchingGround = YES;
+            player.doubleJumpAvailable = YES;
+        }
         
         //Checks for contact between player and side face of obstacle
         for (int i=0; i<obstacleCount; i++) {
@@ -596,15 +779,18 @@
     [self detectContacts:dt];
     [self playerJumpBuffer];
     [self paintChipControl:dt];
-    [self createObstacleBody];
-    
+
     [self updateStatesOfObjects:dt];
     [player updateStateWithDeltaTime:dt andSpeed:PIXELS_PER_SECOND];
     [paintChipCache updatePaintChipsWithTime:dt andSpeed:PIXELS_PER_SECOND];
     
     //obstacle updates
-    [self spawnObstacleAtTime:dt];
-    [self updateObstacleVerticesWithTime:dt andSpeed:PIXELS_PER_SECOND];
+//    [self createObstacleBody];
+  //  [self spawnObstacleAtTime:dt];
+   // [self updateObstacleVerticesWithTime:dt andSpeed:PIXELS_PER_SECOND];
+    [self createPlatformBody];
+    [self createPlatforms];
+    [self updatePlatformVerticesWithTime:dt andSpeed:PIXELS_PER_SECOND];
 }
 
 -(BOOL) isTouchingLeftSide:(CGPoint)touchLocation {
@@ -630,7 +816,7 @@
                 playerStartJump = YES;
                 player.isJumpingLeft = YES;
                 player.jumpTime = 0.0;
-                backgroundLayer.baseBrushColor = [backgroundLayer randomBrushColor];
+      //          backgroundLayer.baseBrushColor = [backgroundLayer randomBrushColor];
                 jumpBufferCount = 0;
             }
         } else {
@@ -644,13 +830,11 @@
                 playerStartJump = YES;
                 player.isJumpingLeft = NO;
                 player.jumpTime = 0.0;
-                backgroundLayer.baseBrushColor = [backgroundLayer randomBrushColor];
+      //          backgroundLayer.baseBrushColor = [backgroundLayer randomBrushColor];
                 jumpBufferCount = 0;
             }
         }
-        
     }
-
 }
 
 -(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {

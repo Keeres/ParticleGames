@@ -17,6 +17,7 @@
 #import "PlatformCache.h"
 #import "PaintChipCache.h"
 #import "MyContactListener.h"
+//#import "Obstacles.h"
 
 @class GameUILayer;
 @class GameBackgroundLayer;
@@ -54,6 +55,7 @@
     GameBackgroundLayer *backgroundLayer;
     
     //obstacle variables
+  //  Obstacles *obstacles;
     CGSize pixelWinSize;
     b2Body *obstacleTopBody;
     b2Body *obstacleBottomBody;
@@ -69,11 +71,26 @@
     NSMutableArray *obstacleCentersY;
     NSMutableArray *obstacleWidths;
     NSMutableArray *obstacleHeights;
-    CGPoint obstacleCenter;
     CGPoint obstacleVertices[100];
+    CGPoint tempVertices[100];
     CGPoint obstacleBox2dVertices[100];
     ccColor4F obstacleColor[100];
     
+    //platforms
+    NSMutableArray *platformsCentersX;
+    NSMutableArray *platformsCentersY;
+    NSMutableArray *platformsWidths;
+    NSMutableArray *platformsHeights;
+    CGPoint platformsVertices[100];
+    CGPoint platformsBox2dVertices[100];
+    int platformCount;
+    int nPlatformsVertices;
+    int nPlatformsBox2dVertices;
+    BOOL initialPlatform;
+    BOOL spawnPlatform;
+    
+    b2Body *platformsTopAndBottomBody;
+    b2Body *platformsSideBody;
     int obstacleCount;
     int nObstalceBox2dVertices;
     int nObstalceVertices;
