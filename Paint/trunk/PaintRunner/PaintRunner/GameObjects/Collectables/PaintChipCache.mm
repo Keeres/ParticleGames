@@ -80,6 +80,14 @@
     }
 }
 
+-(void) resetPaintChips { 
+    for (int i = 0; i < [visiblePaintChips count]; i++) {
+        PaintChip *tempPC = [visiblePaintChips objectAtIndex:i];
+            [tempPC despawn];
+            [visiblePaintChips removeObject:tempPC];
+    }
+}
+
 -(void) dealloc {
     [totalPaintChips release];
     [visiblePaintChips release];

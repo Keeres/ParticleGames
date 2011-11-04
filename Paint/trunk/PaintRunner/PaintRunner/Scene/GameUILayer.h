@@ -15,12 +15,17 @@
 @interface GameUILayer : CCLayer {
     //Variables
     CGSize winSize;
-    CCMenu *pauseMenu;
+    CCMenu *pauseButtonMenu;
+    CCMenu *pauseLayerMenu;
+    CCMenu *gameOverMenu;
     CCLabelBMFont *scoreLabel;
+    CCLabelBMFont *highScoreLabel;
     BOOL gamePaused;
     
     //Layers
     GameActionLayer *actionLayer;
+    CCLayer *pauseLayer;
+    CCLayer *gameOverLayer;
 }
 
 -(void) setGameActionLayer:(GameActionLayer*)gameActionLayer;

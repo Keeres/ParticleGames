@@ -11,7 +11,9 @@
 @implementation GameActionLayer
 
 @synthesize contactListener;
+@synthesize player;
 @synthesize gameScore;
+@synthesize highScore;
 
 -(void) setupWorld {    
     b2Vec2 gravity = b2Vec2(0.0f, -20.0f);
@@ -405,39 +407,14 @@
         //obstacle side bodies
         lowerLeft = b2Vec2(platformsBox2dVertices[i].x/PTM_RATIO, platformsBox2dVertices[i].y/PTM_RATIO);
         upperLeft = b2Vec2(platformsBox2dVertices[i+1].x/PTM_RATIO, platformsBox2dVertices[i+1].y/PTM_RATIO);
-        lowerRight =  b2Vec2(platformsBox2dVertices[i+2].x/PTM_RATIO, platformsBox2dVertices[i+2].y/PTM_RATIO);
-        upperRight =  b2Vec2(platformsBox2dVertices[i+3].x/PTM_RATIO, platformsBox2dVertices[i+3].y/PTM_RATIO);
+        /*lowerRight =  b2Vec2(platformsBox2dVertices[i+2].x/PTM_RATIO, platformsBox2dVertices[i+2].y/PTM_RATIO);
+        upperRight =  b2Vec2(platformsBox2dVertices[i+3].x/PTM_RATIO, platformsBox2dVertices[i+3].y/PTM_RATIO);*/
         
         platformsSideShape.SetAsEdge(lowerLeft, upperLeft);
         platformsSideBody->CreateFixture(&platformsSideFixture);
-        platformsSideShape.SetAsEdge(lowerRight, upperRight);
-        platformsSideBody->CreateFixture(&platformsSideFixture);
+        //platformsSideShape.SetAsEdge(lowerRight, upperRight);
+        //platformsSideBody->CreateFixture(&platformsSideFixture);
     }
-}
-
--(void) createGround {
-    float32 margin = 10.0f;
-    b2Vec2 lowerLeft = b2Vec2(margin/PTM_RATIO, margin/PTM_RATIO);
-    b2Vec2 lowerRight = b2Vec2((winSize.width-margin)/PTM_RATIO, margin/PTM_RATIO);
-    b2Vec2 upperRight = b2Vec2((winSize.width-margin)/PTM_RATIO, (winSize.height-margin)/PTM_RATIO);
-    b2Vec2 upperLeft = b2Vec2(margin/PTM_RATIO, (winSize.height-margin)/PTM_RATIO);
-    
-    b2BodyDef groundBodyDef;
-    groundBodyDef.type = b2_staticBody;
-    groundBodyDef.position.Set(0, 0);
-    groundBody = world->CreateBody(&groundBodyDef);
-    b2PolygonShape groundShape;
-    b2FixtureDef groundFixtureDef;
-    groundFixtureDef.shape = &groundShape;
-    groundFixtureDef.density = 0.0;
-    groundShape.SetAsEdge(lowerLeft, lowerRight);
-    groundBody->CreateFixture(&groundFixtureDef);
-    //groundShape.SetAsEdge(lowerRight, upperRight);
-    //groundBody->CreateFixture(&groundFixtureDef);
-    //groundShape.SetAsEdge(upperRight, upperLeft);
-    //groundBody->CreateFixture(&groundFixtureDef);
-    //groundShape.SetAsEdge(upperLeft, lowerLeft);
-    //groundBody->CreateFixture(&groundFixtureDef);
 }
 
 -(void) createPlayer {
@@ -465,15 +442,19 @@
     screenOffsetY = 0.0;
     levelTimePassed = 0.0;
     paintTimePassed = 0.0;
-    PIXELS_PER_SECOND = 0.0;
+    PIXELS_PER_SECOND = 200.0;
     MAX_PIXELS_PER_SECOND = 200.0;
     gameScore = 0;
+    
+    //Reset Paintchips
+    [paintChipCache resetPaintChips];
     
     //Clean background
     
     //Remove platforms
     
-    //Reset player position
+    //Reset player
+    [player resetPlayer];
 }
 
 -(id) initWithGameUILayer:(GameUILayer *)gameUILayer andBackgroundLayer:(GameBackgroundLayer*)gameBGLayer {
@@ -496,7 +477,7 @@
         screenOffsetY = 0.0;
         levelTimePassed = 0.0;
         paintTimePassed = 0.0;
-        PIXELS_PER_SECOND = 0.0;
+        PIXELS_PER_SECOND = 200.0;
         MAX_PIXELS_PER_SECOND = 200.0;
         gameScore = 0;
         
@@ -544,7 +525,6 @@
         //Create world and objects
         [self setupWorld];
         [self setupDebugDraw];
-        [self createGround];
         [self createPlayer];
         [self createPaintChips];
         [self createPlatforms];
@@ -611,7 +591,6 @@
     //Comment top part out for one way scrolling
     //Uncomment bottom part as well
     //Calculates how fast to scroll the level based on PIXELS_PER_SECOND
-    PIXELS_PER_SECOND = 200.0;
     screenOffsetX += PIXELS_PER_SECOND * dt;
     float backgroundWidth = [backgroundLayer background].contentSize.width;
     if(screenOffsetX >= backgroundWidth) {
@@ -637,14 +616,14 @@
     self.position = ccp(-scaledOffsetX, self.position.y);
         
     //Updates the background with the correct offsets so that the drawing will match where the player is on screen.
- /*   [backgroundLayer updateBackground:dt 
+    [backgroundLayer updateBackground:dt 
                        playerPosition:[player openGLPosition] 
             andPlayerPreviousPosition:[player previousPosition] 
                     andPlayerOnGround:player.isTouchingGround 
                        andPlayerScale:[player basePlayerScale]
                      andScreenOffsetX:screenOffsetX
                      andScreenOffsetY:yPos
-                             andScale:self.scale];*/
+                             andScale:self.scale];
 }
 
 -(void) updateScore:(ccTime)dt {
@@ -719,19 +698,26 @@
             player.isTouchingGround = YES;
             player.doubleJumpAvailable = YES;
         }
+        
         if ((contact.fixtureA->GetBody() == platformsTopAndBottomBody && contact.fixtureB->GetBody() == player.body) || 
             (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == platformsTopAndBottomBody)) {
             player.isTouchingGround = YES;
             player.doubleJumpAvailable = YES;
         }
         
+        if ((contact.fixtureA->GetBody() == platformsSideBody && contact.fixtureB->GetBody() == player.body) || 
+            (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == platformsSideBody)) {
+            CCLOG(@"sidebody touched");
+            player.died = YES;
+            PIXELS_PER_SECOND = 0.0;    
+        }
+        
         //Checks for contact between player and side face of obstacle
         for (int i=0; i<obstacleCount; i++) {
             if ((contact.fixtureA->GetBody() == obstacleSideBody && contact.fixtureB->GetBody() == player.body) || 
                 (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == obstacleSideBody)) {
-              //  placeholder
-               // player.hitObstacle = YES;
-             //   CCLOG(@"hit obstacle");
+                
+                //placeholder
             }
         }
     }

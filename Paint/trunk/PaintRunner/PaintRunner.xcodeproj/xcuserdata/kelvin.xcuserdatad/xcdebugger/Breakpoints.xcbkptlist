@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PaintRunner/Scene/GameBackgroundLayer.mm"
-         timestampString = "340574587.372529"
+         timestampString = "341443939.665599"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "297"
-         endingLineNumber = "297"
+         startingLineNumber = "302"
+         endingLineNumber = "302"
          landmarkName = "-updateBackground:playerPosition:andPlayerPreviousPosition:andPlayerOnGround:andPlayerScale:andScreenOffsetX:andScreenOffsetY:andScale:"
          landmarkType = "5">
       </FileBreakpoint>

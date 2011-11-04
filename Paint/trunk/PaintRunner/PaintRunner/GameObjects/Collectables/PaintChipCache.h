@@ -28,5 +28,6 @@
 -(void) addPaintChips;
 -(void) updatePaintChipsWithTime:(ccTime)dt andSpeed:(float)speed;
 -(void) cleanPaintChips;
+-(void) resetPaintChips;
 
 @end

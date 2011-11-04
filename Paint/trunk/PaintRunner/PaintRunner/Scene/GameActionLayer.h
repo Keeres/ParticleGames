@@ -48,6 +48,7 @@
     float PIXELS_PER_SECOND;
     float MAX_PIXELS_PER_SECOND;
     float gameScore;
+    float highScore;
 
     
     //Layers
@@ -55,7 +56,7 @@
     GameBackgroundLayer *backgroundLayer;
     
     //obstacle variables
-  //  Obstacles *obstacles;
+    //Obstacles *obstacles;
     CGSize pixelWinSize;
     b2Body *obstacleTopBody;
     b2Body *obstacleBottomBody;
@@ -98,7 +99,10 @@
 }
 
 @property (nonatomic, readwrite) MyContactListener *contactListener;
+@property (nonatomic, retain) Player *player;
 @property float gameScore;
+@property float highScore;
+
 
 -(id) initWithGameUILayer:(GameUILayer *)gameUILayer andBackgroundLayer:(GameBackgroundLayer*)gameBGLayer;
 -(void) resetGame;

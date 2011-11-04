@@ -15,6 +15,8 @@
 		B6281DB3142D930E008A1DAB /* game1atlas-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6281DAF142D930E008A1DAB /* game1atlas-hd.plist */; };
 		B62A80081458A27400AFC3F9 /* testFont.png in Resources */ = {isa = PBXBuildFile; fileRef = B62A80061458A27400AFC3F9 /* testFont.png */; };
 		B62A80091458A27400AFC3F9 /* testFont.fnt in Resources */ = {isa = PBXBuildFile; fileRef = B62A80071458A27400AFC3F9 /* testFont.fnt */; };
+		B6584B191459E98800940980 /* brush2-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6584B181459E98800940980 /* brush2-hd.png */; };
+		B6584B1C1459E98E00940980 /* brush2.png in Resources */ = {isa = PBXBuildFile; fileRef = B6584B1B1459E98E00940980 /* brush2.png */; };
 		B68CF3B01437E79600EB6516 /* Box2DHelpers.mm in Sources */ = {isa = PBXBuildFile; fileRef = B68CF3A91437E79600EB6516 /* Box2DHelpers.mm */; };
 		B68CF3B11437E79600EB6516 /* Box2DSprite.mm in Sources */ = {isa = PBXBuildFile; fileRef = B68CF3AA1437E79600EB6516 /* Box2DSprite.mm */; };
 		B68CF3B21437E79600EB6516 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = B68CF3AB1437E79600EB6516 /* MyContactListener.mm */; };
@@ -194,6 +196,8 @@
 		B6281DAF142D930E008A1DAB /* game1atlas-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "game1atlas-hd.plist"; path = "Images/game1atlas-hd.plist"; sourceTree = "<group>"; };
 		B62A80061458A27400AFC3F9 /* testFont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = testFont.png; path = Images/testFont.png; sourceTree = "<group>"; };
 		B62A80071458A27400AFC3F9 /* testFont.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = testFont.fnt; path = Images/testFont.fnt; sourceTree = "<group>"; };
+		B6584B181459E98800940980 /* brush2-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "brush2-hd.png"; path = "Images/HD/brush2-hd.png"; sourceTree = "<group>"; };
+		B6584B1B1459E98E00940980 /* brush2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brush2.png; path = Images/SD/brush2.png; sourceTree = "<group>"; };
 		B68CF39A1437E77E00EB6516 /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		B68CF39B1437E77E00EB6516 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B68CF3A91437E79600EB6516 /* Box2DHelpers.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Box2DHelpers.mm; sourceTree = "<group>"; };
@@ -561,6 +565,8 @@
 				B62A80071458A27400AFC3F9 /* testFont.fnt */,
 				B6BCB7161433B636009792B7 /* brush-hd.png */,
 				B6BCB7181433B63E009792B7 /* brush.png */,
+				B6584B181459E98800940980 /* brush2-hd.png */,
+				B6584B1B1459E98E00940980 /* brush2.png */,
 				B6F1B5E81430FA030022B504 /* Noise.png */,
 				B6281DAC142D930E008A1DAB /* game1atlas.png */,
 				B6281DAD142D930E008A1DAB /* game1atlas-hd.png */,
@@ -1234,6 +1240,8 @@
 				B6BCB7191433B63E009792B7 /* brush.png in Resources */,
 				B62A80081458A27400AFC3F9 /* testFont.png in Resources */,
 				B62A80091458A27400AFC3F9 /* testFont.fnt in Resources */,
+				B6584B191459E98800940980 /* brush2-hd.png in Resources */,
+				B6584B1C1459E98E00940980 /* brush2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

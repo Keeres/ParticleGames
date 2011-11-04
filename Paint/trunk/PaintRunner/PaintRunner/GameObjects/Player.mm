@@ -16,9 +16,9 @@
 @synthesize isJumpingLeft;
 //@synthesize isJumpingRight;
 @synthesize doubleJumpAvailable;
+@synthesize died;
 @synthesize basePlayerScale;
 @synthesize jumpTime;
-@synthesize hitObstacle;
 
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
@@ -69,7 +69,7 @@
         isJumping = NO;
         isJumpingLeft = NO;
         doubleJumpAvailable = NO;
-        hitObstacle = NO;
+        died = NO;
         previousPosition = self.position;
         self.tag = kPlayerType;
         
@@ -84,10 +84,10 @@
     
     //Check to see if off screen
     //Reset to middle of screen 
-    if (self.position.x < 10 || self.position.x > 470 || self.hitObstacle) {
+    /*if (self.position.x < 10 || self.position.x > 470 || self.died) {
         self.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
         self.body->SetTransform(b2Vec2(winSize.width/6/PTM_RATIO, winSize.height/2/PTM_RATIO), 0);
-    }
+    }*/
     
     
     if (isTouchingGround) {
@@ -107,9 +107,15 @@
      degree = 0;
      }
      self.rotation += degree;*/
-    if (hitObstacle) {
-        //placeholder
-      //  CCLOG(@"hit obstacle");
+    if (self.died) {
+        self.body->SetActive(NO);
+        self.visible = NO;
+    }
+    
+    if (self.position.y < 0) {
+        if (self.died == NO) {
+            self.died = YES;
+        }
     }
     
     if (isJumping) {
@@ -167,6 +173,19 @@
     
     previousPlayerScale = basePlayerScale;
     
+}
+
+-(void) resetPlayer {
+    isJumping = NO;
+    isJumpingLeft = NO;
+    doubleJumpAvailable = NO;
+    died = NO;
+    previousPosition = self.position;
+
+    self.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
+    self.body->SetTransform(b2Vec2(winSize.width/6/PTM_RATIO, winSize.height/2/PTM_RATIO), 0);
+    self.body->SetActive(YES);
+    self.visible = YES;
 }
 
 -(void) dealloc {

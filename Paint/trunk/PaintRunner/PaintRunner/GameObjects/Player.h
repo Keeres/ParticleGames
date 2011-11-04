@@ -24,7 +24,7 @@
     BOOL isJumpingLeft;
     //BOOL isJumpingRight;
     BOOL doubleJumpAvailable;
-    BOOL hitObstacle;
+    BOOL died;
     float basePlayerScale;
     float previousPlayerScale;
     float jumpTime;
@@ -36,11 +36,12 @@
 @property BOOL isJumpingLeft;
 //@property BOOL isJumpingRight;
 @property BOOL doubleJumpAvailable;
-@property BOOL hitObstacle;
+@property BOOL died;
 @property float basePlayerScale;
 @property float jumpTime;
 
 -(id) initWithWorld:(b2World*)world;
 -(void)updateStateWithDeltaTime:(ccTime)deltaTime andSpeed:(float)speed;
+-(void) resetPlayer;
 
 @end
