@@ -848,7 +848,6 @@
     [player release];
     [platformCache release];
     [paintChipCache release];
-    [sceneSpriteBatchNode release];
     [super dealloc];
 }
 

@@ -1,9 +1,4 @@
 //  Constants.h
-// New Defines
-#define kMushroomMaxJumpingHeight 300.0
-#define kMushroomJumpYVector 6.0
-#define kMushroomIdleTimer 2.0
-#define kMushroomZValue 1000
 
 typedef enum {
     kCategoryMushroom = 0x0001,
@@ -26,22 +21,11 @@ typedef enum {
     kMainMenuScene=1,
     kOptionsScene=2,
     kCreditsScene=3,
-    kLevelCompleteScene=4,
-    kIntroScene=100,
-    kGameLevel1=101,
-    kGameLevel2=102,
-    kGameLevel3=103,
-    kGameLevel4=104,
-    kGameLevel5=105,
-    kCutSceneForLevel2=201
+    kGameScene=100
 } SceneTypes;
 
 typedef enum {
-    kLinkTypeBookSite,
-    kLinkTypeDeveloperSiteRod,
-    kLinkTypeDeveloperSiteRay,
-    kLinkTypeArtistSite,
-    kLinkTypeMusicianSite
+    kLinkTypeCompanySite
 } LinkTypes;
 
 // Debug Enemy States with Labels
@@ -86,11 +70,6 @@ typedef enum {
 
 // Physics Escape Level
 #define BACKGROUND_TRACK_ESCAPE @"EscapeTheFutureV3.mp3"
-
-// Chapter 9
-// Defines for Cloud Scrolling Scene
-#define kMaxCloudMoveDuration 10
-#define kMinCloudMoveDuration 1
 
 // Chapter 10
 //#define PTM_RATIO ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 100.0 : 50.0)

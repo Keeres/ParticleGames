@@ -44,17 +44,16 @@
     pauseLabel.scale = 0.50;
     
     CCLabelBMFont* retryLabel = [CCLabelBMFont labelWithString:@"Retry" fntFile:@"testFont.fnt"];
-    retryLabel.position = ccp(winSize.width/2, winSize.height/2);
-    retryLabel.scale = 0.50;
+    CCMenuItemLabel *retryButton = [CCMenuItemLabel itemWithLabel:retryLabel target:self selector:@selector(restartGame)];
+    retryLabel.scale = 0.5;
     
-    CCMenuItem *retryButton = [CCMenuItemImage itemFromNormalImage:@"brush.png" selectedImage:@"brush.png" disabledImage:@"brush.png" target:self selector:@selector(restartGame)];
-    retryButton.scale = 2.0;
-    pauseLayerMenu = [CCMenu menuWithItems:retryButton, nil];
-    [pauseLayerMenu alignItemsHorizontally];
-    pauseLayerMenu.position = ccp(winSize.width/2 - retryLabel.contentSize.width/2, winSize.height/2);
+    CCLabelBMFont* mainMenuLabel = [CCLabelBMFont labelWithString:@"Main Menu" fntFile:@"testFont.fnt"];
+    CCMenuItemLabel *mainMenuButton = [CCMenuItemLabel itemWithLabel:mainMenuLabel target:self selector:@selector(returnToMainMenu)];
+    mainMenuLabel.scale = 0.5;
     
-    [pauseLayer addChild:pauseLabel];
-    [pauseLayer addChild:retryLabel];
+    pauseLayerMenu = [CCMenu menuWithItems:retryButton, mainMenuButton, nil];
+    [pauseLayerMenu alignItemsVertically];
+    pauseLayerMenu.position = ccp(winSize.width/2, winSize.height/2);
     [pauseLayer addChild:pauseLayerMenu];
 }
 
@@ -72,18 +71,19 @@
     gameOverLabel.scale = 0.50;
     
     CCLabelBMFont* retryLabel = [CCLabelBMFont labelWithString:@"Retry" fntFile:@"testFont.fnt"];
-    retryLabel.position = ccp(winSize.width/2, winSize.height/2);
-    retryLabel.scale = 0.50;
+    CCMenuItemLabel *retryButton = [CCMenuItemLabel itemWithLabel:retryLabel target:self selector:@selector(restartGame)];
+    retryLabel.scale = 0.5;
     
-    CCMenuItem *retryButton = [CCMenuItemImage itemFromNormalImage:@"brush.png" selectedImage:@"brush.png" disabledImage:@"brush.png" target:self selector:@selector(restartGame)];
-    retryButton.scale = 2.0;
-    gameOverMenu = [CCMenu menuWithItems:retryButton, nil];
-    [gameOverMenu alignItemsHorizontally];
-    gameOverMenu.position = ccp(winSize.width/2 - retryLabel.contentSize.width/2, winSize.height/2);
+    CCLabelBMFont* mainMenuLabel = [CCLabelBMFont labelWithString:@"Main Menu" fntFile:@"testFont.fnt"];
+    CCMenuItemLabel *mainMenuButton = [CCMenuItemLabel itemWithLabel:mainMenuLabel target:self selector:@selector(returnToMainMenu)];
+    mainMenuLabel.scale = 0.5;
+
+    gameOverMenu = [CCMenu menuWithItems:retryButton, mainMenuButton, nil];
+    [gameOverMenu alignItemsVertically];
+    gameOverMenu.position = ccp(winSize.width/2, winSize.height/2);
     
     [gameOverLayer addChild:highScoreLabel];
     [gameOverLayer addChild:gameOverLabel];
-    [gameOverLayer addChild:retryLabel];
     [gameOverLayer addChild:gameOverMenu];
 }
 
@@ -118,6 +118,11 @@
     [actionLayer scheduleUpdate];
     gamePaused = NO;
     [actionLayer resetGame];
+}
+
+-(void) returnToMainMenu {
+    CCLOG(@"GameUILayer: Returning to Main Menu");
+    [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
 }
 
 -(id) init {

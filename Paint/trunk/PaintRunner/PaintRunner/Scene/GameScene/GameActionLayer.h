@@ -49,7 +49,6 @@
     float MAX_PIXELS_PER_SECOND;
     float gameScore;
     float highScore;
-
     
     //Layers
     GameUILayer *uiLayer;

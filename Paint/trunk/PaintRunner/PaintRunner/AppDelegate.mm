@@ -10,7 +10,7 @@
 
 #import "AppDelegate.h"
 #import "GameConfig.h"
-//#import "HelloWorldLayer.h"
+#import "GameManager.h"
 #import "GameScene.h"
 #import "RootViewController.h"
 
@@ -112,8 +112,11 @@
 	// Removes the startup flicker
 	[self removeStartupFlicker];
 	
+    // Setup Audio
+    [[GameManager sharedGameManager] setupAudioEngine];
+    
 	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [GameScene scene]];
+    [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
 }
 
 

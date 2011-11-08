@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "GameActionLayer.h"
 #import "GameBackgroundLayer.h"
+#import "GameManager.h"
 
 @class GameActionLayer;
 
