@@ -20,7 +20,7 @@
     for (int i = 0; i < platform_Max; i++) {
         int capacity;
         switch (i) {
-            case platformA:
+            /*case platformA:
                 capacity = 10;
                 break;
             case platformB:
@@ -28,7 +28,10 @@
                 break;
             case platformC:
                 capacity = 10;
-                break;
+                break;*/
+                
+            case platformD:
+                capacity = 50;
                 
             default:
                 [NSException exceptionWithName:@"PlatformCache Exception" reason:@"unhandled platform type" userInfo:nil];
@@ -69,8 +72,69 @@
 }
 
 -(void) addInitialPlatforms {
+    for (int i = 0; i < 30; i++) {
+        CCArray *platformOfType = [totalPlatforms objectAtIndex:0];
+        for (int j = 0; j < [platformOfType count]; j++) {
+            Platform *tempPlat;
+            tempPlat = [platformOfType objectAtIndex:j];
+            if (tempPlat.visible == NO) {
+                CGPoint location;
+                //location = ccp(tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i), 0.1*tempPlat.contentSize.height - (tempPlat.contentSize.width/2*i));
+                location = ccp(tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i), 0.2*winSize.height);
+
+                tempPlat.position = location;
+                tempPlat.finalHeight = 0.2*winSize.height;
+                tempPlat.visible = YES;
+                //tempPlat.platformNumber = platformCounter;
+                tempPlat.body->SetActive(YES);
+                tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
+                [visiblePlatforms addObject:tempPlat];
+                //platformCounter++;
+                break;
+            }
+        }
+    }
+    initialPlatformsCreated = YES;
+}
+
+-(void) addPlatform {
+    //int randomPlatform = arc4random() % 3;
+    int randomPlatform = 0;
+    CCArray *platformOfType = [totalPlatforms objectAtIndex:randomPlatform];
+    
+    float randomHeight = arc4random() % 80 + 30;
+    //float differentX = arc4random() % 5 + 5;
+    //differentX = differentX * 8;
+    float differentX = 0;
+    for (int i = 0; i < platformLength; i++) {
+        for (int j = 0; j < [platformOfType count]; j++) {        
+            Platform *tempPlat = [platformOfType objectAtIndex:j];
+            
+            if (tempPlat.visible == NO) {
+
+                CGPoint location = ccp(0.8*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, -tempPlat.contentSize.height/2 - (tempPlat.contentSize.width*i));
+                
+                tempPlat.position = location;
+                tempPlat.finalHeight = randomHeight;
+                tempPlat.visible = YES;
+                tempPlat.body->SetActive(YES);
+                tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
+                
+                [visiblePlatforms addObject:tempPlat];
+                if (i != 0 || i != (platformLength - 1)) {
+                    tempPlat.platformNumber = platformCounter;
+                    platformCounter++;
+                }
+                break;
+            }
+        }
+    }
+}
+
+/*-(void) addInitialPlatforms {
     for (int i = 0; i < 3; i++) {
-        int randomPlatform = arc4random() % 3;
+        //int randomPlatform = arc4random() % 3;
+        int randomPlatform = 0;
         CCArray *platformOfType = [totalPlatforms objectAtIndex:randomPlatform];
         for (int j = 0; j < [platformOfType count]; j++) {
             
@@ -109,10 +173,11 @@
         }
     }
     initialPlatformsCreated = YES;
-}
+}*/
 
--(void) addPlatform {
-    int randomPlatform = arc4random() % 3;
+/*-(void) addPlatform {
+    //int randomPlatform = arc4random() % 3;
+    int randomPlatform = 0;
     CCArray *platformOfType = [totalPlatforms objectAtIndex:randomPlatform];
     
     for (int i = 0; i < [platformOfType count]; i++) {        
@@ -136,24 +201,38 @@
             break;
         }
     }
-}
+}*/
 
 -(void) updatePlatformsWithTime:(ccTime)dt andSpeed:(float)speed {
+    if (speed > 100.0 && speed < 150.0) {
+        platformLength = 6;
+    } else if (speed > 150.0 && speed < 200.0) {
+        platformLength = 5;
+    } else if (speed > 200.0 && speed < 250.0) {
+        platformLength = 4;
+    } else if (speed > 250.0) {
+        platformLength = 3;
+    }
+               
     for (int i = 0; i < [visiblePlatforms count]; i++) {
         Platform *tempPlat = [visiblePlatforms objectAtIndex:i];
         
-        if (tempPlat.readyToMove) {
+        //if (tempPlat.readyToMove) {
             b2Vec2 bodyPos = tempPlat.body->GetPosition();
             tempPlat.body->SetTransform(b2Vec2(bodyPos.x - (speed*dt/PTM_RATIO), bodyPos.y), 0.0);
             
-        } //else {
+        //} //else {
             
-            if (tempPlat.position.y < tempPlat.finalHeight) {
+            if ((tempPlat.position.y < tempPlat.finalHeight) && tempPlat.readyToMove == NO) {
                 b2Vec2 bodyPos = tempPlat.body->GetPosition();
-                tempPlat.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*3.5*dt/PTM_RATIO)), 0.0);
-                tempPlat.readyToMove = YES;
+                tempPlat.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*1.5*dt/PTM_RATIO)), 0.0);
+                //tempPlat.readyToMove = YES;
 
             } else {
+                tempPlat.position = ccp(tempPlat.position.x, tempPlat.finalHeight);
+                b2Vec2 bodyPos = tempPlat.body->GetPosition();
+
+                tempPlat.body->SetTransform(b2Vec2(bodyPos.x, tempPlat.finalHeight/PTM_RATIO), 0.0);
                 tempPlat.readyToMove = YES;
             }
        // }

@@ -24,6 +24,7 @@
     BOOL initialPlatformsCreated;
     Platform *initialPlatform;
     int platformCounter;
+    int platformLength;
 }
 
 @property (nonatomic, retain) CCArray *totalPlatforms;

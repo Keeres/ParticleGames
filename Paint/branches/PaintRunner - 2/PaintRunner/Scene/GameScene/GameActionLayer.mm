@@ -175,8 +175,8 @@
     //////////////////////////////////
     
     if (PIXELS_PER_SECOND < MAX_PIXELS_PER_SECOND) {
-        PIXELS_PER_SECOND += 4*dt;
-        platformSpawnTime = 145.0/PIXELS_PER_SECOND;
+        PIXELS_PER_SECOND += 2*dt;
+        platformSpawnTime = 170.0/PIXELS_PER_SECOND;
     }
     
     //Calculates how fast to scroll the level based on PIXELS_PER_SECOND

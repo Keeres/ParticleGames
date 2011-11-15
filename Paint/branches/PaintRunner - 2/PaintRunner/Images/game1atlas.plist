@@ -20,7 +20,7 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{68, 2}, {16, 16}}</string>
+			<string>{{2, 110}, {16, 16}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
@@ -85,6 +85,26 @@
 			<false/>
 		</dict>
 		
+		<key>platformD.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{0, 0}, {16, 4}}</string>
+			<key>spriteOffset</key>
+			<string>{0, -0}</string>
+			<key>spriteSize</key>
+			<string>{16, 4}</string>
+			<key>spriteSourceSize</key>
+			<string>{16, 4}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{2, 104}, {16, 4}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
 		<key>player.png</key>
 		<dict>
 			<key>aliases</key>
@@ -100,7 +120,7 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{68, 20}, {16, 16}}</string>
+			<string>{{20, 104}, {16, 16}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>

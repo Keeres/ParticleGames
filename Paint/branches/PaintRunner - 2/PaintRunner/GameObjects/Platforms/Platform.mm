@@ -70,7 +70,7 @@
     NSString *platformName;
     
     switch (platformType) {
-        case platformA:
+        /*case platformA:
             platformName = @"platformA.png";
             break;
         case platformB:
@@ -78,7 +78,12 @@
             break;
         case platformC:
             platformName = @"platformA.png";
+            break;*/
+            
+        case platformD:
+            platformName = @"platformD.png";
             break;
+            
             
         default:
             [NSException exceptionWithName:@"Platform Exception" reason:@"unhandled platform type" userInfo:nil];
@@ -106,7 +111,7 @@
     if ((self = [super init])) {
         world = theWorld;
         
-        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformA"]];
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformD"]];
         
         self.visible = NO;
         self.tag = kPlatformType;
@@ -129,6 +134,8 @@
     self.body->SetActive(NO);
     readyToMove = NO;
     isHit = NO;
+    finalHeight = -1;
+    platformNumber = -1;
 }
 
 -(void) dealloc {

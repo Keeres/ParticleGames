@@ -10,9 +10,10 @@
 #import "CommonProtocols.h"
 
 typedef enum {
-    platformA = 0,
-    platformB,
-    platformC,
+    //platformA = 0,
+    //platformB,
+    //platformC,
+    platformD = 0,
     platform_Max,
 } PlatformTypes;
 

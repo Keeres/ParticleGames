@@ -28,8 +28,8 @@
     scoreLabel = [CCLabelBMFont labelWithString:@"Score:" fntFile:@"testFont.fnt"];
     scoreLabel.anchorPoint = ccp(0.0, 0.5);
     scoreLabel.scale = 0.4;
-
-    scoreLabel.position = ccp(20.0, winSize.height - scoreLabel.contentSize.height/2);
+    
+    scoreLabel.position = ccp(10.0, winSize.height - scoreLabel.contentSize.height/2);
     
     [self addChild:scoreLabel];
 }
@@ -39,10 +39,10 @@
     highScoreLabel.anchorPoint = ccp(0.0, 0.5);
     highScoreLabel.scale = 0.4;
     
-    highScoreLabel.position = ccp(20.0, winSize.height - 2*scoreLabel.contentSize.height/2);
+    highScoreLabel.position = ccp(10.0, winSize.height - 2*scoreLabel.contentSize.height/2);
     
     [self addChild:highScoreLabel];
-
+    
 }
 
 -(void) setupSpeedLabel {
@@ -50,7 +50,7 @@
     speedLabel.anchorPoint = ccp(0.0, 0.5);
     speedLabel.scale = 0.4;
     
-    speedLabel.position = ccp(20.0, winSize.height - 3*scoreLabel.contentSize.height/2);
+    speedLabel.position = ccp(10.0, winSize.height - 3*scoreLabel.contentSize.height/2);
     
     [self addChild:speedLabel];
 }
@@ -60,17 +60,19 @@
     timeLabel.anchorPoint = ccp(0.0, 0.5);
     timeLabel.scale = 0.4;
     
-    timeLabel.position = ccp(20.0, winSize.height - 4*scoreLabel.contentSize.height/2);
+    timeLabel.position = ccp(10.0, winSize.height - 4*scoreLabel.contentSize.height/2);
     
     [self addChild:timeLabel];
 }
 
 -(void) setupComboLabel {
     comboLabel = [CCLabelBMFont labelWithString:@"%i COMBO!" fntFile:@"testFont.fnt"];
+    comboLabel.anchorPoint = ccp(0.0, 0.5);
     
-    comboLabel.position = ccp(winSize.width/8, winSize.height/2);
     
-    comboLabel.scale = 0.35;
+    comboLabel.position = ccp(10.0, winSize.height/2);
+    
+    comboLabel.scale = 0.4;
     comboLabel.visible = NO;
     
     [self addChild:comboLabel];
@@ -79,9 +81,11 @@
 -(void) setupMultiplierLabel {
     multiplierLabel = [CCLabelBMFont labelWithString:@"%0.1fx" fntFile:@"testFont.fnt"];
     
-    multiplierLabel.position = ccp(7*winSize.width/8, winSize.height/2);
+    multiplierLabel.anchorPoint = ccp(0.0, 0.5);
     
-    multiplierLabel.scale = 0.35;
+    multiplierLabel.position = ccp(10.0, winSize.height/2 - comboLabel.contentSize.height/2);
+    
+    multiplierLabel.scale = 0.4;
     
     [self addChild:multiplierLabel];
 }
@@ -126,7 +130,7 @@
     CCLabelBMFont* mainMenuLabel = [CCLabelBMFont labelWithString:@"Main Menu" fntFile:@"testFont.fnt"];
     CCMenuItemLabel *mainMenuButton = [CCMenuItemLabel itemWithLabel:mainMenuLabel target:self selector:@selector(returnToMainMenu)];
     mainMenuLabel.scale = 0.5;
-
+    
     gameOverMenu = [CCMenu menuWithItems:retryButton, mainMenuButton, nil];
     [gameOverMenu alignItemsVertically];
     gameOverMenu.position = ccp(winSize.width/2, winSize.height/2);
@@ -138,12 +142,12 @@
 -(void) pauseGame {
     if (gamePaused == NO && ![actionLayer player].died) {
         pauseLayer.visible = YES;
-
+        
         [actionLayer unscheduleUpdate];
         gamePaused = YES;
     } else if (gamePaused == YES && ![actionLayer player].died) {
         pauseLayer.visible = NO;
-
+        
         [actionLayer scheduleUpdate];
         gamePaused = NO;
     }
@@ -175,7 +179,6 @@
         
         self.isTouchEnabled = YES;
         gamePaused = NO;
-
         [self setupPauseButton];
         [self setupScoreLabel];
         [self setupHighScoreLabel];
@@ -183,7 +186,7 @@
         [self setupMultiplierLabel];
         [self setupSpeedLabel];
         [self setupTimeLabel];
-
+        
         [self setupPauseLayer];
         [self setupGameOverLayer];
         
@@ -197,14 +200,13 @@
     [highScoreLabel setString:[NSString stringWithFormat:@"High Score: %0.1f", [actionLayer highScore]]];
     
     [comboLabel setString:[NSString stringWithFormat:@"%i COMBO!", [actionLayer comboCount]]];
-    comboLabel.position = ccp([actionLayer player].position.x - [actionLayer player].contentSize.width ,[actionLayer player].position.y + [actionLayer player].contentSize.height);
     
     [multiplierLabel setString:[NSString stringWithFormat:@"%0.1fx", [actionLayer multiplier]]];
     
     //Test Logs
     [speedLabel setString:[NSString stringWithFormat:@"Speed: %0.1f", [actionLayer PIXELS_PER_SECOND]]];
     [timeLabel setString:[NSString stringWithFormat:@"Time: %0.1f", [actionLayer levelTimePassed]]];
-                           
+    
     
     if (actionLayer.comboCount > 2) {
         comboLabel.visible = YES;

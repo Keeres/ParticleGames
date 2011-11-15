@@ -204,6 +204,8 @@
 		B62A80071458A27400AFC3F9 /* testFont.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = testFont.fnt; path = Images/testFont.fnt; sourceTree = "<group>"; };
 		B6584B181459E98800940980 /* brush2-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "brush2-hd.png"; path = "Images/HD/brush2-hd.png"; sourceTree = "<group>"; };
 		B6584B1B1459E98E00940980 /* brush2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brush2.png; path = Images/SD/brush2.png; sourceTree = "<group>"; };
+		B66D79671471D4EA009ACEB7 /* PaintRunner copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PaintRunner copy-Info.plist"; path = "/Users/kelvin/Documents/iPhone/Projects/PaintRunner - 2/PaintRunner copy-Info.plist"; sourceTree = "<absolute>"; };
+		B66D7A271471D51F009ACEB7 /* PaintRunner copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PaintRunner copy2-Info.plist"; path = "/Users/kelvin/Documents/iPhone/Projects/PaintRunner - 2/PaintRunner copy2-Info.plist"; sourceTree = "<absolute>"; };
 		B67579F814686FD50085A591 /* MainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScene.h; path = Scene/MainMenuScene/MainMenuScene.h; sourceTree = "<group>"; };
 		B67579F914686FD50085A591 /* MainMenuScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MainMenuScene.mm; path = Scene/MainMenuScene/MainMenuScene.mm; sourceTree = "<group>"; };
 		B67579FB14686FFB0085A591 /* MainMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuLayer.h; path = Scene/MainMenuScene/MainMenuLayer.h; sourceTree = "<group>"; };
@@ -655,6 +657,8 @@
 				B697ABB6142A6EFA00E4FE3B /* PaintRunner */,
 				B697ABA5142A6EFA00E4FE3B /* Frameworks */,
 				B697ABA3142A6EFA00E4FE3B /* Products */,
+				B66D79671471D4EA009ACEB7 /* PaintRunner copy-Info.plist */,
+				B66D7A271471D51F009ACEB7 /* PaintRunner copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1467,6 +1471,41 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		B62959801471DAF500AAA706 /* Ad Hoc Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+			};
+			name = "Ad Hoc Distribution";
+		};
+		B62959811471DAF500AAA706 /* Ad Hoc Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PaintRunner/Prefix.pch;
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				INFOPLIST_FILE = PaintRunner/Resources/Info.plist;
+				OTHER_LDFLAGS = "-lz";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				USER_HEADER_SEARCH_PATHS = "\"PaintRunner/libs\"";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad Hoc Distribution";
+		};
 		B697AD8A142A6EFE00E4FE3B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1545,6 +1584,7 @@
 			buildConfigurations = (
 				B697AD8A142A6EFE00E4FE3B /* Debug */,
 				B697AD8B142A6EFE00E4FE3B /* Release */,
+				B62959801471DAF500AAA706 /* Ad Hoc Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1554,6 +1594,7 @@
 			buildConfigurations = (
 				B697AD8D142A6EFE00E4FE3B /* Debug */,
 				B697AD8E142A6EFE00E4FE3B /* Release */,
+				B62959811471DAF500AAA706 /* Ad Hoc Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

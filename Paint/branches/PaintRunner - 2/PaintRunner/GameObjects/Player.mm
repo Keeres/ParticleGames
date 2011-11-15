@@ -24,7 +24,7 @@
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position = b2Vec2(winSize.width/4/PTM_RATIO, winSize.height/2/PTM_RATIO);
+    bodyDef.position = b2Vec2(winSize.width/4/PTM_RATIO, winSize.height/4/PTM_RATIO);
     bodyDef.allowSleep = false;
     //bodyDef.fixedRotation = true;
     //bodyDef.isGravitated = false;
@@ -164,7 +164,7 @@
     previousPosition = self.position;
 
     self.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
-    self.body->SetTransform(b2Vec2(winSize.width/4/PTM_RATIO, winSize.height/2/PTM_RATIO), 0);
+    self.body->SetTransform(b2Vec2(winSize.width/4/PTM_RATIO, winSize.height/4/PTM_RATIO), 0);
     [self despawn];
 }
 
