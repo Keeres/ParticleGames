@@ -11,7 +11,9 @@
 @implementation GameActionLayer
 
 @synthesize contactListener;
-@synthesize comboCount;
+//@synthesize comboCount;
+@synthesize platformCounter;
+@synthesize numPlatformsNeedToHit;
 @synthesize player;
 @synthesize gameScore;
 @synthesize highScore;
@@ -81,7 +83,9 @@
 
 -(void) resetGame {
     jumpBufferCount = 0;
-    comboCount = 0;
+    //comboCount = 0;
+    platformCounter = 0;
+    numPlatformsNeedToHit = 20;
     playerStartJump = NO;
     playerEndJump = NO;
     changeDirectionToLeft = YES;
@@ -123,7 +127,9 @@
         //Setup initialial variables
         self.isTouchEnabled = YES;
         jumpBufferCount = 0;
-        comboCount = 0;
+        //comboCount = 0;
+        platformCounter = 0;
+        numPlatformsNeedToHit = 20;
         playerStartJump = NO;
         playerEndJump = NO;
         changeDirectionToLeft = YES;
@@ -221,6 +227,18 @@
         highScore = gameScore;
     }
     
+    if (platformCounter >= numPlatformsNeedToHit) {
+        platformCounter = 0;
+        numPlatformsNeedToHit = numPlatformsNeedToHit*1.5;
+        if (multiplier < 32) {
+            if (multiplier < 16) {
+                multiplier = multiplier*2;
+            } else {
+                multiplier += 8;
+            }
+        }
+        
+    }
     //Test Logs
     levelTimePassed += dt;
 }
@@ -297,7 +315,7 @@
                 player.isTouchingGround = YES;
                 player.doubleJumpAvailable = YES;
                 
-                int platformNumberDifference = tempPlat.platformNumber - player.platformNumber;
+                /*int platformNumberDifference = tempPlat.platformNumber - player.platformNumber;
                 player.platformNumber = tempPlat.platformNumber;
                 
                 if (platformNumberDifference == 1) {
@@ -310,6 +328,10 @@
                 } else if (platformNumberDifference > 1) {
                     comboCount = 0;
                     multiplier = 1;
+                }*/
+                if (tempPlat.isHit == NO) {
+                    tempPlat.isHit = YES;
+                    platformCounter++;
                 }
             }
         }

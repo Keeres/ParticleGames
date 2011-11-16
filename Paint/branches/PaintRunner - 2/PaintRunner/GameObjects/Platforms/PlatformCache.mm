@@ -122,8 +122,8 @@
                 
                 [visiblePlatforms addObject:tempPlat];
                 if (i != 0 || i != (platformLength - 1)) {
-                    tempPlat.platformNumber = platformCounter;
-                    platformCounter++;
+                    //tempPlat.platformNumber = platformCounter;
+                    //platformCounter++;
                 }
                 break;
             }
@@ -225,7 +225,7 @@
             
             if ((tempPlat.position.y < tempPlat.finalHeight) && tempPlat.readyToMove == NO) {
                 b2Vec2 bodyPos = tempPlat.body->GetPosition();
-                tempPlat.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*1.5*dt/PTM_RATIO)), 0.0);
+                tempPlat.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*2*dt/PTM_RATIO)), 0.0);
                 //tempPlat.readyToMove = YES;
 
             } else {
@@ -261,7 +261,7 @@
     }
     [visiblePlatforms removeAllObjects];
     
-    platformCounter = 0;
+    //platformCounter = 0;
     
 }
 

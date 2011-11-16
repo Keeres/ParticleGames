@@ -73,7 +73,7 @@
     comboLabel.position = ccp(10.0, winSize.height/2);
     
     comboLabel.scale = 0.4;
-    comboLabel.visible = NO;
+    //comboLabel.visible = NO;
     
     [self addChild:comboLabel];
 }
@@ -199,7 +199,7 @@
     [scoreLabel setString:[NSString stringWithFormat:@"Score: %0.1f", [actionLayer gameScore]]];
     [highScoreLabel setString:[NSString stringWithFormat:@"High Score: %0.1f", [actionLayer highScore]]];
     
-    [comboLabel setString:[NSString stringWithFormat:@"%i COMBO!", [actionLayer comboCount]]];
+    [comboLabel setString:[NSString stringWithFormat:@"%i/%i", [actionLayer platformCounter], [actionLayer numPlatformsNeedToHit]]];
     
     [multiplierLabel setString:[NSString stringWithFormat:@"%0.1fx", [actionLayer multiplier]]];
     
@@ -208,11 +208,11 @@
     [timeLabel setString:[NSString stringWithFormat:@"Time: %0.1f", [actionLayer levelTimePassed]]];
     
     
-    if (actionLayer.comboCount > 2) {
+    /*if (actionLayer.comboCount > 2) {
         comboLabel.visible = YES;
     } else {
         comboLabel.visible = NO;
-    }
+    }*/
 }
 
 -(void) update:(ccTime)dt {    

@@ -42,7 +42,9 @@
     PaintChipCache *paintChipCache;
     CCSpriteBatchNode *sceneSpriteBatchNode;
     int jumpBufferCount;
-    int comboCount;
+    //int comboCount;
+    int platformCounter;
+    int numPlatformsNeedToHit;
     BOOL playerStartJump;
     BOOL playerEndJump;
     BOOL changeDirectionToLeft;
@@ -65,7 +67,9 @@
 
 @property (nonatomic, readwrite) MyContactListener *contactListener;
 @property (nonatomic, retain) Player *player;
-@property (readwrite) int comboCount;
+//@property (readwrite) int comboCount;
+@property (readwrite) int platformCounter;
+@property (readwrite) int numPlatformsNeedToHit;
 @property (readwrite) float gameScore;
 @property (readwrite) float highScore;
 @property (readwrite) float multiplier;

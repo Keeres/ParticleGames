@@ -23,7 +23,7 @@
     NSMutableArray *visiblePlatforms;
     BOOL initialPlatformsCreated;
     Platform *initialPlatform;
-    int platformCounter;
+    //int platformCounter;
     int platformLength;
 }
 
