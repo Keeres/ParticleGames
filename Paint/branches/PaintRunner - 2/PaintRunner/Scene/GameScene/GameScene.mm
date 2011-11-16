@@ -16,10 +16,13 @@
     GameUILayer *uiLayer = [GameUILayer node];
     [scene addChild:uiLayer z:2];
     
-    GameBackgroundLayer *backgroundLayer = [GameBackgroundLayer node];
-    [scene addChild:backgroundLayer z:0];
+    //GameBackgroundLayer *backgroundLayer = [GameBackgroundLayer node];
+    //[scene addChild:backgroundLayer z:0];
     
-    GameActionLayer *actionLayer = [[[GameActionLayer alloc] initWithGameUILayer:uiLayer andBackgroundLayer:backgroundLayer] autorelease];
+    GameBackgroundLayer2 *backgroundLayer2 = [GameBackgroundLayer2 node];
+    [scene addChild:backgroundLayer2 z:0];
+    
+    GameActionLayer *actionLayer = [[[GameActionLayer alloc] initWithGameUILayer:uiLayer andBackgroundLayer:backgroundLayer2] autorelease];
     
     [scene addChild:actionLayer z:1];
     

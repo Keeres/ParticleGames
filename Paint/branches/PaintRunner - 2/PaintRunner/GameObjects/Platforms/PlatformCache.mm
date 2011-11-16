@@ -59,7 +59,6 @@
 -(id) initWithWorld:(b2World*)theWorld {
     if ((self = [super init])) {
         winSize = [CCDirector sharedDirector].winSize;
-        self.position = ccp(-100,0);
         world = theWorld;
 
         visiblePlatforms = [[NSMutableArray alloc] init];

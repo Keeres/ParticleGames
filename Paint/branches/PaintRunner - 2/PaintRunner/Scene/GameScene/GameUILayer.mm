@@ -14,6 +14,10 @@
     actionLayer = gameActionLayer;
 }
 
+-(void) setGameBackgroundLayer2:(GameBackgroundLayer2 *)gameBackgroundLayer2 {
+    backgroundLayer2 = gameBackgroundLayer2;
+}
+
 -(void) setupPauseButton {
     CCMenuItem *pauseButton = [CCMenuItemImage itemFromNormalImage:@"brush.png" selectedImage:@"brush.png" disabledImage:@"brush.png" target:self selector:@selector(pauseGame)];
     pauseButton.scale = 1.5;
@@ -166,6 +170,7 @@
     [actionLayer scheduleUpdate];
     gamePaused = NO;
     [actionLayer resetGame];
+    [backgroundLayer2 resetBackground];
 }
 
 -(void) returnToMainMenu {

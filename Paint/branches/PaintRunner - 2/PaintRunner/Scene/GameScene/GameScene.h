@@ -8,6 +8,7 @@
 
 #import "CCScene.h"
 #import "GameBackgroundLayer.h"
+#import "GameBackgroundLayer2.h"
 #import "GameActionLayer.h"
 #import "GameUILayer.h"
 

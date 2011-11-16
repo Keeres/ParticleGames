@@ -72,7 +72,7 @@
     
     for (int i = 0; i < [totalPlatforms count]; i++) {
         CCArray *platformOfType = [totalPlatforms objectAtIndex:i];
-        
+            
         for (int j = 0; j < [platformOfType count]; j++) {
             Platform *tempPlat = [platformOfType objectAtIndex:j];
             
@@ -99,11 +99,12 @@
     PIXELS_PER_SECOND = INITIAL_PIXELS_PER_SECOND;
     gameScore = 0.0;
     multiplier = 1.0;
-    
+
     //Reset Paintchips
     [paintChipCache resetPaintChips];
     
     //Clean background
+    
     
     //Remove platforms
     [platformCache resetPlatforms];
@@ -115,14 +116,22 @@
     [player spawn];
 }
 
--(id) initWithGameUILayer:(GameUILayer *)gameUILayer andBackgroundLayer:(GameBackgroundLayer*)gameBGLayer {
+-(id) initWithGameUILayer:(GameUILayer *)gameUILayer andBackgroundLayer:(GameBackgroundLayer2*)gameBGLayer {
     if ((self = [super init])) {
         winSize = [CCDirector sharedDirector].winSize;
+        
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game1atlas.plist"];
+        sceneSpriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"game1atlas.png" capacity:100];
+
+        [self addChild:sceneSpriteBatchNode z:1];
 
         //Setup layers
         uiLayer = gameUILayer;
-        backgroundLayer = gameBGLayer;
+        //backgroundLayer = gameBGLayer;
+        backgroundLayer2 = gameBGLayer;
         [uiLayer setGameActionLayer:self];
+        [backgroundLayer2 setGameActionLayer:self];
+        [uiLayer setGameBackgroundLayer2:gameBGLayer];
         
         //Setup initialial variables
         self.isTouchEnabled = YES;
@@ -151,10 +160,6 @@
          [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"scene3atlas.plist"];
          sceneSpriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"scene3atlas.png"];
          }*/
-        
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"game1atlas.plist"];
-        sceneSpriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"game1atlas.png"];
-        [self addChild:sceneSpriteBatchNode z:1];
         
         //Create world and objects
         [self setupWorld];
@@ -186,29 +191,29 @@
     }
     
     //Calculates how fast to scroll the level based on PIXELS_PER_SECOND
-    screenOffsetX += PIXELS_PER_SECOND * dt;
+    /*screenOffsetX += PIXELS_PER_SECOND * dt;
     float backgroundWidth = [backgroundLayer background].contentSize.width;
     if(screenOffsetX >= backgroundWidth) {
         screenOffsetX = screenOffsetX - backgroundWidth;
-    }
+    }*/
     
     //Calculates when to scroll the screen to keep the player within the screen when jumping too high. Right now the screen will start to scroll when player jumps over half the screen (winSize.height/2).
-    float prevScreenOffsetY = screenOffsetY;
+    /*float prevScreenOffsetY = screenOffsetY;
     if (player.position.y > winSize.height/2) {
         screenOffsetY = (winSize.height/2 - player.position.y)*0.4;
         self.position = ccp(self.position.x, screenOffsetY);
     } else if (player.position.y <= winSize.height/2) {
         self.position = ccp(self.position.x, 0.0);
         self.scale = 1.0;
-    }
+    }*/
     
     //Calculates how much to scale the screen when screen begins to scroll.
-    float yPos = screenOffsetY - prevScreenOffsetY;
-    self.scale = self.scale + yPos*dt/10;
+    //float yPos = screenOffsetY - prevScreenOffsetY;
+    //self.scale = self.scale + yPos*dt/10;
     
     //Calculates how much to move the X offset of the layer to keep the player in the same location on screen with the zoom out effect
-    float scaledOffsetX = winSize.width/2*(1-self.scale);
-    self.position = ccp(-scaledOffsetX, self.position.y);
+    //float scaledOffsetX = winSize.width/2*(1-self.scale);
+    //self.position = ccp(-scaledOffsetX, self.position.y);
         
     //Updates the background with the correct offsets so that the drawing will match where the player is on screen.
     /*[backgroundLayer updateBackground:dt 
@@ -219,6 +224,8 @@
                      andScreenOffsetX:screenOffsetX
                      andScreenOffsetY:yPos
                              andScale:self.scale];*/
+    
+    [backgroundLayer2 updateBackgroundWithTime:dt andSpeed:PIXELS_PER_SECOND];
 }
 
 -(void) updateScore:(ccTime)dt {

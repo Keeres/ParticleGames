@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "GameUILayer.h"
 #import "GameBackgroundLayer.h"
+#import "GameBackgroundLayer2.h"
 #import "Box2D.h"
 #import "Box2DSprite.h"
 #import "GLES-Render.h"
@@ -19,11 +20,14 @@
 #import "MyContactListener.h"
 //#import "Obstacles.h"
 
+#import "CloudCache.h"
+
 #define MAX_PIXELS_PER_SECOND 300.0
 #define INITIAL_PIXELS_PER_SECOND 100.0
 
 @class GameUILayer;
 @class GameBackgroundLayer;
+@class GameBackgroundLayer2;
 
 @interface GameActionLayer : CCLayer {
     //Box2D Variables
@@ -63,6 +67,7 @@
     //Layers
     GameUILayer *uiLayer;
     GameBackgroundLayer *backgroundLayer;
+    GameBackgroundLayer2 *backgroundLayer2;
 }
 
 @property (nonatomic, readwrite) MyContactListener *contactListener;
@@ -77,7 +82,7 @@
 @property (readonly) float PIXELS_PER_SECOND;
 
 
--(id) initWithGameUILayer:(GameUILayer *)gameUILayer andBackgroundLayer:(GameBackgroundLayer*)gameBGLayer;
+-(id) initWithGameUILayer:(GameUILayer *)gameUILayer andBackgroundLayer:(GameBackgroundLayer2*)gameBGLayer;
 -(void) resetGame;
 
 @end

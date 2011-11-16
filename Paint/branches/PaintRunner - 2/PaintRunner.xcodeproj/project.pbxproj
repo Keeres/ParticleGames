@@ -182,12 +182,18 @@
 		B6A329891434CF7C0058415A /* PaintChip.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6A329881434CF7C0058415A /* PaintChip.mm */; };
 		B6A3298C1434CF960058415A /* PaintChipCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6A3298B1434CF960058415A /* PaintChipCache.mm */; };
 		B6B15B751469C1DA00093B63 /* SoundEffects.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6B15B741469C1DA00093B63 /* SoundEffects.plist */; };
+		B6BA9D071474209400A43316 /* CloudCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BA9D061474209400A43316 /* CloudCache.m */; };
+		B6BA9D0A147420B000A43316 /* Cloud.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BA9D09147420B000A43316 /* Cloud.m */; };
+		B6BA9D0D147428FD00A43316 /* GameBackgroundLayer2.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6BA9D0C147428FD00A43316 /* GameBackgroundLayer2.mm */; };
 		B6BCB7151433A656009792B7 /* PlatformCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6BCB7131433A656009792B7 /* PlatformCache.mm */; };
 		B6BCB7171433B636009792B7 /* brush-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6BCB7161433B636009792B7 /* brush-hd.png */; };
 		B6BCB7191433B63E009792B7 /* brush.png in Resources */ = {isa = PBXBuildFile; fileRef = B6BCB7181433B63E009792B7 /* brush.png */; };
 		B6C634D8146D846800B9419B /* testFont-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C634D6146D846800B9419B /* testFont-hd.png */; };
 		B6C634D9146D846800B9419B /* testFont-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = B6C634D7146D846800B9419B /* testFont-hd.fnt */; };
 		B6C75D211432556800C5DD47 /* Platform.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6C75D201432556800C5DD47 /* Platform.mm */; };
+		B6EA2E2814746F0100B890C0 /* background-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6EA2E2714746F0100B890C0 /* background-hd.png */; };
+		B6EA2E2B14746F0900B890C0 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = B6EA2E2A14746F0900B890C0 /* background.png */; };
+		B6EA2E2F1474778600B890C0 /* leafEmitter.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6EA2E2E1474778600B890C0 /* leafEmitter.plist */; };
 		B6F1B5E91430FA030022B504 /* Noise.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F1B5E81430FA030022B504 /* Noise.png */; };
 /* End PBXBuildFile section */
 
@@ -545,6 +551,12 @@
 		B6A3298A1434CF960058415A /* PaintChipCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaintChipCache.h; path = GameObjects/Collectables/PaintChipCache.h; sourceTree = "<group>"; };
 		B6A3298B1434CF960058415A /* PaintChipCache.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PaintChipCache.mm; path = GameObjects/Collectables/PaintChipCache.mm; sourceTree = "<group>"; };
 		B6B15B741469C1DA00093B63 /* SoundEffects.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SoundEffects.plist; path = Plists/SoundEffects.plist; sourceTree = "<group>"; };
+		B6BA9D051474209400A43316 /* CloudCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudCache.h; path = GameObjects/BackgroundObjects/CloudCache.h; sourceTree = "<group>"; };
+		B6BA9D061474209400A43316 /* CloudCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudCache.m; path = GameObjects/BackgroundObjects/CloudCache.m; sourceTree = "<group>"; };
+		B6BA9D08147420B000A43316 /* Cloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cloud.h; path = GameObjects/BackgroundObjects/Cloud.h; sourceTree = "<group>"; };
+		B6BA9D09147420B000A43316 /* Cloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Cloud.m; path = GameObjects/BackgroundObjects/Cloud.m; sourceTree = "<group>"; };
+		B6BA9D0B147428FD00A43316 /* GameBackgroundLayer2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameBackgroundLayer2.h; path = Scene/GameScene/GameBackgroundLayer2.h; sourceTree = "<group>"; };
+		B6BA9D0C147428FD00A43316 /* GameBackgroundLayer2.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GameBackgroundLayer2.mm; path = Scene/GameScene/GameBackgroundLayer2.mm; sourceTree = "<group>"; };
 		B6BCB7131433A656009792B7 /* PlatformCache.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PlatformCache.mm; path = GameObjects/Platforms/PlatformCache.mm; sourceTree = "<group>"; };
 		B6BCB7141433A656009792B7 /* PlatformCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlatformCache.h; path = GameObjects/Platforms/PlatformCache.h; sourceTree = "<group>"; };
 		B6BCB7161433B636009792B7 /* brush-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "brush-hd.png"; path = "Images/HD/brush-hd.png"; sourceTree = "<group>"; };
@@ -553,6 +565,9 @@
 		B6C634D7146D846800B9419B /* testFont-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "testFont-hd.fnt"; path = "Images/testFont-hd.fnt"; sourceTree = "<group>"; };
 		B6C75D1F1432556800C5DD47 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.h; path = GameObjects/Platforms/Platform.h; sourceTree = "<group>"; };
 		B6C75D201432556800C5DD47 /* Platform.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.mm; path = GameObjects/Platforms/Platform.mm; sourceTree = "<group>"; };
+		B6EA2E2714746F0100B890C0 /* background-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "background-hd.png"; path = "Images/HD/background-hd.png"; sourceTree = "<group>"; };
+		B6EA2E2A14746F0900B890C0 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = Images/SD/background.png; sourceTree = "<group>"; };
+		B6EA2E2E1474778600B890C0 /* leafEmitter.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = leafEmitter.plist; path = Images/leafEmitter.plist; sourceTree = "<group>"; };
 		B6F1B5E81430FA030022B504 /* Noise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Noise.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -578,6 +593,8 @@
 		B6281D9F142D85EF008A1DAB /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B6EA2E2A14746F0900B890C0 /* background.png */,
+				B6EA2E2714746F0100B890C0 /* background-hd.png */,
 				B6C634D6146D846800B9419B /* testFont-hd.png */,
 				B6C634D7146D846800B9419B /* testFont-hd.fnt */,
 				B62A80061458A27400AFC3F9 /* testFont.png */,
@@ -591,6 +608,7 @@
 				B6281DAD142D930E008A1DAB /* game1atlas-hd.png */,
 				B6281DAE142D930E008A1DAB /* game1atlas.plist */,
 				B6281DAF142D930E008A1DAB /* game1atlas-hd.plist */,
+				B6EA2E2E1474778600B890C0 /* leafEmitter.plist */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -611,6 +629,8 @@
 				B6757A0C14688B5D0085A591 /* GameActionLayer.mm */,
 				B6757A0F14688B5D0085A591 /* GameBackgroundLayer.h */,
 				B6757A0E14688B5D0085A591 /* GameBackgroundLayer.mm */,
+				B6BA9D0B147428FD00A43316 /* GameBackgroundLayer2.h */,
+				B6BA9D0C147428FD00A43316 /* GameBackgroundLayer2.mm */,
 				B6757A1014688B5D0085A591 /* GameScene.h */,
 				B6757A1114688B5D0085A591 /* GameScene.mm */,
 			);
@@ -1183,6 +1203,7 @@
 				B68CF3991437E77E00EB6516 /* Constants */,
 				B6A329851434CF500058415A /* Collectables */,
 				B6C75D1D1432554900C5DD47 /* Platforms */,
+				B6BA9CFE14741FDE00A43316 /* BackgroundObjects */,
 				B62A800014589BBE00AFC3F9 /* Special Effects */,
 				B697AD9D142A754800E4FE3B /* Player.h */,
 				B697AD9E142A754800E4FE3B /* Player.mm */,
@@ -1218,6 +1239,17 @@
 			children = (
 			);
 			name = Sounds;
+			sourceTree = "<group>";
+		};
+		B6BA9CFE14741FDE00A43316 /* BackgroundObjects */ = {
+			isa = PBXGroup;
+			children = (
+				B6BA9D08147420B000A43316 /* Cloud.h */,
+				B6BA9D09147420B000A43316 /* Cloud.m */,
+				B6BA9D051474209400A43316 /* CloudCache.h */,
+				B6BA9D061474209400A43316 /* CloudCache.m */,
+			);
+			name = BackgroundObjects;
 			sourceTree = "<group>";
 		};
 		B6C75D1D1432554900C5DD47 /* Platforms */ = {
@@ -1305,6 +1337,9 @@
 				B6B15B751469C1DA00093B63 /* SoundEffects.plist in Resources */,
 				B6C634D8146D846800B9419B /* testFont-hd.png in Resources */,
 				B6C634D9146D846800B9419B /* testFont-hd.fnt in Resources */,
+				B6EA2E2814746F0100B890C0 /* background-hd.png in Resources */,
+				B6EA2E2B14746F0900B890C0 /* background.png in Resources */,
+				B6EA2E2F1474778600B890C0 /* leafEmitter.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1465,6 +1500,9 @@
 				B6757A1314688B5D0085A591 /* GameActionLayer.mm in Sources */,
 				B6757A1414688B5D0085A591 /* GameBackgroundLayer.mm in Sources */,
 				B6757A1514688B5D0085A591 /* GameScene.mm in Sources */,
+				B6BA9D071474209400A43316 /* CloudCache.m in Sources */,
+				B6BA9D0A147420B000A43316 /* Cloud.m in Sources */,
+				B6BA9D0D147428FD00A43316 /* GameBackgroundLayer2.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
