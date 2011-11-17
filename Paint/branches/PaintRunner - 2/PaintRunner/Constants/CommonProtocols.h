@@ -29,6 +29,7 @@ typedef enum {
     kPaintChipType,
     kPlatformType,
     kCloudType,
+    kTreeType,
     kGameObjectMaxType,
 } GameObjectType;
 

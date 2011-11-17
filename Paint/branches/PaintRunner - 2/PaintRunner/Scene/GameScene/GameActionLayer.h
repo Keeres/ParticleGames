@@ -8,6 +8,7 @@
 
 #import "cocos2d.h"
 #import "GameUILayer.h"
+#import "GameForegroundLayer.h"
 #import "GameBackgroundLayer.h"
 #import "GameBackgroundLayer2.h"
 #import "Box2D.h"
@@ -26,6 +27,7 @@
 #define INITIAL_PIXELS_PER_SECOND 100.0
 
 @class GameUILayer;
+@class GameForegroundLayer;
 @class GameBackgroundLayer;
 @class GameBackgroundLayer2;
 
@@ -66,6 +68,7 @@
     
     //Layers
     GameUILayer *uiLayer;
+    GameForegroundLayer *foregroundLayer;
     GameBackgroundLayer *backgroundLayer;
     GameBackgroundLayer2 *backgroundLayer2;
 }
@@ -82,7 +85,7 @@
 @property (readonly) float PIXELS_PER_SECOND;
 
 
--(id) initWithGameUILayer:(GameUILayer *)gameUILayer andBackgroundLayer:(GameBackgroundLayer2*)gameBGLayer;
+-(id) initWithGameUILayer:(GameUILayer *)gameUILayer andForegroundLayer:(GameForegroundLayer*)gameFGLayer andBackgroundLayer:(GameBackgroundLayer2*)gameBGLayer;
 -(void) resetGame;
 
 @end

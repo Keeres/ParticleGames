@@ -1,37 +1,37 @@
 //
-//  Cloud.m
+//  Tree.m
 //  PaintRunner
 //
 //  Created by Kelvin on 11/16/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Cloud.h"
+#import "Tree.h"
 
-@implementation Cloud
+@implementation Tree
 
 @synthesize speedPercentage;
 
--(id) initWithCloudType:(CloudTypes)cloudWithType {
-    cloudType = cloudWithType;
+-(id) initWithTreeType:(TreeTypes)treeWithType {
+    treeType = treeWithType;
     
-    NSString *cloudName;
+    NSString *treeName;
     
-    switch (cloudType) {
-        case cloud:
-            cloudName = @"cloud.png";
+    switch (treeType) {
+        case tree:
+            treeName = @"tree.png";
             break;
             
         default:
-            [NSException exceptionWithName:@"Cloud Exception" reason:@"unhandled cloud type" userInfo:nil];
+            [NSException exceptionWithName:@"Tree Exception" reason:@"unhandled tree type" userInfo:nil];
             break;
     }
     
     if ((self = [super init])) {
-        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:cloudName]];
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:treeName]];
         
         self.visible = NO;
-        self.tag = kCloudType;
+        self.tag = kTreeType;
         speedPercentage = 1.0;
     }
     return self;
@@ -46,5 +46,6 @@
 -(void) dealloc {
     [super dealloc];
 }
+
 
 @end

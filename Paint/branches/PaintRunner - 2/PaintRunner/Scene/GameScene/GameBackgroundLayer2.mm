@@ -30,15 +30,18 @@
     
     leafEmitter = [ARCH_OPTIMAL_PARTICLE_SYSTEM
                    particleWithFile:@"leafEmitter.plist"];
-    [leafEmitter setPosition:ccp(winSize.width, winSize.height/2)];
+    leafEmitter.position = ccp(winSize.width, winSize.height/2);
     leafEmitter.scale = 0.5;
     [self addChild:leafEmitter z:100];
 }
 
 -(void) resetBackground {
+    CCLOG(@"BackgroundLayer2: Reset");
+
     cloudTimePassed = 0.0;
     cloudSpawnTime = 5.0;
     [cloudCache resetClouds];
+    background.position = ccp(background.contentSize.width/2, winSize.height/2);
 }
 
 -(id) init {
@@ -64,8 +67,9 @@
 
 -(void) cloudControl:(ccTime) dt {
     cloudTimePassed += dt;
-    if (cloudTimePassed > cloudSpawnTime && [[cloudCache visibleClouds] count] < 6) {
+    if (cloudTimePassed > cloudSpawnTime && [[cloudCache visibleClouds] count] < 9) {
         CCLOG(@"clouds added");
+        cloudTimePassed = 0;
         cloudSpawnTime = arc4random() % 5 + 5;
         [cloudCache addCloud];
     }

@@ -182,6 +182,11 @@
 		B6A329891434CF7C0058415A /* PaintChip.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6A329881434CF7C0058415A /* PaintChip.mm */; };
 		B6A3298C1434CF960058415A /* PaintChipCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6A3298B1434CF960058415A /* PaintChipCache.mm */; };
 		B6B15B751469C1DA00093B63 /* SoundEffects.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6B15B741469C1DA00093B63 /* SoundEffects.plist */; };
+		B6BA2E8D1474AADB00485A80 /* pause-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6BA2E8C1474AADB00485A80 /* pause-hd.png */; };
+		B6BA2E901474AAE200485A80 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = B6BA2E8F1474AAE200485A80 /* pause.png */; };
+		B6BA2E931474ADC700485A80 /* Tree.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BA2E921474ADC700485A80 /* Tree.m */; };
+		B6BA2E961474AE8400485A80 /* TreeCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BA2E951474AE8400485A80 /* TreeCache.m */; };
+		B6BA2E991474B1BC00485A80 /* GameForegroundLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6BA2E981474B1BC00485A80 /* GameForegroundLayer.mm */; };
 		B6BA9D071474209400A43316 /* CloudCache.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BA9D061474209400A43316 /* CloudCache.m */; };
 		B6BA9D0A147420B000A43316 /* Cloud.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BA9D09147420B000A43316 /* Cloud.m */; };
 		B6BA9D0D147428FD00A43316 /* GameBackgroundLayer2.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6BA9D0C147428FD00A43316 /* GameBackgroundLayer2.mm */; };
@@ -551,6 +556,14 @@
 		B6A3298A1434CF960058415A /* PaintChipCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaintChipCache.h; path = GameObjects/Collectables/PaintChipCache.h; sourceTree = "<group>"; };
 		B6A3298B1434CF960058415A /* PaintChipCache.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PaintChipCache.mm; path = GameObjects/Collectables/PaintChipCache.mm; sourceTree = "<group>"; };
 		B6B15B741469C1DA00093B63 /* SoundEffects.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SoundEffects.plist; path = Plists/SoundEffects.plist; sourceTree = "<group>"; };
+		B6BA2E8C1474AADB00485A80 /* pause-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pause-hd.png"; path = "Images/HD/pause-hd.png"; sourceTree = "<group>"; };
+		B6BA2E8F1474AAE200485A80 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = Images/SD/pause.png; sourceTree = "<group>"; };
+		B6BA2E911474ADC700485A80 /* Tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tree.h; path = GameObjects/BackgroundObjects/Tree.h; sourceTree = "<group>"; };
+		B6BA2E921474ADC700485A80 /* Tree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Tree.m; path = GameObjects/BackgroundObjects/Tree.m; sourceTree = "<group>"; };
+		B6BA2E941474AE8400485A80 /* TreeCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TreeCache.h; path = GameObjects/BackgroundObjects/TreeCache.h; sourceTree = "<group>"; };
+		B6BA2E951474AE8400485A80 /* TreeCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TreeCache.m; path = GameObjects/BackgroundObjects/TreeCache.m; sourceTree = "<group>"; };
+		B6BA2E971474B1BC00485A80 /* GameForegroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; name = GameForegroundLayer.h; path = Scene/GameScene/GameForegroundLayer.h; sourceTree = "<group>"; };
+		B6BA2E981474B1BC00485A80 /* GameForegroundLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GameForegroundLayer.mm; path = Scene/GameScene/GameForegroundLayer.mm; sourceTree = "<group>"; };
 		B6BA9D051474209400A43316 /* CloudCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CloudCache.h; path = GameObjects/BackgroundObjects/CloudCache.h; sourceTree = "<group>"; };
 		B6BA9D061474209400A43316 /* CloudCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CloudCache.m; path = GameObjects/BackgroundObjects/CloudCache.m; sourceTree = "<group>"; };
 		B6BA9D08147420B000A43316 /* Cloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cloud.h; path = GameObjects/BackgroundObjects/Cloud.h; sourceTree = "<group>"; };
@@ -603,6 +616,8 @@
 				B6BCB7181433B63E009792B7 /* brush.png */,
 				B6584B181459E98800940980 /* brush2-hd.png */,
 				B6584B1B1459E98E00940980 /* brush2.png */,
+				B6BA2E8C1474AADB00485A80 /* pause-hd.png */,
+				B6BA2E8F1474AAE200485A80 /* pause.png */,
 				B6F1B5E81430FA030022B504 /* Noise.png */,
 				B6281DAC142D930E008A1DAB /* game1atlas.png */,
 				B6281DAD142D930E008A1DAB /* game1atlas-hd.png */,
@@ -625,6 +640,8 @@
 			children = (
 				B6757A0B14688B5D0085A591 /* GameUILayer.h */,
 				B6757A0A14688B5D0085A591 /* GameUILayer.mm */,
+				B6BA2E971474B1BC00485A80 /* GameForegroundLayer.h */,
+				B6BA2E981474B1BC00485A80 /* GameForegroundLayer.mm */,
 				B6757A0D14688B5D0085A591 /* GameActionLayer.h */,
 				B6757A0C14688B5D0085A591 /* GameActionLayer.mm */,
 				B6757A0F14688B5D0085A591 /* GameBackgroundLayer.h */,
@@ -1248,6 +1265,10 @@
 				B6BA9D09147420B000A43316 /* Cloud.m */,
 				B6BA9D051474209400A43316 /* CloudCache.h */,
 				B6BA9D061474209400A43316 /* CloudCache.m */,
+				B6BA2E911474ADC700485A80 /* Tree.h */,
+				B6BA2E921474ADC700485A80 /* Tree.m */,
+				B6BA2E941474AE8400485A80 /* TreeCache.h */,
+				B6BA2E951474AE8400485A80 /* TreeCache.m */,
 			);
 			name = BackgroundObjects;
 			sourceTree = "<group>";
@@ -1340,6 +1361,8 @@
 				B6EA2E2814746F0100B890C0 /* background-hd.png in Resources */,
 				B6EA2E2B14746F0900B890C0 /* background.png in Resources */,
 				B6EA2E2F1474778600B890C0 /* leafEmitter.plist in Resources */,
+				B6BA2E8D1474AADB00485A80 /* pause-hd.png in Resources */,
+				B6BA2E901474AAE200485A80 /* pause.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1503,6 +1526,9 @@
 				B6BA9D071474209400A43316 /* CloudCache.m in Sources */,
 				B6BA9D0A147420B000A43316 /* Cloud.m in Sources */,
 				B6BA9D0D147428FD00A43316 /* GameBackgroundLayer2.mm in Sources */,
+				B6BA2E931474ADC700485A80 /* Tree.m in Sources */,
+				B6BA2E961474AE8400485A80 /* TreeCache.m in Sources */,
+				B6BA2E991474B1BC00485A80 /* GameForegroundLayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

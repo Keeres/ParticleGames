@@ -30,7 +30,7 @@
                  break;*/
                 
             case cloud:
-                capacity = 10;
+                capacity = 16;
                 
             default:
                 [NSException exceptionWithName:@"CloudCache Exception" reason:@"unhandled cloud type" userInfo:nil];
@@ -71,28 +71,39 @@
 }
 
 -(void) addCloud {
-    int randomNumOfClouds = arc4random() % 2 + 2;
+    int randomNumOfClouds = arc4random() % 2 + 3;
     
     int randomCloud = 0; //Picks cloud type
     CCArray *cloudOfType = [totalClouds objectAtIndex:randomCloud];
     
 
-    
+    float randomScale = 1.0;
+    float randomHeight = 0.0;
     int speedSetter = arc4random()%4;
-    float speedPercentage;
+    float speedPercentage = 1.0;
     
     switch (speedSetter) {
         case 0:
-            speedPercentage = 0.3;
+            speedPercentage = 0.1;
+            randomScale = 0.3;
+            randomHeight = 20;
             break;
         case 1:
-            speedPercentage = 0.35;
+            speedPercentage = 0.2;
+            randomScale = 0.7;
+            randomHeight = 60;
             break;
         case 2:
-            speedPercentage = 0.4;
+            speedPercentage = 0.3;
+            randomScale = 1.1;
+            randomHeight = 100;
+
             break;
         case 3:
-            speedPercentage = 0.5;
+            speedPercentage = 0.4;
+            randomScale = 1.6;
+            randomHeight = 120;
+
             break;
             
         default:
@@ -102,32 +113,52 @@
     for (int i = 0; i < randomNumOfClouds; i++) {
         for (int j = 0; j < [cloudOfType count]; j++) {
             Cloud *tempCloud = [cloudOfType objectAtIndex:j];
-            
+
             if (tempCloud.visible == NO) {
-                float randomHeight = arc4random() % 60 + 50;
-                randomHeight = winSize.height - randomHeight;
-                float randomDistance = arc4random() % 40 + 30;
-                int randomScaleSet = arc4random() % 3;
-                switch (randomScaleSet) {
+                switch (i) {
                     case 0:
-                        tempCloud.scale = 0.8;
+                        tempCloud.scale = randomScale - 0.2;
                         break;
                     case 1:
-                        tempCloud.scale = 1.0;
+                        tempCloud.scale = randomScale + 0.2;
                         break;
-                    case 2:
-                        tempCloud.scale = 1.2;
+                    case 2: {
+                        if (randomNumOfClouds == 3) {
+                            tempCloud.scale = randomScale;
+                        } else {
+                            tempCloud.scale = randomScale + 0.4;
+                        }
                         break;
+                    }
+                    case 3:
+                        tempCloud.scale = randomScale;
                         
                     default:
                         break;
                 }
                 
-                CGPoint location = ccp(winSize.width + randomDistance, randomHeight);
+                /*int randomDistanceDifference = arc4random() % 3;
+                switch (randomDistanceDifference) {
+                    case 0:
+                        randomDistance = 20*tempCloud.scale;
+                        break;
+                    case 1:
+                        randomDistance = -20*tempCloud.scale;
+                        break;
+                    case 2:
+                        randomDistance = 0;
+                        break;
+                        
+                    default:
+                        break;
+                }*/
+    
+                CGPoint location = ccp(winSize.width + tempCloud.contentSize.width/2*(i+1)*self.scale, winSize.height - randomHeight);
                 
                 tempCloud.position = location;
                 tempCloud.visible = YES;
                 tempCloud.speedPercentage = speedPercentage;
+
                 [visibleClouds addObject:tempCloud];
                 break;
             }

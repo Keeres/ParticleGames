@@ -10,6 +10,7 @@
 #import "GameBackgroundLayer.h"
 #import "GameBackgroundLayer2.h"
 #import "GameActionLayer.h"
+#import "GameForegroundLayer.h"
 #import "GameUILayer.h"
 
 @interface GameScene : CCScene {

@@ -103,8 +103,9 @@
     //Reset Paintchips
     [paintChipCache resetPaintChips];
     
-    //Clean background
-    
+    //Clean background/foreground
+    [backgroundLayer2 resetBackground];
+    [foregroundLayer resetForeground];
     
     //Remove platforms
     [platformCache resetPlatforms];
@@ -116,7 +117,8 @@
     [player spawn];
 }
 
--(id) initWithGameUILayer:(GameUILayer *)gameUILayer andBackgroundLayer:(GameBackgroundLayer2*)gameBGLayer {
+-(id) initWithGameUILayer:(GameUILayer *)gameUILayer andForegroundLayer:(GameForegroundLayer *)gameFGLayer andBackgroundLayer:(GameBackgroundLayer2 *)gameBGLayer { 
+        
     if ((self = [super init])) {
         winSize = [CCDirector sharedDirector].winSize;
         
@@ -127,11 +129,12 @@
 
         //Setup layers
         uiLayer = gameUILayer;
+        foregroundLayer = gameFGLayer;
         //backgroundLayer = gameBGLayer;
         backgroundLayer2 = gameBGLayer;
         [uiLayer setGameActionLayer:self];
+        [foregroundLayer setGameActionLayer:self];
         [backgroundLayer2 setGameActionLayer:self];
-        [uiLayer setGameBackgroundLayer2:gameBGLayer];
         
         //Setup initialial variables
         self.isTouchEnabled = YES;
@@ -226,6 +229,7 @@
                              andScale:self.scale];*/
     
     [backgroundLayer2 updateBackgroundWithTime:dt andSpeed:PIXELS_PER_SECOND];
+    [foregroundLayer updateForegroundWithTime:dt andSpeed:PIXELS_PER_SECOND];
 }
 
 -(void) updateScore:(ccTime)dt {

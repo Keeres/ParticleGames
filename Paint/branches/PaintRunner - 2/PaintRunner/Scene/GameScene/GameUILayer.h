@@ -33,12 +33,10 @@
     
     //Layers
     GameActionLayer *actionLayer;
-    GameBackgroundLayer2 *backgroundLayer2;
     CCLayer *pauseLayer;
     CCLayer *gameOverLayer;
 }
 
 -(void) setGameActionLayer:(GameActionLayer*)gameActionLayer;
--(void) setGameBackgroundLayer2:(GameBackgroundLayer2*)gameBackgroundLayer2;
 
 @end
