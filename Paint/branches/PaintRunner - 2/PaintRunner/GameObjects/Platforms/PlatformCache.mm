@@ -12,6 +12,7 @@
 
 @synthesize totalPlatforms;
 @synthesize visiblePlatforms;
+@synthesize visibleSidePlatforms;
 @synthesize initialPlatformsCreated;
 
 -(void) initPlatforms {
@@ -56,15 +57,26 @@
     initialPlatform = [[Platform alloc] initInitialGroundPlatformWithWorld:world];
 }
 
+-(void) initSidePlatforms {
+    totalSidePlatforms = [[CCArray alloc] initWithCapacity:5];
+    
+    for (int i = 0; i < [totalSidePlatforms capacity]; i++) {
+        Platform *platform = [[[Platform alloc] initSideWithWorld:world] autorelease];
+        [totalSidePlatforms addObject:platform];
+    }
+}
+
 -(id) initWithWorld:(b2World*)theWorld {
     if ((self = [super init])) {
         winSize = [CCDirector sharedDirector].winSize;
         world = theWorld;
 
         visiblePlatforms = [[NSMutableArray alloc] init];
+        visibleSidePlatforms = [[NSMutableArray alloc] init];
         initialPlatformsCreated = NO;
 
         [self initPlatforms];
+        [self initSidePlatforms];
             
     }
     return self;
@@ -106,6 +118,26 @@
     //differentX = differentX * 8;
     float differentX = 0;
     for (int i = 0; i < platformLength; i++) {
+        
+        if (i == 0) {
+            for (int j = 0; j < [totalSidePlatforms count]; j++) {
+                Platform *tempSide = [totalSidePlatforms objectAtIndex:j];
+                
+                if (!tempSide.body->IsActive()) {
+                    
+                    CGPoint location = ccp(0.8*winSize.width - tempSide.contentSize.width/2 + ((tempSide.contentSize.width - 1)*i) + differentX, -tempSide.contentSize.height/2 - (tempSide.contentSize.width*i));
+                    
+                    tempSide.position = location;
+                    tempSide.finalHeight = randomHeight;
+                    tempSide.body->SetActive(YES);
+                    tempSide.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
+                    
+                    [visibleSidePlatforms addObject:tempSide];
+                    break;
+                }
+            }
+        }
+        
         for (int j = 0; j < [platformOfType count]; j++) {        
             Platform *tempPlat = [platformOfType objectAtIndex:j];
             
@@ -237,17 +269,49 @@
        // }
     }
     
+    for (int i = 0; i < [visibleSidePlatforms count]; i++) {
+        Platform *tempSide = [visibleSidePlatforms objectAtIndex:i];
+        
+        //if (tempSide.readyToMove) {
+        b2Vec2 bodyPos = tempSide.body->GetPosition();
+        tempSide.body->SetTransform(b2Vec2(bodyPos.x - (speed*dt/PTM_RATIO), bodyPos.y), 0.0);
+        
+        //} //else {
+        
+        if ((tempSide.position.y < tempSide.finalHeight) && tempSide.readyToMove == NO) {
+            b2Vec2 bodyPos = tempSide.body->GetPosition();
+            tempSide.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*2*dt/PTM_RATIO)), 0.0);
+            //tempSide.readyToMove = YES;
+            
+        } else {
+            tempSide.position = ccp(tempSide.position.x, tempSide.finalHeight);
+            b2Vec2 bodyPos = tempSide.body->GetPosition();
+            
+            tempSide.body->SetTransform(b2Vec2(bodyPos.x, tempSide.finalHeight/PTM_RATIO), 0.0);
+            tempSide.readyToMove = YES;
+        }
+        // }
+    }
+    
     [self cleanPlatforms];
 }
 
 -(void) cleanPlatforms {
     for (int i = 0; i < [visiblePlatforms count]; i++) {
-        
         Platform *tempPlat = [visiblePlatforms objectAtIndex:i];
-        
-        if (tempPlat.visible == NO || tempPlat.position.x < -winSize.width/4) {
+        if (!tempPlat.body->IsActive() || tempPlat.position.x < -winSize.width/4) {
             [tempPlat despawn];
             [visiblePlatforms removeObject:tempPlat];
+        }
+    }
+    
+    for (int i = 0; i < [visibleSidePlatforms count]; i++) {
+        Platform *tempSide = [visibleSidePlatforms objectAtIndex:i];
+        if (!tempSide.body->IsActive() || tempSide.position.x < -winSize.width/4) {
+            
+            CCLOG(@"side despawn");
+            [tempSide despawn];
+            [visibleSidePlatforms removeObject:tempSide];
         }
     }
 }
@@ -259,6 +323,12 @@
         [tempPlat despawn];
     }
     [visiblePlatforms removeAllObjects];
+    
+    for (int i = 0; i < [visibleSidePlatforms count]; i++) {
+        Platform *tempSide = [visibleSidePlatforms objectAtIndex:i];
+        [tempSide despawn];
+    }
+    [visibleSidePlatforms removeAllObjects];
     
     //platformCounter = 0;
     

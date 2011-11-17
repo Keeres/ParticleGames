@@ -14,13 +14,13 @@
 @interface PlatformCache : CCNode {
     //Box2D
     b2World *world;
-    b2Body *platformsTopAndBottomBody;
-    b2Body *platformSideBody;
     
     //Variables
     CGSize winSize;
     CCArray *totalPlatforms;
+    CCArray *totalSidePlatforms;
     NSMutableArray *visiblePlatforms;
+    NSMutableArray *visibleSidePlatforms;
     BOOL initialPlatformsCreated;
     Platform *initialPlatform;
     //int platformCounter;
@@ -29,6 +29,7 @@
 
 @property (nonatomic, retain) CCArray *totalPlatforms;
 @property (nonatomic, retain) NSMutableArray *visiblePlatforms;
+@property (nonatomic, retain) NSMutableArray *visibleSidePlatforms;
 @property (readwrite) BOOL initialPlatformsCreated;
 
 -(id) initWithWorld:(b2World*)theWorld;

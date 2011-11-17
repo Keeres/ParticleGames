@@ -81,10 +81,10 @@
     
     switch (speedSetter) {
         case 0:
-            speedPercentage = 1.0;
+            speedPercentage = 2.0;
             break;
         case 1:
-            speedPercentage = 1.2;
+            speedPercentage = 2.5;
             break;
         default:
             break;

@@ -108,7 +108,7 @@
         self.visible = NO;
     }
     
-    if (self.position.y < 0) {
+    if (self.position.y < -winSize.height/8) {
         if (self.died == NO) {
             self.died = YES;
         }

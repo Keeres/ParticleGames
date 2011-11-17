@@ -16,8 +16,9 @@
 @synthesize platformNumber;
 
 -(void) createBody {
-    b2Vec2 p0 = b2Vec2(-self.contentSize.width/2/PTM_RATIO, self.contentSize.height/2/PTM_RATIO);
-    b2Vec2 p1 = b2Vec2(self.contentSize.width/2/PTM_RATIO, self.contentSize.height/2/PTM_RATIO);
+    b2Vec2 p0 = b2Vec2((-self.contentSize.width/2 + 3.0)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/4)/PTM_RATIO);
+    b2Vec2 p1 = b2Vec2((self.contentSize.width/2 + 3.0)/PTM_RATIO, (self.contentSize.height/2  - self.contentSize.height/4)/PTM_RATIO);
+   
     
     b2BodyDef bodyDef;
     bodyDef.type = b2_staticBody;
@@ -35,6 +36,29 @@
     platformTopFixtureDef.restitution = 0.0;
     
     platformFixture = body->CreateFixture(&platformTopFixtureDef);
+    body->SetActive(NO);
+}
+
+-(void) createSideBody {
+    b2Vec2 p2 = b2Vec2((-self.contentSize.width/2 + 1.0)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/4)/PTM_RATIO);
+    b2Vec2 p3 = b2Vec2((-self.contentSize.width/2 + 1.0)/PTM_RATIO, (-self.contentSize.height/2 - self.contentSize.height/4)/PTM_RATIO);
+    
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_staticBody;
+    bodyDef.position = b2Vec2(0.0, 0.0);    
+    body = world->CreateBody(&bodyDef);
+    body->SetUserData(self);
+    
+    b2PolygonShape platformSideShape;
+    b2FixtureDef platformSideFixtureDef;
+    platformSideFixtureDef.shape = &platformSideShape;
+    platformSideShape.SetAsEdge(p2, p3);
+    
+    platformSideFixtureDef.density = 0.01;
+    platformSideFixtureDef.friction = 0.0;
+    platformSideFixtureDef.restitution = 0.0;
+    
+    platformFixture = body->CreateFixture(&platformSideFixtureDef);
     body->SetActive(NO);
 }
 
@@ -62,7 +86,23 @@
     body->SetActive(NO);
 }
 
-
+-(id) initSideWithWorld:(b2World *)theWorld {
+    if ((self = [super init])) {
+        world = theWorld;
+        
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformD.png"]];
+        
+        self.visible = NO;
+        self.tag = kPlatformType;
+        readyToMove = NO;
+        isHit = NO;
+        finalHeight = 0.0;
+        platformNumber = 0;
+        [self createSideBody];
+    }
+    
+    return self;
+}
 
 -(id) initWithWorld:(b2World*)theWorld andPlatformType:(PlatformTypes)platformWithType {
     platformType = platformWithType;
@@ -111,7 +151,7 @@
     if ((self = [super init])) {
         world = theWorld;
         
-        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformD"]];
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformD.png"]];
         
         self.visible = NO;
         self.tag = kPlatformType;

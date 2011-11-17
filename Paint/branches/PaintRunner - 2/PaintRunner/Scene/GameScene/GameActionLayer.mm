@@ -198,7 +198,7 @@
     //Calculate offset to shift screen
     //////////////////////////////////
     
-    if (PIXELS_PER_SECOND < MAX_PIXELS_PER_SECOND) {
+    if (PIXELS_PER_SECOND < MAX_PIXELS_PER_SECOND && PIXELS_PER_SECOND != 0.0) {
         PIXELS_PER_SECOND += 2*dt;
         platformSpawnTime = 170.0/PIXELS_PER_SECOND;
     }
@@ -357,18 +357,16 @@
             }
         }
         
-        //Check if player has touched the top of the obstacle   
-        if ((contact.fixtureA->GetBody() == platformsTopAndBottomBody && contact.fixtureB->GetBody() == player.body) || 
-            (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == platformsTopAndBottomBody)) {
-            player.isTouchingGround = YES;
-            player.doubleJumpAvailable = YES;
-        }
-        
-        if ((contact.fixtureA->GetBody() == platformsSideBody && contact.fixtureB->GetBody() == player.body) || 
-            (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == platformsSideBody)) {
-            CCLOG(@"sidebody touched");
-            player.died = YES;
-            PIXELS_PER_SECOND = 0.0;    
+        NSMutableArray *tempVisibleSidePlatforms = [platformCache visibleSidePlatforms];
+        for (int i = 0; i < [tempVisibleSidePlatforms count]; i++) {
+            Platform *tempSide = [tempVisibleSidePlatforms objectAtIndex:i];
+            
+            if ((contact.fixtureA->GetBody() == tempSide.body && contact.fixtureB->GetBody() == player.body) || 
+                (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == tempSide.body)) {
+                b2Vec2 velocity = player.body->GetLinearVelocity();
+                player.body->SetLinearVelocity(b2Vec2(-200.0/PTM_RATIO, velocity.y));
+                PIXELS_PER_SECOND = 0.0;
+            }
         }
     }
 }

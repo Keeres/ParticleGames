@@ -37,6 +37,7 @@ typedef enum {
 
 //+(id) platformWithType:(PlatformTypes)platformType inWorld:(b2World*)theWorld;
 -(id) initWithWorld:(b2World*)theWorld andPlatformType:(PlatformTypes)platformWithType;
+-(id) initSideWithWorld:(b2World*)theWorld;
 -(id) initInitialGroundPlatformWithWorld:(b2World*)theWorld;
 -(void) despawn;
 
