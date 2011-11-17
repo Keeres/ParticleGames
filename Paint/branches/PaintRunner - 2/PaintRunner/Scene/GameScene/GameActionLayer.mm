@@ -21,6 +21,8 @@
 @synthesize levelTimePassed;
 @synthesize PIXELS_PER_SECOND;
 
+#pragma mark Setup Box2D
+
 -(void) setupWorld {    
     b2Vec2 gravity = b2Vec2(0.0f, -20.0f);
     bool doSleep = true;
@@ -46,6 +48,8 @@
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
+
+#pragma mark Create Objects
 
 -(void) createPlayer {
     player = [[[Player alloc] initWithWorld:world] retain];
@@ -80,6 +84,8 @@
         }
     }
 }
+
+#pragma mark Reset Game
 
 -(void) resetGame {
     jumpBufferCount = 0;
@@ -116,6 +122,8 @@
     [platformCache addInitialPlatforms];
     [player spawn];
 }
+
+#pragma mark Initialize GameActionLayer
 
 -(id) initWithGameUILayer:(GameUILayer *)gameUILayer andForegroundLayer:(GameForegroundLayer *)gameFGLayer andBackgroundLayer:(GameBackgroundLayer2 *)gameBGLayer { 
         
@@ -182,6 +190,8 @@
     }
     return self;
 }
+
+#pragma mark Update States
 
 -(void) updateBackgroundState:(ccTime)dt {
     //////////////////////////////////
@@ -421,10 +431,7 @@
     [platformCache updatePlatformsWithTime:dt andSpeed:PIXELS_PER_SECOND];
 }
 
--(BOOL) isTouchingLeftSide:(CGPoint)touchLocation {
-    CGRect leftBox = CGRectMake(0,0,winSize.width/2, winSize.height);
-    return CGRectContainsPoint(leftBox, touchLocation);
-}
+#pragma mark ccTouches
 
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     for( UITouch *touch in touches ) {
@@ -461,6 +468,8 @@
 -(void) ccTouchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     
 }
+
+#pragma Dealloc
 
 -(void) dealloc {
     if (world) {

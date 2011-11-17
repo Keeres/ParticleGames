@@ -60,6 +60,8 @@
     playerSensor = body->CreateFixture(&fixtureDef);*/
 }
 
+#pragma mark Initialize Player
+
 -(id) initWithWorld:(b2World*)world {
     if ((self = [super init])) {
         winSize = [CCDirector sharedDirector].winSize;
@@ -154,6 +156,8 @@
     self.visible = NO;
     self.body->SetActive(NO);
 }
+
+#pragma mark Reset Player
 
 -(void) resetPlayer {
     isJumping = NO;

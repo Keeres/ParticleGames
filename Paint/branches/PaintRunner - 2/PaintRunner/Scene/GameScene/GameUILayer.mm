@@ -10,6 +10,8 @@
 
 @implementation GameUILayer
 
+#pragma mark Setup Layer, Buttons, Text
+
 -(void) setGameActionLayer:(GameActionLayer *)gameActionLayer {
     actionLayer = gameActionLayer;
 }
@@ -139,6 +141,8 @@
     [gameOverLayer addChild:gameOverMenu];
 }
 
+#pragma mark UILayer Actions
+
 -(void) pauseGame {
     if (gamePaused == NO && ![actionLayer player].died) {
         pauseLayer.visible = YES;
@@ -173,6 +177,8 @@
     [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
 }
 
+#pragma mark Initialize GameUILayer
+
 -(id) init {
     if ((self = [super init])) {
         winSize = [[CCDirector sharedDirector] winSize];
@@ -194,6 +200,8 @@
     }
     return self;
 }
+
+#pragma mark Update States
 
 -(void) updateText {
     [scoreLabel setString:[NSString stringWithFormat:@"Score: %0.1f", [actionLayer gameScore]]];
@@ -222,6 +230,8 @@
         [self gameOver];
     }
 }
+
+#pragma mark Dealloc
 
 -(void) dealloc {
     [super dealloc];

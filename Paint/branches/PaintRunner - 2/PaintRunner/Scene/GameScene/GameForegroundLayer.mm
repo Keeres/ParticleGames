@@ -23,12 +23,16 @@
     }
 }
 
+#pragma mark Reset Foreground
+
 -(void) resetForeground; {
-    CCLOG(@"ForgroundLayer: Reset");
+    CCLOG(@"ForegroundLayer: Reset");
     treeTimePassed = 0.0;
     treeSpawnTime = 10.0;
     [treeCache resetTrees];
 }
+
+#pragma mark Initialize GameForegroundLayer
 
 -(id) init {
     if ((self = [super init])) {
@@ -52,7 +56,6 @@
 -(void) treeControl:(ccTime) dt {
     treeTimePassed += dt;
     if (treeTimePassed > treeSpawnTime && [[treeCache visibleTrees] count] < 4) {
-        CCLOG(@"trees added");
         treeTimePassed = 0;
         treeSpawnTime = arc4random() % 5 + 8.0;
         [treeCache addTree];

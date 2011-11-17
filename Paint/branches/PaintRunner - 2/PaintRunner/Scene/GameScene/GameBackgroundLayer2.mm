@@ -35,6 +35,8 @@
     [self addChild:leafEmitter z:100];
 }
 
+#pragma mark Reset GameBackgroundLayer2
+
 -(void) resetBackground {
     CCLOG(@"BackgroundLayer2: Reset");
 
@@ -43,6 +45,8 @@
     [cloudCache resetClouds];
     background.position = ccp(background.contentSize.width/2, winSize.height/2);
 }
+
+#pragma mark Initialize GameBackgroundLayer2
 
 -(id) init {
     if ((self = [super init])) {
@@ -68,13 +72,11 @@
 -(void) cloudControl:(ccTime) dt {
     cloudTimePassed += dt;
     if (cloudTimePassed > cloudSpawnTime && [[cloudCache visibleClouds] count] < 9) {
-        CCLOG(@"clouds added");
         cloudTimePassed = 0;
         cloudSpawnTime = arc4random() % 5 + 5;
         [cloudCache addCloud];
     }
 }
-
 
 -(void) updateBackgroundWithTime:(ccTime)dt andSpeed:(float)speed {
     background.position = ccp(background.position.x - speed*dt*0.05, background.position.y);
