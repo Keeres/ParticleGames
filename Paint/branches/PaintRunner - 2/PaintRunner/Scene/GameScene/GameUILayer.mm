@@ -159,7 +159,8 @@
 }
 
 -(void) gameOver {
-    [[GCHelper sharedInstance] reportScore:kHighScoreLeaderboardID score:(int) [actionLayer gameScore]];
+    //Some reason when the game is over, GameCenter is lagging the game. I've commented the line below out to prevent this.
+    //[[GCHelper sharedInstance] reportScore:kHighScoreLeaderboardID score:(int) [actionLayer gameScore]];
     
     [actionLayer unscheduleUpdate];
     gamePaused = YES;

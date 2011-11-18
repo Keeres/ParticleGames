@@ -358,9 +358,10 @@
             if ((contact.fixtureA->GetBody() == tempSide.body && contact.fixtureB->GetBody() == player.body) || 
                 (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == tempSide.body)) {
                 b2Vec2 velocity = player.body->GetLinearVelocity();
-                //player.body->SetLinearVelocity(b2Vec2(-200.0/PTM_RATIO, velocity.y));
-                player.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
-                player.body->ApplyLinearImpulse(b2Vec2(-0.15/PTM_RATIO, 0.1/PTM_RATIO), player.body->GetPosition());
+                float gameSpeed = PIXELS_PER_SECOND;
+                player.body->SetLinearVelocity(b2Vec2(-gameSpeed/PTM_RATIO, velocity.y));
+                //player.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
+                //player.body->ApplyLinearImpulse(b2Vec2(-0.15/PTM_RATIO, 0.1/PTM_RATIO), player.body->GetPosition());
                 PIXELS_PER_SECOND = 0.0;
                 setBodyMask(player.body, 0);
             }

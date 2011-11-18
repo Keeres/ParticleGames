@@ -96,7 +96,7 @@
     }*/
     
     
-    if (isTouchingGround) {
+    if (isTouchingGround && !self.died) {
         b2Vec2 velocity = self.body->GetLinearVelocity();
         self.body->SetLinearVelocity(b2Vec2(0.0, velocity.y));
         b2Vec2 position = self.body->GetPosition();
@@ -108,7 +108,7 @@
         self.visible = NO;
     }
     
-    if (self.position.y < -winSize.height/8) {
+    if (self.position.x < -winSize.width/8 ||self.position.y < -winSize.height/8) {
         if (self.died == NO) {
             self.died = YES;
         }
@@ -117,14 +117,14 @@
     if (isJumping) {
         jumpTime += deltaTime;
 
-        self.body->ApplyForce(b2Vec2(0.0, 4.0/PTM_RATIO), self.body->GetPosition());
+        self.body->ApplyForce(b2Vec2(0.0, 4.5/PTM_RATIO), self.body->GetPosition());
         b2Vec2 velocity = self.body->GetLinearVelocity();
         
-        if (velocity.y > 4.0) {
-            self.body->SetLinearVelocity(b2Vec2(velocity.x, 4.0));
+        if (velocity.y > 4.5) {
+            self.body->SetLinearVelocity(b2Vec2(velocity.x, 4.5));
         }
         
-        if (jumpTime > 0.15) {
+        if (jumpTime > 0.18) {
             isJumping = NO;
         }
     }

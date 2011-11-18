@@ -1,6 +1,11 @@
 #import "GCHelper.h"
 #import "GCDatabase.h"
 
+
+@interface GCHelper()
+- (void)resendData;
+@end
+
 @implementation GCHelper;
 
 @synthesize scoresToReport;
