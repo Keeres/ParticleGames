@@ -7,6 +7,7 @@
 //
 
 #import "GameUILayer.h"
+#import "GCHelper.h"
 
 @implementation GameUILayer
 
@@ -158,6 +159,8 @@
 }
 
 -(void) gameOver {
+    [[GCHelper sharedInstance] reportScore:kHighScoreLeaderboardID score:(int) [actionLayer gameScore]];
+    
     [actionLayer unscheduleUpdate];
     gamePaused = YES;
     gameOverLayer.visible = YES;

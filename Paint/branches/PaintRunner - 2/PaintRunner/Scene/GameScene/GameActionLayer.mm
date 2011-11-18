@@ -7,6 +7,8 @@
 //
 
 #import "GameActionLayer.h"
+#import "GameState.h"
+#import "GCHelper.h"
 
 @implementation GameActionLayer
 
@@ -353,6 +355,13 @@
                 if (tempPlat.isHit == NO) {
                     tempPlat.isHit = YES;
                     platformCounter++;
+                    
+                    if (platformCounter > 10 && ![GameState sharedInstance].completedJumper) {
+                        [GameState sharedInstance].completedJumper = true;
+                        [[GameState sharedInstance] save];
+                        [[GCHelper sharedInstance] reportAchievement:kAchievement_Jump20 percentComplete:100.0];
+                        
+                    }
                 }
             }
         }

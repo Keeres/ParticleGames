@@ -13,6 +13,7 @@
 #import "GameManager.h"
 #import "GameScene.h"
 #import "RootViewController.h"
+#import "GCHelper.h"
 
 @implementation AppDelegate
 
@@ -42,9 +43,11 @@
 
 - (void) applicationDidFinishLaunching:(UIApplication*)application
 {
+    [[GCHelper sharedInstance] authenticateLocalUser];
+    
 	// Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	
+    
 	// Try to use CADisplayLink director
 	// if it fails (SDK < 3.1) use the default director
 	if( ! [CCDirector setDirectorType:kCCDirectorTypeDisplayLink] )
