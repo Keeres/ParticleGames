@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1563EC841475EADB00E36B86 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1563EC7F1475EADB00E36B86 /* GameState.m */; };
+		1563EC851475EADB00E36B86 /* GCDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1563EC811475EADB00E36B86 /* GCDatabase.m */; };
+		1563EC861475EADB00E36B86 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1563EC831475EADB00E36B86 /* GCHelper.m */; };
+		158201C51474E11B00219B9D /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158201C41474E11B00219B9D /* GameKit.framework */; };
 		B6281D9D142D7C6D008A1DAB /* GameCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = B6281D99142D7C6D008A1DAB /* GameCharacter.m */; };
 		B6281D9E142D7C6D008A1DAB /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B6281D9A142D7C6D008A1DAB /* GameObject.m */; };
 		B6281DB0142D930E008A1DAB /* game1atlas.png in Resources */ = {isa = PBXBuildFile; fileRef = B6281DAC142D930E008A1DAB /* game1atlas.png */; };
@@ -203,6 +207,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1563EC7E1475EADB00E36B86 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameState.h; path = GameCenter/GameState.h; sourceTree = "<group>"; };
+		1563EC7F1475EADB00E36B86 /* GameState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameState.m; path = GameCenter/GameState.m; sourceTree = "<group>"; };
+		1563EC801475EADB00E36B86 /* GCDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCDatabase.h; path = GameCenter/GCDatabase.h; sourceTree = "<group>"; };
+		1563EC811475EADB00E36B86 /* GCDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDatabase.m; path = GameCenter/GCDatabase.m; sourceTree = "<group>"; };
+		1563EC821475EADB00E36B86 /* GCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCHelper.h; path = GameCenter/GCHelper.h; sourceTree = "<group>"; };
+		1563EC831475EADB00E36B86 /* GCHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCHelper.m; path = GameCenter/GCHelper.m; sourceTree = "<group>"; };
+		158201C41474E11B00219B9D /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		B6281D99142D7C6D008A1DAB /* GameCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameCharacter.m; path = GameObjects/GameCharacter.m; sourceTree = "<group>"; };
 		B6281D9A142D7C6D008A1DAB /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameObject.m; path = GameObjects/GameObject.m; sourceTree = "<group>"; };
 		B6281D9B142D7C6D008A1DAB /* GameCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameCharacter.h; path = GameObjects/GameCharacter.h; sourceTree = "<group>"; };
@@ -589,6 +600,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				158201C51474E11B00219B9D /* GameKit.framework in Frameworks */,
 				B697ABAB142A6EFA00E4FE3B /* OpenAL.framework in Frameworks */,
 				B697ABA7142A6EFA00E4FE3B /* QuartzCore.framework in Frameworks */,
 				B697ABA9142A6EFA00E4FE3B /* OpenGLES.framework in Frameworks */,
@@ -603,6 +615,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		158201C31474DFD400219B9D /* GameCenter */ = {
+			isa = PBXGroup;
+			children = (
+				1563EC7E1475EADB00E36B86 /* GameState.h */,
+				1563EC7F1475EADB00E36B86 /* GameState.m */,
+				1563EC801475EADB00E36B86 /* GCDatabase.h */,
+				1563EC811475EADB00E36B86 /* GCDatabase.m */,
+				1563EC821475EADB00E36B86 /* GCHelper.h */,
+				1563EC831475EADB00E36B86 /* GCHelper.m */,
+			);
+			name = GameCenter;
+			sourceTree = "<group>";
+		};
 		B6281D9F142D85EF008A1DAB /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -710,6 +735,7 @@
 		B697ABA5142A6EFA00E4FE3B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				158201C41474E11B00219B9D /* GameKit.framework */,
 				B697ABA6142A6EFA00E4FE3B /* QuartzCore.framework */,
 				B697ABA8142A6EFA00E4FE3B /* OpenGLES.framework */,
 				B697ABAA142A6EFA00E4FE3B /* OpenAL.framework */,
@@ -728,6 +754,7 @@
 				B6B15B721469C1B300093B63 /* Plists */,
 				B6281D9F142D85EF008A1DAB /* Images */,
 				B6B15B761469C20300093B63 /* Sounds */,
+				158201C31474DFD400219B9D /* GameCenter */,
 				B697AD9C142A752900E4FE3B /* GameObjects */,
 				B697AD8F142A6FA100E4FE3B /* Scene */,
 				B697AD7B142A6EFE00E4FE3B /* AppDelegate.h */,
@@ -1529,6 +1556,9 @@
 				B6BA2E931474ADC700485A80 /* Tree.m in Sources */,
 				B6BA2E961474AE8400485A80 /* TreeCache.m in Sources */,
 				B6BA2E991474B1BC00485A80 /* GameForegroundLayer.mm in Sources */,
+				1563EC841475EADB00E36B86 /* GameState.m in Sources */,
+				1563EC851475EADB00E36B86 /* GCDatabase.m in Sources */,
+				1563EC861475EADB00E36B86 /* GCHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1539,6 +1569,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wayne YU (WCYJQ33SH3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
@@ -1547,6 +1578,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "C8CBA10F-B571-4E4B-B02A-7E70573FD3C1";
 				SDKROOT = iphoneos;
 			};
 			name = "Ad Hoc Distribution";
@@ -1574,6 +1606,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wayne YU (WCYJQ33SH3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1586,6 +1619,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PROVISIONING_PROFILE = "C8CBA10F-B571-4E4B-B02A-7E70573FD3C1";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1594,6 +1628,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wayne YU (WCYJQ33SH3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = NDEBUG;
@@ -1602,6 +1637,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "C8CBA10F-B571-4E4B-B02A-7E70573FD3C1";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
