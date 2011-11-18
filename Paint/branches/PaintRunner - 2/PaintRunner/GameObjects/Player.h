@@ -10,6 +10,7 @@
 #import "Box2DSprite.h"
 #import "CommonProtocols.h"
 #import "Constants.h"
+#import "Box2DHelpers.h"
 
 @interface Player : Box2DSprite {
     //Box2D

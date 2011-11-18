@@ -41,9 +41,9 @@
     fixtureDef.density = 0.01;
     fixtureDef.friction = 0.0;
     fixtureDef.restitution = 0.0;
-    //fixtureDef.filter.categoryBits = kCategoryMushroom;
-    //fixtureDef.filter.maskBits = kMaskMushroom;
-    //fixtureDef.filter.groupIndex = kGroupMushroom;
+    fixtureDef.filter.categoryBits = kCategoryPlayer;
+    fixtureDef.filter.maskBits = kMaskPlayer;
+    fixtureDef.filter.groupIndex = kGroupPlayer;
     
     playerFixture = body->CreateFixture(&fixtureDef);
     body->SetActive(NO);
@@ -169,6 +169,7 @@
 
     self.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
     self.body->SetTransform(b2Vec2(winSize.width/4/PTM_RATIO, winSize.height/4/PTM_RATIO), 0);
+    setBodyMask(self.body, kMaskPlayer);
     [self despawn];
 }
 

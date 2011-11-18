@@ -13,7 +13,6 @@
 @implementation GameActionLayer
 
 @synthesize contactListener;
-//@synthesize comboCount;
 @synthesize platformCounter;
 @synthesize numPlatformsNeedToHit;
 @synthesize player;
@@ -67,7 +66,7 @@
     for (int i = 0; i < [tempArray count]; i++) {
         PaintChip *tempPC = [tempArray objectAtIndex:i];
         
-        [sceneSpriteBatchNode addChild:tempPC z:1000];
+        [sceneSpriteBatchNode addChild:tempPC z:999];
     }
 }
 
@@ -82,7 +81,7 @@
         for (int j = 0; j < [platformOfType count]; j++) {
             Platform *tempPlat = [platformOfType objectAtIndex:j];
             
-            [sceneSpriteBatchNode addChild:tempPlat z:1000];
+            [sceneSpriteBatchNode addChild:tempPlat z:998];
         }
     }
 }
@@ -337,21 +336,7 @@
                 (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == tempPlat.body)) {
                 player.isTouchingGround = YES;
                 player.doubleJumpAvailable = YES;
-                
-                /*int platformNumberDifference = tempPlat.platformNumber - player.platformNumber;
-                player.platformNumber = tempPlat.platformNumber;
-                
-                if (platformNumberDifference == 1) {
-                    if (tempPlat.isHit == NO) {
-                        tempPlat.isHit = YES;
 
-                        comboCount++;
-                        multiplier += 0.1;
-                    }
-                } else if (platformNumberDifference > 1) {
-                    comboCount = 0;
-                    multiplier = 1;
-                }*/
                 if (tempPlat.isHit == NO) {
                     tempPlat.isHit = YES;
                     platformCounter++;
@@ -373,8 +358,11 @@
             if ((contact.fixtureA->GetBody() == tempSide.body && contact.fixtureB->GetBody() == player.body) || 
                 (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == tempSide.body)) {
                 b2Vec2 velocity = player.body->GetLinearVelocity();
-                player.body->SetLinearVelocity(b2Vec2(-200.0/PTM_RATIO, velocity.y));
+                //player.body->SetLinearVelocity(b2Vec2(-200.0/PTM_RATIO, velocity.y));
+                player.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
+                player.body->ApplyLinearImpulse(b2Vec2(-0.15/PTM_RATIO, 0.1/PTM_RATIO), player.body->GetPosition());
                 PIXELS_PER_SECOND = 0.0;
+                setBodyMask(player.body, 0);
             }
         }
     }

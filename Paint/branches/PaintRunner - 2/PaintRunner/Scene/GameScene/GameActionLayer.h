@@ -19,9 +19,7 @@
 #import "PlatformCache.h"
 #import "PaintChipCache.h"
 #import "MyContactListener.h"
-//#import "Obstacles.h"
-
-#import "CloudCache.h"
+#import "Box2DHelpers.h"
 
 #define MAX_PIXELS_PER_SECOND 300.0
 #define INITIAL_PIXELS_PER_SECOND 100.0
@@ -48,7 +46,6 @@
     PaintChipCache *paintChipCache;
     CCSpriteBatchNode *sceneSpriteBatchNode;
     int jumpBufferCount;
-    //int comboCount;
     int platformCounter;
     int numPlatformsNeedToHit;
     BOOL playerStartJump;
@@ -75,7 +72,6 @@
 
 @property (nonatomic, readwrite) MyContactListener *contactListener;
 @property (nonatomic, retain) Player *player;
-//@property (readwrite) int comboCount;
 @property (readwrite) int platformCounter;
 @property (readwrite) int numPlatformsNeedToHit;
 @property (readwrite) float gameScore;

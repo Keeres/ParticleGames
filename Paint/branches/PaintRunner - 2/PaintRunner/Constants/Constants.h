@@ -1,15 +1,15 @@
 //  Constants.h
 
 typedef enum {
-    kCategoryMushroom = 0x0001,
+    kCategoryPlayer = 0x0001,
     kCategoryEnemy = 0x0002,
     kCategoryGround = 0x0004,
     kCategoryStageEffect = 0x0008,
-    kMaskMushroom = ~kCategoryMushroom,
+    kMaskPlayer = ~kCategoryPlayer,
     kMaskEnemy = ~kCategoryEnemy,
     kMaskStageEffect = ~kCategoryStageEffect,
     kMaskGround = -1,
-    kGroupMushroom = -1,
+    kGroupPlayer = -1,
     kGroupEnemy = -2,
     kGroupGround = 1,
     kGroupStageEffect = -3,

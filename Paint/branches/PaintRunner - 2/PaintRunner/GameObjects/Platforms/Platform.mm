@@ -16,9 +16,12 @@
 @synthesize platformNumber;
 
 -(void) createBody {
-    b2Vec2 p0 = b2Vec2((-self.contentSize.width/2 + 3.0)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/4)/PTM_RATIO);
-    b2Vec2 p1 = b2Vec2((self.contentSize.width/2 + 3.0)/PTM_RATIO, (self.contentSize.height/2  - self.contentSize.height/4)/PTM_RATIO);
+    /*b2Vec2 p0 = b2Vec2((-self.contentSize.width/2 + 3.0)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/8)/PTM_RATIO);
+    b2Vec2 p1 = b2Vec2((self.contentSize.width/2 + 3.0)/PTM_RATIO, (self.contentSize.height/2  - self.contentSize.height/8)/PTM_RATIO);*/
    
+    b2Vec2 p0 = b2Vec2((-self.contentSize.width/2 + 3.0)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/8)/PTM_RATIO);
+    b2Vec2 p1 = b2Vec2((self.contentSize.width/2 + 3.0)/PTM_RATIO, (self.contentSize.height/2  - self.contentSize.height/8)/PTM_RATIO);
+    
     
     b2BodyDef bodyDef;
     bodyDef.type = b2_staticBody;
@@ -34,14 +37,20 @@
     platformTopFixtureDef.density = 0.01;
     platformTopFixtureDef.friction = 0.0;
     platformTopFixtureDef.restitution = 0.0;
+    platformTopFixtureDef.filter.categoryBits = kCategoryGround;
+    platformTopFixtureDef.filter.maskBits = kMaskGround;
+    platformTopFixtureDef.filter.groupIndex = kGroupGround;
     
     platformFixture = body->CreateFixture(&platformTopFixtureDef);
     body->SetActive(NO);
 }
 
 -(void) createSideBody {
-    b2Vec2 p2 = b2Vec2((-self.contentSize.width/2 + 1.0)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/4)/PTM_RATIO);
-    b2Vec2 p3 = b2Vec2((-self.contentSize.width/2 + 1.0)/PTM_RATIO, (-self.contentSize.height/2 - self.contentSize.height/4)/PTM_RATIO);
+    /*b2Vec2 p2 = b2Vec2((-self.contentSize.width/2 + 2.0)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/8 - 1.0)/PTM_RATIO);
+    b2Vec2 p3 = b2Vec2((-self.contentSize.width/2 + 2.0)/PTM_RATIO, (-self.contentSize.height/2 - self.contentSize.height/8 - 1.0)/PTM_RATIO);*/
+    
+    b2Vec2 p2 = b2Vec2((-self.contentSize.width/2)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/8)/PTM_RATIO);
+    b2Vec2 p3 = b2Vec2((-self.contentSize.width/2)/PTM_RATIO, (-self.contentSize.height/2 - self.contentSize.height/8)/PTM_RATIO);
     
     b2BodyDef bodyDef;
     bodyDef.type = b2_staticBody;
@@ -57,6 +66,9 @@
     platformSideFixtureDef.density = 0.01;
     platformSideFixtureDef.friction = 0.0;
     platformSideFixtureDef.restitution = 0.0;
+    platformSideFixtureDef.filter.categoryBits = kCategoryGround;
+    platformSideFixtureDef.filter.maskBits = kMaskGround;
+    platformSideFixtureDef.filter.groupIndex = kGroupGround;
     
     platformFixture = body->CreateFixture(&platformSideFixtureDef);
     body->SetActive(NO);
