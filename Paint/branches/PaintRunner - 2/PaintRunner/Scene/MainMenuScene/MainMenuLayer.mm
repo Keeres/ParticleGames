@@ -29,6 +29,10 @@
     [[GameManager sharedGameManager] runSceneWithID:kGameScene];
 }
 
+-(void) showLeaderboard {
+    
+}
+
 -(void) playChorus {
     //play sound stuff
 }
@@ -43,7 +47,10 @@
     CCLabelBMFont *companySiteLabel = [CCLabelBMFont labelWithString:@"Website" fntFile:@"testFont.fnt"];
     CCMenuItemLabel *visitCompanySiteButton = [CCMenuItemLabel itemWithLabel:companySiteLabel target:self selector:@selector(visitCompanySite)]; 
     
-    mainMenu = [CCMenu menuWithItems:playGameButton,visitCompanySiteButton, nil];
+    CCLabelBMFont *leaderboardLabel = [CCLabelBMFont labelWithString:@"Leaderboard" fntFile:@"testFont.fnt"];
+    CCMenuItemLabel *leaderboardButton = [CCMenuItemLabel itemWithLabel:leaderboardLabel target:self selector:@selector(showLeaderboard)]; 
+    
+    mainMenu = [CCMenu menuWithItems:playGameButton,visitCompanySiteButton, leaderboardButton, nil];
     [mainMenu alignItemsVerticallyWithPadding:100.0];
     mainMenu.position = ccp(winSize.width/2, winSize.height/2);
     [self addChild:mainMenu];
