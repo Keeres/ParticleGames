@@ -25,8 +25,24 @@
 
 -(void) setupBackground {
     background = [CCSprite spriteWithFile:@"background.png"];
-    background.position = ccp(background.contentSize.width/2,winSize.height/2);
+    background.anchorPoint = ccp(0,0);
+    background.position = ccp(0.0, 0.0);
     [self addChild:background z:0];
+    
+    /*city = [CCSprite spriteWithFile:@"city.png"];
+    city.anchorPoint = ccp(0,0);
+    city.position = ccp(0.0, 0.0);
+    [self addChild:city z:5];
+    
+    mountain = [CCSprite spriteWithFile:@"mountain.png"];
+    mountain.anchorPoint = ccp(0,0);
+    mountain.position = ccp(0.0, 50.0);
+    [self addChild:mountain z:4];
+    
+    sky = [CCSprite spriteWithFile:@"sky.png"];
+    sky.anchorPoint = ccp(0,0);
+    sky.position = ccp(0.0, 100.0);
+    [self addChild:sky z:3];*/
     
     leafEmitter = [ARCH_OPTIMAL_PARTICLE_SYSTEM
                    particleWithFile:@"leafEmitter.plist"];
@@ -43,7 +59,13 @@
     cloudTimePassed = 0.0;
     cloudSpawnTime = 5.0;
     [cloudCache resetClouds];
-    background.position = ccp(background.contentSize.width/2, winSize.height/2);
+    
+    self.position = ccp(0.0, 0.0);
+    background.position = ccp(0.0, 0.0);
+
+    //city.position = ccp(0.0, 0.0);
+    //mountain.position = ccp(0.0, 50.0);
+    //sky.position = ccp(0.0, 100.0);
 }
 
 #pragma mark Initialize GameBackgroundLayer2
@@ -78,8 +100,18 @@
     }
 }
 
--(void) updateBackgroundWithTime:(ccTime)dt andSpeed:(float)speed {
+-(void) updateBackgroundWithTime:(ccTime)dt andSpeed:(float)speed andScreenOffsetY:(float)screenOffsetY {
+    float yPos = self.position.y + screenOffsetY;
+    self.position = ccp(self.position.x, yPos);
+    
+    //float yPosEmitter = leafEmitter.position.y + screenOffsetY;
+    //leafEmitter.position = ccp(leafEmitter.position.x, yPosEmitter);
+    
     background.position = ccp(background.position.x - speed*dt*0.05, background.position.y);
+    //city.position = ccp(city.position.x - speed*dt*0.25, city.position.y);
+    //mountain.position = ccp(mountain.position.x - speed*dt*0.1, mountain.position.y);
+    //sky.position = ccp(sky.position.x - speed*dt*0.05   , sky.position.y);
+
     [self cloudControl:dt];
     [cloudCache updateCloudsWithTime:dt andSpeed:speed];
 }

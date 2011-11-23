@@ -170,10 +170,11 @@
 -(void) restartGame {
     gameOverLayer.visible = NO;
     pauseLayer.visible = NO;
-    
-    [actionLayer scheduleUpdate];
-    gamePaused = NO;
     [actionLayer resetGame];
+
+    [actionLayer scheduleUpdate];
+
+    gamePaused = NO;
 }
 
 -(void) returnToMainMenu {

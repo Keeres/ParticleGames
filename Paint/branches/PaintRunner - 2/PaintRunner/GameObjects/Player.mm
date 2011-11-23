@@ -13,13 +13,12 @@
 @synthesize openGLPosition;
 @synthesize previousPosition;
 @synthesize isJumping;
-@synthesize isJumpingLeft;
-//@synthesize isJumpingRight;
 @synthesize doubleJumpAvailable;
 @synthesize died;
 @synthesize platformNumber;
 @synthesize basePlayerScale;
 @synthesize jumpTime;
+@synthesize lastPlatformHeightTouched;
 
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
@@ -78,7 +77,8 @@
         previousPosition = self.position;
         self.tag = kPlayerType;
         self.visible = NO;
-        
+        lastPlatformHeightTouched = 0.0;
+
         [self createBodyWithWorld:world];
     }
     return self;
@@ -87,6 +87,7 @@
 -(void)updateStateWithDeltaTime:(ccTime)deltaTime andSpeed:(float)speed {
     previousPosition = openGLPosition;
     openGLPosition = [[CCDirector sharedDirector] convertToGL:self.position];
+    b2Vec2 velocity = self.body->GetLinearVelocity();
     
     //Check to see if off screen
     //Reset to middle of screen 
@@ -101,6 +102,7 @@
         self.body->SetLinearVelocity(b2Vec2(0.0, velocity.y));
         b2Vec2 position = self.body->GetPosition();
         //self.body->SetTransform(b2Vec2(position.x - speed*deltaTime/PTM_RATIO, position.y), 0);
+        lastPlatformHeightTouched = self.position.y;
     }
 
     if (self.died) {
@@ -117,16 +119,19 @@
     if (isJumping) {
         jumpTime += deltaTime;
 
-        self.body->ApplyForce(b2Vec2(0.0, 4.5/PTM_RATIO), self.body->GetPosition());
-        b2Vec2 velocity = self.body->GetLinearVelocity();
+        self.body->ApplyForce(b2Vec2(0.0, jumpVelocity/PTM_RATIO), self.body->GetPosition());
         
-        if (velocity.y > 4.5) {
-            self.body->SetLinearVelocity(b2Vec2(velocity.x, 4.5));
+        if (velocity.y > jumpVelocity) {
+            self.body->SetLinearVelocity(b2Vec2(velocity.x, jumpVelocity));
         }
         
-        if (jumpTime > 0.18) {
+        if (jumpTime > 0.2) {
             isJumping = NO;
         }
+    }
+    
+    if (velocity.y < -jumpVelocity) {
+        self.body->SetLinearVelocity(b2Vec2(velocity.x, -jumpVelocity));
     }
     
     if (previousPosition.y > openGLPosition.y) {
@@ -166,6 +171,7 @@
     died = NO;
     platformNumber = 0;
     previousPosition = self.position;
+    lastPlatformHeightTouched = 0.0;
 
     self.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
     self.body->SetTransform(b2Vec2(winSize.width/4/PTM_RATIO, winSize.height/4/PTM_RATIO), 0);

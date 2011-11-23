@@ -28,5 +28,5 @@
 
 -(void) resetForeground;
 -(void) setGameActionLayer:(GameActionLayer*)gameActionLayer;
--(void) updateForegroundWithTime:(ccTime)dt andSpeed:(float)speed;
+-(void) updateForegroundWithTime:(ccTime)dt andSpeed:(float)speed andScreenOffsetY:(float)screenOffsetY;
 @end

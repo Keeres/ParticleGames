@@ -63,7 +63,10 @@
 }
 
 
--(void) updateForegroundWithTime:(ccTime)dt andSpeed:(float)speed {
+-(void) updateForegroundWithTime:(ccTime)dt andSpeed:(float)speed andScreenOffsetY:(float)screenOffsetY {
+    float yPos = self.position.y + screenOffsetY;
+    self.position = ccp(self.position.x, yPos);
+    
     [self treeControl:dt];
     [treeCache updateTreesWithTime:dt andSpeed:speed];
 }

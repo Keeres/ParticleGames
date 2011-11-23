@@ -23,6 +23,9 @@
     CloudCache *cloudCache;
     
     CCSprite *background;
+    CCSprite *city;
+    CCSprite *mountain;
+    CCSprite *sky;
     CCParticleSystem *leafEmitter;
     
     //Layers
@@ -31,6 +34,6 @@
 
 -(void) resetBackground;
 -(void) setGameActionLayer:(GameActionLayer*)gameActionLayer;
--(void) updateBackgroundWithTime:(ccTime)dt andSpeed:(float)speed;
+-(void) updateBackgroundWithTime:(ccTime)dt andSpeed:(float)speed andScreenOffsetY:(float)screenOffsetY;
 
 @end

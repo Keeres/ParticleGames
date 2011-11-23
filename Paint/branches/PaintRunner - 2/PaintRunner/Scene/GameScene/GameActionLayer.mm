@@ -89,8 +89,21 @@
 #pragma mark Reset Game
 
 -(void) resetGame {
+    //Reset player
+    [player resetPlayer];
+    
+    //Reset Paintchips
+    [paintChipCache resetPaintChips];
+    
+    //Clean background/foreground
+    [backgroundLayer2 resetBackground];
+    [foregroundLayer resetForeground];
+    
+    //Remove platforms
+    [platformCache resetPlatforms];
+    
+    self.position = ccp(0.0, 0.0);
     jumpBufferCount = 0;
-    //comboCount = 0;
     platformCounter = 0;
     numPlatformsNeedToHit = 20;
     playerStartJump = NO;
@@ -106,19 +119,6 @@
     PIXELS_PER_SECOND = INITIAL_PIXELS_PER_SECOND;
     gameScore = 0.0;
     multiplier = 1.0;
-
-    //Reset Paintchips
-    [paintChipCache resetPaintChips];
-    
-    //Clean background/foreground
-    [backgroundLayer2 resetBackground];
-    [foregroundLayer resetForeground];
-    
-    //Remove platforms
-    [platformCache resetPlatforms];
-    
-    //Reset player
-    [player resetPlayer];
     
     [platformCache addInitialPlatforms];
     [player spawn];
@@ -148,7 +148,6 @@
         //Setup initialial variables
         self.isTouchEnabled = YES;
         jumpBufferCount = 0;
-        //comboCount = 0;
         platformCounter = 0;
         numPlatformsNeedToHit = 20;
         playerStartJump = NO;
@@ -164,7 +163,7 @@
         PIXELS_PER_SECOND = INITIAL_PIXELS_PER_SECOND;
         gameScore = 0.0;
         multiplier = 1.0;
-        
+
         /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
          [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"scene3atlas-hd.plist"];
          sceneSpriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"scene3atlas-hd.png"];
@@ -175,7 +174,7 @@
         
         //Create world and objects
         [self setupWorld];
-        [self setupDebugDraw];
+        //[self setupDebugDraw];
         [self createPlayer];
         //[self createPaintChips];
         [self createPlatforms];
@@ -212,17 +211,21 @@
     }*/
     
     //Calculates when to scroll the screen to keep the player within the screen when jumping too high. Right now the screen will start to scroll when player jumps over half the screen (winSize.height/2).
-    /*float prevScreenOffsetY = screenOffsetY;
+    float prevScreenOffsetY = screenOffsetY;
+    
     if (player.position.y > winSize.height/2) {
-        screenOffsetY = (winSize.height/2 - player.position.y)*0.4;
+        screenOffsetY = (winSize.height/2 - player.position.y);
+        if (screenOffsetY < -200.0) {
+            screenOffsetY = -200.0;
+        }
         self.position = ccp(self.position.x, screenOffsetY);
     } else if (player.position.y <= winSize.height/2) {
         self.position = ccp(self.position.x, 0.0);
         self.scale = 1.0;
-    }*/
+    }
     
     //Calculates how much to scale the screen when screen begins to scroll.
-    //float yPos = screenOffsetY - prevScreenOffsetY;
+    float yPos = screenOffsetY - prevScreenOffsetY;
     //self.scale = self.scale + yPos*dt/10;
     
     //Calculates how much to move the X offset of the layer to keep the player in the same location on screen with the zoom out effect
@@ -239,8 +242,8 @@
                      andScreenOffsetY:yPos
                              andScale:self.scale];*/
     
-    [backgroundLayer2 updateBackgroundWithTime:dt andSpeed:PIXELS_PER_SECOND];
-    [foregroundLayer updateForegroundWithTime:dt andSpeed:PIXELS_PER_SECOND];
+    [backgroundLayer2 updateBackgroundWithTime:dt andSpeed:PIXELS_PER_SECOND andScreenOffsetY:yPos];
+    [foregroundLayer updateForegroundWithTime:dt andSpeed:PIXELS_PER_SECOND andScreenOffsetY:yPos];
 }
 
 -(void) updateScore:(ccTime)dt {
@@ -262,7 +265,9 @@
         
     }
     //Test Logs
-    levelTimePassed += dt;
+    //levelTimePassed += dt;
+    b2Vec2 velocity = player.body->GetLinearVelocity();
+    levelTimePassed = velocity.y;
 }
 
 -(void) physicsSimulation:(ccTime)dt {
@@ -341,12 +346,12 @@
                     tempPlat.isHit = YES;
                     platformCounter++;
                     
-                    if (platformCounter > 10 && ![GameState sharedInstance].completedJumper) {
+                    /*if (platformCounter > 10 && ![GameState sharedInstance].completedJumper) {
                         [GameState sharedInstance].completedJumper = true;
                         [[GameState sharedInstance] save];
                         [[GCHelper sharedInstance] reportAchievement:kAchievement_Jump20 percentComplete:100.0];
                         
-                    }
+                    }*/
                 }
             }
         }
@@ -397,7 +402,7 @@
 -(void) platformControl:(ccTime)dt {
     platformTimePassed += dt;
     if (platformTimePassed > platformSpawnTime) {
-        [platformCache addPlatform];
+        [platformCache addPlatformBasedOffPlayerHeight:player.position.y];
         platformTimePassed = 0.0;
     }
 }
@@ -446,7 +451,6 @@
             }
             
             playerStartJump = YES;
-            player.isJumpingLeft = YES;
             player.jumpTime = 0.0;
             jumpBufferCount = 0;
         }

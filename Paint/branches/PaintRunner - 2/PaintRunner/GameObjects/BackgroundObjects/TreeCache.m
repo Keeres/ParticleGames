@@ -107,7 +107,6 @@
                 tempTree.visible = YES;
                 tempTree.speedPercentage = speedPercentage;
                 [visibleTrees addObject:tempTree];
-                CCLOG(@"tree:%i",i);
                 break;
             }
         }

@@ -12,6 +12,8 @@
 #import "Constants.h"
 #import "Box2DHelpers.h"
 
+#define jumpVelocity 4.8
+
 @interface Player : Box2DSprite {
     //Box2D
     b2Fixture *playerFixture;
@@ -30,18 +32,18 @@
     float basePlayerScale;
     float previousPlayerScale;
     float jumpTime;
+    float lastPlatformHeightTouched;
 }
 
-@property CGPoint openGLPosition;
-@property CGPoint previousPosition;
-@property BOOL isJumping;
-@property BOOL isJumpingLeft;
-//@property BOOL isJumpingRight;
-@property BOOL doubleJumpAvailable;
-@property BOOL died;
-@property int platformNumber;
-@property float basePlayerScale;
-@property float jumpTime;
+@property (readwrite) CGPoint openGLPosition;
+@property (readwrite) CGPoint previousPosition;
+@property (readwrite) BOOL isJumping;
+@property (readwrite) BOOL doubleJumpAvailable;
+@property (readwrite) BOOL died;
+@property (readwrite) int platformNumber;
+@property (readwrite) float basePlayerScale;
+@property (readwrite) float jumpTime;
+@property (readwrite) float lastPlatformHeightTouched;
 
 -(id) initWithWorld:(b2World*)world;
 -(void) spawn;
