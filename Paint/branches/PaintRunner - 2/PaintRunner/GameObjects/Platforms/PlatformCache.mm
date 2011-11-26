@@ -16,9 +16,9 @@
 @synthesize initialPlatformsCreated;
 
 -(void) initPlatforms {
-    totalPlatforms = [[CCArray alloc] initWithCapacity:platform_Max];
+    totalPlatforms = [[CCArray alloc] initWithCapacity:totalPlatformTypes];
     
-    for (int i = 0; i < platform_Max; i++) {
+    for (int i = 0; i < totalPlatformTypes; i++) {
         int capacity;
         switch (i) {
             /*case platformA:
@@ -42,7 +42,7 @@
         [totalPlatforms addObject:platformOfType];
     }
     
-    for (int i = 0; i < platform_Max; i++) {
+    for (int i = 0; i < totalPlatformTypes; i++) {
         CCArray *platformOfType = [totalPlatforms objectAtIndex:i];
         
         int numberPlatformOfType = [platformOfType capacity];

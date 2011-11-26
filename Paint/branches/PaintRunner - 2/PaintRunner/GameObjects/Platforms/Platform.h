@@ -14,7 +14,7 @@ typedef enum {
     //platformB,
     //platformC,
     platformD = 0,
-    platform_Max,
+    totalPlatformTypes,
 } PlatformTypes;
 
 @interface Platform : Box2DSprite {
