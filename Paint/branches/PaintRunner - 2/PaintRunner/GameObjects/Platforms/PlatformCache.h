@@ -24,6 +24,8 @@
     BOOL initialPlatformsCreated;
     BOOL topPlatformSpawned;
     Platform *initialPlatform;
+    Platform *oldPlatform;
+    Platform *newPlatform;
     //int platformCounter;
     int platformLength;
     float previousPlatformFinalHeight;
@@ -33,6 +35,8 @@
 @property (nonatomic, retain) NSMutableArray *visiblePlatforms;
 @property (nonatomic, retain) NSMutableArray *visibleSidePlatforms;
 @property (readwrite) BOOL initialPlatformsCreated;
+@property (nonatomic, retain) Platform* oldPlatform;
+@property (nonatomic, retain) Platform* newPlatform;
 
 -(id) initWithWorld:(b2World*)theWorld;
 -(void) updatePlatformsWithTime:(ccTime)dt andSpeed:(float)speed;

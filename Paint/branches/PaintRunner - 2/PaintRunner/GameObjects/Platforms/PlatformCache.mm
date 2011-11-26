@@ -14,6 +14,8 @@
 @synthesize visiblePlatforms;
 @synthesize visibleSidePlatforms;
 @synthesize initialPlatformsCreated;
+@synthesize oldPlatform;
+@synthesize newPlatform;
 
 -(void) initPlatforms {
     totalPlatforms = [[CCArray alloc] initWithCapacity:totalPlatformTypes];
@@ -38,6 +40,7 @@
                 [NSException exceptionWithName:@"PlatformCache Exception" reason:@"unhandled platform type" userInfo:nil];
                 break;
         }
+        
         CCArray *platformOfType = [CCArray arrayWithCapacity:capacity];
         [totalPlatforms addObject:platformOfType];
     }
@@ -110,6 +113,8 @@
 }
 
 -(void) addPlatformBasedOffPlayerHeight:(float)playerHeight {
+    oldPlatform = newPlatform;
+    
     //int randomPlatform = arc4random() % 3;
     
     int randomPlatform = 0;
@@ -154,6 +159,7 @@
             Platform *tempPlat = [platformOfType objectAtIndex:j];
             
             if (tempPlat.visible == NO) {
+                newPlatform = tempPlat;
 
                 //CGPoint location = ccp(0.8*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, -tempPlat.contentSize.height/2 - (tempPlat.contentSize.width*i));
                 CGPoint location = ccp(0.8*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, 
