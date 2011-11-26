@@ -27,6 +27,6 @@
         achievementsToReport:(NSMutableArray *)achievementsToReport;
 - (void)reportAchievement:(NSString *)identifier 
           percentComplete:(double)percentComplete;
-- (void)reportScore:(NSString *)identifier score:(int)score;
+- (void)reportScore:(NSString *)identifier score:(double)score;
 
 @end

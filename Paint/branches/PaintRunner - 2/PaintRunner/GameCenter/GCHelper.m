@@ -1,6 +1,6 @@
 #import "GCHelper.h"
 #import "GCDatabase.h"
-
+#import "GameState.h"
 
 @interface GCHelper()
 - (void)resendData;
@@ -159,10 +159,12 @@ static GCHelper *sharedHelper = nil;
 
 }
 
-- (void)reportScore:(NSString *)identifier score:(int)rawScore {
+- (void)reportScore:(NSString *)identifier score:(double)rawScore {
     
     GKScore *score = [[[GKScore alloc] initWithCategory:identifier] autorelease];
     score.value = rawScore;
+    [GameState sharedInstance].highScore = rawScore;
+    [[GameState sharedInstance] save];
     [scoresToReport addObject:score];
     [self save];
     
@@ -189,7 +191,7 @@ static GCHelper *sharedHelper = nil;
     [encoder encodeObject:scoresToReport forKey:@"ScoresToReport"];
     [encoder encodeObject:achievementsToReport forKey:@"AchievementsToReport"];
 }
-
+	
 - (id)initWithCoder:(NSCoder *)decoder {
     
     NSMutableArray * theScoresToReport = [decoder decodeObjectForKey:@"ScoresToReport"];

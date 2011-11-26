@@ -140,6 +140,8 @@
     
     [gameOverLayer addChild:gameOverLabel];
     [gameOverLayer addChild:gameOverMenu];
+    
+    gameOverTaskComplete = NO;
 }
 
 #pragma mark UILayer Actions
@@ -159,9 +161,11 @@
 }
 
 -(void) gameOver {
-    //Some reason when the game is over, GameCenter is lagging the game. I've commented the line below out to prevent this.
-    //[[GCHelper sharedInstance] reportScore:kHighScoreLeaderboardID score:(int) [actionLayer gameScore]];
-    
+    if(gameOverTaskComplete == NO)
+    {
+        [[GCHelper sharedInstance] reportScore:kHighScoreLeaderboardID score:(double) [actionLayer gameScore]];
+        gameOverTaskComplete = YES;
+    }
     [actionLayer unscheduleUpdate];
     gamePaused = YES;
     gameOverLayer.visible = YES;
@@ -175,6 +179,7 @@
     [actionLayer scheduleUpdate];
 
     gamePaused = NO;
+    gameOverTaskComplete = NO;
 }
 
 -(void) returnToMainMenu {

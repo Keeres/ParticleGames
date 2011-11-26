@@ -8,7 +8,7 @@
 
 #import "GameActionLayer.h"
 #import "GameState.h"
-#import "GCHelper.h"
+#import "Achievements.h"
 
 @implementation GameActionLayer
 
@@ -162,6 +162,7 @@
         platformSpawnTime = 1.0;
         PIXELS_PER_SECOND = INITIAL_PIXELS_PER_SECOND;
         gameScore = 0.0;
+        highScore = [GameState sharedInstance].highScore;
         multiplier = 1.0;
 
         /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -345,13 +346,6 @@
                 if (tempPlat.isHit == NO) {
                     tempPlat.isHit = YES;
                     platformCounter++;
-                    
-                    /*if (platformCounter > 10 && ![GameState sharedInstance].completedJumper) {
-                        [GameState sharedInstance].completedJumper = true;
-                        [[GameState sharedInstance] save];
-                        [[GCHelper sharedInstance] reportAchievement:kAchievement_Jump20 percentComplete:100.0];
-                        
-                    }*/
                 }
             }
         }
@@ -387,6 +381,7 @@
         if (jumpBufferCount > 2 && playerEndJump) {
             playerEndJump = NO;
             player.isJumping = NO;
+            [Achievements jumperIncreaseCount];
         }
     }
 }

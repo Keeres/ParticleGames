@@ -18,6 +18,7 @@
 @implementation AppDelegate
 
 @synthesize window;
+@synthesize viewController;
 
 - (void) removeStartupFlicker
 {

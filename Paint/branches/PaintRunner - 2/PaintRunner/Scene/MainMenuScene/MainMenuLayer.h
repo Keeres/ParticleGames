@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <GameKit/GameKit.h>
 #import "cocos2d.h"
 #import "Constants.h"
 #import "GameManager.h"
 #import "SimpleAudioEngine.h" 
 
-@interface MainMenuLayer : CCLayer {
+@interface MainMenuLayer : CCLayer <GKLeaderboardViewControllerDelegate>{
     CGSize winSize;
     
     CCMenu *mainMenu;

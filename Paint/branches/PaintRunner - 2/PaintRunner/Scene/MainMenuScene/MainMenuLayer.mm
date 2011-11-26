@@ -7,6 +7,9 @@
 //
 
 #import "MainMenuLayer.h"
+#import "AppDelegate.h"
+#import "GameManager.h"
+#import "GCHelper.h"
 
 @interface MainMenuLayer() 
 -(void)displayMainMenu;
@@ -30,7 +33,26 @@
 }
 
 -(void) showLeaderboard {
-    
+    CCLOG(@"MainMenu: Show Leaderboard");
+    GKLeaderboardViewController *leaderboardController = [[GKLeaderboardViewController alloc] init];
+    if (leaderboardController != NULL)
+    {
+        leaderboardController.category = kHighScoreLeaderboardID;
+        leaderboardController.timeScope = GKLeaderboardTimeScopeAllTime;
+        leaderboardController.leaderboardDelegate = self;
+        AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+        [delegate.viewController presentModalViewController:leaderboardController animated:YES];
+    }
+}
+
+- (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)
+viewController
+{
+    AppDelegate *delegate = 
+    [UIApplication sharedApplication].delegate;
+    [delegate.viewController dismissModalViewControllerAnimated: YES];
+    [viewController release];
+    [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
 }
 
 -(void) playChorus {

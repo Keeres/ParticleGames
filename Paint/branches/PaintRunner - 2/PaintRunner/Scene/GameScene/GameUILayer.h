@@ -26,6 +26,7 @@
     CCLabelBMFont *comboLabel;
     CCLabelBMFont *multiplierLabel;
     BOOL gamePaused;
+    BOOL gameOverTaskComplete;
     
     //Test Logs
     CCLabelBMFont *speedLabel;

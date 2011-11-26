@@ -11,8 +11,8 @@
 
 @implementation GameState
 
-@synthesize completedJumper;
-@synthesize timesJumped; 
+@synthesize completedAchievement_Jumper;
+@synthesize highScore;
 
 static GameState *sharedInstance = nil;
 
@@ -46,15 +46,15 @@ static GameState *sharedInstance = nil;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeBool:completedJumper forKey:@"CompletedJumper"];
-    [encoder encodeInt:timesJumped forKey:@"TimesFell"];
+    [encoder encodeBool:completedAchievement_Jumper forKey:@"CompletedAchievement_Jumper"];
+    [encoder encodeInt:highScore forKey:@"HighScore"];
 }
 
  - (id)initWithCoder:(NSCoder *)decoder {
 
     if ((self = [super init])) {
-         completedJumper = [decoder decodeBoolForKey:@"CompletedJumper"];
-         timesJumped = [decoder decodeIntForKey:@"TimesJumped"];
+         completedAchievement_Jumper = [decoder decodeBoolForKey:@"CompletedAchievement_Jumper"];
+         highScore = [decoder decodeIntForKey:@"HighScore"];
     }
     return self;
 }

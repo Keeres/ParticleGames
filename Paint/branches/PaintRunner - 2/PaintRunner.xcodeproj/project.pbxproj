@@ -10,6 +10,7 @@
 		1563EC841475EADB00E36B86 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1563EC7F1475EADB00E36B86 /* GameState.m */; };
 		1563EC851475EADB00E36B86 /* GCDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 1563EC811475EADB00E36B86 /* GCDatabase.m */; };
 		1563EC861475EADB00E36B86 /* GCHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1563EC831475EADB00E36B86 /* GCHelper.m */; };
+		156FB77F147F867D00943C2A /* Achievements.m in Sources */ = {isa = PBXBuildFile; fileRef = 156FB77E147F867C00943C2A /* Achievements.m */; };
 		158201C51474E11B00219B9D /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 158201C41474E11B00219B9D /* GameKit.framework */; };
 		B6281D9D142D7C6D008A1DAB /* GameCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = B6281D99142D7C6D008A1DAB /* GameCharacter.m */; };
 		B6281D9E142D7C6D008A1DAB /* GameObject.m in Sources */ = {isa = PBXBuildFile; fileRef = B6281D9A142D7C6D008A1DAB /* GameObject.m */; };
@@ -219,6 +220,8 @@
 		1563EC811475EADB00E36B86 /* GCDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCDatabase.m; path = GameCenter/GCDatabase.m; sourceTree = "<group>"; };
 		1563EC821475EADB00E36B86 /* GCHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GCHelper.h; path = GameCenter/GCHelper.h; sourceTree = "<group>"; };
 		1563EC831475EADB00E36B86 /* GCHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GCHelper.m; path = GameCenter/GCHelper.m; sourceTree = "<group>"; };
+		156FB77D147F867C00943C2A /* Achievements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Achievements.h; path = GameCenter/Achievements.h; sourceTree = "<group>"; };
+		156FB77E147F867C00943C2A /* Achievements.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Achievements.m; path = GameCenter/Achievements.m; sourceTree = "<group>"; };
 		158201C41474E11B00219B9D /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		B6281D99142D7C6D008A1DAB /* GameCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameCharacter.m; path = GameObjects/GameCharacter.m; sourceTree = "<group>"; };
 		B6281D9A142D7C6D008A1DAB /* GameObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameObject.m; path = GameObjects/GameObject.m; sourceTree = "<group>"; };
@@ -636,6 +639,8 @@
 				1563EC811475EADB00E36B86 /* GCDatabase.m */,
 				1563EC821475EADB00E36B86 /* GCHelper.h */,
 				1563EC831475EADB00E36B86 /* GCHelper.m */,
+				156FB77D147F867C00943C2A /* Achievements.h */,
+				156FB77E147F867C00943C2A /* Achievements.m */,
 			);
 			name = GameCenter;
 			sourceTree = "<group>";
@@ -1583,6 +1588,7 @@
 				1563EC841475EADB00E36B86 /* GameState.m in Sources */,
 				1563EC851475EADB00E36B86 /* GCDatabase.m in Sources */,
 				1563EC861475EADB00E36B86 /* GCHelper.m in Sources */,
+				156FB77F147F867D00943C2A /* Achievements.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

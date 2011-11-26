@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 @interface GameState : NSObject <NSCoding> {
-    BOOL completedJumper;
+    BOOL completedAchievement_Jumper;
     int timesJumped;
+    double highScore;
 }
 
 + (GameState *) sharedInstance;
 - (void)save;
 
-@property (assign) BOOL completedJumper;
-@property (assign) int timesJumped;
+@property (assign) BOOL completedAchievement_Jumper;
+@property (assign) double highScore;
 @end
