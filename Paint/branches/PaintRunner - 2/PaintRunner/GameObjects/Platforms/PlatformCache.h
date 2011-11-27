@@ -29,6 +29,10 @@
     //int platformCounter;
     int platformLength;
     float previousPlatformFinalHeight;
+    
+    NSUInteger previousPlatformEndIndex;
+    NSUInteger currentPlatformIndex;
+    NSUInteger currentPlatformEndIndex;
 }
 
 @property (nonatomic, retain) CCArray *totalPlatforms;

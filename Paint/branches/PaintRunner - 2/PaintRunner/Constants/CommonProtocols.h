@@ -8,6 +8,7 @@ typedef enum {
     kStateJumping,
     kStateLanding,
     kStateChange,
+    kStateIsHit,
     kStateHitWall,
     kStateTakeHitByTurtle,
     kStateTakeHitByBee,

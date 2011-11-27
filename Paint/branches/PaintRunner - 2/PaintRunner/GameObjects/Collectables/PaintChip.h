@@ -8,6 +8,7 @@
 
 #import "Box2DSprite.h"
 #import "CommonProtocols.h"
+#import "Constants.h"
 
 @interface PaintChip : Box2DSprite {
     //Box2D
@@ -16,9 +17,13 @@
     
     //Variables
     BOOL isHit;
+    BOOL isSpawning;
+    BOOL isIdle;
 }
 
 @property BOOL isHit;
+@property BOOL isSpawning;
+@property BOOL isIdle;
 
 -(id) initWithWorld:(b2World*)world;
 -(void) despawn;

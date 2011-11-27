@@ -14,6 +14,7 @@
 @synthesize isHit;
 @synthesize finalHeight;
 @synthesize platformNumber;
+@synthesize platformFinalPosition;
 
 -(void) createBody {
     /*b2Vec2 p0 = b2Vec2((-self.contentSize.width/2 + 3.0)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/8)/PTM_RATIO);

@@ -27,6 +27,7 @@ typedef enum {
     BOOL readyToMove;
     BOOL isHit;
     float finalHeight;
+    CGPoint platformFinalPosition;
     int platformNumber;
 }
 
@@ -34,6 +35,7 @@ typedef enum {
 @property (readwrite) BOOL isHit;
 @property (readwrite) float finalHeight;
 @property (readwrite) int platformNumber;
+@property (readwrite) CGPoint platformFinalPosition;
 
 //+(id) platformWithType:(PlatformTypes)platformType inWorld:(b2World*)theWorld;
 -(id) initWithWorld:(b2World*)theWorld andPlatformType:(PlatformTypes)platformWithType;

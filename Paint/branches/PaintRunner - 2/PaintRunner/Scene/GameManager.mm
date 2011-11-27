@@ -268,6 +268,7 @@ static GameManager* _sharedGameManager = nil;
 -(void)initAudioAsync {
     // Initializes the audio engine asynchronously
     managerSoundState = kAudioManagerInitializing; 
+    
     // Indicate that we are trying to start up the Audio Manager
     [CDSoundEngine setMixerSampleRate:CD_SAMPLE_RATE_MID];
     

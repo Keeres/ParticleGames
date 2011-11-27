@@ -78,7 +78,11 @@
         visibleSidePlatforms = [[NSMutableArray alloc] init];
         initialPlatformsCreated = NO;
         previousPlatformFinalHeight = winSize.height*0.2;
-
+        
+        previousPlatformEndIndex = 0;
+        currentPlatformIndex = 0;
+        currentPlatformEndIndex = 0;
+        
         [self initPlatforms];
         [self initSidePlatforms];
             
@@ -105,6 +109,8 @@
                 tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
                 [visiblePlatforms addObject:tempPlat];
                 //platformCounter++;
+                newPlatform = tempPlat;
+
                 break;
             }
         }
@@ -116,7 +122,7 @@
     oldPlatform = newPlatform;
     
     //int randomPlatform = arc4random() % 3;
-    
+
     int randomPlatform = 0;
     CCArray *platformOfType = [totalPlatforms objectAtIndex:randomPlatform];
     
@@ -130,7 +136,7 @@
     
     //float differentX = arc4random() % 5 + 5;
     //differentX = differentX * 8;
-    float differentX = 0;
+    float differentX = 0.0;
     for (int i = 0; i < platformLength; i++) {
         
         //Add side body
@@ -141,14 +147,16 @@
                 if (!tempSide.body->IsActive()) {
                     
                     //CGPoint location = ccp(0.8*winSize.width - tempSide.contentSize.width/2 + ((tempSide.contentSize.width - 1)*i) + differentX, -tempSide.contentSize.height/2 - (tempSide.contentSize.width*i));
-                    CGPoint location = ccp(0.8*winSize.width - tempSide.contentSize.width/2 + ((tempSide.contentSize.width - 1)*i) + differentX, playerHeight - winSize.height/2 - (tempSide.contentSize.width*i));
+                    CGPoint location = ccp(0.8*winSize.width - tempSide.contentSize.width/2.0 + ((tempSide.contentSize.width - 1)*i) + differentX, playerHeight - winSize.height/2.0 - (tempSide.contentSize.width*i));
                     
                     tempSide.position = location;
                     tempSide.finalHeight = randomHeight;
+                    tempSide.platformFinalPosition = CGPointMake(tempSide.position.x, randomHeight);
                     tempSide.body->SetActive(YES);
                     tempSide.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
                     
                     [visibleSidePlatforms addObject:tempSide];
+                    
                     break;
                 }
             }
@@ -159,11 +167,9 @@
             Platform *tempPlat = [platformOfType objectAtIndex:j];
             
             if (tempPlat.visible == NO) {
-                newPlatform = tempPlat;
 
                 //CGPoint location = ccp(0.8*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, -tempPlat.contentSize.height/2 - (tempPlat.contentSize.width*i));
-                CGPoint location = ccp(0.8*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, 
-                                       playerHeight - winSize.height/2 - (tempPlat.contentSize.width*i));
+                CGPoint location = ccp(0.8*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, playerHeight - winSize.height/2 - (tempPlat.contentSize.width*i));
                 
                 tempPlat.position = location;
                 tempPlat.finalHeight = randomHeight;
@@ -176,6 +182,8 @@
                     //tempPlat.platformNumber = platformCounter;
                     //platformCounter++;
                 }
+                 
+                newPlatform = tempPlat;
                 break;
             }
         }

@@ -19,6 +19,7 @@
     CGSize winSize;
     CCArray *totalPaintChips;
     NSMutableArray *visiblePaintChips;
+    float paintChipSpawnDelay;
 }
 
 @property (nonatomic, retain) CCArray *totalPaintChips;
@@ -26,6 +27,8 @@
 
 -(id) initWithWorld:(b2World*)theWorld;
 -(void) addPaintChips;
+//-(void) addPaintChipsBetweenPlatformLocation:(CGPoint)position1 andLocation:(CGPoint)position2;
+-(void) addPaintChipsPatternOneBetweenPlatformLocation:(CGPoint)position1 andLocation:(CGPoint)position2;
 -(void) updatePaintChipsWithTime:(ccTime)dt andSpeed:(float)speed;
 -(void) cleanPaintChips;
 -(void) resetPaintChips;

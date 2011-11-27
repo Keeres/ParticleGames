@@ -175,9 +175,9 @@
         
         //Create world and objects
         [self setupWorld];
-        //[self setupDebugDraw];
+      //  [self setupDebugDraw];
         [self createPlayer];
-        //[self createPaintChips];
+        [self createPaintChips];
         [self createPlatforms];
         [platformCache addInitialPlatforms];
         [player spawn];
@@ -325,7 +325,7 @@
         NSMutableArray *tempVisiblePaintChips = [paintChipCache visiblePaintChips];
         for (int i = 0; i < [tempVisiblePaintChips count]; i++) {
             PaintChip *tempPC = [tempVisiblePaintChips objectAtIndex:i];
-            
+
             if ((contact.fixtureA->GetBody() == tempPC.body && contact.fixtureB->GetBody() == player.body) || 
                 (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == tempPC.body)) {
                 tempPC.isHit = YES;
@@ -337,7 +337,7 @@
         NSMutableArray *tempVisiblePlatforms = [platformCache visiblePlatforms];
         for (int i = 0; i < [tempVisiblePlatforms count]; i++) {
             Platform *tempPlat = [tempVisiblePlatforms objectAtIndex:i];
-            
+
             if ((contact.fixtureA->GetBody() == tempPlat.body && contact.fixtureB->GetBody() == player.body) || 
                 (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == tempPlat.body)) {
                 player.isTouchingGround = YES;
@@ -388,8 +388,16 @@
 
 -(void) paintChipControl:(ccTime)dt {
     paintTimePassed += dt;
-    if (paintTimePassed > 3) {
-        [paintChipCache addPaintChips];
+    if (paintTimePassed > platformSpawnTime) {
+       
+     //   [paintChipCache addPaintChips];
+        Platform *tempSidePlat = [[platformCache visibleSidePlatforms] objectAtIndex:[[platformCache visibleSidePlatforms] count]-1];
+
+        //add paint chip between the end of the old platform and the beginning of the current one 
+       // [paintChipCache addPaintChipsBetweenPlatformLocation:[[platformCache oldPlatform] position] andLocation:[tempSidePlat platformFinalPosition]];
+        
+         [paintChipCache addPaintChipsPatternOneBetweenPlatformLocation:[[platformCache oldPlatform] position] andLocation:[tempSidePlat platformFinalPosition]]; 
+        
         paintTimePassed = 0.0;
     }
 }
@@ -418,12 +426,12 @@
     [self physicsSimulation:dt];
     [self detectContacts:dt];
     [self playerJumpBuffer];
-    //[self paintChipControl:dt];
     [self platformControl:dt];
+    [self paintChipControl:dt];
 
     [self updateStatesOfObjects:dt];
     [player updateStateWithDeltaTime:dt andSpeed:PIXELS_PER_SECOND];
-    //[paintChipCache updatePaintChipsWithTime:dt andSpeed:PIXELS_PER_SECOND];
+    [paintChipCache updatePaintChipsWithTime:dt andSpeed:PIXELS_PER_SECOND];
     [platformCache updatePlatformsWithTime:dt andSpeed:PIXELS_PER_SECOND];
 }
 

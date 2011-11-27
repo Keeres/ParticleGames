@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict/>
+<dict>
+	<key>kGameScene</key>
+	<dict>
+		<key>COIN_COLLECT_SOUND_EFFECT</key>
+		<string>SuperMarioBrothersCoin.mp3</string>
+	</dict>
+</dict>
 </plist>

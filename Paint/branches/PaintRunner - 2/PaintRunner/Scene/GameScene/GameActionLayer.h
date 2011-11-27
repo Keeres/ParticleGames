@@ -20,6 +20,7 @@
 #import "PaintChipCache.h"
 #import "MyContactListener.h"
 #import "Box2DHelpers.h"
+#import "GameManager.h"
 
 #define MAX_PIXELS_PER_SECOND 300.0
 #define INITIAL_PIXELS_PER_SECOND 100.0

@@ -59,17 +59,6 @@ typedef enum {
 // Menu Scenes
 #define BACKGROUND_TRACK_MAIN_MENU @"VikingPreludeV1.mp3"
 
-// GameLevel1 (Ole Awakens)
-#define BACKGROUND_TRACK_OLE_AWAKES @"SpaceDesertV2.mp3"
-
-// Physics Puzzle Level
-#define BACKGROUND_TRACK_PUZZLE @"VikingPreludeV1.mp3"
-
-// Physics MineCart Level
-#define BACKGROUND_TRACK_MINECART @"DrillBitV2.mp3"
-
-// Physics Escape Level
-#define BACKGROUND_TRACK_ESCAPE @"EscapeTheFutureV3.mp3"
 
 // Chapter 10
 //#define PTM_RATIO ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 100.0 : 50.0)
