@@ -2,12 +2,6 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
-// Make sure these #defines are on one line each to avoid errors
-#define kAchievement_FinishTutorial @"Learn2Play"
-#define kAchievement_Jump20 @"Jumper"
-
-#define kHighScoreLeaderboardID @"HighScores"
-
 
 @interface GCHelper : NSObject <NSCoding> {
     BOOL gameCenterAvailable;

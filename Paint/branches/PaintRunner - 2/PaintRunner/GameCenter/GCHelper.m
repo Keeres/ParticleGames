@@ -160,11 +160,9 @@ static GCHelper *sharedHelper = nil;
 }
 
 - (void)reportScore:(NSString *)identifier score:(double)rawScore {
-    
+
     GKScore *score = [[[GKScore alloc] initWithCategory:identifier] autorelease];
-    score.value = rawScore;
-    [GameState sharedInstance].highScore = rawScore;
-    [[GameState sharedInstance] save];
+    score.value = rawScore * 10;
     [scoresToReport addObject:score];
     [self save];
     

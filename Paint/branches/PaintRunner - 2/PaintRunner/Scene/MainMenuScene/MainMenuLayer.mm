@@ -9,7 +9,7 @@
 #import "MainMenuLayer.h"
 #import "AppDelegate.h"
 #import "GameManager.h"
-#import "GCHelper.h"
+#import "Achievements.h"
 
 @interface MainMenuLayer() 
 -(void)displayMainMenu;

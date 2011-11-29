@@ -8,6 +8,8 @@
 
 #import "GameUILayer.h"
 #import "GCHelper.h"
+#import "GameState.h"
+#import "Achievements.h"
 
 @implementation GameUILayer
 
@@ -161,8 +163,12 @@
 }
 
 -(void) gameOver {
-    if(gameOverTaskComplete == NO)
-    {
+    if(gameOverTaskComplete == NO) {
+        // store game high score
+        [GameState sharedInstance].highScore = [actionLayer highScore];
+        [[GameState sharedInstance] save];
+
+        // send player score to high score leaderboard
         [[GCHelper sharedInstance] reportScore:kHighScoreLeaderboardID score:(double) [actionLayer gameScore]];
         gameOverTaskComplete = YES;
     }
