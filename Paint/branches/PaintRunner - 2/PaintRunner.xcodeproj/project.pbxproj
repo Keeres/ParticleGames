@@ -22,6 +22,7 @@
 		B62A80091458A27400AFC3F9 /* testFont.fnt in Resources */ = {isa = PBXBuildFile; fileRef = B62A80071458A27400AFC3F9 /* testFont.fnt */; };
 		B6584B191459E98800940980 /* brush2-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6584B181459E98800940980 /* brush2-hd.png */; };
 		B6584B1C1459E98E00940980 /* brush2.png in Resources */ = {isa = PBXBuildFile; fileRef = B6584B1B1459E98E00940980 /* brush2.png */; };
+		B669075B14887BE90077743A /* SuperMarioBrothersCoin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B669075A14887BE90077743A /* SuperMarioBrothersCoin.mp3 */; };
 		B67579FA14686FD50085A591 /* MainMenuScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = B67579F914686FD50085A591 /* MainMenuScene.mm */; };
 		B67579FD14686FFB0085A591 /* MainMenuLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = B67579FC14686FFB0085A591 /* MainMenuLayer.mm */; };
 		B6757A00146874790085A591 /* GameManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = B67579FF146874790085A591 /* GameManager.mm */; };
@@ -235,6 +236,7 @@
 		B62A80071458A27400AFC3F9 /* testFont.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = testFont.fnt; path = Images/testFont.fnt; sourceTree = "<group>"; };
 		B6584B181459E98800940980 /* brush2-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "brush2-hd.png"; path = "Images/HD/brush2-hd.png"; sourceTree = "<group>"; };
 		B6584B1B1459E98E00940980 /* brush2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brush2.png; path = Images/SD/brush2.png; sourceTree = "<group>"; };
+		B669075A14887BE90077743A /* SuperMarioBrothersCoin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = SuperMarioBrothersCoin.mp3; path = Sounds/SuperMarioBrothersCoin.mp3; sourceTree = "<group>"; };
 		B66D79671471D4EA009ACEB7 /* PaintRunner copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PaintRunner copy-Info.plist"; path = "/Users/kelvin/Documents/iPhone/Projects/PaintRunner - 2/PaintRunner copy-Info.plist"; sourceTree = "<absolute>"; };
 		B66D7A271471D51F009ACEB7 /* PaintRunner copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PaintRunner copy2-Info.plist"; path = "/Users/kelvin/Documents/iPhone/Projects/PaintRunner - 2/PaintRunner copy2-Info.plist"; sourceTree = "<absolute>"; };
 		B67579F814686FD50085A591 /* MainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainMenuScene.h; path = Scene/MainMenuScene/MainMenuScene.h; sourceTree = "<group>"; };
@@ -1304,6 +1306,7 @@
 		B6B15B761469C20300093B63 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				B669075A14887BE90077743A /* SuperMarioBrothersCoin.mp3 */,
 			);
 			name = Sounds;
 			sourceTree = "<group>";
@@ -1419,6 +1422,7 @@
 				B6F99D8E14783C0B0090ED2D /* city.png in Resources */,
 				B6F99D8F14783C0B0090ED2D /* mountain.png in Resources */,
 				B6F99D9014783C0B0090ED2D /* sky.png in Resources */,
+				B669075B14887BE90077743A /* SuperMarioBrothersCoin.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
