@@ -11,11 +11,14 @@
 @implementation PlatformCache
 
 @synthesize totalPlatforms;
+@synthesize keyPlatforms;
 @synthesize visiblePlatforms;
 @synthesize visibleSidePlatforms;
 @synthesize initialPlatformsCreated;
 @synthesize oldPlatform;
-@synthesize newPlatform;
+@synthesize nextPlatform;
+@synthesize oldLongPlatformLength;
+@synthesize oldShortPlatformLength;
 
 -(void) initPlatforms {
     totalPlatforms = [[CCArray alloc] initWithCapacity:totalPlatformTypes];
@@ -74,6 +77,7 @@
         winSize = [CCDirector sharedDirector].winSize;
         world = theWorld;
 
+        keyPlatforms = [[NSMutableArray alloc] init];
         visiblePlatforms = [[NSMutableArray alloc] init];
         visibleSidePlatforms = [[NSMutableArray alloc] init];
         initialPlatformsCreated = NO;
@@ -83,24 +87,28 @@
         currentPlatformIndex = 0;
         currentPlatformEndIndex = 0;
         
+        longPlatformLength = 15;
+        shortPlatformLength = 5;
+        
         [self initPlatforms];
-        [self initSidePlatforms];
-            
+        [self initSidePlatforms];            
     }
     return self;
 }
 
--(void) addInitialPlatforms {
-    for (int i = 0; i < 30; i++) {
+-(void) addStartingPlatform {
+    oldLongPlatformLength = 3;
+
+    for (int i = 0; i < 10; i++) {
         CCArray *platformOfType = [totalPlatforms objectAtIndex:0];
         for (int j = 0; j < [platformOfType count]; j++) {
             Platform *tempPlat;
             tempPlat = [platformOfType objectAtIndex:j];
             if (tempPlat.visible == NO) {
                 CGPoint location;
-                //location = ccp(tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i), 0.1*tempPlat.contentSize.height - (tempPlat.contentSize.width/2*i));
-                location = ccp(tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i), 0.2*winSize.height);
 
+                location = ccp(tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i), 0.2*winSize.height);
+                
                 tempPlat.position = location;
                 tempPlat.finalHeight = 0.2*winSize.height;
                 tempPlat.visible = YES;
@@ -108,9 +116,15 @@
                 tempPlat.body->SetActive(YES);
                 tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
                 [visiblePlatforms addObject:tempPlat];
+                
+                if (i == 8) {
+                    [keyPlatforms addObject:tempPlat];
+                }
+                
                 //platformCounter++;
-                newPlatform = tempPlat;
-
+                nextPlatform = tempPlat;
+                oldPlatform = tempPlat;
+                oldLongPlatformLength = longPlatformLength;
                 break;
             }
         }
@@ -118,26 +132,26 @@
     initialPlatformsCreated = YES;
 }
 
--(void) addPlatformBasedOffPlayerHeight:(float)playerHeight {
-    oldPlatform = newPlatform;
+-(void) addLongPlatform {
+    oldPlatform = nextPlatform;
+    oldLongPlatformLength = longPlatformLength;
     
-    //int randomPlatform = arc4random() % 3;
-
     int randomPlatform = 0;
     CCArray *platformOfType = [totalPlatforms objectAtIndex:randomPlatform];
     
-    float randomHeight = arc4random() % 30 + 20;
+    float randomHeight = (arc4random() % 2) * 30 + 30;
     BOOL isTopPlatformNext = arc4random() % 2;
-    if ((isTopPlatformNext || previousPlatformFinalHeight < winSize.height*0.2) && (previousPlatformFinalHeight < winSize.height*1.1)) {
-        randomHeight = previousPlatformFinalHeight + randomHeight;
+    if ((isTopPlatformNext && ((oldPlatform.position.y + randomHeight) < winSize.height*1.1))) {
+        randomHeight = oldPlatform.position.y + randomHeight;
+    } else if ((oldPlatform.position.y - randomHeight) > winSize.height*0.2) {
+        randomHeight = oldPlatform.position.y - randomHeight;
     } else {
-        randomHeight = previousPlatformFinalHeight - randomHeight;
+        randomHeight = oldPlatform.position.y - randomHeight;
+
     }
     
-    //float differentX = arc4random() % 5 + 5;
-    //differentX = differentX * 8;
     float differentX = 0.0;
-    for (int i = 0; i < platformLength; i++) {
+    for (int i = 0; i < longPlatformLength; i++) {
         
         //Add side body
         if (i == 0) {
@@ -145,12 +159,90 @@
                 Platform *tempSide = [totalSidePlatforms objectAtIndex:j];
                 
                 if (!tempSide.body->IsActive()) {
-                    
-                    //CGPoint location = ccp(0.8*winSize.width - tempSide.contentSize.width/2 + ((tempSide.contentSize.width - 1)*i) + differentX, -tempSide.contentSize.height/2 - (tempSide.contentSize.width*i));
-                    CGPoint location = ccp(0.8*winSize.width - tempSide.contentSize.width/2.0 + ((tempSide.contentSize.width - 1)*i) + differentX, playerHeight - winSize.height/2.0 - (tempSide.contentSize.width*i));
+
+                    CGPoint location = ccp(0.9*winSize.width - tempSide.contentSize.width/2.0 + ((tempSide.contentSize.width - 1)*i) + differentX, oldPlatform.position.y - winSize.height/2.0 - (tempSide.contentSize.width*i));
                     
                     tempSide.position = location;
                     tempSide.finalHeight = randomHeight;
+                    tempSide.easyPlatform = 0;
+                    tempSide.platformFinalPosition = CGPointMake(tempSide.position.x, randomHeight);
+                    tempSide.body->SetActive(YES);
+                    tempSide.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
+                    
+                    [visibleSidePlatforms addObject:tempSide];
+                    
+                    break;
+                }
+            }
+        }
+        
+        //Add top body
+        for (int j = 0; j < [platformOfType count]; j++) {        
+            Platform *tempPlat = [platformOfType objectAtIndex:j];
+            
+            if (tempPlat.visible == NO) {
+                
+                CGPoint location = ccp(0.9*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, oldPlatform.position.y - winSize.height/2 - (tempPlat.contentSize.width*i));
+                
+                tempPlat.position = location;
+                tempPlat.finalHeight = randomHeight;
+                tempPlat.easyPlatform = 0;
+                tempPlat.visible = YES;
+                tempPlat.body->SetActive(YES);
+                tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
+                
+                [visiblePlatforms addObject:tempPlat];
+                
+                if (i == (longPlatformLength - 2)) {
+                    [keyPlatforms addObject:tempPlat];
+                }
+                
+                if (i != 0 || i != (longPlatformLength - 1)) {
+                    //tempPlat.platformNumber = platformCounter;
+                    //platformCounter++;
+                }
+                
+                nextPlatform = tempPlat;
+                break;
+            }
+        }
+    }    
+}
+
+-(void) addShortPlatform {
+    oldPlatform = nextPlatform;
+    oldShortPlatformLength = shortPlatformLength;
+    
+    int randomPlatform = 0;
+    CCArray *platformOfType = [totalPlatforms objectAtIndex:randomPlatform];
+    
+    float randomHeight = (arc4random() % 2) * 30 + 30;
+    BOOL isTopPlatformNext = arc4random() % 2;
+    
+    if ((isTopPlatformNext && ((oldPlatform.position.y + randomHeight) < winSize.height*1.1))) {
+        randomHeight = oldPlatform.position.y + randomHeight;
+    } else if ((oldPlatform.position.y - randomHeight) > winSize.height*0.2) {
+        randomHeight = oldPlatform.position.y - randomHeight;
+    } else {
+        randomHeight = oldPlatform.position.y - randomHeight;
+        
+    }
+    
+    float differentX = 0.0;
+    for (int i = 0; i < shortPlatformLength; i++) {
+        
+        //Add side body
+        if (i == 0) {
+            for (int j = 0; j < [totalSidePlatforms count]; j++) {
+                Platform *tempSide = [totalSidePlatforms objectAtIndex:j];
+                
+                if (!tempSide.body->IsActive()) {
+
+                    CGPoint location = ccp(0.9*winSize.width - tempSide.contentSize.width/2.0 + ((tempSide.contentSize.width - 1)*i) + differentX, oldPlatform.position.y - winSize.height/2.0 - (tempSide.contentSize.width*i));
+                    
+                    tempSide.position = location;
+                    tempSide.finalHeight = randomHeight;
+                    tempSide.easyPlatform = 0;
                     tempSide.platformFinalPosition = CGPointMake(tempSide.position.x, randomHeight);
                     tempSide.body->SetActive(YES);
                     tempSide.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
@@ -168,110 +260,196 @@
             
             if (tempPlat.visible == NO) {
 
-                //CGPoint location = ccp(0.8*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, -tempPlat.contentSize.height/2 - (tempPlat.contentSize.width*i));
-                CGPoint location = ccp(0.8*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, playerHeight - winSize.height/2 - (tempPlat.contentSize.width*i));
+                CGPoint location = ccp(0.9*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, oldPlatform.position.y - winSize.height/2 - (tempPlat.contentSize.width*i));
                 
                 tempPlat.position = location;
                 tempPlat.finalHeight = randomHeight;
+                tempPlat.easyPlatform = 0;
                 tempPlat.visible = YES;
                 tempPlat.body->SetActive(YES);
                 tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
                 
                 [visiblePlatforms addObject:tempPlat];
-                if (i != 0 || i != (platformLength - 1)) {
+                
+                if (i == (shortPlatformLength - 2)) {
+                    [keyPlatforms addObject:tempPlat];
+                }
+                
+                if (i != 0 || i != (shortPlatformLength - 1)) {
                     //tempPlat.platformNumber = platformCounter;
                     //platformCounter++;
                 }
-                 
-                newPlatform = tempPlat;
+                
+                nextPlatform = tempPlat;
                 break;
             }
         }
     }
-    previousPlatformFinalHeight = randomHeight;
 }
 
-/*-(void) addInitialPlatforms {
-    for (int i = 0; i < 3; i++) {
-        //int randomPlatform = arc4random() % 3;
-        int randomPlatform = 0;
-        CCArray *platformOfType = [totalPlatforms objectAtIndex:randomPlatform];
-        for (int j = 0; j < [platformOfType count]; j++) {
-            
-            Platform *tempPlat;
-            if (j == 0) {
-                tempPlat = initialPlatform;
-            } else {
-                tempPlat = [platformOfType objectAtIndex:j];
-            }
-            
-            if (tempPlat.visible == NO) {
-                CGPoint location;
-                if (j == 0) {
-                    location = ccp(winSize.width/4, winSize.height/4);
-                    tempPlat.finalHeight = winSize.height/4;
-                    tempPlat.visible = YES;
-                    tempPlat.platformNumber = platformCounter;
-                    tempPlat.body->SetActive(YES);
-                    tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
-                    [visiblePlatforms addObject:tempPlat];
-                    platformCounter++;
-
-                } else {
-                    location = ccp(winSize.width/4 + tempPlat.contentSize.width/2 + (2*i*tempPlat.contentSize.width), -tempPlat.contentSize.height/2);
-                    tempPlat.position = location;
-                    tempPlat.finalHeight = arc4random() % 50 + 20;
-                    tempPlat.visible = YES;
-                    tempPlat.platformNumber = platformCounter;
-                    tempPlat.body->SetActive(YES);
-                    tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
-                    [visiblePlatforms addObject:tempPlat];
-                    platformCounter++;
-                }
-                break;
-            }
-        }
-    }
-    initialPlatformsCreated = YES;
-}*/
-
-/*-(void) addPlatform {
-    //int randomPlatform = arc4random() % 3;
+-(void) addChoicePlatform {
+    int choicePlatformLength = 5;
+    oldPlatform = nextPlatform;
+    oldLongPlatformLength = choicePlatformLength;
+    
     int randomPlatform = 0;
     CCArray *platformOfType = [totalPlatforms objectAtIndex:randomPlatform];
     
-    for (int i = 0; i < [platformOfType count]; i++) {        
-        Platform *tempPlat = [platformOfType objectAtIndex:i];
+    BOOL easyPlatformIsOnTop = arc4random() % 2;
+    
+    //CREATE EASY PLATFORM CHOICE
+    float randomHeight = 60;
+    float longHeight;
+    if (easyPlatformIsOnTop && (oldPlatform.position.y + randomHeight) < winSize.height*1.1) {
         
-        if (tempPlat.visible == NO) {
-            float differentX = arc4random() % 5 + 2;
-            differentX = differentX * 8;
-            CGPoint location = ccp(winSize.width - tempPlat.contentSize.width/2 - differentX, -tempPlat.contentSize.height/2);
+        longHeight = oldPlatform.position.y + randomHeight;
+    } else if ((easyPlatformIsOnTop && (oldPlatform.position.y + randomHeight) > winSize.height*1.1) || (!easyPlatformIsOnTop && (oldPlatform.position.y - randomHeight) < winSize.height*0.2)) {
+        
+        longHeight = oldPlatform.position.y;
+    } else if (!easyPlatformIsOnTop && (oldPlatform.position.y - randomHeight) > winSize.height*0.2) {
+        
+        longHeight = oldPlatform.position.y - randomHeight;
+    }
+    
+    float differentX = 0.0;
+    
+    for (int i = 0; i < choicePlatformLength; i++) {
+        
+        //Add side body
+        if (i == 0) {
+            for (int j = 0; j < [totalSidePlatforms count]; j++) {
+                Platform *tempSide = [totalSidePlatforms objectAtIndex:j];
+                
+                if (!tempSide.body->IsActive()) {
+                    CGPoint location = ccp(0.9*winSize.width - tempSide.contentSize.width/2.0 + ((tempSide.contentSize.width - 1)*i) + differentX, oldPlatform.position.y - winSize.height/2.0 - (tempSide.contentSize.width*i));
+                    
+                    tempSide.position = location;
+                    tempSide.finalHeight = longHeight;
+                    tempSide.easyPlatform = 1;
+                    tempSide.platformFinalPosition = CGPointMake(tempSide.position.x, longHeight);
+                    tempSide.body->SetActive(YES);
+                    tempSide.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
+                    
+                    [visibleSidePlatforms addObject:tempSide];
+                    
+                    break;
+                }
+            }
+        }
+        
+        //Add top body
+        for (int j = 0; j < [platformOfType count]; j++) {        
+            Platform *tempPlat = [platformOfType objectAtIndex:j];
             
-            tempPlat.position = location;
-            tempPlat.finalHeight = arc4random() % 50 + 20;
-            tempPlat.visible = YES;
-            tempPlat.platformNumber = platformCounter;
-            tempPlat.body->SetActive(YES);
-            tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
-            
-            [visiblePlatforms addObject:tempPlat];
-            
-            platformCounter++;
-            break;
+            if (tempPlat.visible == NO) {
+                CGPoint location = ccp(0.9*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, oldPlatform.position.y - winSize.height/2 - (tempPlat.contentSize.width*i));
+                
+                tempPlat.position = location;
+                tempPlat.finalHeight = longHeight;
+                tempPlat.easyPlatform = 1;
+
+                tempPlat.visible = YES;
+                tempPlat.body->SetActive(YES);
+                tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
+                
+                [visiblePlatforms addObject:tempPlat];
+                
+                if (i == (choicePlatformLength - 2)) {
+                    [keyPlatforms addObject:tempPlat];
+                }
+                
+                if (i != 0 || i != (longPlatformLength - 1)) {
+                    //tempPlat.platformNumber = platformCounter;
+                    //platformCounter++;
+                }
+                
+                nextPlatform = tempPlat;
+                break;
+            }
         }
     }
-}*/
+    
+    //CREATE HARD PLATFORM CHOICE
+    oldShortPlatformLength = choicePlatformLength;
+    
+    float shortHeight;
+    if (!easyPlatformIsOnTop && (oldPlatform.position.y + randomHeight) < winSize.height*1.1) {
+        shortHeight = oldPlatform.position.y + randomHeight;
+        
+    } else if ((!easyPlatformIsOnTop && (oldPlatform.position.y + randomHeight) < winSize.height*1.1) || (easyPlatformIsOnTop && (oldPlatform.position.y - randomHeight) > winSize.height*0.2)) {
+        shortHeight = oldPlatform.position.y;
+        
+    } else if (easyPlatformIsOnTop && (oldPlatform.position.y - randomHeight) > winSize.height*0.2) {
+        shortHeight = oldPlatform.position.y - randomHeight;
+    }
+    
+    
+    for (int i = 0; i < choicePlatformLength; i++) {
+        
+        //Add side body
+        if (i == 0) {
+            for (int j = 0; j < [totalSidePlatforms count]; j++) {
+                Platform *tempSide = [totalSidePlatforms objectAtIndex:j];
+                
+                if (!tempSide.body->IsActive()) {
+                    CGPoint location = ccp(0.9*winSize.width - tempSide.contentSize.width/2.0 + ((tempSide.contentSize.width - 1)*i) + differentX, oldPlatform.position.y - winSize.height/2.0 - (tempSide.contentSize.width*i));
+                    
+                    tempSide.position = location;
+                    tempSide.finalHeight = shortHeight;
+                    tempSide.easyPlatform = -1;
+
+                    tempSide.platformFinalPosition = CGPointMake(tempSide.position.x, shortHeight);
+                    tempSide.body->SetActive(YES);
+                    tempSide.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
+                    
+                    [visibleSidePlatforms addObject:tempSide];
+                    
+                    break;
+                }
+            }
+        }
+        
+        //Add top body
+        for (int j = 0; j < [platformOfType count]; j++) {        
+            Platform *tempPlat = [platformOfType objectAtIndex:j];
+            
+            if (tempPlat.visible == NO) {
+                CGPoint location = ccp(0.9*winSize.width - tempPlat.contentSize.width/2 + ((tempPlat.contentSize.width - 1)*i) + differentX, oldPlatform.position.y - winSize.height/2 - (tempPlat.contentSize.width*i));
+                
+                tempPlat.position = location;
+                tempPlat.finalHeight = shortHeight;
+                tempPlat.easyPlatform = -1;
+                
+                tempPlat.visible = YES;
+                tempPlat.body->SetActive(YES);
+                tempPlat.body->SetTransform(b2Vec2(location.x/PTM_RATIO, location.y/PTM_RATIO), 0.0);
+                
+                [visiblePlatforms addObject:tempPlat];
+                if (i != 0 || i != (shortPlatformLength - 1)) {
+                    //tempPlat.platformNumber = platformCounter;
+                    //platformCounter++;
+                }
+                
+                nextPlatform = tempPlat;
+                break;
+            }
+        }
+    }
+}
 
 -(void) updatePlatformsWithTime:(ccTime)dt andSpeed:(float)speed {
     if (speed > 100.0 && speed < 150.0) {
-        platformLength = 6;
+        longPlatformLength = 15;
+        shortPlatformLength = 5;
     } else if (speed > 150.0 && speed < 200.0) {
-        platformLength = 5;
+        longPlatformLength = 12;
+        shortPlatformLength = 4;
     } else if (speed > 200.0 && speed < 250.0) {
-        platformLength = 4;
+        longPlatformLength = 9;
+        shortPlatformLength = 3;
     } else if (speed > 250.0) {
-        platformLength = 3;
+        longPlatformLength = 6;
+        shortPlatformLength = 2;
     }
     
     for (int i = 0; i < [visiblePlatforms count]; i++) {
@@ -281,11 +459,16 @@
         tempPlat.body->SetTransform(b2Vec2(bodyPos.x - (speed*dt/PTM_RATIO), bodyPos.y), 0.0);
         
         float distanceRemaining = tempPlat.finalHeight - tempPlat.position.y;
+        float speedMultiplier = 3.0;
+        if (distanceRemaining < 30.0) {
+            speedMultiplier = 1.5;
+        }
         
         if ((tempPlat.position.y < tempPlat.finalHeight) && tempPlat.readyToMove == NO) {
             b2Vec2 bodyPos = tempPlat.body->GetPosition();
-            //tempPlat.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*2*dt/PTM_RATIO)), 0.0);
-            tempPlat.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed/25.0*distanceRemaining*dt/PTM_RATIO)), 0.0);
+            tempPlat.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*speedMultiplier*dt/PTM_RATIO)), 0.0);
+            //tempPlat.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*3*dt/PTM_RATIO)), 0.0);
+            //tempPlat.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed/25.0*distanceRemaining*dt/PTM_RATIO)), 0.0);
         } else {
             tempPlat.position = ccp(tempPlat.position.x, tempPlat.finalHeight);
             b2Vec2 bodyPos = tempPlat.body->GetPosition();
@@ -302,11 +485,16 @@
         tempSide.body->SetTransform(b2Vec2(bodyPos.x - (speed*dt/PTM_RATIO), bodyPos.y), 0.0);
         
         float distanceRemaining = tempSide.finalHeight - tempSide.position.y;
+        float speedMultiplier = 3.0;
+        if (distanceRemaining < 30.0) {
+            speedMultiplier = 1.5;
+        }
         
         if ((tempSide.position.y < tempSide.finalHeight) && tempSide.readyToMove == NO) {
             b2Vec2 bodyPos = tempSide.body->GetPosition();
-            //tempSide.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*2*dt/PTM_RATIO)), 0.0);
-            tempSide.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed/25.0*distanceRemaining*dt/PTM_RATIO)), 0.0);
+            tempSide.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*speedMultiplier*dt/PTM_RATIO)), 0.0);
+            //tempSide.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed*3*dt/PTM_RATIO)), 0.0);
+            //tempSide.body->SetTransform(b2Vec2(bodyPos.x, bodyPos.y + (speed/25.0*distanceRemaining*dt/PTM_RATIO)), 0.0);
         } else {
             tempSide.position = ccp(tempSide.position.x, tempSide.finalHeight);
             b2Vec2 bodyPos = tempSide.body->GetPosition();
@@ -350,9 +538,11 @@
         [tempSide despawn];
     }
     [visibleSidePlatforms removeAllObjects];
-    
+    [keyPlatforms removeAllObjects];
     previousPlatformFinalHeight = winSize.height*0.2;
-    
+    longPlatformLength = 20;
+    shortPlatformLength = 6;
+
     //platformCounter = 0;
     
 }

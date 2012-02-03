@@ -12,6 +12,7 @@
 
 @synthesize readyToMove;
 @synthesize isHit;
+@synthesize easyPlatform;
 @synthesize finalHeight;
 @synthesize platformNumber;
 @synthesize platformFinalPosition;
@@ -50,8 +51,8 @@
     /*b2Vec2 p2 = b2Vec2((-self.contentSize.width/2 + 2.0)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/8 - 1.0)/PTM_RATIO);
     b2Vec2 p3 = b2Vec2((-self.contentSize.width/2 + 2.0)/PTM_RATIO, (-self.contentSize.height/2 - self.contentSize.height/8 - 1.0)/PTM_RATIO);*/
     
-    b2Vec2 p2 = b2Vec2((-self.contentSize.width/2)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/8)/PTM_RATIO);
-    b2Vec2 p3 = b2Vec2((-self.contentSize.width/2)/PTM_RATIO, (-self.contentSize.height/2 - self.contentSize.height/8)/PTM_RATIO);
+    b2Vec2 p2 = b2Vec2((-self.contentSize.width/2)/PTM_RATIO, (self.contentSize.height/4 - self.contentSize.height/8)/PTM_RATIO);
+    b2Vec2 p3 = b2Vec2((-self.contentSize.width/2)/PTM_RATIO, (-self.contentSize.height/4 - self.contentSize.height/8)/PTM_RATIO);
     
     b2BodyDef bodyDef;
     bodyDef.type = b2_staticBody;
@@ -103,12 +104,13 @@
     if ((self = [super init])) {
         world = theWorld;
         
-        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformD.png"]];
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformA.png"]];
         
         self.visible = NO;
         self.tag = kPlatformType;
         readyToMove = NO;
         isHit = NO;
+        easyPlatform = 0;
         finalHeight = 0.0;
         platformNumber = 0;
         [self createSideBody];
@@ -134,7 +136,7 @@
             break;*/
             
         case platformD:
-            platformName = @"platformD.png";
+            platformName = @"platformE.png";
             break;
             
             
@@ -152,6 +154,7 @@
         self.tag = kPlatformType;
         readyToMove = NO;
         isHit = NO;
+        easyPlatform = 0;
         finalHeight = 0.0;
         platformNumber = 0;
         [self createBody];
@@ -164,12 +167,13 @@
     if ((self = [super init])) {
         world = theWorld;
         
-        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformD.png"]];
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformE.png"]];
         
         self.visible = NO;
         self.tag = kPlatformType;
         readyToMove = NO;
         isHit = NO;
+        easyPlatform = 0;
         finalHeight = 0.0;
         [self createInitialGroundBody];
     }
@@ -187,6 +191,7 @@
     self.body->SetActive(NO);
     readyToMove = NO;
     isHit = NO;
+    easyPlatform = YES;
     finalHeight = -1;
     platformNumber = -1;
 }

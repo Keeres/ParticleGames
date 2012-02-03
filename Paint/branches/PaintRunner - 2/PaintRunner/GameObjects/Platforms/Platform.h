@@ -26,6 +26,7 @@ typedef enum {
     PlatformTypes platformType;
     BOOL readyToMove;
     BOOL isHit;
+    int easyPlatform;
     float finalHeight;
     CGPoint platformFinalPosition;
     int platformNumber;
@@ -33,6 +34,7 @@ typedef enum {
 
 @property (readwrite) BOOL readyToMove;
 @property (readwrite) BOOL isHit;
+@property (readwrite) int easyPlatform;
 @property (readwrite) float finalHeight;
 @property (readwrite) int platformNumber;
 @property (readwrite) CGPoint platformFinalPosition;

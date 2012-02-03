@@ -53,12 +53,15 @@
     BOOL playerEndJump;
     BOOL changeDirectionToLeft;
     BOOL levelMovingLeft;
+    BOOL easySectionChosen;
+    BOOL startGame;
     float screenOffsetX;
     float screenOffsetY;
     float levelTimePassed;
     float paintTimePassed;
     float platformTimePassed;
     float platformSpawnTime;
+    float playerDistanceTraveled;
     float PIXELS_PER_SECOND;
     float gameScore;
     float highScore;

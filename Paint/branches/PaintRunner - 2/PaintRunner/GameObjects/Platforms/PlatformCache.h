@@ -14,20 +14,26 @@
 @interface PlatformCache : CCNode {
     //Box2D
     b2World *world;
+    b2Body *easySensor;
+    b2Body *hardSensor;
     
     //Variables
     CGSize winSize;
     CCArray *totalPlatforms;
     CCArray *totalSidePlatforms;
+    NSMutableArray *keyPlatforms;
     NSMutableArray *visiblePlatforms;
     NSMutableArray *visibleSidePlatforms;
     BOOL initialPlatformsCreated;
     BOOL topPlatformSpawned;
     Platform *initialPlatform;
     Platform *oldPlatform;
-    Platform *newPlatform;
+    Platform *nextPlatform;
     //int platformCounter;
-    int platformLength;
+    int longPlatformLength;
+    int shortPlatformLength;
+    int oldLongPlatformLength;
+    int oldShortPlatformLength;
     float previousPlatformFinalHeight;
     
     NSUInteger previousPlatformEndIndex;
@@ -36,16 +42,22 @@
 }
 
 @property (nonatomic, retain) CCArray *totalPlatforms;
+@property (nonatomic, retain) NSMutableArray *keyPlatforms;
 @property (nonatomic, retain) NSMutableArray *visiblePlatforms;
 @property (nonatomic, retain) NSMutableArray *visibleSidePlatforms;
 @property (readwrite) BOOL initialPlatformsCreated;
 @property (nonatomic, retain) Platform* oldPlatform;
-@property (nonatomic, retain) Platform* newPlatform;
+@property (nonatomic, retain) Platform* nextPlatform;
+@property (readonly) int oldLongPlatformLength;
+@property (readonly) int oldShortPlatformLength;
 
 -(id) initWithWorld:(b2World*)theWorld;
 -(void) updatePlatformsWithTime:(ccTime)dt andSpeed:(float)speed;
--(void) addInitialPlatforms;
--(void) addPlatformBasedOffPlayerHeight:(float)playerHeight;
+
+-(void) addStartingPlatform;
+-(void) addLongPlatform;
+-(void) addShortPlatform;
+-(void) addChoicePlatform;
 
 -(void) cleanPlatforms;
 -(void) resetPlatforms;

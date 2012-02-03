@@ -23,7 +23,7 @@
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position = b2Vec2(winSize.width/4/PTM_RATIO, winSize.height/4/PTM_RATIO);
+    bodyDef.position = b2Vec2(0.2*winSize.width/PTM_RATIO, winSize.height/4/PTM_RATIO);
     bodyDef.allowSleep = false;
     //bodyDef.fixedRotation = true;
     //bodyDef.isGravitated = false;
@@ -130,9 +130,9 @@
         }
     }
     
-    if (velocity.y < -jumpVelocity) {
-        self.body->SetLinearVelocity(b2Vec2(velocity.x, -jumpVelocity));
-    }
+    //if (velocity.y < -jumpVelocity) {
+    //    self.body->SetLinearVelocity(b2Vec2(velocity.x, -jumpVelocity));
+    //}
     
     if (previousPosition.y > openGLPosition.y) {
         float playerScale = (previousPosition.y - openGLPosition.y)/100.0;
@@ -174,7 +174,7 @@
     lastPlatformHeightTouched = 0.0;
 
     self.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
-    self.body->SetTransform(b2Vec2(winSize.width/4/PTM_RATIO, winSize.height/4/PTM_RATIO), 0);
+    self.body->SetTransform(b2Vec2(0.2*winSize.width/PTM_RATIO, winSize.height/4/PTM_RATIO), 0);
     setBodyMask(self.body, kMaskPlayer);
     [self despawn];
 }

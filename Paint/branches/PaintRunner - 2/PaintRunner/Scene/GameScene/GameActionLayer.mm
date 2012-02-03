@@ -110,17 +110,21 @@
     playerEndJump = NO;
     changeDirectionToLeft = YES;
     levelMovingLeft = YES;
+    easySectionChosen = YES;
+    startGame = NO;
     screenOffsetX = 0.0;
     screenOffsetY = 0.0;
     levelTimePassed = 0.0;
     paintTimePassed = 0.0;
     platformTimePassed = 0.0;
     platformSpawnTime = 1.0;
+    playerDistanceTraveled = 0.0;
     PIXELS_PER_SECOND = INITIAL_PIXELS_PER_SECOND;
     gameScore = 0.0;
     multiplier = 1.0;
     
-    [platformCache addInitialPlatforms];
+    //[platformCache addInitialPlatforms];
+    [platformCache addStartingPlatform];
     [player spawn];
 }
 
@@ -154,12 +158,15 @@
         playerEndJump = NO;
         changeDirectionToLeft = YES;
         levelMovingLeft = YES;
+        easySectionChosen = YES;
+        startGame = NO;
         screenOffsetX = 0.0;
         screenOffsetY = 0.0;
         levelTimePassed = 0.0;
         paintTimePassed = 0.0;
         platformTimePassed = 0.0;
         platformSpawnTime = 1.0;
+        playerDistanceTraveled = 0.0;
         PIXELS_PER_SECOND = INITIAL_PIXELS_PER_SECOND;
         gameScore = 0.0;
         highScore = [GameState sharedInstance].highScore;
@@ -175,11 +182,12 @@
         
         //Create world and objects
         [self setupWorld];
-      //  [self setupDebugDraw];
+        [self setupDebugDraw];
         [self createPlayer];
         [self createPaintChips];
         [self createPlatforms];
-        [platformCache addInitialPlatforms];
+        //[platformCache addInitialPlatforms];
+        [platformCache addStartingPlatform];
         [player spawn];
         
         //Create contact listener
@@ -201,7 +209,13 @@
     
     if (PIXELS_PER_SECOND < MAX_PIXELS_PER_SECOND && PIXELS_PER_SECOND != 0.0) {
         PIXELS_PER_SECOND += 2*dt;
-        platformSpawnTime = 170.0/PIXELS_PER_SECOND;
+        Platform *tempPlat = [platformCache oldPlatform];
+        
+        if (easySectionChosen) {
+            platformSpawnTime = ([platformCache oldLongPlatformLength])*tempPlat.contentSize.width/PIXELS_PER_SECOND;
+        } else {        
+            platformSpawnTime = ([platformCache oldShortPlatformLength])*tempPlat.contentSize.width/PIXELS_PER_SECOND;
+        }
     }
     
     //Calculates how fast to scroll the level based on PIXELS_PER_SECOND
@@ -215,7 +229,7 @@
     float prevScreenOffsetY = screenOffsetY;
     
     if (player.position.y > winSize.height/2) {
-        screenOffsetY = (winSize.height/2 - player.position.y);
+        screenOffsetY = (winSize.height/2 - player.position.y)*.4;
         if (screenOffsetY < -200.0) {
             screenOffsetY = -200.0;
         }
@@ -317,6 +331,7 @@
         //Check if player has touched the ground 
         if ((contact.fixtureA->GetBody() == groundBody && contact.fixtureB->GetBody() == player.body) || 
             (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == groundBody)) {
+            
             player.isTouchingGround = YES;
             player.doubleJumpAvailable = YES;
         }
@@ -340,6 +355,29 @@
 
             if ((contact.fixtureA->GetBody() == tempPlat.body && contact.fixtureB->GetBody() == player.body) || 
                 (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == tempPlat.body)) {
+                
+                if (tempPlat.easyPlatform > 0) {
+                    easySectionChosen = YES;
+                } else if (tempPlat.easyPlatform < 0) {
+                    easySectionChosen = NO;
+                }
+                
+                /*if (contact.fixtureA->GetBody() == tempPlat.body) {
+                    Platform *tempPlat = (Platform*)contact.fixtureA->GetBody();
+                    if (tempPlat.easyPlatform > 0) {
+                        easySectionChosen = YES;
+                    } else if (tempPlat.easyPlatform < 0) {
+                        easySectionChosen = NO;
+                    }
+                } else if (contact.fixtureB->GetBody() == tempPlat.body) {
+                    Platform *tempPlat = (Platform*)contact.fixtureB->GetBody();
+                    if (tempPlat.easyPlatform > 0) {
+                        easySectionChosen = YES;
+                    } else if (tempPlat.easyPlatform < 0) {
+                        easySectionChosen = NO;
+                    }
+                }*/
+
                 player.isTouchingGround = YES;
                 player.doubleJumpAvailable = YES;
 
@@ -358,7 +396,7 @@
                 (contact.fixtureA->GetBody() == player.body && contact.fixtureB->GetBody() == tempSide.body)) {
                 b2Vec2 velocity = player.body->GetLinearVelocity();
                 float gameSpeed = PIXELS_PER_SECOND;
-                player.body->SetLinearVelocity(b2Vec2(-gameSpeed/PTM_RATIO, velocity.y));
+                player.body->SetLinearVelocity(b2Vec2(-gameSpeed/2/PTM_RATIO, velocity.y));
                 //player.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
                 //player.body->ApplyLinearImpulse(b2Vec2(-0.15/PTM_RATIO, 0.1/PTM_RATIO), player.body->GetPosition());
                 PIXELS_PER_SECOND = 0.0;
@@ -381,7 +419,7 @@
         if (jumpBufferCount > 2 && playerEndJump) {
             playerEndJump = NO;
             player.isJumping = NO;
-            [Achievements jumperIncreaseCount];
+            //[Achievements jumperIncreaseCount];
         }
     }
 }
@@ -404,9 +442,26 @@
 
 -(void) platformControl:(ccTime)dt {
     platformTimePassed += dt;
-    if (platformTimePassed > platformSpawnTime) {
-        [platformCache addPlatformBasedOffPlayerHeight:player.position.y];
-        platformTimePassed = 0.0;
+    playerDistanceTraveled += PIXELS_PER_SECOND*dt;
+
+    //if (platformTimePassed > platformSpawnTime) {
+    
+    Platform *tempPlat = [[platformCache keyPlatforms] objectAtIndex:0];
+    if (tempPlat.position.x < (winSize.width * 0.45)) {
+        
+        if (playerDistanceTraveled < 1000.0) {
+            if (easySectionChosen) {
+                [platformCache addLongPlatform];
+            } else {
+                [platformCache addShortPlatform];
+            }
+        } else {
+            [platformCache addChoicePlatform];
+            playerDistanceTraveled = 0.0;
+        }
+
+        [[platformCache keyPlatforms] removeObjectAtIndex:0];
+        //platformTimePassed = 0.0;
     }
 }
 
@@ -420,42 +475,48 @@
     }
 }
 
--(void) update:(ccTime)dt {    
-    [self updateBackgroundState:dt];
-    [self updateScore:dt];
+-(void) update:(ccTime)dt {
+    if (startGame) {
+        [self updateBackgroundState:dt];
+        [self updateScore:dt];
+        [self platformControl:dt];
+        //[self paintChipControl:dt];
+        [player updateStateWithDeltaTime:dt andSpeed:PIXELS_PER_SECOND];
+        //[paintChipCache updatePaintChipsWithTime:dt andSpeed:PIXELS_PER_SECOND];
+        [platformCache updatePlatformsWithTime:dt andSpeed:PIXELS_PER_SECOND];
+    }
+
     [self physicsSimulation:dt];
     [self detectContacts:dt];
     [self playerJumpBuffer];
-    [self platformControl:dt];
-    [self paintChipControl:dt];
 
     [self updateStatesOfObjects:dt];
-    [player updateStateWithDeltaTime:dt andSpeed:PIXELS_PER_SECOND];
-    [paintChipCache updatePaintChipsWithTime:dt andSpeed:PIXELS_PER_SECOND];
-    [platformCache updatePlatformsWithTime:dt andSpeed:PIXELS_PER_SECOND];
+
 }
 
 #pragma mark ccTouches
 
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    for( UITouch *touch in touches ) {
-        CGPoint location = [touch locationInView:[touch view]];
-        location = [[CCDirector sharedDirector] convertToGL:location];
-        
-        if (player.isTouchingGround || player.doubleJumpAvailable) {
-            if (player.doubleJumpAvailable == NO) {
-                player.doubleJumpAvailable = YES;
-            } else {
-                player.doubleJumpAvailable = NO;
-                b2Vec2 playerVelocity = player.body->GetLinearVelocity();
-                if (playerVelocity.y < 0) {
-                    player.body->SetLinearVelocity(b2Vec2(playerVelocity.x, 0.0));
+    
+    if (startGame == YES) {
+        for( UITouch *touch in touches ) {
+            CGPoint location = [touch locationInView:[touch view]];
+            location = [[CCDirector sharedDirector] convertToGL:location];
+            if (player.isTouchingGround || player.doubleJumpAvailable) {
+                if (player.doubleJumpAvailable == NO) {
+                    player.doubleJumpAvailable = YES;
+                } else {
+                    player.doubleJumpAvailable = NO;
+                    b2Vec2 playerVelocity = player.body->GetLinearVelocity();
+                    if (playerVelocity.y < 0) {
+                        player.body->SetLinearVelocity(b2Vec2(playerVelocity.x, 0.0));
+                    }
                 }
+                
+                playerStartJump = YES;
+                player.jumpTime = 0.0;
+                jumpBufferCount = 0;
             }
-            
-            playerStartJump = YES;
-            player.jumpTime = 0.0;
-            jumpBufferCount = 0;
         }
     }
 }
@@ -465,7 +526,11 @@
 }
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    playerEndJump = YES;
+    if (startGame == NO) {
+        startGame = YES;
+    } else {
+        playerEndJump = YES;
+    }
 }
 
 -(void) ccTouchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
