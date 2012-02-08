@@ -57,7 +57,6 @@
 -(void) addStartingPlatform;
 -(void) addLongPlatform;
 -(void) addShortPlatform;
--(void) addChoicePlatform;
 
 -(void) cleanPlatforms;
 -(void) resetPlatforms;

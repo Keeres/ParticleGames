@@ -228,7 +228,7 @@
     //Calculates when to scroll the screen to keep the player within the screen when jumping too high. Right now the screen will start to scroll when player jumps over half the screen (winSize.height/2).
     float prevScreenOffsetY = screenOffsetY;
     
-    if (player.position.y > winSize.height/2) {
+    /*if (player.position.y > winSize.height/2) {
         screenOffsetY = (winSize.height/2 - player.position.y)*.4;
         if (screenOffsetY < -200.0) {
             screenOffsetY = -200.0;
@@ -237,7 +237,7 @@
     } else if (player.position.y <= winSize.height/2) {
         self.position = ccp(self.position.x, 0.0);
         self.scale = 1.0;
-    }
+    }*/
     
     //Calculates how much to scale the screen when screen begins to scroll.
     float yPos = screenOffsetY - prevScreenOffsetY;
@@ -443,10 +443,25 @@
 -(void) platformControl:(ccTime)dt {
     platformTimePassed += dt;
     playerDistanceTraveled += PIXELS_PER_SECOND*dt;
+    
+    if ([[platformCache keyPlatforms] count] > 0) {
+        Platform *tempPlat = [[platformCache keyPlatforms] objectAtIndex:0];
+        if (tempPlat.position.x < (winSize.width * 55/PIXELS_PER_SECOND)) {
+            BOOL longPlatformChoice = arc4random() % 2;
+            if (longPlatformChoice) {
+                [platformCache addLongPlatform];
+            } else {
+                [platformCache addShortPlatform];
+            }
+            
+            [[platformCache keyPlatforms] removeObjectAtIndex:0];
+        }
+    }
+
 
     //if (platformTimePassed > platformSpawnTime) {
     
-    Platform *tempPlat = [[platformCache keyPlatforms] objectAtIndex:0];
+    /*Platform *tempPlat = [[platformCache keyPlatforms] objectAtIndex:0];
     if (tempPlat.position.x < (winSize.width * 0.45)) {
         
         if (playerDistanceTraveled < 1000.0) {
@@ -462,7 +477,7 @@
 
         [[platformCache keyPlatforms] removeObjectAtIndex:0];
         //platformTimePassed = 0.0;
-    }
+    }*/
 }
 
 -(void) updateStatesOfObjects:(ccTime)dt {
