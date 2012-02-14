@@ -171,7 +171,7 @@
         gameScore = 0.0;
         highScore = [GameState sharedInstance].highScore;
         multiplier = 1.0;
-
+        
         /*if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
          [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"scene3atlas-hd.plist"];
          sceneSpriteBatchNode = [CCSpriteBatchNode batchNodeWithFile:@"scene3atlas-hd.png"];
@@ -186,7 +186,7 @@
         [self createPlayer];
         [self createPaintChips];
         [self createPlatforms];
-        //[platformCache addInitialPlatforms];
+
         [platformCache addStartingPlatform];
         [player spawn];
         
@@ -443,10 +443,12 @@
 -(void) platformControl:(ccTime)dt {
     platformTimePassed += dt;
     playerDistanceTraveled += PIXELS_PER_SECOND*dt;
-    
+
     if ([[platformCache keyPlatforms] count] > 0) {
         Platform *tempPlat = [[platformCache keyPlatforms] objectAtIndex:0];
-        if (tempPlat.position.x < (winSize.width * 55/PIXELS_PER_SECOND)) {
+        float platformTraveledCheck = winSize.width + tempPlat.contentSize.width - (tempPlat.contentSize.width * PIXELS_PER_SECOND/INITIAL_PIXELS_PER_SECOND);
+        
+        if (tempPlat.position.x < platformTraveledCheck) {
             BOOL longPlatformChoice = arc4random() % 2;
             if (longPlatformChoice) {
                 [platformCache addLongPlatform];
@@ -457,27 +459,6 @@
             [[platformCache keyPlatforms] removeObjectAtIndex:0];
         }
     }
-
-
-    //if (platformTimePassed > platformSpawnTime) {
-    
-    /*Platform *tempPlat = [[platformCache keyPlatforms] objectAtIndex:0];
-    if (tempPlat.position.x < (winSize.width * 0.45)) {
-        
-        if (playerDistanceTraveled < 1000.0) {
-            if (easySectionChosen) {
-                [platformCache addLongPlatform];
-            } else {
-                [platformCache addShortPlatform];
-            }
-        } else {
-            [platformCache addChoicePlatform];
-            playerDistanceTraveled = 0.0;
-        }
-
-        [[platformCache keyPlatforms] removeObjectAtIndex:0];
-        //platformTimePassed = 0.0;
-    }*/
 }
 
 -(void) updateStatesOfObjects:(ccTime)dt {

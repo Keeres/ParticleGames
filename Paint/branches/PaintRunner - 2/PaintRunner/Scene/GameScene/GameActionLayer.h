@@ -22,7 +22,7 @@
 #import "Box2DHelpers.h"
 #import "GameManager.h"
 
-#define MAX_PIXELS_PER_SECOND 300.0
+#define MAX_PIXELS_PER_SECOND 450.0
 #define INITIAL_PIXELS_PER_SECOND 100.0
 
 @class GameUILayer;
