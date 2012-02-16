@@ -33,6 +33,7 @@
     scoreLabel = [CCLabelBMFont labelWithString:@"Score:" fntFile:@"testFont.fnt"];
     scoreLabel.anchorPoint = ccp(0.0, 0.5);
     scoreLabel.scale = 0.4;
+    scoreLabel.color = ccc3(1.0, 1.0, 0.0);
     
     scoreLabel.position = ccp(10.0, winSize.height - scoreLabel.contentSize.height/2);
     
@@ -43,6 +44,8 @@
     highScoreLabel = [CCLabelBMFont labelWithString:@"High Score:" fntFile:@"testFont.fnt"];
     highScoreLabel.anchorPoint = ccp(0.0, 0.5);
     highScoreLabel.scale = 0.4;
+    highScoreLabel.color = ccc3(1.0, 1.0, 0.0);
+
     
     highScoreLabel.position = ccp(10.0, winSize.height - 2*scoreLabel.contentSize.height/2);
     
@@ -54,6 +57,8 @@
     speedLabel = [CCLabelBMFont labelWithString:@"Speed:" fntFile:@"testFont.fnt"];
     speedLabel.anchorPoint = ccp(0.0, 0.5);
     speedLabel.scale = 0.4;
+    speedLabel.color = ccc3(1.0, 1.0, 0.0);
+
     
     speedLabel.position = ccp(10.0, winSize.height - 3*scoreLabel.contentSize.height/2);
     
@@ -64,6 +69,8 @@
     timeLabel = [CCLabelBMFont labelWithString:@"Time:" fntFile:@"testFont.fnt"];
     timeLabel.anchorPoint = ccp(0.0, 0.5);
     timeLabel.scale = 0.4;
+    timeLabel.color = ccc3(1.0, 1.0, 0.0);
+
     
     timeLabel.position = ccp(10.0, winSize.height - 4*scoreLabel.contentSize.height/2);
     
@@ -73,7 +80,7 @@
 -(void) setupComboLabel {
     comboLabel = [CCLabelBMFont labelWithString:@"%i COMBO!" fntFile:@"testFont.fnt"];
     comboLabel.anchorPoint = ccp(0.0, 0.5);
-    
+    comboLabel.color = ccc3(1.0, 1.0, 0.0);
     
     comboLabel.position = ccp(10.0, winSize.height/2);
     
@@ -92,6 +99,9 @@
     
     multiplierLabel.scale = 0.4;
     
+    multiplierLabel.color = ccc3(1.0, 1.0, 0.0);
+
+    
     [self addChild:multiplierLabel];
 }
 
@@ -104,14 +114,17 @@
     CCLabelBMFont* pauseLabel = [CCLabelBMFont labelWithString:@"Paused!" fntFile:@"testFont.fnt"];
     pauseLabel.position = ccp(winSize.width/2, 2*winSize.height/3);
     pauseLabel.scale = 0.50;
+    pauseLabel.color = ccc3(1.0, 1.0, 0.0);
     
     CCLabelBMFont* retryLabel = [CCLabelBMFont labelWithString:@"Retry" fntFile:@"testFont.fnt"];
     CCMenuItemLabel *retryButton = [CCMenuItemLabel itemWithLabel:retryLabel target:self selector:@selector(restartGame)];
     retryLabel.scale = 0.5;
+    retryLabel.color = ccc3(1.0, 1.0, 0.0);
     
     CCLabelBMFont* mainMenuLabel = [CCLabelBMFont labelWithString:@"Main Menu" fntFile:@"testFont.fnt"];
     CCMenuItemLabel *mainMenuButton = [CCMenuItemLabel itemWithLabel:mainMenuLabel target:self selector:@selector(returnToMainMenu)];
     mainMenuLabel.scale = 0.5;
+    mainMenuLabel.color = ccc3(1.0, 1.0, 0.0);
     
     pauseLayerMenu = [CCMenu menuWithItems:retryButton, mainMenuButton, nil];
     [pauseLayerMenu alignItemsVertically];
@@ -127,14 +140,17 @@
     CCLabelBMFont* gameOverLabel = [CCLabelBMFont labelWithString:@"Game Over Bitch!" fntFile:@"testFont.fnt"];
     gameOverLabel.position = ccp(winSize.width/2, 2*winSize.height/3);
     gameOverLabel.scale = 0.50;
+    gameOverLabel.color = ccc3(1.0, 1.0, 0.0);
     
     CCLabelBMFont* retryLabel = [CCLabelBMFont labelWithString:@"Retry" fntFile:@"testFont.fnt"];
     CCMenuItemLabel *retryButton = [CCMenuItemLabel itemWithLabel:retryLabel target:self selector:@selector(restartGame)];
     retryLabel.scale = 0.5;
+    retryLabel.color = ccc3(1.0, 1.0, 0.0);
     
     CCLabelBMFont* mainMenuLabel = [CCLabelBMFont labelWithString:@"Main Menu" fntFile:@"testFont.fnt"];
     CCMenuItemLabel *mainMenuButton = [CCMenuItemLabel itemWithLabel:mainMenuLabel target:self selector:@selector(returnToMainMenu)];
     mainMenuLabel.scale = 0.5;
+    mainMenuLabel.color = ccc3(1.0, 1.0, 0.0);
     
     gameOverMenu = [CCMenu menuWithItems:retryButton, mainMenuButton, nil];
     [gameOverMenu alignItemsVertically];

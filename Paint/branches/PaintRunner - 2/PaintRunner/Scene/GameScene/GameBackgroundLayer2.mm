@@ -25,24 +25,16 @@
 
 -(void) setupBackground {
     background = [CCSprite spriteWithFile:@"background.png"];
-    background.anchorPoint = ccp(0,0);
-    background.position = ccp(0.0, 0.0);
+    background.anchorPoint = ccp(0.0, 0.5);
+    background.position = ccp(0.0, winSize.height/2);
     [self addChild:background z:0];
     
-    /*city = [CCSprite spriteWithFile:@"city.png"];
-    city.anchorPoint = ccp(0,0);
-    city.position = ccp(0.0, 0.0);
-    [self addChild:city z:5];
+    background2 = [CCSprite spriteWithFile:@"background.png"];
+    background2.anchorPoint = ccp(0.0, 0.5);
+    background2.position = ccp(0.0, winSize.height/2);
+    [self addChild:background2 z:0];
+    background2.visible = NO;
     
-    mountain = [CCSprite spriteWithFile:@"mountain.png"];
-    mountain.anchorPoint = ccp(0,0);
-    mountain.position = ccp(0.0, 50.0);
-    [self addChild:mountain z:4];
-    
-    sky = [CCSprite spriteWithFile:@"sky.png"];
-    sky.anchorPoint = ccp(0,0);
-    sky.position = ccp(0.0, 100.0);
-    [self addChild:sky z:3];*/
     
     leafEmitter = [ARCH_OPTIMAL_PARTICLE_SYSTEM
                    particleWithFile:@"leafEmitter.plist"];
@@ -61,7 +53,9 @@
     [cloudCache resetClouds];
     
     self.position = ccp(0.0, 0.0);
-    background.position = ccp(0.0, 0.0);
+    background.position = ccp(0.0, winSize.height/2);
+    background2.position = ccp(0.0, winSize.height/2);
+    background2.visible = NO;
 
     //city.position = ccp(0.0, 0.0);
     //mountain.position = ccp(0.0, 50.0);
@@ -107,11 +101,33 @@
     //float yPosEmitter = leafEmitter.position.y + screenOffsetY;
     //leafEmitter.position = ccp(leafEmitter.position.x, yPosEmitter);
     
-    background.position = ccp(background.position.x - speed*dt*0.05, background.position.y);
-    //city.position = ccp(city.position.x - speed*dt*0.25, city.position.y);
-    //mountain.position = ccp(mountain.position.x - speed*dt*0.1, mountain.position.y);
-    //sky.position = ccp(sky.position.x - speed*dt*0.05   , sky.position.y);
+    if (background.position.x < -background.contentSize.width) {
+        background.visible = NO;
+    }
+    
+    if (background2.position.x < -background2.contentSize.width) {
+        background2.visible = NO;
+    }
+    
+    if (background2.position.x < 0.0 && background.visible == NO) {
+        background.position = ccp(background2.position.x + background2.contentSize.width, background2.position.y);
+        background.visible = YES;
+    }
+    
+    if (background.position.x < 0.0 && background2.visible == NO) {
+        background2.position = ccp(background.position.x + background.contentSize.width, background.position.y);
+        background2.visible = YES;
+    }
+    
+    if (background.visible == YES) {
+        background.position = ccp(background.position.x - speed*dt*0.05, background.position.y);
+    }
+    
+    if (background2.visible == YES) {
+        background2.position = ccp(background2.position.x - speed*dt*0.05, background2.position.y);
 
+    }
+    
     [self cloudControl:dt];
     [cloudCache updateCloudsWithTime:dt andSpeed:speed];
 }

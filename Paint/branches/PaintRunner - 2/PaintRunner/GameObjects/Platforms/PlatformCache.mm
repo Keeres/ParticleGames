@@ -26,18 +26,18 @@
     for (int i = 0; i < totalPlatformTypes; i++) {
         int capacity;
         switch (i) {
-            /*case platformA:
-                capacity = 10;
+            case platformA:
+                capacity = 50;
                 break;
-            case platformB:
+            /*case platformB:
                 capacity = 10;
                 break;
             case platformC:
                 capacity = 10;
-                break;*/
-                
+                break;
             case platformD:
                 capacity = 50;
+                break;*/
                 
             default:
                 [NSException exceptionWithName:@"PlatformCache Exception" reason:@"unhandled platform type" userInfo:nil];

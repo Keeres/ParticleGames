@@ -202,16 +202,11 @@
 		B6C634D8146D846800B9419B /* testFont-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C634D6146D846800B9419B /* testFont-hd.png */; };
 		B6C634D9146D846800B9419B /* testFont-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = B6C634D7146D846800B9419B /* testFont-hd.fnt */; };
 		B6C75D211432556800C5DD47 /* Platform.mm in Sources */ = {isa = PBXBuildFile; fileRef = B6C75D201432556800C5DD47 /* Platform.mm */; };
+		B6DBA39314EC694900BB0017 /* Player.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6DBA39214EC694900BB0017 /* Player.plist */; };
 		B6EA2E2814746F0100B890C0 /* background-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6EA2E2714746F0100B890C0 /* background-hd.png */; };
 		B6EA2E2B14746F0900B890C0 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = B6EA2E2A14746F0900B890C0 /* background.png */; };
 		B6EA2E2F1474778600B890C0 /* leafEmitter.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6EA2E2E1474778600B890C0 /* leafEmitter.plist */; };
 		B6F1B5E91430FA030022B504 /* Noise.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F1B5E81430FA030022B504 /* Noise.png */; };
-		B6F99D8714783C040090ED2D /* city-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F99D8414783C040090ED2D /* city-hd.png */; };
-		B6F99D8814783C040090ED2D /* mountain-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F99D8514783C040090ED2D /* mountain-hd.png */; };
-		B6F99D8914783C040090ED2D /* sky-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F99D8614783C040090ED2D /* sky-hd.png */; };
-		B6F99D8E14783C0B0090ED2D /* city.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F99D8B14783C0B0090ED2D /* city.png */; };
-		B6F99D8F14783C0B0090ED2D /* mountain.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F99D8C14783C0B0090ED2D /* mountain.png */; };
-		B6F99D9014783C0B0090ED2D /* sky.png in Resources */ = {isa = PBXBuildFile; fileRef = B6F99D8D14783C0B0090ED2D /* sky.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -600,16 +595,11 @@
 		B6C634D7146D846800B9419B /* testFont-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "testFont-hd.fnt"; path = "Images/testFont-hd.fnt"; sourceTree = "<group>"; };
 		B6C75D1F1432556800C5DD47 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Platform.h; path = GameObjects/Platforms/Platform.h; sourceTree = "<group>"; };
 		B6C75D201432556800C5DD47 /* Platform.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = Platform.mm; path = GameObjects/Platforms/Platform.mm; sourceTree = "<group>"; };
+		B6DBA39214EC694900BB0017 /* Player.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Player.plist; path = Plists/Player.plist; sourceTree = "<group>"; };
 		B6EA2E2714746F0100B890C0 /* background-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "background-hd.png"; path = "Images/HD/background-hd.png"; sourceTree = "<group>"; };
 		B6EA2E2A14746F0900B890C0 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = Images/SD/background.png; sourceTree = "<group>"; };
 		B6EA2E2E1474778600B890C0 /* leafEmitter.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = leafEmitter.plist; path = Images/leafEmitter.plist; sourceTree = "<group>"; };
 		B6F1B5E81430FA030022B504 /* Noise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Noise.png; sourceTree = "<group>"; };
-		B6F99D8414783C040090ED2D /* city-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "city-hd.png"; path = "Images/HD/city-hd.png"; sourceTree = "<group>"; };
-		B6F99D8514783C040090ED2D /* mountain-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mountain-hd.png"; path = "Images/HD/mountain-hd.png"; sourceTree = "<group>"; };
-		B6F99D8614783C040090ED2D /* sky-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sky-hd.png"; path = "Images/HD/sky-hd.png"; sourceTree = "<group>"; };
-		B6F99D8B14783C0B0090ED2D /* city.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = city.png; path = Images/SD/city.png; sourceTree = "<group>"; };
-		B6F99D8C14783C0B0090ED2D /* mountain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mountain.png; path = Images/SD/mountain.png; sourceTree = "<group>"; };
-		B6F99D8D14783C0B0090ED2D /* sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sky.png; path = Images/SD/sky.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -650,12 +640,6 @@
 		B6281D9F142D85EF008A1DAB /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				B6F99D8414783C040090ED2D /* city-hd.png */,
-				B6F99D8514783C040090ED2D /* mountain-hd.png */,
-				B6F99D8614783C040090ED2D /* sky-hd.png */,
-				B6F99D8B14783C0B0090ED2D /* city.png */,
-				B6F99D8C14783C0B0090ED2D /* mountain.png */,
-				B6F99D8D14783C0B0090ED2D /* sky.png */,
 				B6EA2E2A14746F0900B890C0 /* background.png */,
 				B6EA2E2714746F0100B890C0 /* background-hd.png */,
 				B6C634D6146D846800B9419B /* testFont-hd.png */,
@@ -1299,6 +1283,7 @@
 			isa = PBXGroup;
 			children = (
 				B6B15B741469C1DA00093B63 /* SoundEffects.plist */,
+				B6DBA39214EC694900BB0017 /* Player.plist */,
 			);
 			name = Plists;
 			sourceTree = "<group>";
@@ -1416,13 +1401,8 @@
 				B6EA2E2F1474778600B890C0 /* leafEmitter.plist in Resources */,
 				B6BA2E8D1474AADB00485A80 /* pause-hd.png in Resources */,
 				B6BA2E901474AAE200485A80 /* pause.png in Resources */,
-				B6F99D8714783C040090ED2D /* city-hd.png in Resources */,
-				B6F99D8814783C040090ED2D /* mountain-hd.png in Resources */,
-				B6F99D8914783C040090ED2D /* sky-hd.png in Resources */,
-				B6F99D8E14783C0B0090ED2D /* city.png in Resources */,
-				B6F99D8F14783C0B0090ED2D /* mountain.png in Resources */,
-				B6F99D9014783C0B0090ED2D /* sky.png in Resources */,
 				B669075B14887BE90077743A /* SuperMarioBrothersCoin.mp3 in Resources */,
+				B6DBA39314EC694900BB0017 /* Player.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

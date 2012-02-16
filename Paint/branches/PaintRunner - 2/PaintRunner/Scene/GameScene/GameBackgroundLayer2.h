@@ -23,6 +23,7 @@
     CloudCache *cloudCache;
     
     CCSprite *background;
+    CCSprite *background2;
     CCSprite *city;
     CCSprite *mountain;
     CCSprite *sky;

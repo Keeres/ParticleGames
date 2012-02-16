@@ -47,12 +47,9 @@
     body->SetActive(NO);
 }
 
--(void) createSideBody {
-    /*b2Vec2 p2 = b2Vec2((-self.contentSize.width/2 + 2.0)/PTM_RATIO, (self.contentSize.height/2 - self.contentSize.height/8 - 1.0)/PTM_RATIO);
-    b2Vec2 p3 = b2Vec2((-self.contentSize.width/2 + 2.0)/PTM_RATIO, (-self.contentSize.height/2 - self.contentSize.height/8 - 1.0)/PTM_RATIO);*/
-    
-    b2Vec2 p2 = b2Vec2((-self.contentSize.width/2)/PTM_RATIO, (self.contentSize.height/4 - self.contentSize.height/8)/PTM_RATIO);
-    b2Vec2 p3 = b2Vec2((-self.contentSize.width/2)/PTM_RATIO, (-self.contentSize.height/4 - self.contentSize.height/8)/PTM_RATIO);
+-(void) createSideBody {    
+    b2Vec2 p2 = b2Vec2((-self.contentSize.width/2)/PTM_RATIO, (self.contentSize.height/2 - 2.0)/PTM_RATIO);
+    b2Vec2 p3 = b2Vec2((-self.contentSize.width/2)/PTM_RATIO, (-self.contentSize.height/2 - 2.0)/PTM_RATIO);
     
     b2BodyDef bodyDef;
     bodyDef.type = b2_staticBody;
@@ -125,19 +122,18 @@
     NSString *platformName;
     
     switch (platformType) {
-        /*case platformA:
+        case platformA:
             platformName = @"platformA.png";
             break;
-        case platformB:
+        /*case platformB:
             platformName = @"platformB.png";
             break;
         case platformC:
             platformName = @"platformA.png";
-            break;*/
-            
+            break;
         case platformD:
             platformName = @"platformE.png";
-            break;
+            break;*/
             
             
         default:
@@ -167,7 +163,7 @@
     if ((self = [super init])) {
         world = theWorld;
         
-        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformE.png"]];
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"platformA.png"]];
         
         self.visible = NO;
         self.tag = kPlatformType;

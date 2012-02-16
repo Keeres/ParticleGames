@@ -309,8 +309,13 @@
         for(b2Body *b = world->GetBodyList(); b != NULL; b = b->GetNext()) {    
             if (b->GetUserData() != NULL) {
                 Box2DSprite *sprite = (Box2DSprite *) b->GetUserData();
-                sprite.position = ccp(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
-                sprite.rotation = CC_RADIANS_TO_DEGREES(b->GetAngle() * -1);
+                if (sprite.tag == kPlayerType) {
+                    sprite.position = ccp((b->GetPosition().x * PTM_RATIO) - sprite.contentSize.height/2, b->GetPosition().y * PTM_RATIO);
+                    sprite.rotation = CC_RADIANS_TO_DEGREES(b->GetAngle() * -1);
+                } else {
+                    sprite.position = ccp(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
+                    sprite.rotation = CC_RADIANS_TO_DEGREES(b->GetAngle() * -1);
+                }
             }
         }
     }

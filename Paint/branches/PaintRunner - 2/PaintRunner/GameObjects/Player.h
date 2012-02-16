@@ -24,15 +24,15 @@
     CGPoint openGLPosition;
     CGPoint previousPosition;
     BOOL isJumping;
-    BOOL isJumpingLeft;
-    //BOOL isJumpingRight;
     BOOL doubleJumpAvailable;
     BOOL died;
     int platformNumber;
     float basePlayerScale;
     float previousPlayerScale;
     float jumpTime;
-    float lastPlatformHeightTouched;
+    
+    //CCAnimation
+    CCAnimation *runAnim;
 }
 
 @property (readwrite) CGPoint openGLPosition;
@@ -43,7 +43,9 @@
 @property (readwrite) int platformNumber;
 @property (readwrite) float basePlayerScale;
 @property (readwrite) float jumpTime;
-@property (readwrite) float lastPlatformHeightTouched;
+
+//CCAnimation
+@property (nonatomic, retain) CCAnimation *runAnim;
 
 -(id) initWithWorld:(b2World*)world;
 -(void) spawn;

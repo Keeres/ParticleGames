@@ -18,7 +18,9 @@
 @synthesize platformNumber;
 @synthesize basePlayerScale;
 @synthesize jumpTime;
-@synthesize lastPlatformHeightTouched;
+
+//CCAnimation
+@synthesize runAnim;
 
 -(void) createBodyWithWorld:(b2World*)world {
     b2BodyDef bodyDef;
@@ -33,7 +35,8 @@
     //body->SetUserData(NULL);
     
     b2CircleShape shape;        
-    shape.m_radius = (self.contentSize.width/2)/PTM_RATIO;
+    //shape.m_radius = (self.contentSize.width/2)/PTM_RATIO;
+    shape.m_radius = (self.contentSize.height/2)/PTM_RATIO;
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &shape;
     
@@ -59,29 +62,63 @@
     playerSensor = body->CreateFixture(&fixtureDef);*/
 }
 
+-(void) initAnimations {
+    [self setRunAnim:[self loadPlistForAnimationWithName:@"runningAnim" andClassName:NSStringFromClass([self class])]];
+    [[CCAnimationCache sharedAnimationCache] addAnimation:runAnim name:@"runningAnim"];
+}
+
 #pragma mark Initialize Player
 
 -(id) initWithWorld:(b2World*)world {
     if ((self = [super init])) {
         winSize = [CCDirector sharedDirector].winSize;
         
-        NSString *playerFrameName = @"player.png";
+        NSString *playerFrameName = @"cat_run_1.png";
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:playerFrameName]];
         
         //Initialize Variables
         isJumping = NO;
-        isJumpingLeft = NO;
         doubleJumpAvailable = NO;
         died = NO;
         platformNumber = 0;
         previousPosition = self.position;
         self.tag = kPlayerType;
         self.visible = NO;
-        lastPlatformHeightTouched = 0.0;
+        self.characterState = kStateNone;
 
         [self createBodyWithWorld:world];
+        [self initAnimations];
     }
     return self;
+}
+
+-(void) changeState:(CharacterStates)newState {    
+    if (self.characterState == newState) {
+        return;
+    }
+    
+    [self stopAllActions];
+    id action = nil;
+    self.characterState = newState;
+    
+    switch (newState) {
+        case kStateRunning: {
+            CCAnimate *running = [CCAnimate actionWithAnimation:runAnim restoreOriginalFrame:NO];
+            action = [CCRepeatForever actionWithAction:[CCSequence actions:running, nil]];
+            break;   
+        }
+            
+        /*case kStateDead:
+            [self despawn];
+            break;*/
+            
+        default:
+            break;
+    }
+    
+    if (action != nil) {
+        [self runAction:action];
+    }
 }
 
 -(void)updateStateWithDeltaTime:(ccTime)deltaTime andSpeed:(float)speed {
@@ -101,8 +138,11 @@
         b2Vec2 velocity = self.body->GetLinearVelocity();
         self.body->SetLinearVelocity(b2Vec2(0.0, velocity.y));
         b2Vec2 position = self.body->GetPosition();
+        
+        if ([self numberOfRunningActions] == 0) {
+            [self changeState:kStateRunning];
+        }  
         //self.body->SetTransform(b2Vec2(position.x - speed*deltaTime/PTM_RATIO, position.y), 0);
-        lastPlatformHeightTouched = self.position.y;
     }
 
     if (self.died) {
@@ -166,12 +206,11 @@
 
 -(void) resetPlayer {
     isJumping = NO;
-    isJumpingLeft = NO;
     doubleJumpAvailable = NO;
     died = NO;
     platformNumber = 0;
     previousPosition = self.position;
-    lastPlatformHeightTouched = 0.0;
+    self.characterState = kStateNone;
 
     self.body->SetLinearVelocity(b2Vec2(0.0, 0.0));
     self.body->SetTransform(b2Vec2(0.2*winSize.width/PTM_RATIO, winSize.height/4/PTM_RATIO), 0);
