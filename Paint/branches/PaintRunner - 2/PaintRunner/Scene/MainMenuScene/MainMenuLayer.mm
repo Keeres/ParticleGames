@@ -8,7 +8,6 @@
 
 #import "MainMenuLayer.h"
 #import "AppDelegate.h"
-#import "GameManager.h"
 #import "Achievements.h"
 
 @interface MainMenuLayer() 
@@ -30,6 +29,16 @@
 -(void) startGame {
     CCLOG(@"MainMenu: Start Game");
     [[GameManager sharedGameManager] runSceneWithID:kGameScene];
+}
+
+-(void) showCharacter {
+    CCLOG(@"MainMenu: Character");
+    [[GameManager sharedGameManager] runSceneWithID:kCharacterScene];
+}
+
+-(void) showStore {
+    CCLOG(@"MainMenu: Store");
+    [[GameManager sharedGameManager] runSceneWithID:kStoreScene];    
 }
 
 -(void) showLeaderboard {
@@ -64,17 +73,28 @@ viewController
     CCLOG(@"MainMenu: Display Main Menu");
     
     CCLabelBMFont *playGameLabel = [CCLabelBMFont labelWithString:@"Play Game" fntFile:@"testFont.fnt"];
-    CCMenuItemLabel *playGameButton = [CCMenuItemLabel itemWithLabel:playGameLabel target:self selector:@selector(startGame)]; 
+    CCMenuItemLabel *playGameButton = [CCMenuItemLabel itemWithLabel:playGameLabel target:self selector:@selector(startGame)];
+    playGameButton.anchorPoint = ccp(0.0, 0.5);
+    
+    CCLabelBMFont *characterLabel = [CCLabelBMFont labelWithString:@"Character" fntFile:@"testFont.fnt"];
+    CCMenuItemLabel *characterButton = [CCMenuItemLabel itemWithLabel:characterLabel target:self selector:@selector(showCharacter)];
+    characterButton.anchorPoint = ccp(0.0, 0.5);
+    
+    CCLabelBMFont *storeLabel = [CCLabelBMFont labelWithString:@"Store" fntFile:@"testFont.fnt"];
+    CCMenuItemLabel *storeButton = [CCMenuItemLabel itemWithLabel:storeLabel target:self selector:@selector(showStore)];
+    storeButton.anchorPoint = ccp(0.0, 0.5);
     
     CCLabelBMFont *companySiteLabel = [CCLabelBMFont labelWithString:@"Website" fntFile:@"testFont.fnt"];
-    CCMenuItemLabel *visitCompanySiteButton = [CCMenuItemLabel itemWithLabel:companySiteLabel target:self selector:@selector(visitCompanySite)]; 
+    CCMenuItemLabel *visitCompanySiteButton = [CCMenuItemLabel itemWithLabel:companySiteLabel target:self selector:@selector(visitCompanySite)];
+    visitCompanySiteButton.anchorPoint = ccp(0.0, 0.5);
     
     CCLabelBMFont *leaderboardLabel = [CCLabelBMFont labelWithString:@"Leaderboard" fntFile:@"testFont.fnt"];
-    CCMenuItemLabel *leaderboardButton = [CCMenuItemLabel itemWithLabel:leaderboardLabel target:self selector:@selector(showLeaderboard)]; 
+    CCMenuItemLabel *leaderboardButton = [CCMenuItemLabel itemWithLabel:leaderboardLabel target:self selector:@selector(showLeaderboard)];
+    leaderboardButton.anchorPoint = ccp(0.0, 0.5);
     
-    mainMenu = [CCMenu menuWithItems:playGameButton,visitCompanySiteButton, leaderboardButton, nil];
-    [mainMenu alignItemsVerticallyWithPadding:100.0];
-    mainMenu.position = ccp(winSize.width/2, winSize.height/2);
+    mainMenu = [CCMenu menuWithItems:playGameButton, characterButton, storeButton, visitCompanySiteButton, leaderboardButton, nil];
+    [mainMenu alignItemsVerticallyWithPadding:25.0];
+    mainMenu.position = ccp(winSize.width*0.05, winSize.height/2);
     [self addChild:mainMenu];
 }
 

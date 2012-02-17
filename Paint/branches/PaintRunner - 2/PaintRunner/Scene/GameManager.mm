@@ -7,8 +7,10 @@
 //
 
 #import "GameManager.h"
-#import "GameScene.h"
 #import "MainMenuScene.h"
+#import "GameScene.h"
+#import "CharacterScene.h"
+#import "StoreScene.h"
 
 @implementation GameManager
 static GameManager* _sharedGameManager = nil;
@@ -118,6 +120,12 @@ static GameManager* _sharedGameManager = nil;
             break;
         case kMainMenuScene:
             result = @"kMainMenuScene";
+            break;
+        case kCharacterScene:
+            result = @"kCharacterScene";
+            break;
+        case kStoreScene:
+            result = @"kStoreScene";
             break;
         case kOptionsScene:
             result = @"kOptionsScene";
@@ -343,6 +351,12 @@ static GameManager* _sharedGameManager = nil;
             break;
         case kCreditsScene:
             break;
+        case kCharacterScene:
+            sceneToRun = [CharacterScene node];
+            break;
+        case kStoreScene:
+            sceneToRun = [StoreScene node];
+            break;
         case kGameScene:
             sceneToRun = [GameScene scene];
             break;
@@ -381,11 +395,9 @@ static GameManager* _sharedGameManager = nil;
     
     
     if ([[CCDirector sharedDirector] runningScene] == nil) {
-        [[CCDirector sharedDirector] runWithScene:sceneToRun];
-        
+        [[CCDirector sharedDirector] runWithScene:[CCTransitionFade transitionWithDuration:.5 scene:sceneToRun withColor:ccc3(0.0, 0.0, 0.0)]];        
     } else {
-        
-        [[CCDirector sharedDirector] replaceScene:sceneToRun];
+        [[CCDirector sharedDirector] replaceScene:[CCTransitionFade transitionWithDuration:.5 scene:sceneToRun withColor:ccc3(0.0, 0.0, 0.0)]];
     }
     [self performSelectorInBackground:@selector(unloadAudioForSceneWithID:) withObject:[NSNumber numberWithInt:oldScene]];
     

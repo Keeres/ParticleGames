@@ -20,7 +20,7 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{2, 402}, {32, 32}}</string>
+			<string>{{132, 144}, {32, 32}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
@@ -40,7 +40,7 @@
 			<key>spriteTrimmed</key>
 			<false/>
 			<key>textureRect</key>
-			<string>{{52, 316}, {64, 34}}</string>
+			<string>{{132, 108}, {64, 34}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
@@ -60,7 +60,27 @@
 			<key>spriteTrimmed</key>
 			<false/>
 			<key>textureRect</key>
-			<string>{{2, 366}, {64, 34}}</string>
+			<string>{{182, 58}, {64, 34}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>cat_skin.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{0, 0}, {203, 134}}</string>
+			<key>spriteOffset</key>
+			<string>{0, -0}</string>
+			<key>spriteSize</key>
+			<string>{203, 134}</string>
+			<key>spriteSourceSize</key>
+			<string>{203, 134}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{2, 260}, {203, 134}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
@@ -80,7 +100,7 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{2, 316}, {48, 48}}</string>
+			<string>{{132, 58}, {48, 48}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
@@ -100,7 +120,7 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{2, 260}, {128, 54}}</string>
+			<string>{{132, 2}, {128, 54}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
