@@ -1,5 +1,5 @@
 //
-//  CharacterLayer.h
+//  PerkLayer.h
 //  PaintRunner
 //
 //  Created by Kelvin on 2/17/12.
@@ -11,17 +11,12 @@
 #import "Constants.h"
 #import "GameManager.h"
 
-@interface CharacterLayer : CCLayer {
+@interface PerkLayer : CCLayer {
     //Variables
     CGSize winSize;
     CCSpriteBatchNode *sceneSpriteBatchNode;
     
     CCMenu *backButtonMenu;
-    CCMenu *characterMenu;
-    CCLayer *skinLayer;
-    CCLayer *perkLayer;
-    CCLayer *activePerkLayer;
-    CCLayer *passivePerkLayer;
 }
 
 @end

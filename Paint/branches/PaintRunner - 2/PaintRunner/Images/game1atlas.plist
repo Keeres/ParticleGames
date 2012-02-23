@@ -5,26 +5,6 @@
 	<key>frames</key>
 	<dict>
 		
-		<key>brush.png</key>
-		<dict>
-			<key>aliases</key>
-			<array/>
-			<key>spriteColorRect</key>
-			<string>{{0, 0}, {16, 16}}</string>
-			<key>spriteOffset</key>
-			<string>{0, -0}</string>
-			<key>spriteSize</key>
-			<string>{16, 16}</string>
-			<key>spriteSourceSize</key>
-			<string>{16, 16}</string>
-			<key>spriteTrimmed</key>
-			<true/>
-			<key>textureRect</key>
-			<string>{{68, 78}, {16, 16}}</string>
-			<key>textureRotated</key>
-			<false/>
-		</dict>
-		
 		<key>cat_run_1.png</key>
 		<dict>
 			<key>aliases</key>
@@ -101,6 +81,26 @@
 			<true/>
 			<key>textureRect</key>
 			<string>{{68, 32}, {24, 24}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		
+		<key>coin.png</key>
+		<dict>
+			<key>aliases</key>
+			<array/>
+			<key>spriteColorRect</key>
+			<string>{{0, 0}, {12, 12}}</string>
+			<key>spriteOffset</key>
+			<string>{0, -0}</string>
+			<key>spriteSize</key>
+			<string>{12, 12}</string>
+			<key>spriteSourceSize</key>
+			<string>{12, 12}</string>
+			<key>spriteTrimmed</key>
+			<true/>
+			<key>textureRect</key>
+			<string>{{68, 78}, {12, 12}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>

@@ -10,6 +10,8 @@
 #import "MainMenuScene.h"
 #import "GameScene.h"
 #import "CharacterScene.h"
+#import "SkinScene.h"
+#import "PerkScene.h"
 #import "StoreScene.h"
 
 @implementation GameManager
@@ -123,6 +125,12 @@ static GameManager* _sharedGameManager = nil;
             break;
         case kCharacterScene:
             result = @"kCharacterScene";
+            break;
+        case kSkinScene:
+            result = @"kSkinScene";
+            break;
+        case kPerkScene:
+            result = @"kPerkScene";
             break;
         case kStoreScene:
             result = @"kStoreScene";
@@ -353,6 +361,12 @@ static GameManager* _sharedGameManager = nil;
             break;
         case kCharacterScene:
             sceneToRun = [CharacterScene node];
+            break;
+        case kSkinScene:
+            sceneToRun = [SkinScene node];
+            break;
+        case kPerkScene:
+            sceneToRun = [PerkScene node];
             break;
         case kStoreScene:
             sceneToRun = [StoreScene node];

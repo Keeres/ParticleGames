@@ -1,22 +1,20 @@
 //
-//  StoreLayer.m
+//  PerkLayer.m
 //  PaintRunner
 //
 //  Created by Kelvin on 2/17/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "StoreLayer.h"
+#import "PerkLayer.h"
 
-@implementation StoreLayer
-
+@implementation PerkLayer
 
 #pragma mark Setup Resources
 
--(void) setupBackButton {
-    CCMenuItem *backButton = [CCMenuItemImage itemFromNormalImage:@"pause.png" selectedImage:@"pause.png" disabledImage:@"pause.png" target:self selector:@selector(returnToMainMenu)];
+-(void) setupButtons {
+    CCMenuItem *backButton = [CCMenuItemImage itemFromNormalImage:@"backButton.png" selectedImage:@"backButton.png" disabledImage:@"backButton.png" target:self selector:@selector(returnToCharacterMenu)];
     backButton.scale = 1.5;
-    
     backButtonMenu = [CCMenu menuWithItems:backButton, nil];
     [backButtonMenu alignItemsVertically];
     backButtonMenu.position = ccp(20.0, winSize.height - 20.0);
@@ -34,17 +32,17 @@
         [self addChild:sceneSpriteBatchNode z:1000];
         self.isTouchEnabled = YES;
         
-        [self setupBackButton];
-        
+        [self setupButtons];
     }
     return self;
 }
 
 
--(void) returnToMainMenu {
-    CCLOG(@"GameUILayer: Returning to Main Menu");
-    [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
+-(void) returnToCharacterMenu {
+    CCLOG(@"SkinMenu: Returning to Character Menu");
+    [[GameManager sharedGameManager] runSceneWithID:kCharacterScene];
 }
+
 
 #pragma mark ccTouches
 
@@ -57,12 +55,13 @@
 }
 
 -(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    
+
 }
 
 -(void) ccTouchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     
 }
+
 
 
 @end

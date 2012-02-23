@@ -47,7 +47,7 @@
     if ((self = [super init])) {
         world = theWorld;
         
-        NSString *paintChipFrameName = @"brush.png";
+        NSString *paintChipFrameName = @"coin.png";
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:paintChipFrameName]];
         
         self.tag = kPaintChipType;

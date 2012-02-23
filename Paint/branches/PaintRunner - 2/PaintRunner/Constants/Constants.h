@@ -20,9 +20,11 @@ typedef enum {
     kNoSceneUninitialized=0,
     kMainMenuScene=1,
     kCharacterScene=2,
-    kStoreScene=3,
-    kOptionsScene=4,
-    kCreditsScene=5,
+    kSkinScene=3,
+    kPerkScene=4,
+    kStoreScene=5,
+    kOptionsScene=6,
+    kCreditsScene=7,
     kGameScene=100
 } SceneTypes;
 
