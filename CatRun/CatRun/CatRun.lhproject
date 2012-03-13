@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AutoGenerateCode</key>
+	<true/>
+	<key>CodePathRelative</key>
+	<string>CatRun/</string>
+	<key>CustomScreenSize</key>
+	<string>{480, 320}</string>
+	<key>Engine</key>
+	<integer>0</integer>
+	<key>LastLevelLoaded</key>
+	<string>/Users/kelvin/Documents/iPhone/Projects/CatRun Project/CatRun/CatRun/Resources/Levels/Flying_Normal_01.plhs</string>
+	<key>LevelsPathRelative</key>
+	<string>CatRun/Resources/Levels/</string>
+	<key>ProjectName</key>
+	<string>CatRun</string>
+	<key>SHScenesPathRelative</key>
+	<string>CatRun/Resources/Images/</string>
+	<key>ScreenSize</key>
+	<integer>1</integer>
+	<key>Tags</key>
+	<array>
+		<string>DEFAULT</string>
+		<string>PLAYER</string>
+		<string>STAR</string>
+		<string>OBSTACLE</string>
+		<string>FINISH</string>
+		<string>GROUND</string>
+		<string>PLATFORM_SET_LONG_1</string>
+		<string>PLATFORM_SET_LONG_2</string>
+		<string>PLATFORM_SET_LONG_3</string>
+		<string>PLATFORM_SET_SHORT_1</string>
+		<string>PLATFORM_SET_SHORT_2</string>
+		<string>PLATFORM_SET_SHORT_3</string>
+	</array>
+</dict>
+</plist>
