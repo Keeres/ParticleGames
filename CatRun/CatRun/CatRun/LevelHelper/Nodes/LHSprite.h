@@ -90,8 +90,12 @@
     bool mouseDownStarted;//keeps track if mouse down was started on the sprite
     bool r_mouseDownStarted;
 #endif
-
+    
+    bool usesOverloadedTransformations; //false uses native Cocos2d setPosition setRotation - true uses LH (may cause problems in certain game logics)
+    
+    bool usePhysicsForTouches;
 }
+@property bool usesOverloadedTransformations;
 @property (readwrite) CGSize realScale;
 @property (readwrite) bool swallowTouches;
 
@@ -220,6 +224,10 @@
 //of the sprite
 -(bool)isTouchedAtPoint:(CGPoint)point;
 
+//if you dont want to use the physic shape to test for touches but only want to use the rect of the sprite
+//call this method with false
+-(void)setUsePhysicsForTouches:(bool)val;
+
 //Note: in order to make porting from ios to mac easy, left mouse events from mac are equivalent with touch events on ios
 
 //selector needs to have this signature -(void) touchXXX:(LHTouchInfo*)info
@@ -249,4 +257,18 @@
 //------------------------------------------------------------------------------
 - (NSComparisonResult)sortAscending:(LHSprite *)other;
 - (NSComparisonResult)sortDescending:(LHSprite *)other;
+
+//COLLISION FILTERING
+//------------------------------------------------------------------------------
+-(void)setCollisionFilterCategory:(int)category;
+-(void)setCollisionFilterMask:(int)mask;
+-(void)setCollisionFilterGroup:(int)group;
+
+//TYPE CONVERSION
+//------------------------------------------------------------------------------
+-(void)makeDynamic;
+-(void)makeStatic;
+-(void)makeKinematic;
+
+
 @end	

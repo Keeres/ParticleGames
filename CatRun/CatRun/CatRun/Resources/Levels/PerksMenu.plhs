@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ANIMS_INFO</key>
+	<array>
+		<dict>
+			<key>Frames</key>
+			<array>
+				<dict>
+					<key>FrameRect</key>
+					<string>{{47, 0}, {80, 35}}</string>
+					<key>SpriteName</key>
+					<string>cat01</string>
+				</dict>
+				<dict>
+					<key>FrameRect</key>
+					<string>{{47, 38}, {80, 35}}</string>
+					<key>SpriteName</key>
+					<string>cat02</string>
+				</dict>
+			</array>
+			<key>Image</key>
+			<string>game.png</string>
+			<key>LoopForever</key>
+			<true/>
+			<key>Repetitions</key>
+			<integer>1</integer>
+			<key>Speed</key>
+			<real>0.20000000298023224</real>
+			<key>StartAtLaunch</key>
+			<true/>
+			<key>UniqueName</key>
+			<string>Cat_Running</string>
+		</dict>
+	</array>
+	<key>Author</key>
+	<string>Bogdan Vladu</string>
+	<key>BEZIER_INFO</key>
+	<array/>
+	<key>CreatedWith</key>
+	<string>LevelHelper</string>
+	<key>Gravity</key>
+	<string>{0, 0}</string>
+	<key>JOINTS_INFO</key>
+	<array/>
+	<key>LHVersion</key>
+	<string>1.4.7</string>
+	<key>LoadedImages</key>
+	<array>
+		<dict>
+			<key>Image</key>
+			<string>menuBackground.png</string>
+			<key>OrderZ</key>
+			<integer>-1</integer>
+		</dict>
+		<dict>
+			<key>Image</key>
+			<string>background.png</string>
+			<key>OrderZ</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>Image</key>
+			<string>menuButtons.png</string>
+			<key>OrderZ</key>
+			<integer>0</integer>
+		</dict>
+		<dict>
+			<key>Image</key>
+			<string>game.png</string>
+			<key>OrderZ</key>
+			<integer>5</integer>
+		</dict>
+	</array>
+	<key>PARALLAX_INFO</key>
+	<array/>
+	<key>SPRITES_INFO</key>
+	<array>
+		<dict>
+			<key>GeneralProperties</key>
+			<dict>
+				<key>Angle</key>
+				<integer>0</integer>
+				<key>AnimAtStart</key>
+				<false/>
+				<key>AnimLoop</key>
+				<false/>
+				<key>AnimName</key>
+				<string></string>
+				<key>AnimRepetitions</key>
+				<integer>0</integer>
+				<key>AnimSpeed</key>
+				<real>0.0</real>
+				<key>Color</key>
+				<string>{{1, 1}, {1, 0}}</string>
+				<key>Image</key>
+				<string>menuBackground.png</string>
+				<key>IsDrawable</key>
+				<true/>
+				<key>IsInParallax</key>
+				<false/>
+				<key>Locked</key>
+				<false/>
+				<key>Opacity</key>
+				<real>1</real>
+				<key>PathFlipX</key>
+				<false/>
+				<key>PathFlipY</key>
+				<false/>
+				<key>PathIsCyclic</key>
+				<false/>
+				<key>PathMoveDelta</key>
+				<true/>
+				<key>PathName</key>
+				<string></string>
+				<key>PathOrientation</key>
+				<integer>0</integer>
+				<key>PathOtherEnd</key>
+				<false/>
+				<key>PathSpeed</key>
+				<real>0.20000000298023224</real>
+				<key>PathStartAtLaunch</key>
+				<true/>
+				<key>PathStartPoint</key>
+				<integer>0</integer>
+				<key>Position</key>
+				<string>{240, 160}</string>
+				<key>SHName</key>
+				<string>MenuBackground</string>
+				<key>SHScene</key>
+				<string>/Users/stevenchen/Documents/app development/particlegames/CatRun/CatRun/CatRun/Resources/Images/menuBackground.pshs</string>
+				<key>Scale</key>
+				<string>{1, 1}</string>
+				<key>Size</key>
+				<string>{480.5, 320.5}</string>
+				<key>Tag</key>
+				<integer>0</integer>
+				<key>TagName</key>
+				<string>DEFAULT</string>
+				<key>UV</key>
+				<string>{{0, 0}, {480.5, 320.5}}</string>
+				<key>UniqueName</key>
+				<string>MenuBackground</string>
+				<key>ZOrder</key>
+				<integer>0</integer>
+			</dict>
+			<key>PhysicProperties</key>
+			<dict>
+				<key>AngularDamping</key>
+				<real>0.0</real>
+				<key>AngularVelocity</key>
+				<real>0.0</real>
+				<key>CanSleep</key>
+				<true/>
+				<key>Category</key>
+				<integer>1</integer>
+				<key>Density</key>
+				<real>0.20000000298023224</real>
+				<key>FixedRot</key>
+				<false/>
+				<key>Friction</key>
+				<real>0.20000000298023224</real>
+				<key>GravityScale</key>
+				<real>1</real>
+				<key>Group</key>
+				<integer>0</integer>
+				<key>HandledBySH</key>
+				<true/>
+				<key>IsBullet</key>
+				<false/>
+				<key>IsCircle</key>
+				<false/>
+				<key>IsSensor</key>
+				<false/>
+				<key>LinearDamping</key>
+				<real>0.0</real>
+				<key>LinearVelocity</key>
+				<string>{0, 0}</string>
+				<key>Mask</key>
+				<integer>65535</integer>
+				<key>Restitution</key>
+				<real>0.20000000298023224</real>
+				<key>ShapeBorder</key>
+				<string>{0, 0}</string>
+				<key>ShapeFixtures</key>
+				<array/>
+				<key>ShapePositionOffset</key>
+				<string>{0, 0}</string>
+				<key>Type</key>
+				<integer>3</integer>
+			</dict>
+		</dict>
+	</array>
+	<key>ScenePreference</key>
+	<dict>
+		<key>BackgroundColor</key>
+		<string>{{0, 0}, {0, 2.1811773534442872e-314}}</string>
+		<key>GameWorld</key>
+		<string>{{0, 0}, {480, 320}}</string>
+		<key>LevelsPath</key>
+		<string>file://localhost/Users/stevenchen/Documents/app%20development/particlegames/CatRun/CatRun/CatRun/Resources/Levels/</string>
+		<key>PanValue</key>
+		<string>{226.24417114257812, 153.48237609863281}</string>
+		<key>ProjectName</key>
+		<string>CatRun</string>
+		<key>SHScenesPath</key>
+		<string>file://localhost/Users/stevenchen/Documents/app%20development/particlegames/CatRun/CatRun/CatRun/Resources/Images/</string>
+		<key>SafeFrame</key>
+		<string>{480, 320}</string>
+		<key>ScreenSize</key>
+		<integer>1</integer>
+		<key>Tags</key>
+		<array>
+			<string>DEFAULT</string>
+			<string>PLAYER</string>
+			<string>STAR</string>
+			<string>OBSTACLE</string>
+			<string>FINISH</string>
+			<string>GROUND</string>
+			<string>PLATFORM_SET_LONG_1</string>
+			<string>PLATFORM_SET_LONG_2</string>
+			<string>PLATFORM_SET_LONG_3</string>
+			<string>PLATFORM_SET_SHORT_1</string>
+			<string>PLATFORM_SET_SHORT_2</string>
+			<string>PLATFORM_SET_SHORT_3</string>
+		</array>
+		<key>ZoomValue</key>
+		<real>1</real>
+	</dict>
+</dict>
+</plist>

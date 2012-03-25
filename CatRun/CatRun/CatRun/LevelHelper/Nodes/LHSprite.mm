@@ -59,6 +59,7 @@
 @end
 ////////////////////////////////////////////////////////////////////////////////
 @implementation LHSprite
+@synthesize usesOverloadedTransformations;
 @synthesize realScale;
 @synthesize swallowTouches;
 ////////////////////////////////////////////////////////////////////////////////
@@ -132,6 +133,9 @@
     tagTouchBeginObserver = nil;
     tagTouchMovedObserver = nil;
     tagTouchEndedObserver = nil;
+    
+    usesOverloadedTransformations = false;
+    usePhysicsForTouches = true;
 }
 -(id) initSprite{ //bad CCSprite designe - causes recursion
     self = [super init];
@@ -646,7 +650,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 -(bool)isTouchedAtPoint:(CGPoint)point{
     
-    if(body == NULL)
+    if(body == NULL || !usePhysicsForTouches)
     {
         float x = point.x;
         float y = point.y;
@@ -659,6 +663,19 @@
         
         float dx = quad_.bl.vertices.x;
         float dy = quad_.bl.vertices.y;
+        
+        if(!self.usesBatchNode)
+        {
+            ax += self.position.x;
+            ay += self.position.y; 
+            
+            bx += self.position.x;
+            by += self.position.y;
+            
+            dx += self.position.x;
+            dy += self.position.y;
+            
+        }
         
         float bax=bx-ax;
         float bay=by-ay;
@@ -684,6 +701,9 @@
         }
     }
     return false;    
+}
+-(void)setUsePhysicsForTouches:(bool)val{
+    usePhysicsForTouches = val;
 }
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
@@ -788,6 +808,9 @@
 //------------------------------------------------------------------------------
 - (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event{
    
+    if(nil == touchBeginObserver)
+        return false;
+    
     CGPoint touchPoint = [touch locationInView:[touch view]];
     touchPoint = [self convertedPoint:touchPoint];
     
@@ -1098,6 +1121,99 @@
         return NSOrderedDescending;
     
     return NSOrderedSame;           
+}
+//------------------------------------------------------------------------------
+-(void)setPosition:(CGPoint)pos
+{
+    if(usesOverloadedTransformations)
+        [self transformPosition:pos];
+    else {
+        [super setPosition:pos];
+    }
+}
+-(void)setRotation:(float)rot
+{
+    if(usesOverloadedTransformations)
+        [self transformRotation:rot];
+    else {
+        [super setRotation:rot];
+    }
+}
+//------------------------------------------------------------------------------
+-(void)setCollisionFilterCategory:(int)category{
+    if(body == nil)
+        return;
+    
+    b2Fixture* curFix = body->GetFixtureList();
+    while (curFix) {
+        
+        b2Filter curFilter = curFix->GetFilterData();
+
+        b2Filter filter;
+        filter.categoryBits = category;
+        filter.maskBits     = curFilter.maskBits;
+        filter.groupIndex   = curFilter.groupIndex;
+
+        curFix->SetFilterData(filter);        
+        curFix = curFix->GetNext();
+    }
+}
+-(void)setCollisionFilterMask:(int)mask{
+    if(body == nil)
+        return;
+
+    b2Fixture* curFix = body->GetFixtureList();
+    while (curFix) {
+        
+        b2Filter curFilter = curFix->GetFilterData();
+        
+        b2Filter filter;
+        filter.categoryBits = curFilter.categoryBits;
+        filter.maskBits     = mask;
+        filter.groupIndex   = curFilter.groupIndex;
+        
+        curFix->SetFilterData(filter);        
+        curFix = curFix->GetNext();
+    }
+}
+-(void)setCollisionFilterGroup:(int)group{
+    if(body == nil)
+        return;
+    b2Fixture* curFix = body->GetFixtureList();
+    while (curFix) {
+        
+        b2Filter curFilter = curFix->GetFilterData();
+        
+        b2Filter filter;
+        filter.categoryBits = curFilter.categoryBits;
+        filter.maskBits     = curFilter.maskBits;
+        filter.groupIndex   = group;
+        
+        curFix->SetFilterData(filter);        
+        curFix = curFix->GetNext();
+    }
+}
+
+//TYPE CONVERSION
+//------------------------------------------------------------------------------
+-(void)makeDynamic{
+    
+    if(body == nil)
+        return;
+    
+    body->SetType(b2_dynamicBody);    
+}
+-(void)makeStatic{
+    if(body == nil)
+        return;
+    
+    body->SetType(b2_staticBody);
+}
+-(void)makeKinematic{
+    if(body == nil)
+        return;
+
+    body->SetType(b2_kinematicBody);
 }
 
 @end

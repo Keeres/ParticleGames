@@ -53,7 +53,8 @@
 	int screenNumberOnTheTop;
 	int screenNumberOnTheBottom;
 	
-	NSMutableArray* sprites;
+	//NSMutableArray* sprites;
+    CCArray* sprites;//better performance
     
     LevelHelperLoader* lhLoader;
     bool removeSpritesOnDelete;

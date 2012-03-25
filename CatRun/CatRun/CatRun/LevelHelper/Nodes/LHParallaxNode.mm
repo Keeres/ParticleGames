@@ -48,6 +48,7 @@
 	CGPoint position;
 	CGPoint	ratio;
 	CGPoint offset;
+    bool isLHSprite;
 	CGPoint initialPosition;
 #ifndef LH_ARC_ENABLED
 	CCNode *ccsprite;	//weak ref
@@ -57,6 +58,7 @@
 @property (readwrite) CGPoint virtualPosition;
 @property (readwrite) CGPoint ratio;
 @property (readwrite) CGPoint offset;
+@property (readwrite) bool isLHSprite;
 @property (readwrite) CGPoint initialPosition;
 @property (readwrite) CGPoint position;
 @property (readwrite,assign) CCNode *ccsprite;
@@ -69,6 +71,7 @@
 @implementation LHParallaxPointObject
 @synthesize virtualPosition;
 @synthesize ratio;
+@synthesize isLHSprite;
 @synthesize initialPosition;
 @synthesize offset;
 @synthesize position;
@@ -138,7 +141,8 @@
 {
 	if( (self=[super init])) {
 
-		sprites = [[NSMutableArray alloc] init];
+		//sprites = [[NSMutableArray alloc] init];
+        sprites = [[CCArray alloc] init];
 		isContinuous = [[parallaxDict objectForKey:@"ContinuousScrolling"] boolValue];
 		direction = [[parallaxDict objectForKey:@"Direction"] intValue];
 		speed = [[parallaxDict objectForKey:@"Speed"] floatValue];
@@ -218,6 +222,7 @@
                                                                    ratio:ratio];
     
 	obj.body = [sprite body];
+    obj.isLHSprite = true;
 	[sprite setSpriteIsInParallax:self];
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -284,8 +289,7 @@
 #else
     NSMutableArray* sprs = [[NSMutableArray alloc] init];
 #endif
-	for(LHParallaxPointObject* pt in sprites)
-	{
+	for(LHParallaxPointObject* pt in sprites){
 		if(pt.ccsprite != nil)
 			[sprs addObject:pt.ccsprite];
 	}
@@ -300,8 +304,8 @@
 #else
     NSMutableArray* sprs = [[NSMutableArray alloc] init];
 #endif
-	for(LHParallaxPointObject* pt in sprites)
-	{
+        
+	for(LHParallaxPointObject* pt in sprites){
 		if(0 != pt.body)
 			[sprs addObject:[NSValue valueWithPointer:pt.body]];
 	}	
@@ -369,10 +373,20 @@
             CGPoint newPos = CGPointMake(point.virtualPosition.x - offset.x,
                                          point.virtualPosition.y - offset.y);
             
-            if(shouldTransformBody)
+            if(point.isLHSprite)
             {
+                if([(LHSprite*)point.ccsprite pathNode] != nil)
+                {
+                    shouldTransformBody = true;
+                    newPos = CGPointMake(point.ccsprite.position.x - offset.x,
+                                         point.ccsprite.position.y - offset.y);
+
+                }
+            }
+            
+            if(shouldTransformBody)
+            {                                
                 [point.ccsprite setPosition:newPos];
-                [point.ccsprite setVisible:YES];
                 
                 if(point.body != NULL){
             
@@ -447,7 +461,7 @@
     
                     [point.ccsprite setPosition:newPos];
                     point.virtualPosition = newPos;
-                    [point.ccsprite setVisible:NO];
+                    //[point.ccsprite setVisible:NO];
                     
                     if(point.body != NULL){
                     
@@ -483,7 +497,7 @@
                     CGPoint newPos = CGPointMake(point.offset.x, point.virtualPosition.y);
                     [point.ccsprite setPosition:newPos];
                     point.virtualPosition = newPos;
-                    [point.ccsprite setVisible:NO];
+                    //[point.ccsprite setVisible:NO];
                     
                     if(point.body != NULL){
                         
@@ -507,20 +521,33 @@
 			
 		case 2://up to bottom
 		{
-			if(point.virtualPosition.y + contentSize.height/2.0f*scaleY <= 0)
+            float virtualX = point.virtualPosition.x;
+            float virtualY = point.virtualPosition.y;
+            
+//            if([(LHSprite*)point.ccsprite pathNode])
+//            {
+//                NSLog(@"FOUND PATH NODE %@", [point.ccsprite uniqueName]);
+//                virtualX = point.ccsprite.position.x;
+//                virtualY = point.ccsprite.position.y; 
+//            }
+                
+			if(virtualY + contentSize.height/2.0f*scaleY <= 0)
 			{
-				float difY = point.virtualPosition.y + contentSize.height/2.0f*scaleY;
+//                NSLog(@"UP TO BOTTOM set transform");
+                
+				float difY = virtualY + contentSize.height/2.0f*scaleY;
 				
 				[point setOffset:ccp(point.offset.x, winSize.height*screenNumberOnTheTop - point.ratio.y*speed - contentSize.height/2.0f*scaleY + difY)];
                 
                 
                 if(nil != point.ccsprite){
-                    CGPoint newPos = CGPointMake(point.virtualPosition.x, point.offset.y);
+                    CGPoint newPos = CGPointMake(virtualX, point.offset.y);
                     [point.ccsprite setPosition:newPos];
-                    [point.ccsprite setVisible:NO];
+                    //[point.ccsprite setVisible:NO];
                     point.virtualPosition = newPos;
                     if(point.body != NULL){
                         
+
                         float angle = [point.ccsprite rotation];
                         point.body->SetTransform(b2Vec2(newPos.x/[[LHSettings sharedInstance] lhPtmRatio], 
                                                         newPos.y/[[LHSettings sharedInstance] lhPtmRatio]), 
@@ -550,7 +577,7 @@
                     CGPoint newPos = CGPointMake(point.virtualPosition.x, point.offset.y);
                     [point.ccsprite setPosition:newPos];
                     point.virtualPosition = newPos;
-                    [point.ccsprite setVisible:NO];
+                    //[point.ccsprite setVisible:NO];
                     
                     if(point.body != NULL){
                         
@@ -609,8 +636,8 @@
 	CGPoint pos = [self position];
 	if(isContinuous || ! CGPointEqualToPoint(pos, lastPosition)) 
 	{
-		for(LHParallaxPointObject *point in sprites)
-		{
+            
+		for(LHParallaxPointObject *point in sprites){
             i = -1; //direction left to right //bottom to up
             if(direction == 1 || direction == 2) //right to left //up to bottom
                 i = 1;

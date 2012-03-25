@@ -1177,7 +1177,13 @@ CGRect LHRectFromValue(NSValue* val)
 	
     bool deltaMove = [[spriteProp objectForKey:@"PathMoveDelta"] boolValue];
     
+    if(nil == [spriteProp objectForKey:@"PathMoveDelta"])
+        deltaMove = true;
+    
     bool startAtLaunch = [[spriteProp objectForKey:@"PathStartAtLaunch"] boolValue];
+    
+    if(nil == [spriteProp objectForKey:@"PathStartAtLaunch"])
+        startAtLaunch = true;
     
     [ccsprite moveOnPathWithUniqueName:uniqueName
                                  speed:pathSpeed
@@ -1191,7 +1197,7 @@ CGRect LHRectFromValue(NSValue* val)
                         endObserverObj:pathNotifierId 
                         endObserverSel:pathNotifierSel];    
     
-    if(startAtLaunch)
+    if(!startAtLaunch)
         [ccsprite pausePathMovement:YES];
 }
 //------------------------------------------------------------------------------
@@ -1692,6 +1698,7 @@ CGRect LHRectFromValue(NSValue* val)
 -(LHSprite*) createSpriteWithGeneralPropDictionary:(NSDictionary*)spriteProp andName:(NSString*)name
 {
     LHSprite* ccsprite =  [self spriteFromDictionary:spriteProp];
+        
     NSString* uName = [NSString stringWithFormat:@"%@_LH_NEW_SPRITE_%d", 
                        name, [[LHSettings sharedInstance] newBodyId]];
     [ccsprite setUniqueName:uName];
@@ -1700,7 +1707,7 @@ CGRect LHRectFromValue(NSValue* val)
     return ccsprite;
 }
 //------------------------------------------------------------------------------
--(LHSprite*) newSpriteWithUniqueName:(NSString *)name{
+-(LHSprite*) createSpriteWithUniqueName:(NSString *)name{
     for(NSDictionary* dictionary in lhSprites){
 		NSDictionary* spriteProp = [dictionary objectForKey:@"GeneralProperties"];
 		if([[spriteProp objectForKey:@"UniqueName"] isEqualToString:name]){            
@@ -1709,9 +1716,15 @@ CGRect LHRectFromValue(NSValue* val)
     }
     return nil;
 }
+-(LHSprite*) newSpriteWithUniqueName:(NSString *)name{
+    return [self createSpriteWithUniqueName:name];
+}
 //------------------------------------------------------------------------------
+-(LHSprite*) createPhysicalSpriteWithUniqueName:(NSString*)name{
+    return [self createPhysicalSpriteWithUniqueName:name newBodyScale:nil];
+}
 -(LHSprite*) newPhysicalSpriteWithUniqueName:(NSString*)name{
-    return [self newPhysicalSpriteWithUniqueName:name newBodyScale:nil];
+    return [self createPhysicalSpriteWithUniqueName:name];
 }
 //------------------------------------------------------------------------------
 -(LHSprite*)createPhysicalSpriteWithGeneralProp:(NSDictionary*)spriteProp 
@@ -1744,7 +1757,7 @@ CGRect LHRectFromValue(NSValue* val)
     [ccsprite postInitialization];
     return ccsprite;
 }
--(LHSprite*) newPhysicalSpriteWithUniqueName:(NSString *)name newBodyScale:(CGSize*)newScale{
+-(LHSprite*) createPhysicalSpriteWithUniqueName:(NSString *)name newBodyScale:(CGSize*)newScale{
     for(NSDictionary* dictionary in lhSprites){
 		NSDictionary* spriteProp = [dictionary objectForKey:@"GeneralProperties"];
 		if([[spriteProp objectForKey:@"UniqueName"] isEqualToString:name]){            
@@ -1758,6 +1771,9 @@ CGRect LHRectFromValue(NSValue* val)
         }
     }
     return nil;    
+}
+-(LHSprite*) newPhysicalSpriteWithUniqueName:(NSString *)name newBodyScale:(CGSize*)newScale{
+    return [self createPhysicalSpriteWithUniqueName:name newBodyScale:newScale];
 }
 //------------------------------------------------------------------------------
 -(LHSprite*)createBatchSpriteWithGeneralPropDictionary:(NSDictionary*)spriteProp andName:(NSString*)name
@@ -1781,7 +1797,7 @@ CGRect LHRectFromValue(NSValue* val)
     return nil;
 }
 //------------------------------------------------------------------------------
--(LHSprite*) newBatchSpriteWithUniqueName:(NSString *)name{
+-(LHSprite*) createBatchSpriteWithUniqueName:(NSString*)name{
 	for(NSDictionary* dictionary in lhSprites)
     {
 		NSDictionary* spriteProp = [dictionary objectForKey:@"GeneralProperties"];
@@ -1791,9 +1807,15 @@ CGRect LHRectFromValue(NSValue* val)
     }
     return nil;
 }
+-(LHSprite*) newBatchSpriteWithUniqueName:(NSString *)name{
+    return [self createBatchSpriteWithUniqueName:name];
+}
 //------------------------------------------------------------------------------
+-(LHSprite*) createPhysicalBatchSpriteWithUniqueName:(NSString*)name{
+    return [self createPhysicalBatchSpriteWithUniqueName:name newBodyScale:nil];
+}
 -(LHSprite*) newPhysicalBatchSpriteWithUniqueName:(NSString *)name{
-    return [self newPhysicalBatchSpriteWithUniqueName:name newBodyScale:nil];
+    return [self createPhysicalBatchSpriteWithUniqueName:name];
 }
 //------------------------------------------------------------------------------
 -(LHSprite*)createPhysicalBatchSpriteWithGeneralProp:(NSDictionary*)spriteProp
@@ -1834,7 +1856,8 @@ CGRect LHRectFromValue(NSValue* val)
     }
     return nil;
 }
--(LHSprite*) newPhysicalBatchSpriteWithUniqueName:(NSString *)name newBodyScale:(CGSize*)newScale{
+//------------------------------------------------------------------------------
+-(LHSprite*) createPhysicalBatchSpriteWithUniqueName:(NSString *)name newBodyScale:(CGSize*)newScale{
     for(NSDictionary* dictionary in lhSprites)
     {
 		NSDictionary* spriteProp = [dictionary objectForKey:@"GeneralProperties"];
@@ -1849,8 +1872,12 @@ CGRect LHRectFromValue(NSValue* val)
     }
     return nil;
 }
+-(LHSprite*) newPhysicalBatchSpriteWithUniqueName:(NSString *)name newBodyScale:(CGSize*)newScale{
+    return [self createPhysicalBatchSpriteWithUniqueName:name newBodyScale:newScale];
+}
 //------------------------------------------------------------------------------
--(LHSprite*) newSpriteWithName:(NSString*)name fromSpriteHelperScene:(NSString*)sceneName{
+-(LHSprite*) createSpriteWithName:(NSString*)name 
+            fromSpriteHelperScene:(NSString*)sceneName{
     
     NSDictionary* spriteProp = [[SHDocumentLoader sharedInstance] textureDictionaryForSpriteNamed:name inDocument:sceneName];
     
@@ -1859,8 +1886,27 @@ CGRect LHRectFromValue(NSValue* val)
     }
     return nil;
 }
+-(LHSprite*) newSpriteWithName:(NSString*)name fromSpriteHelperScene:(NSString*)sceneName{
+    return [self createSpriteWithName:name 
+                fromSpriteHelperScene:sceneName];
+}
 //------------------------------------------------------------------------------
--(LHSprite*) newBatchSpriteWithName:(NSString*)name fromSpriteHelperScene:(NSString*)sceneName{
+-(LHSprite*) createSpriteWithName:(NSString*)name fromSpriteHelperScene:(NSString*)sceneName tag:(LevelHelper_TAG)tag
+{
+    NSDictionary* spriteProp = [[SHDocumentLoader sharedInstance] textureDictionaryForSpriteNamed:name inDocument:sceneName];
+    
+    if(nil != spriteProp){
+        
+        NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:spriteProp];
+        [dic setObject:[NSNumber numberWithInt:tag] forKey:@"Tag"];
+        
+        return [self createSpriteWithGeneralPropDictionary:dic andName:name];        
+    }
+    return nil;
+}
+//------------------------------------------------------------------------------
+-(LHSprite*) createBatchSpriteWithName:(NSString*)name 
+                 fromSpriteHelperScene:(NSString*)sceneName{
  
     NSDictionary* spriteProp = [[SHDocumentLoader sharedInstance] textureDictionaryForSpriteNamed:name inDocument:sceneName];
     
@@ -1869,8 +1915,27 @@ CGRect LHRectFromValue(NSValue* val)
     }
     return nil;
 }
+-(LHSprite*) newBatchSpriteWithName:(NSString*)name fromSpriteHelperScene:(NSString*)sceneName{
+   return [self createBatchSpriteWithName:name 
+                    fromSpriteHelperScene:sceneName];
+}
 //------------------------------------------------------------------------------
--(LHSprite*) newPhysicalSpriteWithName:(NSString*)name fromSpriteHelperScene:(NSString*)sceneName{
+-(LHSprite*) createBatchSpriteWithName:(NSString*)name fromSpriteHelperScene:(NSString*)sceneName tag:(LevelHelper_TAG)tag
+{
+    NSDictionary* spriteProp = [[SHDocumentLoader sharedInstance] textureDictionaryForSpriteNamed:name inDocument:sceneName];
+    
+    if(spriteProp){      
+        
+        NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:spriteProp];
+        [dic setObject:[NSNumber numberWithInt:tag] forKey:@"Tag"];
+        
+        return [self createBatchSpriteWithGeneralPropDictionary:dic andName:name];
+    }
+    return nil;    
+}
+//------------------------------------------------------------------------------
+-(LHSprite*) createPhysicalSpriteWithName:(NSString*)name 
+                    fromSpriteHelperScene:(NSString*)sceneName{
     
     NSDictionary* spriteProp = [[SHDocumentLoader sharedInstance] textureDictionaryForSpriteNamed:name inDocument:sceneName];
     NSDictionary* physicProp = [[SHDocumentLoader sharedInstance] physicsDictionaryForSpriteNamed:name inDocument:sceneName];
@@ -1884,8 +1949,33 @@ CGRect LHRectFromValue(NSValue* val)
     }
     return nil;    
 }
+-(LHSprite*) newPhysicalSpriteWithName:(NSString*)name fromSpriteHelperScene:(NSString*)sceneName{
+    return [self createPhysicalSpriteWithName:name 
+                        fromSpriteHelperScene:sceneName];
+}
 //------------------------------------------------------------------------------
--(LHSprite*) newPhysicalBatchSpriteWithName:(NSString*)name fromSpriteHelperScene:(NSString*)sceneName{
+-(LHSprite*) createPhysicalSpriteWithName:(NSString*)name 
+                 fromSpriteHelperScene:(NSString*)sceneName 
+                                   tag:(LevelHelper_TAG)tag
+{
+    NSDictionary* spriteProp = [[SHDocumentLoader sharedInstance] textureDictionaryForSpriteNamed:name inDocument:sceneName];
+    NSDictionary* physicProp = [[SHDocumentLoader sharedInstance] physicsDictionaryForSpriteNamed:name inDocument:sceneName];
+    
+    if(spriteProp && physicProp)
+    {
+        NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:spriteProp];
+        [dic setObject:[NSNumber numberWithInt:tag] forKey:@"Tag"];
+        
+        return [self createPhysicalSpriteWithGeneralProp:dic
+                                            physicalProp:physicProp
+                                               bodyScale:nil
+                                                 andName:name];
+    }
+    return nil;    
+}
+//------------------------------------------------------------------------------
+-(LHSprite*) createPhysicalBatchSpriteWithName:(NSString*)name 
+                         fromSpriteHelperScene:(NSString*)sceneName{
     
     NSDictionary* spriteProp = [[SHDocumentLoader sharedInstance] textureDictionaryForSpriteNamed:name inDocument:sceneName];
     NSDictionary* physicProp = [[SHDocumentLoader sharedInstance] physicsDictionaryForSpriteNamed:name inDocument:sceneName];
@@ -1898,6 +1988,31 @@ CGRect LHRectFromValue(NSValue* val)
                                                              name:name];
     }
     return nil;
+}
+-(LHSprite*) newPhysicalBatchSpriteWithName:(NSString*)name fromSpriteHelperScene:(NSString*)sceneName{
+    return [self createPhysicalBatchSpriteWithName:name 
+                             fromSpriteHelperScene:sceneName];
+}
+//------------------------------------------------------------------------------
+-(LHSprite*) createPhysicalBatchSpriteWithName:(NSString*)name 
+                      fromSpriteHelperScene:(NSString*)sceneName 
+                                        tag:(LevelHelper_TAG)tag
+{
+    NSDictionary* spriteProp = [[SHDocumentLoader sharedInstance] textureDictionaryForSpriteNamed:name inDocument:sceneName];
+    NSDictionary* physicProp = [[SHDocumentLoader sharedInstance] physicsDictionaryForSpriteNamed:name inDocument:sceneName];
+    
+    if(spriteProp && physicProp)
+    {            
+        NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:spriteProp];
+        [dic setObject:[NSNumber numberWithInt:tag] forKey:@"Tag"];
+        
+        return [self createPhysicalBatchSpriteWithGeneralProp:dic
+                                                   physicProp:physicProp
+                                                    bodyScale:nil
+                                                         name:name];
+    }
+    return nil;
+
 }
 //------------------------------------------------------------------------------
 -(LHSprite*) spriteFromDictionary:(NSDictionary*)spriteProp{
@@ -1984,6 +2099,12 @@ CGRect LHRectFromValue(NSValue* val)
 -(void) setSpriteProperties:(LHSprite*)ccsprite
            spriteProperties:(NSDictionary*)spriteProp
 {
+    NSString* uName = [spriteProp objectForKey:@"UniqueName"];
+    if(nil == uName)
+        uName = [spriteProp objectForKey:@"Name"];
+    [ccsprite setUniqueName:uName];
+    
+    
 	//convert position from LH to Cocos2d coordinates
 	CGSize winSize = [[CCDirector sharedDirector] winSize];
 	CGPoint position = LHPointFromString([spriteProp objectForKey:@"Position"]);
@@ -2006,6 +2127,9 @@ CGRect LHRectFromValue(NSValue* val)
 	CGPoint scale = LHPointFromString([spriteProp objectForKey:@"Scale"]);
     
     NSNumber* isDrawable = [spriteProp objectForKey:@"IsDrawable"]; 
+    
+   // NSLog(@"DRAWABLE %@ - spr %d %@", isDrawable, [isDrawable boolValue], [ccsprite uniqueName]);
+    
     if(isDrawable)
         [ccsprite setVisible:[isDrawable boolValue]];
     
@@ -2036,11 +2160,6 @@ CGRect LHRectFromValue(NSValue* val)
 	[ccsprite setScaleY:scale.y];
 
     [ccsprite setParentLoader:self];
-    
-    NSString* uName = [spriteProp objectForKey:@"UniqueName"];
-    if(nil == uName)
-        uName = [spriteProp objectForKey:@"Name"];
-    [ccsprite setUniqueName:uName];
     
     [self setTouchDispatcherForObject:ccsprite tag:tag];
 }
