@@ -26,4 +26,24 @@ typedef enum {
     kMaxPlatform,
 } PlatformType;
 
+typedef enum {
+    kMainMenuType,
+    kCharacterMenuType,
+    kCustomizeMenuType,
+    kPerkMenuType,
+} MenuType;
 
+typedef enum{
+    kAlignRowFirst,
+    kAlignColFirst
+}AlignStyle;
+
+typedef enum {
+    kDefaultSkin,
+    kRedSkin,
+    kBlueSkin,
+    kGreenSkin,
+    kPinkSkin,
+    kPurpleSkin,
+    kRainbowSkin = 7,
+}kSkinType;

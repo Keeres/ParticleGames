@@ -82,5 +82,5 @@ typedef enum {
 
 // Chapter 10
 //#define PTM_RATIO ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 100.0 : 50.0)
-#define PTM_RATIO ((UI_USER_INTERFACE_IDIOM() == \
+//#define PTM_RATIO ((UI_USER_INTERFACE_IDIOM() == \
 UIUserInterfaceIdiomPad) ? 100.0 : 50.0)
