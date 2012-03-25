@@ -11,7 +11,7 @@
 	<key>Engine</key>
 	<integer>0</integer>
 	<key>LastLevelLoaded</key>
-	<string>/Users/kelvin/Documents/iPhone/Projects/CatRun Project/CatRun/CatRun/Resources/Levels/Flying_Normal_01.plhs</string>
+	<string>/Users/stevenchen/Documents/app development/particlegames/CatRun/CatRun/CatRun/Resources/Levels/MainMenu.plhs</string>
 	<key>LevelsPathRelative</key>
 	<string>CatRun/Resources/Levels/</string>
 	<key>ProjectName</key>

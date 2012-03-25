@@ -7,6 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD0F28351518B60A0094D305 /* CCLabelBMFontMultiline.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0F28311518B60A0094D305 /* CCLabelBMFontMultiline.m */; };
+		AD0F28361518B60A0094D305 /* CCRadioMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0F28341518B60A0094D305 /* CCRadioMenu.m */; };
+		AD0F283D151915690094D305 /* SkinsMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0F283C151915690094D305 /* SkinsMenu.m */; };
+		AD173123151184A600F459E4 /* CharacterMenu.plhs in Resources */ = {isa = PBXBuildFile; fileRef = AD17311F151184A600F459E4 /* CharacterMenu.plhs */; };
+		AD173124151184A600F459E4 /* MainMenu.plhs in Resources */ = {isa = PBXBuildFile; fileRef = AD173120151184A600F459E4 /* MainMenu.plhs */; };
+		AD173125151184A600F459E4 /* PerksMenu.plhs in Resources */ = {isa = PBXBuildFile; fileRef = AD173121151184A600F459E4 /* PerksMenu.plhs */; };
+		AD173126151184A600F459E4 /* SkinsMenu.plhs in Resources */ = {isa = PBXBuildFile; fileRef = AD173122151184A600F459E4 /* SkinsMenu.plhs */; };
+		AD17312F1511986D00F459E4 /* CustomizeMenuLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AD17312E1511986D00F459E4 /* CustomizeMenuLayer.mm */; };
+		AD1731321511994A00F459E4 /* CharacterMenuLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AD1731311511994A00F459E4 /* CharacterMenuLayer.mm */; };
+		AD1731351511995F00F459E4 /* PerksMenuLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = AD1731341511995F00F459E4 /* PerksMenuLayer.mm */; };
+		AD1731461512CC6C00F459E4 /* SpriteHelperLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = AD1731451512CC6C00F459E4 /* SpriteHelperLoader.mm */; };
+		AD2E48AD1517E0D400D95723 /* menuBackground-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48AA1517E0D400D95723 /* menuBackground-hd.png */; };
+		AD2E48AE1517E0D400D95723 /* menuBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48AB1517E0D400D95723 /* menuBackground.png */; };
+		AD2E48AF1517E0D400D95723 /* menuBackground.pshs in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48AC1517E0D400D95723 /* menuBackground.pshs */; };
+		AD2E48B61517E3BC00D95723 /* menuButtons-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48B11517E3BC00D95723 /* menuButtons-hd.plist */; };
+		AD2E48B71517E3BC00D95723 /* menuButtons-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48B21517E3BC00D95723 /* menuButtons-hd.png */; };
+		AD2E48B81517E3BC00D95723 /* menuButtons.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48B31517E3BC00D95723 /* menuButtons.plist */; };
+		AD2E48B91517E3BC00D95723 /* menuButtons.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48B41517E3BC00D95723 /* menuButtons.png */; };
+		AD2E48BA1517E3BC00D95723 /* menuButtons.pshs in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48B51517E3BC00D95723 /* menuButtons.pshs */; };
+		ADE08491151BFC7800DB48A2 /* MyScrollLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE08490151BFC7800DB48A2 /* MyScrollLayer.m */; };
 		B637FFBB1507F8C200B24F7D /* background-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B637FFB21507F8C200B24F7D /* background-hd.png */; };
 		B637FFBC1507F8C200B24F7D /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = B637FFB31507F8C200B24F7D /* background.png */; };
 		B637FFBD1507F8C200B24F7D /* background.pshs in Resources */ = {isa = PBXBuildFile; fileRef = B637FFB41507F8C200B24F7D /* background.pshs */; };
@@ -225,6 +245,35 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD0BFA72151A05FF00C3005C /* InputController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = InputController.h; path = SupportingFiles/InputController.h; sourceTree = "<group>"; };
+		AD0F28301518B60A0094D305 /* CCLabelBMFontMultiline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelBMFontMultiline.h; sourceTree = "<group>"; };
+		AD0F28311518B60A0094D305 /* CCLabelBMFontMultiline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLabelBMFontMultiline.m; sourceTree = "<group>"; };
+		AD0F28331518B60A0094D305 /* CCRadioMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCRadioMenu.h; sourceTree = "<group>"; };
+		AD0F28341518B60A0094D305 /* CCRadioMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCRadioMenu.m; sourceTree = "<group>"; };
+		AD0F283B151915690094D305 /* SkinsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SkinsMenu.h; path = CharacterMenuLayer/SkinsMenu.h; sourceTree = "<group>"; };
+		AD0F283C151915690094D305 /* SkinsMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SkinsMenu.m; path = CharacterMenuLayer/SkinsMenu.m; sourceTree = "<group>"; };
+		AD17311F151184A600F459E4 /* CharacterMenu.plhs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = CharacterMenu.plhs; sourceTree = "<group>"; };
+		AD173120151184A600F459E4 /* MainMenu.plhs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MainMenu.plhs; sourceTree = "<group>"; };
+		AD173121151184A600F459E4 /* PerksMenu.plhs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PerksMenu.plhs; sourceTree = "<group>"; };
+		AD173122151184A600F459E4 /* SkinsMenu.plhs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SkinsMenu.plhs; sourceTree = "<group>"; };
+		AD17312D1511986D00F459E4 /* CustomizeMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomizeMenuLayer.h; path = SkinsMenuLayer/CustomizeMenuLayer.h; sourceTree = "<group>"; };
+		AD17312E1511986D00F459E4 /* CustomizeMenuLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CustomizeMenuLayer.mm; path = SkinsMenuLayer/CustomizeMenuLayer.mm; sourceTree = "<group>"; };
+		AD1731301511994A00F459E4 /* CharacterMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CharacterMenuLayer.h; path = CharacterMenuLayer/CharacterMenuLayer.h; sourceTree = "<group>"; };
+		AD1731311511994A00F459E4 /* CharacterMenuLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CharacterMenuLayer.mm; path = CharacterMenuLayer/CharacterMenuLayer.mm; sourceTree = "<group>"; };
+		AD1731331511995F00F459E4 /* PerksMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PerksMenuLayer.h; path = PerksMenuLayer/PerksMenuLayer.h; sourceTree = "<group>"; };
+		AD1731341511995F00F459E4 /* PerksMenuLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = PerksMenuLayer.mm; path = PerksMenuLayer/PerksMenuLayer.mm; sourceTree = "<group>"; };
+		AD1731441512CC6C00F459E4 /* SpriteHelperLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpriteHelperLoader.h; sourceTree = "<group>"; };
+		AD1731451512CC6C00F459E4 /* SpriteHelperLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpriteHelperLoader.mm; sourceTree = "<group>"; };
+		AD2E48AA1517E0D400D95723 /* menuBackground-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menuBackground-hd.png"; sourceTree = "<group>"; };
+		AD2E48AB1517E0D400D95723 /* menuBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuBackground.png; sourceTree = "<group>"; };
+		AD2E48AC1517E0D400D95723 /* menuBackground.pshs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuBackground.pshs; sourceTree = "<group>"; };
+		AD2E48B11517E3BC00D95723 /* menuButtons-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "menuButtons-hd.plist"; sourceTree = "<group>"; };
+		AD2E48B21517E3BC00D95723 /* menuButtons-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menuButtons-hd.png"; sourceTree = "<group>"; };
+		AD2E48B31517E3BC00D95723 /* menuButtons.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = menuButtons.plist; sourceTree = "<group>"; };
+		AD2E48B41517E3BC00D95723 /* menuButtons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuButtons.png; sourceTree = "<group>"; };
+		AD2E48B51517E3BC00D95723 /* menuButtons.pshs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuButtons.pshs; sourceTree = "<group>"; };
+		ADE0848F151BFC7800DB48A2 /* MyScrollLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; path = MyScrollLayer.h; sourceTree = "<group>"; };
+		ADE08490151BFC7800DB48A2 /* MyScrollLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyScrollLayer.m; sourceTree = "<group>"; };
 		B637FFB21507F8C200B24F7D /* background-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-hd.png"; sourceTree = "<group>"; };
 		B637FFB31507F8C200B24F7D /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		B637FFB41507F8C200B24F7D /* background.pshs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = background.pshs; sourceTree = "<group>"; };
@@ -669,6 +718,67 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AD0F282F1518B60A0094D305 /* CCLabelBMFontMultiline */ = {
+			isa = PBXGroup;
+			children = (
+				AD0F28301518B60A0094D305 /* CCLabelBMFontMultiline.h */,
+				AD0F28311518B60A0094D305 /* CCLabelBMFontMultiline.m */,
+			);
+			name = CCLabelBMFontMultiline;
+			path = SupportingFiles/CCLabelBMFontMultiline;
+			sourceTree = "<group>";
+		};
+		AD0F28321518B60A0094D305 /* CCRadioMenu */ = {
+			isa = PBXGroup;
+			children = (
+				AD0F28331518B60A0094D305 /* CCRadioMenu.h */,
+				AD0F28341518B60A0094D305 /* CCRadioMenu.m */,
+			);
+			name = CCRadioMenu;
+			path = SupportingFiles/CCRadioMenu;
+			sourceTree = "<group>";
+		};
+		AD173127151195BE00F459E4 /* CustomizeMenuLayer */ = {
+			isa = PBXGroup;
+			children = (
+				AD17312D1511986D00F459E4 /* CustomizeMenuLayer.h */,
+				AD17312E1511986D00F459E4 /* CustomizeMenuLayer.mm */,
+				AD0F283B151915690094D305 /* SkinsMenu.h */,
+				AD0F283C151915690094D305 /* SkinsMenu.m */,
+				ADE0848F151BFC7800DB48A2 /* MyScrollLayer.h */,
+				ADE08490151BFC7800DB48A2 /* MyScrollLayer.m */,
+			);
+			name = CustomizeMenuLayer;
+			sourceTree = "<group>";
+		};
+		AD17312B151197AC00F459E4 /* CharacterMenuLayer */ = {
+			isa = PBXGroup;
+			children = (
+				AD1731301511994A00F459E4 /* CharacterMenuLayer.h */,
+				AD1731311511994A00F459E4 /* CharacterMenuLayer.mm */,
+			);
+			name = CharacterMenuLayer;
+			sourceTree = "<group>";
+		};
+		AD17312C151197BB00F459E4 /* PerksMenuLayer.mm */ = {
+			isa = PBXGroup;
+			children = (
+				AD1731331511995F00F459E4 /* PerksMenuLayer.h */,
+				AD1731341511995F00F459E4 /* PerksMenuLayer.mm */,
+			);
+			name = PerksMenuLayer.mm;
+			sourceTree = "<group>";
+		};
+		AD17313E1512CC3D00F459E4 /* SpriteHelper */ = {
+			isa = PBXGroup;
+			children = (
+				AD1731441512CC6C00F459E4 /* SpriteHelperLoader.h */,
+				AD1731451512CC6C00F459E4 /* SpriteHelperLoader.mm */,
+			);
+			name = SpriteHelper;
+			path = Resources/Images;
+			sourceTree = "<group>";
+		};
 		B637FFB11507F8C200B24F7D /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -678,6 +788,14 @@
 				B637FFB51507F8C200B24F7D /* game-hd.png */,
 				B637FFB61507F8C200B24F7D /* game.png */,
 				B637FFB71507F8C200B24F7D /* game.pshs */,
+				AD2E48B11517E3BC00D95723 /* menuButtons-hd.plist */,
+				AD2E48B21517E3BC00D95723 /* menuButtons-hd.png */,
+				AD2E48B31517E3BC00D95723 /* menuButtons.plist */,
+				AD2E48B41517E3BC00D95723 /* menuButtons.png */,
+				AD2E48B51517E3BC00D95723 /* menuButtons.pshs */,
+				AD2E48AA1517E0D400D95723 /* menuBackground-hd.png */,
+				AD2E48AB1517E0D400D95723 /* menuBackground.png */,
+				AD2E48AC1517E0D400D95723 /* menuBackground.pshs */,
 			);
 			name = Images;
 			path = Resources/Images;
@@ -691,6 +809,10 @@
 				B6811609150D6C0700AC7530 /* DefaultJump_Normal_01.plhs */,
 				B6811605150D61E300AC7530 /* Endless.plhs */,
 				B681160E150D6D6C00AC7530 /* Flying_Normal_01.plhs */,
+				AD17311F151184A600F459E4 /* CharacterMenu.plhs */,
+				AD173120151184A600F459E4 /* MainMenu.plhs */,
+				AD173121151184A600F459E4 /* PerksMenu.plhs */,
+				AD173122151184A600F459E4 /* SkinsMenu.plhs */,
 			);
 			name = Levels;
 			path = Resources/Levels;
@@ -753,6 +875,7 @@
 				B67F7AEA1500834900B7C4F6 /* GameConfig.h */,
 				B67F78B51500834300B7C4F6 /* Resources */,
 				B67F78C91500834300B7C4F6 /* libs */,
+				AD17313E1512CC3D00F459E4 /* SpriteHelper */,
 				B67F7A931500834800B7C4F6 /* LevelHelper */,
 				B67F7A8F1500834800B7C4F6 /* Supporting Files */,
 			);
@@ -1231,6 +1354,9 @@
 		B67F7A8F1500834800B7C4F6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD0BFA72151A05FF00C3005C /* InputController.h */,
+				AD0F282F1518B60A0094D305 /* CCLabelBMFontMultiline */,
+				AD0F28321518B60A0094D305 /* CCRadioMenu */,
 				B67F7A901500834800B7C4F6 /* Prefix.pch */,
 				B67F7A911500834800B7C4F6 /* main.m */,
 			);
@@ -1367,10 +1493,13 @@
 		B68115C3150C269800AC7530 /* MainMenuScene */ = {
 			isa = PBXGroup;
 			children = (
-				B68115D3150C269800AC7530 /* MainMenuLayer.h */,
-				B68115D4150C269800AC7530 /* MainMenuLayer.mm */,
 				B68115D5150C269800AC7530 /* MainMenuScene.h */,
 				B68115D6150C269800AC7530 /* MainMenuScene.mm */,
+				B68115D3150C269800AC7530 /* MainMenuLayer.h */,
+				B68115D4150C269800AC7530 /* MainMenuLayer.mm */,
+				AD17312B151197AC00F459E4 /* CharacterMenuLayer */,
+				AD173127151195BE00F459E4 /* CustomizeMenuLayer */,
+				AD17312C151197BB00F459E4 /* PerksMenuLayer.mm */,
 			);
 			path = MainMenuScene;
 			sourceTree = "<group>";
@@ -1472,6 +1601,18 @@
 				B681160B150D6C0700AC7530 /* DefaultJump_Normal_01.plhs in Resources */,
 				B681160D150D6CCD00AC7530 /* Glider_Normal_01.plhs in Resources */,
 				B681160F150D6D6C00AC7530 /* Flying_Normal_01.plhs in Resources */,
+				AD173123151184A600F459E4 /* CharacterMenu.plhs in Resources */,
+				AD173124151184A600F459E4 /* MainMenu.plhs in Resources */,
+				AD173125151184A600F459E4 /* PerksMenu.plhs in Resources */,
+				AD173126151184A600F459E4 /* SkinsMenu.plhs in Resources */,
+				AD2E48AD1517E0D400D95723 /* menuBackground-hd.png in Resources */,
+				AD2E48AE1517E0D400D95723 /* menuBackground.png in Resources */,
+				AD2E48AF1517E0D400D95723 /* menuBackground.pshs in Resources */,
+				AD2E48B61517E3BC00D95723 /* menuButtons-hd.plist in Resources */,
+				AD2E48B71517E3BC00D95723 /* menuButtons-hd.png in Resources */,
+				AD2E48B81517E3BC00D95723 /* menuButtons.plist in Resources */,
+				AD2E48B91517E3BC00D95723 /* menuButtons.png in Resources */,
+				AD2E48BA1517E3BC00D95723 /* menuButtons.pshs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1662,6 +1803,14 @@
 				B68115ED150C269800AC7530 /* MainMenuLayer.mm in Sources */,
 				B68115EE150C269800AC7530 /* MainMenuScene.mm in Sources */,
 				B6811603150D5EF600AC7530 /* MiniGameScene.mm in Sources */,
+				AD17312F1511986D00F459E4 /* CustomizeMenuLayer.mm in Sources */,
+				AD1731321511994A00F459E4 /* CharacterMenuLayer.mm in Sources */,
+				AD1731351511995F00F459E4 /* PerksMenuLayer.mm in Sources */,
+				AD1731461512CC6C00F459E4 /* SpriteHelperLoader.mm in Sources */,
+				AD0F28351518B60A0094D305 /* CCLabelBMFontMultiline.m in Sources */,
+				AD0F28361518B60A0094D305 /* CCRadioMenu.m in Sources */,
+				AD0F283D151915690094D305 /* SkinsMenu.m in Sources */,
+				ADE08491151BFC7800DB48A2 /* MyScrollLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1717,6 +1866,7 @@
 				INFOPLIST_FILE = CatRun/Resources/Info.plist;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = CatRun/libs;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1734,6 +1884,7 @@
 				INFOPLIST_FILE = CatRun/Resources/Info.plist;
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = CatRun/libs;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
