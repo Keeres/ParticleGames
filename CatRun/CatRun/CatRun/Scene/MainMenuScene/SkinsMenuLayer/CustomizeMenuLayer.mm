@@ -252,8 +252,12 @@
         
    //     skinsPurchaseMenuLayer = [[CCScrollLayer alloc] initCCScrollLayerWithMenu:skinsPurchaseMenu withContentHeight:200 startingYPosition:100.0];
         
-        skinsPurchaseMenuLayer = [MyScrollLayer makeScrollLayerWithMenuLayerWithMenu:skinsPurchaseMenu withContentHeight:1400 startingYPosition:0.0];
-    
+   //     skinsPurchaseMenuLayer = [MyScrollLayer makeScrollLayerWithMenuLayerWithMenu:skinsPurchaseMenu withContentHeight:1400 startingYPosition:0.0];
+        
+        CGRect viewArea = CGRectMake(480.0, 0.0, 480.0, 640.0);           //View are in pixels since it's opengl function
+        CGRect touchArea = CGRectMake(240.0, 0.0, 240.0, 300.0);          //Touch area in points 
+        skinsPurchaseMenuLayer = [MyScrollLayer makeScrollLayerWithMenuLayerWithMenu:skinsPurchaseMenu withContentHeight:1400 startingYPosition:0.0 viewWindow:viewArea touchWindow:touchArea];
+
         [self addChild:skinsPurchaseMenuLayer z:1];
         self.isTouchEnabled = NO;
 

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AD0F28351518B60A0094D305 /* CCLabelBMFontMultiline.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0F28311518B60A0094D305 /* CCLabelBMFontMultiline.m */; };
-		AD0F28361518B60A0094D305 /* CCRadioMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0F28341518B60A0094D305 /* CCRadioMenu.m */; };
 		AD0F283D151915690094D305 /* SkinsMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0F283C151915690094D305 /* SkinsMenu.m */; };
 		AD173123151184A600F459E4 /* CharacterMenu.plhs in Resources */ = {isa = PBXBuildFile; fileRef = AD17311F151184A600F459E4 /* CharacterMenu.plhs */; };
 		AD173124151184A600F459E4 /* MainMenu.plhs in Resources */ = {isa = PBXBuildFile; fileRef = AD173120151184A600F459E4 /* MainMenu.plhs */; };
@@ -26,7 +25,7 @@
 		AD2E48B81517E3BC00D95723 /* menuButtons.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48B31517E3BC00D95723 /* menuButtons.plist */; };
 		AD2E48B91517E3BC00D95723 /* menuButtons.png in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48B41517E3BC00D95723 /* menuButtons.png */; };
 		AD2E48BA1517E3BC00D95723 /* menuButtons.pshs in Resources */ = {isa = PBXBuildFile; fileRef = AD2E48B51517E3BC00D95723 /* menuButtons.pshs */; };
-		ADE08491151BFC7800DB48A2 /* MyScrollLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = ADE08490151BFC7800DB48A2 /* MyScrollLayer.m */; };
+		AD853875151FFDEA008E720A /* MyScrollLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AD853874151FFDEA008E720A /* MyScrollLayer.m */; };
 		B637FFBB1507F8C200B24F7D /* background-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B637FFB21507F8C200B24F7D /* background-hd.png */; };
 		B637FFBC1507F8C200B24F7D /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = B637FFB31507F8C200B24F7D /* background.png */; };
 		B637FFBD1507F8C200B24F7D /* background.pshs in Resources */ = {isa = PBXBuildFile; fileRef = B637FFB41507F8C200B24F7D /* background.pshs */; };
@@ -248,8 +247,6 @@
 		AD0BFA72151A05FF00C3005C /* InputController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = InputController.h; path = SupportingFiles/InputController.h; sourceTree = "<group>"; };
 		AD0F28301518B60A0094D305 /* CCLabelBMFontMultiline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLabelBMFontMultiline.h; sourceTree = "<group>"; };
 		AD0F28311518B60A0094D305 /* CCLabelBMFontMultiline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLabelBMFontMultiline.m; sourceTree = "<group>"; };
-		AD0F28331518B60A0094D305 /* CCRadioMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCRadioMenu.h; sourceTree = "<group>"; };
-		AD0F28341518B60A0094D305 /* CCRadioMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCRadioMenu.m; sourceTree = "<group>"; };
 		AD0F283B151915690094D305 /* SkinsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SkinsMenu.h; path = CharacterMenuLayer/SkinsMenu.h; sourceTree = "<group>"; };
 		AD0F283C151915690094D305 /* SkinsMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SkinsMenu.m; path = CharacterMenuLayer/SkinsMenu.m; sourceTree = "<group>"; };
 		AD17311F151184A600F459E4 /* CharacterMenu.plhs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = CharacterMenu.plhs; sourceTree = "<group>"; };
@@ -272,8 +269,8 @@
 		AD2E48B31517E3BC00D95723 /* menuButtons.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = menuButtons.plist; sourceTree = "<group>"; };
 		AD2E48B41517E3BC00D95723 /* menuButtons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menuButtons.png; sourceTree = "<group>"; };
 		AD2E48B51517E3BC00D95723 /* menuButtons.pshs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuButtons.pshs; sourceTree = "<group>"; };
-		ADE0848F151BFC7800DB48A2 /* MyScrollLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; path = MyScrollLayer.h; sourceTree = "<group>"; };
-		ADE08490151BFC7800DB48A2 /* MyScrollLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyScrollLayer.m; sourceTree = "<group>"; };
+		AD853873151FFDEA008E720A /* MyScrollLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyScrollLayer.h; path = SupportingFiles/MyScrollLayer.h; sourceTree = "<group>"; };
+		AD853874151FFDEA008E720A /* MyScrollLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyScrollLayer.m; path = SupportingFiles/MyScrollLayer.m; sourceTree = "<group>"; };
 		B637FFB21507F8C200B24F7D /* background-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background-hd.png"; sourceTree = "<group>"; };
 		B637FFB31507F8C200B24F7D /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		B637FFB41507F8C200B24F7D /* background.pshs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = background.pshs; sourceTree = "<group>"; };
@@ -728,16 +725,6 @@
 			path = SupportingFiles/CCLabelBMFontMultiline;
 			sourceTree = "<group>";
 		};
-		AD0F28321518B60A0094D305 /* CCRadioMenu */ = {
-			isa = PBXGroup;
-			children = (
-				AD0F28331518B60A0094D305 /* CCRadioMenu.h */,
-				AD0F28341518B60A0094D305 /* CCRadioMenu.m */,
-			);
-			name = CCRadioMenu;
-			path = SupportingFiles/CCRadioMenu;
-			sourceTree = "<group>";
-		};
 		AD173127151195BE00F459E4 /* CustomizeMenuLayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -745,8 +732,6 @@
 				AD17312E1511986D00F459E4 /* CustomizeMenuLayer.mm */,
 				AD0F283B151915690094D305 /* SkinsMenu.h */,
 				AD0F283C151915690094D305 /* SkinsMenu.m */,
-				ADE0848F151BFC7800DB48A2 /* MyScrollLayer.h */,
-				ADE08490151BFC7800DB48A2 /* MyScrollLayer.m */,
 			);
 			name = CustomizeMenuLayer;
 			sourceTree = "<group>";
@@ -1354,9 +1339,10 @@
 		B67F7A8F1500834800B7C4F6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD853873151FFDEA008E720A /* MyScrollLayer.h */,
+				AD853874151FFDEA008E720A /* MyScrollLayer.m */,
 				AD0BFA72151A05FF00C3005C /* InputController.h */,
 				AD0F282F1518B60A0094D305 /* CCLabelBMFontMultiline */,
-				AD0F28321518B60A0094D305 /* CCRadioMenu */,
 				B67F7A901500834800B7C4F6 /* Prefix.pch */,
 				B67F7A911500834800B7C4F6 /* main.m */,
 			);
@@ -1808,9 +1794,8 @@
 				AD1731351511995F00F459E4 /* PerksMenuLayer.mm in Sources */,
 				AD1731461512CC6C00F459E4 /* SpriteHelperLoader.mm in Sources */,
 				AD0F28351518B60A0094D305 /* CCLabelBMFontMultiline.m in Sources */,
-				AD0F28361518B60A0094D305 /* CCRadioMenu.m in Sources */,
 				AD0F283D151915690094D305 /* SkinsMenu.m in Sources */,
-				ADE08491151BFC7800DB48A2 /* MyScrollLayer.m in Sources */,
+				AD853875151FFDEA008E720A /* MyScrollLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
