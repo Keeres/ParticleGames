@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>cat01</key>
+		<dict>
+			<key>spriteColorRect</key>
+			<string>{{47, 0}, {80, 35}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 35}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 70}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{47, 0}, {80, 35}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+		<key>cat02</key>
+		<dict>
+			<key>spriteColorRect</key>
+			<string>{{47, 38}, {80, 35}}</string>
+			<key>spriteOffset</key>
+			<string>{0, 0}</string>
+			<key>spriteSize</key>
+			<string>{80, 35}</string>
+			<key>spriteSourceSize</key>
+			<string>{160, 70}</string>
+			<key>spriteTrimmed</key>
+			<false/>
+			<key>textureRect</key>
+			<string>{{47, 38}, {80, 35}}</string>
+			<key>textureRotated</key>
+			<false/>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>AnimationName</key>
+		<string>Cat_Running</string>
+		<key>GeneratedWith</key>
+		<string>SpriteHelper</string>
+		<key>animationLoop</key>
+		<true/>
+		<key>animationRepetitions</key>
+		<integer>1</integer>
+		<key>animationSpeed</key>
+		<real>0.20000000298023224</real>
+		<key>animationStartAtLaunch</key>
+		<true/>
+		<key>format</key>
+		<integer>3</integer>
+		<key>size</key>
+		<string>{128, 218}</string>
+	</dict>
+</dict>
+</plist>
