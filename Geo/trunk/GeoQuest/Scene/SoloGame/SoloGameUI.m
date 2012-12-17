@@ -854,6 +854,7 @@
     }
     
     if (correctAnswer) {
+        [[GameManager sharedGameManager] playSoundEffect:@"CORRECT_SFX"];
         questionsAnsweredCorrectly++;
         
         switch (currentQuestion.powerUpTypeQuestion) {
