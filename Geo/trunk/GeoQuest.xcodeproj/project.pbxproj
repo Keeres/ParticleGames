@@ -183,6 +183,10 @@
 		B6C6821E164CE7F300BC9E81 /* USAStatesSprites.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6C68216164CE7F300BC9E81 /* USAStatesSprites.plist */; };
 		B6C6821F164CE7F300BC9E81 /* USAStatesSprites.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C68217164CE7F300BC9E81 /* USAStatesSprites.png */; };
 		B6C68223164CEED400BC9E81 /* CCMenu+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = B6C68222164CEED400BC9E81 /* CCMenu+Layout.m */; };
+		B6C9CA8F167FCDFE00C0108F /* BGMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B6C9CA8E167FCDFE00C0108F /* BGMusic.mp3 */; };
+		B6C9CA94167FCEB600C0108F /* Player.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6C9CA92167FCEB600C0108F /* Player.plist */; };
+		B6C9CA95167FCEB600C0108F /* SoundEffects.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6C9CA93167FCEB600C0108F /* SoundEffects.plist */; };
+		B6C9CA9B167FCFF800C0108F /* SuperMarioBrothersCoin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B6C9CA9A167FCFF800C0108F /* SuperMarioBrothersCoin.mp3 */; };
 		B6D509B51624C4AB0095953B /* CCBigImage.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D5097C1624C4AB0095953B /* CCBigImage.m */; };
 		B6D509B61624C4AB0095953B /* CCTextureCache+CCBigImageExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D5097E1624C4AB0095953B /* CCTextureCache+CCBigImageExtensions.m */; };
 		B6D509B81624C4AB0095953B /* CCLayerPanZoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D509821624C4AB0095953B /* CCLayerPanZoom.m */; };
@@ -532,6 +536,10 @@
 		B6C68217164CE7F300BC9E81 /* USAStatesSprites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = USAStatesSprites.png; sourceTree = "<group>"; };
 		B6C68221164CEED400BC9E81 /* CCMenu+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCMenu+Layout.h"; sourceTree = "<group>"; };
 		B6C68222164CEED400BC9E81 /* CCMenu+Layout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CCMenu+Layout.m"; sourceTree = "<group>"; };
+		B6C9CA8E167FCDFE00C0108F /* BGMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = BGMusic.mp3; sourceTree = "<group>"; };
+		B6C9CA92167FCEB600C0108F /* Player.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Player.plist; sourceTree = "<group>"; };
+		B6C9CA93167FCEB600C0108F /* SoundEffects.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SoundEffects.plist; sourceTree = "<group>"; };
+		B6C9CA9A167FCFF800C0108F /* SuperMarioBrothersCoin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SuperMarioBrothersCoin.mp3; sourceTree = "<group>"; };
 		B6D5097B1624C4AB0095953B /* CCBigImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBigImage.h; sourceTree = "<group>"; };
 		B6D5097C1624C4AB0095953B /* CCBigImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBigImage.m; sourceTree = "<group>"; };
 		B6D5097D1624C4AB0095953B /* CCTextureCache+CCBigImageExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCTextureCache+CCBigImageExtensions.h"; sourceTree = "<group>"; };
@@ -667,6 +675,7 @@
 		B6902C07161CE53F00B11872 /* GeoQuest */ = {
 			isa = PBXGroup;
 			children = (
+				B6C9CA91167FCEB600C0108F /* Plists */,
 				B69BFA60162F14F200F7B209 /* AddOns */,
 				B64A8491164B880C004A567A /* DatabaseFiles */,
 				B6D509791624C4AB0095953B /* Extensions */,
@@ -686,6 +695,7 @@
 		B6902C08161CE53F00B11872 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				B6C9CA8D167FCDFE00C0108F /* Audio */,
 				B69693F71667E8D300FFFFC7 /* TRSMillion.ttf */,
 				B69BFA5E162DF43E00F7B209 /* test.json */,
 				B6902C09161CE53F00B11872 /* Default.png */,
@@ -1131,6 +1141,25 @@
 			path = AddOns;
 			sourceTree = "<group>";
 		};
+		B6C9CA8D167FCDFE00C0108F /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				B6C9CA8E167FCDFE00C0108F /* BGMusic.mp3 */,
+				B6C9CA9A167FCFF800C0108F /* SuperMarioBrothersCoin.mp3 */,
+			);
+			name = Audio;
+			path = Resources/Audio;
+			sourceTree = "<group>";
+		};
+		B6C9CA91167FCEB600C0108F /* Plists */ = {
+			isa = PBXGroup;
+			children = (
+				B6C9CA92167FCEB600C0108F /* Player.plist */,
+				B6C9CA93167FCEB600C0108F /* SoundEffects.plist */,
+			);
+			path = Plists;
+			sourceTree = "<group>";
+		};
 		B6D509791624C4AB0095953B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -1340,6 +1369,10 @@
 				B6130F361668119500C636A6 /* FiftyFiftyPowerUpParticle.plist in Resources */,
 				B6130F371668119500C636A6 /* FreezeTimePowerUpParticle.plist in Resources */,
 				B6130F381668119500C636A6 /* SpecialStagePowerUpParticle.plist in Resources */,
+				B6C9CA8F167FCDFE00C0108F /* BGMusic.mp3 in Resources */,
+				B6C9CA94167FCEB600C0108F /* Player.plist in Resources */,
+				B6C9CA95167FCEB600C0108F /* SoundEffects.plist in Resources */,
+				B6C9CA9B167FCFF800C0108F /* SuperMarioBrothersCoin.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
