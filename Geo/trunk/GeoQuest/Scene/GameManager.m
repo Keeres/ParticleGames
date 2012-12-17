@@ -63,7 +63,7 @@ static GameManager* _sharedGameManager = nil;
         
         int waitCycles = 0;
         while (waitCycles < AUDIO_MAX_WAITTIME) {
-            [NSThread sleepForTimeInterval:0.1f];
+            [NSThread sleepForTimeInterval:0.2f];
             if ((managerSoundState == kAudioManagerReady) || 
                 (managerSoundState == kAudioManagerFailed)) {
                 break;
@@ -78,6 +78,8 @@ static GameManager* _sharedGameManager = nil;
         }
         [soundEngine preloadBackgroundMusic:trackFileName];
         [soundEngine playBackgroundMusic:trackFileName loop:YES];
+    } else {
+        CCLOG(@"Manager Sound State not ready");
     }
 }
 
@@ -113,6 +115,7 @@ static GameManager* _sharedGameManager = nil;
             break;
         case kSoloGameScene:
             result = @"kSoloGameScene";
+            break;
         default:
             [NSException raise:NSGenericException format:@"Unexpected SceneType."];
     }
