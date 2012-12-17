@@ -53,6 +53,7 @@
     CCMenuAdvanced      *gameOverMenu;
     CCLabelTTF          *prepTimerLabel;
     CCLabelTTF          *gameTimerLabel;
+    CCLabelTTF          *questionTimerLabel;
     CCLabelTTF          *scoreLabel;
     CCLabelTTF          *pointsEarnedLabel;
     CCLabelTTF          *quickDrawLabel;
@@ -64,6 +65,7 @@
     CCParticleSystemQuad *specialStagePowerUpParticle;
 
     BOOL                questionAnswered;
+    BOOL                questionChecked;
     BOOL                previousAnswerCorrect;
     BOOL                previousAnswerQuickDrawCorrect;
     BOOL                freezeTimePowerUpActivated;
@@ -72,6 +74,7 @@
     BOOL                specialStagePowerUpActivated;
     float               prepTimer;
     float               gameTimer;
+    float               questionTimer;
     float               quickDrawTimer;
     float               freezeTimePowerUpTimer;
     float               doublePointsPowerUpTimer;

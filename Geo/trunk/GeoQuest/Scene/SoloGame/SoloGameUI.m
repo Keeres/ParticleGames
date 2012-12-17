@@ -132,6 +132,12 @@
     gameTimerLabel.visible = NO;
     [self addChild:gameTimerLabel z:20];
     
+    questionTimerLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.01f", gameTimer] fontName:@"TRS Million" fontSize:14];
+    questionTimerLabel.position = ccp(winSize.width*.9, winSize.height*.8);
+    questionTimerLabel.color = ccc3(0, 255, 0);
+    questionTimerLabel.visible = NO;
+    [self addChild:questionTimerLabel z:20];
+    
     scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Score: %i", score] fontName:@"TRS Million" fontSize:18];
     scoreLabel.anchorPoint = ccp(0, 0.5);
     scoreLabel.position = ccp(winSize.width*0.05, winSize.height - scoreLabel.contentSize.height/2);
@@ -581,6 +587,7 @@
 
 -(void) resetGame {
     questionAnswered = YES;
+    questionChecked = NO;
     previousAnswerCorrect = NO;
     previousAnswerQuickDrawCorrect = NO;
     freezeTimePowerUpActivated = NO;
@@ -589,6 +596,7 @@
     specialStagePowerUpActivated = NO;
     prepTimer = 2.0;
     gameTimer = SOLO_GAME_TIMER;
+    questionTimer = 7.0;
     freezeTimePowerUpTimer = 0.0;
     doublePointsPowerUpTimer = 0.0;
     fiftyFiftyPowerUpTimer = 0.0;
@@ -635,6 +643,14 @@
     
     [prepTimerLabel setString:[NSString stringWithFormat:@"%.f", prepTimer]];
     [gameTimerLabel setString:[NSString stringWithFormat:@"Time: %.02f", gameTimer]];
+    
+    if (questionTimer < 3) {
+        questionTimerLabel.color = ccc3(255, 0, 0);
+    } else {
+        questionTimerLabel.color = ccc3(0, 255, 0);
+    }
+    [questionTimerLabel setString:[NSString stringWithFormat:@"%.01f", questionTimer]];
+    
     [scoreLabel setString:[NSString stringWithFormat:@"Score: %i", score]];
     [pointsEarnedLabel setString:[NSString stringWithFormat:@"%i", pointsEarned]];
     [inRowLabel setString:[NSString stringWithFormat:@"%i in a row!", answerCorrectlyInRow]];
@@ -675,6 +691,7 @@
                 //Check to see if Question was answered. Retrieve new question
                 
                 [question removeFromParentAndCleanup:YES];
+                [questionTimerLabel removeAllChildrenWithCleanup:YES];
                 [answerChoicesMenu removeFromParentAndCleanup:YES];
                 
                 [self getTheme];
@@ -684,6 +701,7 @@
                 quickDrawLabel.visible = NO;
                 inRowLabel.visible = NO;
                 inRowQuickDrawLabel.visible = NO;
+                questionTimerLabel.visible = YES;
 
                 if (specialStagePowerUpActivated) {
                     questionAnswered = NO;
@@ -724,11 +742,20 @@
                     id themeEase = [CCEaseInOut actionWithAction:themeAction rate:2];
                     [t runAction:themeEase];
                 }
-                
             }
             
-            
             if (gameTimer > 0) {
+                
+                questionTimer -= delta;
+                if (questionTimer <= 0.0) {
+                    questionTimer = 0.0;
+                    questionTimerLabel.visible = NO;
+                    if (!questionChecked) {
+                        [self ranOutOfTimeToAnswer];
+                        questionChecked = YES;
+                    }
+                }
+                
                 //Game timer countdown. Also counts down powerup timers.
                 
                 if (freezeTimePowerUpActivated == NO && specialStagePowerUpActivated == NO) {
@@ -812,6 +839,8 @@
 -(void) checkAnswer:(CCMenuItemSprite*)sender {
     //If the answer is correct then make the 'O' sprite visible. If the answer is wrong then make the 'X' sprite visible.
     int i = sender.tag;
+    
+    questionTimerLabel.visible = NO;
     
     answerChoicesMenu.isTouchEnabled = NO;
     
@@ -971,6 +1000,33 @@
 
 }
 
+-(void) ranOutOfTimeToAnswer {
+    wrongMark.position = question.position;
+    
+    previousAnswerCorrect = NO;
+    answerCorrectlyInRow = 0;
+    answerQuickDrawCorrectlyInRow = 0;
+    
+    wrongMark.scale = 2.0;
+    wrongMark.visible = YES;
+    id action = [CCScaleTo  actionWithDuration:0.25 scale:1];
+    id ease = [CCEaseExponentialOut actionWithAction:action];
+    [wrongMark runAction:ease];
+    
+    id shakeAction1 = [CCMoveBy actionWithDuration:0.05 position:ccp(5, 0)];
+    id shakeAction2 = [CCMoveBy actionWithDuration:0.05 position:ccp(-10, 0)];
+    id shakeAction3 = [CCMoveBy actionWithDuration:0.05 position:ccp(10, 0)];
+    id shakeAction4 = [CCMoveBy actionWithDuration:0.05 position:ccp(-5, 0)];
+    
+    id shakeMiddleSequence = [CCSequence actions:shakeAction2, shakeAction3, nil];
+    id shakeRepeat = [CCRepeat actionWithAction:shakeMiddleSequence times:2];
+    id shakeTotalSequence = [CCSequence actions:shakeAction1, shakeRepeat, shakeAction4, nil];
+    [self runAction:shakeTotalSequence];
+    
+    [self performSelector:@selector(questionAnswered) withObject:nil afterDelay:0.75];
+}
+
+
 -(void) specialStageAnswered {
     static int correctCount = 0;
     correctCount++;
@@ -993,6 +1049,8 @@
     quickDrawTimer = SOLO_GAME_QUICKDRAW_TIMER;
     pointsEarned = 0;
     pointsEarnedLabel.visible = NO;
+    questionTimer = 7.0;
+    questionChecked = NO;
 }
 
 -(void) dealloc {
