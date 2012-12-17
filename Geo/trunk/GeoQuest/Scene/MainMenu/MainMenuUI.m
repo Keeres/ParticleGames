@@ -329,6 +329,7 @@
 -(id) init {
     if ((self = [super init])) {
         winSize = [[CCDirector sharedDirector] winSize];
+
         self.isTouchEnabled = YES;
         
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"MainMenuUISprites.plist"];
@@ -354,8 +355,10 @@
 
         //[self retrieveChallengeData];
         [self setupMenus];
-        
         [self scheduleUpdate];
+        
+        [[GameManager sharedGameManager] playBackgroundTrack:@"BGMusic.mp3"];
+
         
 
         /*CCLabelTTF *label = [CCLabelTTF labelWithString:@"GEOQUEST" fontName:@"Marker Felt" fontSize:48];
@@ -432,6 +435,7 @@
 
 -(void) startSolo {
     CCLOG(@"MainMenuUI: Start solo game!");
+    [[SimpleAudioEngine sharedEngine] stopBackgroundMusic]; 
     [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
 }
 
@@ -450,10 +454,11 @@
 
 -(void) openStore {
     CCLOG(@"MainMenuUI: Store open!");
-    CCLOG(@"%@", [PlayerDB database].name);
-    CCLOG(@"%@", [PlayerDB database].territoriesOwned);
-    [PlayerDB database].experience = 100;
-    [[PlayerDB database] updateInformation];
+    if ([SimpleAudioEngine sharedEngine].backgroundMusicVolume == 1) {
+        [SimpleAudioEngine sharedEngine].backgroundMusicVolume = 0;
+    } else {
+        [SimpleAudioEngine sharedEngine].backgroundMusicVolume = 1;
+    }
 }
 
 -(void) openEmbargo {
