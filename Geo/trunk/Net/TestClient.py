@@ -47,11 +47,11 @@ class TestClient(protocol.Protocol):
             if (len(self.inBuffer) >= PACKET_HEADER_SIZE + dataSize):
                 packetData = self.inBuffer[PACKET_HEADER_SIZE : PACKET_HEADER_SIZE + dataSize]
 
-            # Extracted data from inBuffer, move data down the pipe
-            self.inBuffer = self.inBuffer[PACKET_HEADER_SIZE + dataSize :]
-            
-            # Process data
-            self.processPacket(crc, timestamp, gameState, packetCounter, dataSize, packetData)
+                # Extracted data from inBuffer, move data down the pipe
+                self.inBuffer = self.inBuffer[PACKET_HEADER_SIZE + dataSize :]
+                
+                # Process data
+                self.processPacket(crc, timestamp, gameState, packetCounter, dataSize, packetData)
 
         
     def DEBUG_printPacket(self, crc, timestamp, gameState, packetCounter, dataSize, packetData):
