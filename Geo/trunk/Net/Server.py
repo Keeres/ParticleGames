@@ -6,6 +6,7 @@ from struct import pack, unpack
 from zlib import crc32
 
 PACKET_HEADER_SIZE = 16
+PACKET_KEYWORD     = 'PARTICLE'
 
 class Player:
     def __init__(self, protocol, playerId, alias):
@@ -71,12 +72,12 @@ class Protocol(Protocol):
     def formatData(self, gameState, data):
         timestamp = 1234
         packetCounter = 0
-        packetSize = len(data)
+        packetSize = len(data) + 1
 
         # TBD Calculate CRC for whole data packet
         crc = crc32(data)
 
-        packedData = pack('! l Q B B H ' + str(packetSize) + 's', crc, timestamp, gameState, packetCounter, packetSize, data)
+        packedData = pack('= 8s l Q B B H ' + str(packetSize) + 's', PACKET_KEYWORD, crc, timestamp, gameState, packetCounter, packetSize, data)
         
         self.send(packedData)
         
@@ -89,21 +90,28 @@ class Protocol(Protocol):
     def dataReceived(self, data):
 
         self.inBuffer = self.inBuffer + data
+        
+        print 'length:      :'  + str(len(self.inBuffer))
 
         # Check if there is enough data to process
-        while (len(self.inBuffer) >= PACKET_HEADER_SIZE):
+        while (len(self.inBuffer) >= PACKET_HEADER_SIZE + 8):
 
-            crc, timestamp, gameState, packetCounter, dataSize = unpack('! l Q B B H', self.inBuffer[: PACKET_HEADER_SIZE])
+            packetStart = self.inBuffer.find(PACKET_KEYWORD)
             
-            # Check if we received enough data.
-            if (len(self.inBuffer) >= PACKET_HEADER_SIZE + dataSize):
-                packetData = self.inBuffer[PACKET_HEADER_SIZE : PACKET_HEADER_SIZE + dataSize]
-
-                # Extracted data from inBuffer, move data down the pipe
-                self.inBuffer = self.inBuffer[PACKET_HEADER_SIZE + dataSize :]
+            if (packetStart > -1):
+                crc, timestamp, gameState, packetCounter, dataSize = unpack('= l Q B B H', self.inBuffer[packetStart + 8: packetStart + 8 + PACKET_HEADER_SIZE])
+            
+                self.inBuffer = self.inBuffer[packetStart + 8 + PACKET_HEADER_SIZE :]
                 
-                # Process data
-                self.processPacket(crc, timestamp, gameState, packetCounter, dataSize, packetData)
+                # Check if we received enough data.
+                if (len(self.inBuffer) >= dataSize):
+                    packetData = self.inBuffer[: dataSize]
+    
+                    # Extracted data from inBuffer, move data down the pipe
+                    self.inBuffer = self.inBuffer[dataSize :]
+                    
+                    # Process data
+                    self.processPacket(crc, timestamp, gameState, packetCounter, dataSize, packetData)
 
         
     def DEBUG_printPacket(self, crc, timestamp, gameState, packetCounter, dataSize, packetData):
