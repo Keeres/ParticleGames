@@ -72,12 +72,12 @@ class Protocol(Protocol):
     def formatData(self, gameState, data):
         timestamp = 1234
         packetCounter = 0
-        packetSize = len(data) + 1
+        packetSize = len(data)
 
         # TBD Calculate CRC for whole data packet
         crc = crc32(data)
 
-        packedData = pack('= 8s l Q B B H ' + str(packetSize) + 's', PACKET_KEYWORD, crc, timestamp, gameState, packetCounter, packetSize, data)
+        packedData = pack('! 8s l Q B B H ' + str(packetSize) + 's', PACKET_KEYWORD, crc, timestamp, gameState, packetCounter, packetSize, data)
         
         self.send(packedData)
         
@@ -99,10 +99,10 @@ class Protocol(Protocol):
             packetStart = self.inBuffer.find(PACKET_KEYWORD)
             
             if (packetStart > -1):
-                crc, timestamp, gameState, packetCounter, dataSize = unpack('= l Q B B H', self.inBuffer[packetStart + 8: packetStart + 8 + PACKET_HEADER_SIZE])
+                crc, timestamp, gameState, packetCounter, dataSize = unpack('! l Q B B H', self.inBuffer[packetStart + 8: packetStart + 8 + PACKET_HEADER_SIZE])
             
                 self.inBuffer = self.inBuffer[packetStart + 8 + PACKET_HEADER_SIZE :]
-                
+
                 # Check if we received enough data.
                 if (len(self.inBuffer) >= dataSize):
                     packetData = self.inBuffer[: dataSize]
