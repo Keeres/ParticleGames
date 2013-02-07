@@ -8,6 +8,8 @@
 
 #import "NetworkController.h"
 #import "MessageWriter.h"
+#import "NetworkPacket.h"
+#import "Challenger.h"
 
 @interface NetworkController (PrivateMethods)
 - (BOOL)writeChunk;
@@ -88,13 +90,10 @@ static NetworkController *sharedController = nil;
 #pragma mark - Message sending / receiving
 
 - (void)sendData:(NSData *)data {
-    
     if (_outputBuffer == nil) return;
     
-    int dataLength = data.length;
-    dataLength = htonl(dataLength);
-    [_outputBuffer appendBytes:&dataLength length:sizeof(dataLength)];
     [_outputBuffer appendData:data];
+    
     if (_okToWrite) {
         [self writeChunk];
         NSLog(@"Wrote message");
@@ -103,14 +102,69 @@ static NetworkController *sharedController = nil;
     }
 }
 
-- (void)sendPlayerConnected:(BOOL)continueMatch {
-    [self setState:NetworkStatePendingMatchStatus];
+/*- (void)sendPlayerConnected:(BOOL)continueMatch {
+ [self setState:NetworkStatePendingMatchStatus];
+ 
+ MessageWriter * writer = [[[MessageWriter alloc] init] autorelease];
+ //[writer writeByte:MessagePlayerConnected];
+ //[writer writeString:[GKLocalPlayer localPlayer].playerID];
+ //[writer writeString:[GKLocalPlayer localPlayer].alias];
+ //[writer writeByte:continueMatch];
+ NetworkPacket *packet = [[[NetworkPacket alloc] init] autorelease];
+ 
+ packet.data = [NSString stringWithFormat:@"new test message"];
+ packet.crc = 12345678;
+ packet.timeStamp = 6789;
+ packet.gameState = 254;
+ packet.packetCounter = 1;
+ packet.dataSize = packet.data.length;
+ 
+ packet.crc = NSSwapHostIntToBig(packet.crc);
+ packet.timeStamp = NSSwapHostLongLongToBig(packet.timeStamp);
+ packet.dataSize = NSSwapHostShortToBig(packet.dataSize);
+ 
+ [writer writePacketWithCRC:packet.crc timeStamp:packet.timeStamp gameState:packet.gameState packetCounter:packet.packetCounter dataSize:packet.dataSize data:packet.data];
+ [self sendData:writer.data];
+ }*/
+
+-(void) sendPlayerInit {
+    MessageWriter *writer = [[[MessageWriter alloc] init] autorelease];
+    NetworkPacket *packet = [[[NetworkPacket alloc] init] autorelease];
     
-    MessageWriter * writer = [[[MessageWriter alloc] init] autorelease];
-    [writer writeByte:MessagePlayerConnected];
-    [writer writeString:[GKLocalPlayer localPlayer].playerID];
-    [writer writeString:[GKLocalPlayer localPlayer].alias];
-    [writer writeByte:continueMatch];
+    packet.particle = @"PARTICLE";
+    packet.data = [GKLocalPlayer localPlayer].alias;
+    packet.crc = 12345678;
+    packet.timeStamp = 2345;
+    //packet.crc = 0;
+    //packet.timeStamp = 0;
+    packet.gameState = PLAYER_INIT;
+    packet.packetCounter = 1;
+    packet.dataSize = packet.data.length;
+    //packet.crc = crc32(0, packet.data, packet.data.length);
+    
+    [packet hostToBig];
+    
+    [writer writePacketWithKeyword:packet.particle CRC:packet.crc timeStamp:packet.timeStamp gameState:packet.gameState packetCounter:packet.packetCounter dataSize:packet.dataSize data:packet.data];
+    [self sendData:writer.data];
+}
+
+-(void) requestPlayerHistory {
+    MessageWriter *writer = [[[MessageWriter alloc] init] autorelease];
+    NetworkPacket *packet = [[[NetworkPacket alloc] init] autorelease];
+    
+    packet.particle = @"PARTICLE";
+    packet.data = @"Requesting Player History";
+    packet.crc = 12345678;
+    packet.timeStamp = 2345;
+    packet.gameState = PLAYER_HISTORY;
+    //packet.gameState = 1;
+    packet.packetCounter = 1;
+    packet.dataSize = packet.data.length;
+    //packet.crc = crc32(0, packet.data, packet.data.length);
+    
+    [packet hostToBig];
+    
+    [writer writePacketWithKeyword:packet.particle CRC:packet.crc timeStamp:packet.timeStamp gameState:packet.gameState packetCounter:packet.packetCounter dataSize:packet.dataSize data:packet.data];
     [self sendData:writer.data];
 }
 
@@ -124,7 +178,8 @@ static NetworkController *sharedController = nil;
     
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
-    CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)@"localhost", 1955, &readStream, &writeStream);
+    //CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)@"finium.homedns.org", 80, &readStream, &writeStream);
+    CFStreamCreatePairWithSocketToHost(NULL, (CFStringRef)@"localhost", 80, &readStream, &writeStream);
     _inputStream = (NSInputStream *)readStream;
     _outputStream = (NSOutputStream *)writeStream;
     [_inputStream setDelegate:self];
@@ -165,28 +220,163 @@ static NetworkController *sharedController = nil;
 }
 
 - (void)checkForMessages {
-    while (true) {
-        if (_inputBuffer.length < sizeof(int)) {
-            return;
+#define PACKET_HEADER_SIZE 16
+    NetworkPacket *newPacket = [[[NetworkPacket alloc] init] autorelease];
+    
+    NSString *packetKeyword = [[[NSString alloc] initWithBytes:self.inputBuffer.bytes length:8 encoding:NSUTF8StringEncoding] autorelease];
+    newPacket.particle = packetKeyword;
+    int amtRemaining = self.inputBuffer.length - 8;
+    self.inputBuffer = [[[NSMutableData alloc] initWithBytes:self.inputBuffer.bytes+8 length:amtRemaining] autorelease];
+    CCLOG(@"Packet Keyword: %@", packetKeyword);
+    
+    
+    if ([newPacket.particle isEqualToString:@"PARTICLE"]) {
+        while (self.inputBuffer.length >= PACKET_HEADER_SIZE) {
+            
+            
+            newPacket.crc = *(uint32_t*)[[self.inputBuffer subdataWithRange:NSMakeRange(0, 4)] bytes];
+            amtRemaining = self.inputBuffer.length - 4;
+            self.inputBuffer = [[[NSMutableData alloc] initWithBytes:self.inputBuffer.bytes+4 length:amtRemaining] autorelease];
+            
+            newPacket.timeStamp = *(uint64_t*)[[self.inputBuffer subdataWithRange:NSMakeRange(0, 8)] bytes];
+            amtRemaining = self.inputBuffer.length - 8;
+            self.inputBuffer = [[[NSMutableData alloc] initWithBytes:self.inputBuffer.bytes+8 length:amtRemaining] autorelease];
+            
+            newPacket.gameState = *(uint8_t*)[[self.inputBuffer subdataWithRange:NSMakeRange(0, 1)] bytes];
+            amtRemaining = self.inputBuffer.length - 1;
+            self.inputBuffer = [[[NSMutableData alloc] initWithBytes:self.inputBuffer.bytes+1 length:amtRemaining] autorelease];
+            
+            newPacket.packetCounter = *(uint8_t*)[[self.inputBuffer subdataWithRange:NSMakeRange(0, 1)] bytes];
+            amtRemaining = self.inputBuffer.length - 1;
+            self.inputBuffer = [[[NSMutableData alloc] initWithBytes:self.inputBuffer.bytes+1 length:amtRemaining] autorelease];
+            
+            newPacket.dataSize = *(uint16_t*)[[self.inputBuffer subdataWithRange:NSMakeRange(0, 2)] bytes];
+            amtRemaining = self.inputBuffer.length - 2;
+            self.inputBuffer = [[[NSMutableData alloc] initWithBytes:self.inputBuffer.bytes+2 length:amtRemaining] autorelease];
+            
+            NSString* stringData = [[[NSString alloc] initWithBytes:self.inputBuffer.bytes length:amtRemaining encoding:NSUTF8StringEncoding] autorelease];
+            newPacket.data = stringData;
+            amtRemaining = self.inputBuffer.length - amtRemaining;
+            
+            [newPacket bigToHost];
+            
+            if (amtRemaining == 0) {
+                self.inputBuffer = [[[NSMutableData alloc] init] autorelease];
+            }
+            
+            CCLOG(@"NetworkPacket.crc: %i", newPacket.crc);
+            CCLOG(@"NetworkPacket.timestamp: %lli", newPacket.timeStamp);
+            CCLOG(@"NetworkPacket.gamestate: %i", newPacket.gameState);
+            CCLOG(@"NetworkPacket.packetcounter: %i", newPacket.packetCounter);
+            CCLOG(@"NetworkPacket.datasize: %i", newPacket.dataSize);
+            CCLOG(@"NetworkPacket.data: %@", newPacket.data);
         }
-        
-        int msgLength = *((int *) _inputBuffer.bytes);
-        msgLength = ntohl(msgLength);
-        if (_inputBuffer.length < msgLength) {
-            return;
-        }
-        
-        NSData * message = [_inputBuffer subdataWithRange:NSMakeRange(4, msgLength)];
-        [self processMessage:message];
-        
-        int amtRemaining = _inputBuffer.length - msgLength - sizeof(int);
-        if (amtRemaining == 0) {
-            self.inputBuffer = [[[NSMutableData alloc] init] autorelease];
-        } else {
-            NSLog(@"Creating input buffer of length %d", amtRemaining);
-            self.inputBuffer = [[[NSMutableData alloc] initWithBytes:_inputBuffer.bytes+4+msgLength length:amtRemaining] autorelease];
-        }
-        
+    }
+    [self receivedPacket:newPacket];
+}
+
+- (void) receivedPacket:(NetworkPacket*)packet {
+    uint8_t gameState = packet.gameState;
+    
+    switch (gameState) {
+        case PLAYER_INIT:
+            CCLOG(@"GameState: Player Initialized/Logged In Successfully");
+            //PLAYER successfully logged in. Request player history.
+            [self requestPlayerHistory];
+            break;
+        case PLAYER_CONNECTED:
+            CCLOG(@"GameState: Player Connected Successfully.");
+            //Send PLAYER_INIT
+            [self sendPlayerInit];
+            break;
+        case PLAYER_DISCONNECTED:
+            break;
+        case PLAYER_TIMEOUT:
+            break;
+        case PLAYER_HISTORY:
+            CCLOG(@" GameState: Player Requested History Successfully. Updating game list.");
+            //Player successfully requested player history. Update games list.
+            
+            break;
+        case PLAYER_SERVER_SETTINGS:
+            break;
+        case PLAYER_DATA_UPLOAD:
+            break;
+        case PLAYER_DATA_DOWNLOAD:
+            break;
+        case PLAYER_DATA_DELETE:
+            break;
+        case MATCH_INIT:
+            break;
+        case MATCH_SYNC:
+            break;
+        case MATCH_SEARCHING:
+            break;
+        case MATCH_NOTIFY:
+            break;
+        case MATCH_WAITING:
+            break;
+        case MATCH_TIMEOUT:
+            break;
+        case MATCH_READY:
+            break;
+        case MATCH_STARTED:
+            break;
+        case MATCH_END:
+            break;
+        case MATCH_RESTART:
+            break;
+        case MATCH_STATE_PLAYER:
+            break;
+        case MATCH_STATE_OPPOPNENT:
+            break;
+        case MATCH_RESULTS:
+            break;
+        case MATCH_FORCE_PEER:
+            break;
+        case MATCH_FORCE_RESET:
+            break;
+        case GAME_GENERATION_INIT:
+            break;
+        case GAME_DOWNLOAD_INIT:
+            break;
+        case GAME_QUESTION:
+            break;
+        case GAME_VERIFY:
+            break;
+        case GAME_TRANSFER_COMPLETE:
+            break;
+        case GAME_TRANSFER_RESET:
+            break;
+        case GAME_INFO:
+            break;
+        case GAME_DELETE:
+            break;
+        case GAME_HISTORY:
+            break;
+        case GAME_RESET:
+            break;
+        case GAME_DUMP:
+            break;
+        case REQUEST_MATCH_INFO:
+            break;
+        case REQUEST_PLAYER_SAVE_DATA:
+            break;
+        case REQUEST_PLAYER_INFO:
+            break;
+        case REQUEST_SESSION_INFO:
+            break;
+        case REQUEST_SERVER_STATS:
+            break;
+        case REQUEST_SERVER_GAME_POOL:
+            break;
+        case REQUEST_SERVER_INFO:
+            break;
+        case REQUEST_SERVER_DUMP:
+            break;
+            
+        default:
+            break;
     }
 }
 
@@ -199,8 +389,9 @@ static NetworkController *sharedController = nil;
             if (_inputOpened && _outputOpened && _state == NetworkStateConnectingToServer) {
                 [self setState:NetworkStateConnected];
                 // TODO: Send message to server
-                [self sendPlayerConnected:true];
-
+                //[self sendPlayerConnected:true];
+                //[self sendPlayerInit];
+                
             }
         }
         case NSStreamEventHasBytesAvailable: {
@@ -240,7 +431,8 @@ static NetworkController *sharedController = nil;
 }
 
 - (BOOL)writeChunk {
-    int amtToWrite = MIN(_outputBuffer.length, 1024);
+    int amtToWrite = MIN(_outputBuffer.length, 65535+16);
+    //int amtToWrite = _outputBuffer.length;
     if (amtToWrite == 0) return FALSE;
     
     NSLog(@"Amt to write: %d/%d", amtToWrite, _outputBuffer.length);
@@ -269,7 +461,8 @@ static NetworkController *sharedController = nil;
             if (_inputOpened && _outputOpened && _state == NetworkStateConnectingToServer) {
                 [self setState:NetworkStateConnected];
                 // TODO: Send message to server
-                [self sendPlayerConnected:true];
+                //[self sendPlayerConnected:true];
+                //[self sendPlayerInit];
             }
         } break;
         case NSStreamEventHasBytesAvailable: {

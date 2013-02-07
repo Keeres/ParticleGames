@@ -26,7 +26,7 @@
 
 - (int)readInt {
     int retval = *((unsigned int *) (_data.bytes + _offset));
-    retval = ntohl(retval);
+    //retval = ntohl(retval);
     _offset += sizeof(unsigned int);
     return retval;
 }

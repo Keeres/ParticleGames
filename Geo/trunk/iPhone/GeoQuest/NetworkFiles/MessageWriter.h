@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "cocos2d.h"
 
 @interface MessageWriter : NSObject {
     NSMutableData * _data;
@@ -17,5 +18,6 @@
 - (void)writeByte:(unsigned char)value;
 - (void)writeInt:(int)value;
 - (void)writeString:(NSString *)value;
+- (void)writePacketWithKeyword:(NSString*)keyword CRC:(int32_t)crc timeStamp:(int64_t)timeStamp gameState:(int8_t)gameState packetCounter:(int8_t)packetCounter dataSize:(int16_t)dataSize data:(NSString*)data;
 
 @end

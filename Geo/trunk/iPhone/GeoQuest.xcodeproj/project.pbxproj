@@ -181,6 +181,9 @@
 		B6A4709316AC7D2200417830 /* NetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709216AC7D2200417830 /* NetworkController.m */; };
 		B6A4709816AC7EFC00417830 /* MessageReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709716AC7EFC00417830 /* MessageReader.m */; };
 		B6A4709B16AC7F9100417830 /* MessageWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709A16AC7F9100417830 /* MessageWriter.m */; };
+		B6A55AD716C35DF000E6F4A3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A55AD616C35DF000E6F4A3 /* libz.dylib */; };
+		B6A55AD816C35E9400E6F4A3 /* NetworkPacket.h in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD416C35D9D00E6F4A3 /* NetworkPacket.h */; };
+		B6A55AD916C35E9400E6F4A3 /* NetworkPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD516C35D9D00E6F4A3 /* NetworkPacket.m */; };
 		B6BDCEC31667EAFA00A34A48 /* TRSMillion.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B69693F71667E8D300FFFFC7 /* TRSMillion.ttf */; };
 		B6C68218164CE7F300BC9E81 /* USACapitalsSprites-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6C68210164CE7F200BC9E81 /* USACapitalsSprites-hd.plist */; };
 		B6C68219164CE7F300BC9E81 /* USACapitalsSprites-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C68211164CE7F300BC9E81 /* USACapitalsSprites-hd.png */; };
@@ -543,6 +546,11 @@
 		B6A4709716AC7EFC00417830 /* MessageReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageReader.m; sourceTree = "<group>"; };
 		B6A4709916AC7F9100417830 /* MessageWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageWriter.h; sourceTree = "<group>"; };
 		B6A4709A16AC7F9100417830 /* MessageWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageWriter.m; sourceTree = "<group>"; };
+		B6A55AD216C35D4700E6F4A3 /* Challenger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Challenger.h; sourceTree = "<group>"; };
+		B6A55AD316C35D4700E6F4A3 /* Challenger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Challenger.m; sourceTree = "<group>"; };
+		B6A55AD416C35D9D00E6F4A3 /* NetworkPacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkPacket.h; sourceTree = "<group>"; };
+		B6A55AD516C35D9D00E6F4A3 /* NetworkPacket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkPacket.m; sourceTree = "<group>"; };
+		B6A55AD616C35DF000E6F4A3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		B6C68210164CE7F200BC9E81 /* USACapitalsSprites-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "USACapitalsSprites-hd.plist"; sourceTree = "<group>"; };
 		B6C68211164CE7F300BC9E81 /* USACapitalsSprites-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "USACapitalsSprites-hd.png"; sourceTree = "<group>"; };
 		B6C68212164CE7F300BC9E81 /* USACapitalsSprites.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = USACapitalsSprites.plist; sourceTree = "<group>"; };
@@ -596,6 +604,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6A55AD716C35DF000E6F4A3 /* libz.dylib in Frameworks */,
 				B64A84A9164B8DC5004A567A /* libsqlite3.0.dylib in Frameworks */,
 				B6902BF6161CE53F00B11872 /* QuartzCore.framework in Frameworks */,
 				B6902BF8161CE53F00B11872 /* OpenGLES.framework in Frameworks */,
@@ -650,6 +659,8 @@
 				B68E42861660F6FB00EA8426 /* GameTheme.m */,
 				B68E427E165EBAD200EA8426 /* GameThemeCache.h */,
 				B68E427F165EBAD200EA8426 /* GameThemeCache.m */,
+				B6A55AD216C35D4700E6F4A3 /* Challenger.h */,
+				B6A55AD316C35D4700E6F4A3 /* Challenger.m */,
 			);
 			path = GameObjects;
 			sourceTree = "<group>";
@@ -674,6 +685,7 @@
 		B6902BF4161CE53F00B11872 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B6A55AD616C35DF000E6F4A3 /* libz.dylib */,
 				B64A84A8164B8DC5004A567A /* libsqlite3.0.dylib */,
 				B6902BF5161CE53F00B11872 /* QuartzCore.framework */,
 				B6902BF7161CE53F00B11872 /* OpenGLES.framework */,
@@ -1167,6 +1179,8 @@
 				B6A4709716AC7EFC00417830 /* MessageReader.m */,
 				B6A4709916AC7F9100417830 /* MessageWriter.h */,
 				B6A4709A16AC7F9100417830 /* MessageWriter.m */,
+				B6A55AD416C35D9D00E6F4A3 /* NetworkPacket.h */,
+				B6A55AD516C35D9D00E6F4A3 /* NetworkPacket.m */,
 			);
 			path = NetworkFiles;
 			sourceTree = "<group>";
@@ -1415,6 +1429,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6A55AD816C35E9400E6F4A3 /* NetworkPacket.h in Sources */,
+				B6A55AD916C35E9400E6F4A3 /* NetworkPacket.m in Sources */,
 				B6902DD0161F6D3C00B11872 /* GameManager.m in Sources */,
 				B6902C2A161CE53F00B11872 /* CCAction.m in Sources */,
 				B6902C2D161CE53F00B11872 /* CCActionCamera.m in Sources */,
