@@ -33,6 +33,22 @@
     return self;
 }
 
+-(id) initChallenger:(NSArray*)array {
+    if ((self = [super init])) {
+        self.userID = [array objectAtIndex:1];
+        self.name = [array objectAtIndex:2];
+        self.email = [array objectAtIndex:3];
+        self.profilePic = [array objectAtIndex:4];
+        self.win = [[array objectAtIndex:5] intValue];
+        self.loss = [[array objectAtIndex:6] intValue];
+        self.matchStarted = [array objectAtIndex:7];
+        self.lastPlayed = [array objectAtIndex:8];
+        
+        CCLOG(@"userID:%@ name:%@ email:%@ profilePic:%@ win:%i loss:%i matchStarted:%@ lastPlayed:%@", self.userID, self.name, self.email, self.profilePic, self.win, self.loss, self.matchStarted, self.lastPlayed);
+    }
+    return self;
+}
+
 -(void) dealloc {
     self.userID = nil;
     self.name = nil;
@@ -42,4 +58,5 @@
     self.lastPlayed = nil;
     [super dealloc];
 }
+
 @end

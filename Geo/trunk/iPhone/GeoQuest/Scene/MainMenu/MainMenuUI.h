@@ -49,7 +49,7 @@
     CCMenuAdvanced      *optionMenu;
     
     //Layers
-    MainMenuBG          *mainMenuBG;  
+    MainMenuBG          *mainMenuBG;
     
 }
 

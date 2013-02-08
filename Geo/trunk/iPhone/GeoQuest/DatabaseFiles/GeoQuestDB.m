@@ -123,6 +123,8 @@ static GeoQuestDB *_database;
             question = [[GeoQuestQuestion alloc] initWithQuestion:qQuestion questionType:qQuestionType answerTable:qAnswerTable answerType:qAnswerType info:qInfo];
         }
         sqlite3_finalize(compiledStatement);
+    } else {
+        return NULL;
     }
     
     //Get correct answer choices - Place correct answer into question.answerID

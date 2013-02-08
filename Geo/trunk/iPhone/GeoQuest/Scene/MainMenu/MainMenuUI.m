@@ -49,7 +49,7 @@
     //[writer writeString:[GKLocalPlayer localPlayer].alias];
     
     //[[PlayerDB database] createNewPlayerTable:@"Guest"];
-    [[PlayerDB database] createNewPlayerTable:[GKLocalPlayer localPlayer].alias];
+    [[PlayerDB database] createNewPlayerStatsTable:[GKLocalPlayer localPlayer].alias];
 }
 
 #pragma mark - Setup Menus
@@ -297,6 +297,7 @@
 -(id) init {
     if ((self = [super init])) {
         winSize = [[CCDirector sharedDirector] winSize];
+        [NetworkController sharedInstance].delegate = self;
         
         self.isTouchEnabled = YES;
         
@@ -308,8 +309,7 @@
         
         //[[GameManager sharedGameManager] playBackgroundTrack:@"BGMusic.mp3"];
         
-        [NetworkController sharedInstance].delegate = self;
-        [self stateChanged:[NetworkController sharedInstance].state];
+        //[self stateChanged:[NetworkController sharedInstance].state];
         
         
         
@@ -393,7 +393,7 @@
 
 -(void) startMulti {
     CCLOG(@"MainMenuUI: Start multi game!");
-    [[NetworkController sharedInstance] sendPlayerInit];
+    [[NetworkController sharedInstance] requestServerTerritories];
 }
 
 -(void) startChallenge:(CCMenuItemSprite *)sender {
@@ -543,7 +543,7 @@
 }
 
 // Network state changes
-- (void)stateChanged:(NetworkState)state {
+/*- (void)stateChanged:(NetworkState)state {
     switch(state) {
         case NetworkStateNotAvailable:
             //debugLabel.string = @"Not Available";
@@ -572,7 +572,7 @@
             CCLOG(@"NETWORK: Received Match Status");
             break;
     }
-}
+}*/
 
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc

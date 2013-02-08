@@ -33,7 +33,8 @@
 
 +(PlayerDB*) database;
 
--(void) createNewPlayerTable:(NSString*)username;
+-(void) createNewPlayerStatsTable:(NSString*)username;
+-(void) updatePlayerTerritoriesTable:(NSMutableArray*)array;
 -(void) updateInformation;
 
 @end

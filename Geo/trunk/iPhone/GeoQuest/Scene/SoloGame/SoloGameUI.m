@@ -820,9 +820,10 @@
     
     GeoQuestAnswer *a = [currentAnswerChoices objectAtIndex:i];
     
-    BOOL correctAnswer;
+    BOOL correctAnswer = NO;
     if (specialStagePowerUpActivated) {
     //    correctAnswer = [[GeoQuestDB database] checkAnswer:a withCategory:@"USAStates"];
+        CCLOG(@"SpecialStagePowerUpActivated");
     } else {
         correctAnswer = [[GeoQuestDB database] checkAnswer:a withQuestion:currentQuestion];
     }

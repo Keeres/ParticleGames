@@ -7,6 +7,7 @@
 //
 
 #import "PlayerDB.h"
+#import "Territory.h"
 
 
 @implementation PlayerDB
@@ -40,6 +41,7 @@ static PlayerDB *_database;
 
 -(NSString*) filePath {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    CCLOG(@"Documents: %@", [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]);
     return [[paths objectAtIndex:0] stringByAppendingPathComponent:@"PlayerDB.sqlite"];
 }
 
@@ -54,41 +56,85 @@ static PlayerDB *_database;
 
 #pragma mark - Create new username table
 
--(void) createNewPlayerTable:(NSString*)username {
+-(void) createNewPlayerStatsTable:(NSString*)username {
+    CCLOG(@"username: %@", username);
     _username = username;
-    
-    NSString *sqlTable = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS [Player] ([Index] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, [Name] TEXT  UNIQUE NOT NULL, [Experience] INTEGER NULL, [Coins] INTEGER NULL, [TerritoriesOwned] TEXT NULL, [TimePlayed] FLOAT NULL,[TotalQuestions] INTEGER NULL, [TotalAnswersCorrect] INTEGER NULL)"];
-    
-    char *err;
-    
-    if (sqlite3_exec(_database, [sqlTable UTF8String], NULL, NULL, &err) != SQLITE_OK) {
-        CCLOG(@"err:%s", err);
-        NSAssert(0, @"Could not create Player table");
-    } else {
-        CCLOG(@"PlayerDB: Player table created");
+    if (_username != NULL) {
+        NSString *sqlTable = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS [%@STATS] ([Index] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, [Name] TEXT  UNIQUE NOT NULL, [Type] TEXT NOT NULL, [Picture] TEXT, [Data] TEXT NOT NULL)",_username];
+        
+        char *err;
+        
+        if (sqlite3_exec(_database, [sqlTable UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+            CCLOG(@"err:%s", err);
+            NSAssert(0, @"Could not create Player table");
+        } else {
+            CCLOG(@"PlayerDB: Player table created");
+        }
     }
-    
-    [self createNewPlayerEntry];
+    [self createNewPlayerChallengersTable];
 }
 
--(void) createNewPlayerEntry {
-    NSString *sql = [NSString stringWithFormat:@"INSERT OR IGNORE INTO Player (NAME, EXPERIENCE, COINS, TERRITORIESOWNED, TIMEPLAYED, TOTALQUESTIONS, TOTALANSWERSCORRECT) VALUES ('%@', '0', '0', '%@TerritoriesOwned', '0', '0', '0')", _username, _username];
-    
-    char *err;
-    
-    if (sqlite3_exec(_database, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
-        CCLOG(@"err:%s", err);
-        NSAssert(0, @"Could not create Player entry");
-    } else {
-        CCLOG(@"PlayerDB: Player entry created");
+-(void) createNewPlayerChallengersTable {
+    if (_username != NULL) {
+        NSString *sqlTable = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS [%@CHALLENGERS] ([Index] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [ID] VARCHAR(32) UNIQUE NOT NULL, [NAME] TEXT NOT NULL, [EMAIL] TEXT, [PICTURE] TEXT, [WIN] INTEGER, [LOSS] INTEGER,[MATCHSTARTED] TEXT, [LASTPLAYED] TEXT)",_username];
+        
+        char *err;
+        
+        if (sqlite3_exec(_database, [sqlTable UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+            CCLOG(@"err:%s", err);
+            NSAssert(0, @"Could not create Player table");
+        } else {
+            CCLOG(@"PlayerDB: Player table created");
+        }
     }
-    
-    [self createNewTerritoriesOwnedTable];  
-    [self retrieveInformation];
+    [self createNewPlayerTerritoriesTable];
 }
 
--(void) createNewTerritoriesOwnedTable {
-    
+-(void) createNewPlayerTerritoriesTable {
+    if (_username != NULL) {
+        NSString *sqlTable = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS [%@TERRITORIES] ([Index] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, [ID] VARCHAR(32) UNIQUE NOT NULL, [NAME] TEXT NOT NULL, [QUESTION] TEXT NOT NULL, [ANSWER] TEXT NOT NULL,[CONTINENTOFCATEGORY] TEXT NOT NULL, [OWNERUSABLE] TEXT NULL, [WEEKLYUSABLE] TEXT NOT NULL)",_username];
+        
+        char *err;
+        
+        if (sqlite3_exec(_database, [sqlTable UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+            CCLOG(@"err:%s", err);
+            NSAssert(0, @"Could not create Player table");
+        } else {
+            CCLOG(@"PlayerDB: Player table created");
+        }
+    }
+}
+
+-(void) updatePlayerTerritoriesTable:(NSMutableArray*)array {
+    if (_username != NULL) {
+        for (int i = 0; i < [array count]; i++) {
+            Territory *t = (Territory*)[array objectAtIndex:i];
+            
+            NSString *sql = [NSString stringWithFormat:@"SELECT OWNERUSABLE FROM %@TERRITORIES WHERE ID = '%@'", _username, t.territoryID];
+            
+            sqlite3_stmt *compiledStatement;
+            
+            if (sqlite3_prepare_v2(_database, [sql UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
+                while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
+                    t.ownerUsable = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 0)];
+                }
+                sqlite3_finalize(compiledStatement);
+            } else {
+                NSAssert(0, @"Could not retrieve Territory entry");
+            }
+            
+            sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@TERRITORIES (ID, NAME, QUESTION, ANSWER, CONTINENTOFCATEGORY, OWNERUSABLE, WEEKLYUSABLE) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@')", _username, t.territoryID, t.name, t.question, t.answer, t.continentOfCategory, t.ownerUsable, t.weeklyUsable];
+            
+            char *err;
+            
+            if (sqlite3_exec(_database, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+                CCLOG(@"err:%s", err);
+                NSAssert(0, @"Could not create Territory entry");
+            } else {
+                //CCLOG(@"PlayerDB: Created Territory entry");
+            }
+        }
+    }
 }
 
 -(void) retrieveInformation {

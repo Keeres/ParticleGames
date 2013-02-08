@@ -10,6 +10,8 @@
 #import "MessageWriter.h"
 #import "NetworkPacket.h"
 #import "Challenger.h"
+#import "Territory.h"
+#import "PlayerDB.h"
 
 @interface NetworkController (PrivateMethods)
 - (BOOL)writeChunk;
@@ -57,18 +59,18 @@ static NetworkController *sharedController = nil;
     return (gcClass && osVersionSupported);
 }
 
-- (void)setState:(NetworkState)state {
+/*- (void)setState:(NetworkState)state {
     _state = state;
     if (_delegate) {
         [_delegate stateChanged:_state];
     }
-}
+}*/
 
 #pragma mark - Init
 
 - (id)init {
     if ((self = [super init])) {
-        [self setState:_state];
+        //[self setState:_state];
         _gameCenterAvailable = [self isGameCenterAvailable];
         if (_gameCenterAvailable) {
             NSNotificationCenter *nc =
@@ -135,8 +137,6 @@ static NetworkController *sharedController = nil;
     packet.data = [GKLocalPlayer localPlayer].alias;
     packet.crc = 12345678;
     packet.timeStamp = 2345;
-    //packet.crc = 0;
-    //packet.timeStamp = 0;
     packet.gameState = PLAYER_INIT;
     packet.packetCounter = 1;
     packet.dataSize = packet.data.length;
@@ -157,7 +157,25 @@ static NetworkController *sharedController = nil;
     packet.crc = 12345678;
     packet.timeStamp = 2345;
     packet.gameState = PLAYER_HISTORY;
-    //packet.gameState = 1;
+    packet.packetCounter = 1;
+    packet.dataSize = packet.data.length;
+    //packet.crc = crc32(0, packet.data, packet.data.length);
+    
+    [packet hostToBig];
+    
+    [writer writePacketWithKeyword:packet.particle CRC:packet.crc timeStamp:packet.timeStamp gameState:packet.gameState packetCounter:packet.packetCounter dataSize:packet.dataSize data:packet.data];
+    [self sendData:writer.data];
+}
+
+-(void) requestServerTerritories {
+    MessageWriter *writer = [[[MessageWriter alloc] init] autorelease];
+    NetworkPacket *packet = [[[NetworkPacket alloc] init] autorelease];
+    
+    packet.particle = @"PARTICLE";
+    packet.data = @"Requesting Server Territories";
+    packet.crc = 12345678;
+    packet.timeStamp = 2345;
+    packet.gameState = REQUEST_SERVER_TERRITORIES;
     packet.packetCounter = 1;
     packet.dataSize = packet.data.length;
     //packet.crc = crc32(0, packet.data, packet.data.length);
@@ -174,7 +192,7 @@ static NetworkController *sharedController = nil;
     self.outputBuffer = [NSMutableData data];
     self.inputBuffer = [NSMutableData data];
     
-    [self setState:NetworkStateConnectingToServer];
+    //[self setState:NetworkStateConnectingToServer];
     
     CFReadStreamRef readStream;
     CFWriteStreamRef writeStream;
@@ -194,7 +212,7 @@ static NetworkController *sharedController = nil;
 
 - (void)disconnect {
     
-    [self setState:NetworkStateConnectingToServer];
+    //[self setState:NetworkStateConnectingToServer];
     
     if (_inputStream != nil) {
         self.inputStream.delegate = nil;
@@ -296,6 +314,7 @@ static NetworkController *sharedController = nil;
         case PLAYER_HISTORY:
             CCLOG(@" GameState: Player Requested History Successfully. Updating game list.");
             //Player successfully requested player history. Update games list.
+            [self updateHistory:packet];
             
             break;
         case PLAYER_SERVER_SETTINGS:
@@ -372,6 +391,10 @@ static NetworkController *sharedController = nil;
             break;
         case REQUEST_SERVER_INFO:
             break;
+        case REQUEST_SERVER_TERRITORIES:
+            // Received weekly server territories. Update local SQL DB with territories.
+            [self testParseTerritories:packet];
+            break;
         case REQUEST_SERVER_DUMP:
             break;
             
@@ -380,14 +403,49 @@ static NetworkController *sharedController = nil;
     }
 }
 
+-(void) updateHistory:(NetworkPacket*)packet {
+    NSString *historyString = packet.data;
+    NSScanner *scanner = [NSScanner scannerWithString:historyString];
+
+    
+    while ([scanner isAtEnd] == NO) {
+        NSString *challengerString;
+        if (![scanner scanUpToString:@"(" intoString:NULL]) {
+            [scanner setScanLocation:scanner.scanLocation+1];
+            [scanner scanUpToString:@")" intoString:&challengerString];
+            NSArray *components = [challengerString componentsSeparatedByString:@","];
+            Challenger* challenger = [[[Challenger alloc] initChallenger:components] autorelease];
+        }
+    }
+}
+
+-(void) testParseTerritories:(NetworkPacket*)packet {
+    NSString *territoryString = packet.data;
+    NSScanner *scanner = [NSScanner scannerWithString:territoryString];
+    NSMutableArray *territoryArray = [[[NSMutableArray alloc] init] autorelease];
+    
+    while ([scanner isAtEnd] == NO) {
+        NSString *territoryString;
+        if (![scanner scanUpToString:@"(" intoString:NULL]) {
+            [scanner setScanLocation:scanner.scanLocation+1];
+            [scanner scanUpToString:@")" intoString:&territoryString];
+            NSArray *components = [territoryString componentsSeparatedByString:@","];
+            Territory* territory = [[[Territory alloc] initTerritory:components] autorelease];
+            [territoryArray addObject:territory];
+        }
+    }
+    [[PlayerDB database] updatePlayerTerritoriesTable:territoryArray];
+}
+
 - (void)inputStreamHandleEvent:(NSStreamEvent)eventCode {
     
     switch (eventCode) {
         case NSStreamEventOpenCompleted: {
             NSLog(@"Opened input stream");
             _inputOpened = YES;
-            if (_inputOpened && _outputOpened && _state == NetworkStateConnectingToServer) {
-                [self setState:NetworkStateConnected];
+            //if (_inputOpened && _outputOpened && _state == NetworkStateConnectingToServer) {
+            if (_inputOpened && _outputOpened) {
+                //[self setState:NetworkStateConnected];
                 // TODO: Send message to server
                 //[self sendPlayerConnected:true];
                 //[self sendPlayerInit];
@@ -458,8 +516,9 @@ static NetworkController *sharedController = nil;
         case NSStreamEventOpenCompleted: {
             NSLog(@"Opened output stream");
             _outputOpened = YES;
-            if (_inputOpened && _outputOpened && _state == NetworkStateConnectingToServer) {
-                [self setState:NetworkStateConnected];
+            //if (_inputOpened && _outputOpened && _state == NetworkStateConnectingToServer) {
+            if (_inputOpened && _outputOpened) {
+                //[self setState:NetworkStateConnected];
                 // TODO: Send message to server
                 //[self sendPlayerConnected:true];
                 //[self sendPlayerInit];
@@ -505,13 +564,14 @@ static NetworkController *sharedController = nil;
     
     if ([GKLocalPlayer localPlayer].isAuthenticated && !_userAuthenticated) {
         NSLog(@"Authentication changed: player authenticated.");
-        [self setState:NetworkStateAuthenticated];
+        [self.delegate setupPlayerDatabase];
+        //[self setState:NetworkStateAuthenticated];
         _userAuthenticated = TRUE;
         [self connect];
     } else if (![GKLocalPlayer localPlayer].isAuthenticated && _userAuthenticated) {
         NSLog(@"Authentication changed: player not authenticated");
         _userAuthenticated = FALSE;
-        [self setState:NetworkStateNotAvailable];
+        //[self setState:NetworkStateNotAvailable];
         [self disconnect];
     }
     
@@ -523,7 +583,7 @@ static NetworkController *sharedController = nil;
     
     NSLog(@"Authenticating local user...");
     if ([GKLocalPlayer localPlayer].authenticated == NO) {
-        [self setState:NetworkStatePendingAuthentication];
+        //[self setState:NetworkStatePendingAuthentication];
         [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:nil];
     } else {
         NSLog(@"Already authenticated!");

@@ -63,11 +63,13 @@ typedef enum {
     REQUEST_SERVER_STATS = 204,
     REQUEST_SERVER_GAME_POOL = 205,
     REQUEST_SERVER_INFO = 206,
+    REQUEST_SERVER_TERRITORIES = 207,
     REQUEST_SERVER_DUMP = 255,
 } GameState;
 
 @protocol NetworkControllerDelegate
-- (void)stateChanged:(NetworkState)state;
+//- (void)stateChanged:(NetworkState)state;
+-(void) setupPlayerDatabase;
 @end
 
 @interface NetworkController : NSObject <NSStreamDelegate> {
@@ -108,4 +110,5 @@ typedef enum {
 - (void)authenticateLocalUser;
 - (void) sendPlayerInit;
 - (void) requestPlayerHistory;
+- (void) requestServerTerritories;
 @end
