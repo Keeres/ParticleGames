@@ -22,6 +22,8 @@
 		B64A84A7164B899D004A567A /* SoloGameBG.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A84A6164B899D004A567A /* SoloGameBG.m */; };
 		B64A84A9164B8DC5004A567A /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B64A84A8164B8DC5004A567A /* libsqlite3.0.dylib */; };
 		B656FC5A16208DCF00757319 /* MainMenuBG.m in Sources */ = {isa = PBXBuildFile; fileRef = B656FC5916208DCF00757319 /* MainMenuBG.m */; };
+		B67470D916C5924400092751 /* Territory.m in Sources */ = {isa = PBXBuildFile; fileRef = B67470D816C5924400092751 /* Territory.m */; };
+		B67470DA16C5978B00092751 /* Territory.h in Sources */ = {isa = PBXBuildFile; fileRef = B67470D716C5924400092751 /* Territory.h */; };
 		B67A7AC816885D7400C8BBC6 /* MainMenuBGSprites-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AC416885D7400C8BBC6 /* MainMenuBGSprites-hd.png */; };
 		B67A7AC916885D7400C8BBC6 /* MainMenuBGSprites.png in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AC516885D7400C8BBC6 /* MainMenuBGSprites.png */; };
 		B67A7ACA16885D7400C8BBC6 /* MainMenuBGSprites.plist in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AC616885D7400C8BBC6 /* MainMenuBGSprites.plist */; };
@@ -208,6 +210,8 @@
 		B6D509CE1624C4AB0095953B /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = B6D509AE1624C4AB0095953B /* cencode.c */; };
 		B6D509CF1624C4AB0095953B /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D509B11624C4AB0095953B /* LFCGzipUtility.m */; };
 		B6D509D11624C4AB0095953B /* TMXGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D509B41624C4AB0095953B /* TMXGenerator.m */; };
+		B6F160FE16C44755009D79A1 /* Challenger.h in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD216C35D4700E6F4A3 /* Challenger.h */; };
+		B6F160FF16C44755009D79A1 /* Challenger.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD316C35D4700E6F4A3 /* Challenger.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -235,6 +239,8 @@
 		B64A84A8164B8DC5004A567A /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		B656FC5816208DCF00757319 /* MainMenuBG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuBG.h; sourceTree = "<group>"; };
 		B656FC5916208DCF00757319 /* MainMenuBG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuBG.m; sourceTree = "<group>"; };
+		B67470D716C5924400092751 /* Territory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Territory.h; sourceTree = "<group>"; };
+		B67470D816C5924400092751 /* Territory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Territory.m; sourceTree = "<group>"; };
 		B67A7AC416885D7400C8BBC6 /* MainMenuBGSprites-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MainMenuBGSprites-hd.png"; sourceTree = "<group>"; };
 		B67A7AC516885D7400C8BBC6 /* MainMenuBGSprites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MainMenuBGSprites.png; sourceTree = "<group>"; };
 		B67A7AC616885D7400C8BBC6 /* MainMenuBGSprites.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MainMenuBGSprites.plist; sourceTree = "<group>"; };
@@ -661,6 +667,8 @@
 				B68E427F165EBAD200EA8426 /* GameThemeCache.m */,
 				B6A55AD216C35D4700E6F4A3 /* Challenger.h */,
 				B6A55AD316C35D4700E6F4A3 /* Challenger.m */,
+				B67470D716C5924400092751 /* Territory.h */,
+				B67470D816C5924400092751 /* Territory.m */,
 			);
 			path = GameObjects;
 			sourceTree = "<group>";
@@ -1345,7 +1353,7 @@
 		B6902BE8161CE53F00B11872 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Particle Games LLC";
 			};
 			buildConfigurationList = B6902BEB161CE53F00B11872 /* Build configuration list for PBXProject "GeoQuest" */;
@@ -1429,6 +1437,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B67470DA16C5978B00092751 /* Territory.h in Sources */,
+				B6F160FE16C44755009D79A1 /* Challenger.h in Sources */,
+				B6F160FF16C44755009D79A1 /* Challenger.m in Sources */,
 				B6A55AD816C35E9400E6F4A3 /* NetworkPacket.h in Sources */,
 				B6A55AD916C35E9400E6F4A3 /* NetworkPacket.m in Sources */,
 				B6902DD0161F6D3C00B11872 /* GameManager.m in Sources */,
@@ -1570,6 +1581,7 @@
 				B6A4709316AC7D2200417830 /* NetworkController.m in Sources */,
 				B6A4709816AC7EFC00417830 /* MessageReader.m in Sources */,
 				B6A4709B16AC7F9100417830 /* MessageWriter.m in Sources */,
+				B67470D916C5924400092751 /* Territory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1580,6 +1592,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1590,6 +1606,7 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				SDKROOT = iphoneos;
@@ -1601,6 +1618,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1609,6 +1630,7 @@
 				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				SDKROOT = iphoneos;
@@ -1621,7 +1643,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CLANG_WARN_OBJCPP_ARC_ABI = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1643,7 +1664,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CLANG_WARN_OBJCPP_ARC_ABI = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GeoQuest/Prefix.pch;
