@@ -1,5 +1,6 @@
-from twisted.internet import reactor, protocol
 from struct import pack, unpack
+from time import time
+from twisted.internet import reactor, protocol
 from zlib import crc32
 
 PACKET_HEADER_SIZE = 16
@@ -12,19 +13,21 @@ class TestClient(protocol.Protocol):
         
     def sendTestPacket(self, message):
 
-        crc = crc32(message)
-        timestamp = 5678
-        gameState = 2
+        timestamp = time()
+        gameState = 1
         packetCounter = 0
-        packetSize = len(message) + 1
+        packetSize = len(message)
+        
+        crc = crc32(pack('! Q B B H %ss' % str(packetSize), 0, gameState, packetCounter, packetSize, message))
 
-        packedData = pack('= 8s l Q B B H ' + str(packetSize) + 's', PACKET_KEYWORD, crc, timestamp, gameState, packetCounter, packetSize, message)
+        packedData = pack('! 8s l Q B B H %ss' % str(packetSize), PACKET_KEYWORD, crc, timestamp, gameState, packetCounter, packetSize, message)
         
         self.send(packedData)
         
         print 'Sending Test Packet '
 
     def connectionMade(self):
+        self.send('bad data')
         self.sendTestPacket('Hello World!!')
         self.send('trash abc')
         self.sendTestPacket('Good Bye!!')
@@ -48,7 +51,7 @@ class TestClient(protocol.Protocol):
             packetStart = self.inBuffer.find(PACKET_KEYWORD)
             
             if (packetStart > -1):
-                crc, timestamp, gameState, packetCounter, dataSize = unpack('= l Q B B H', self.inBuffer[packetStart + 8: packetStart + 8 + PACKET_HEADER_SIZE])
+                crc, timestamp, gameState, packetCounter, dataSize = unpack('! l Q B B H', self.inBuffer[packetStart + 8: packetStart + 8 + PACKET_HEADER_SIZE])
             
                 self.inBuffer = self.inBuffer[packetStart + 8 + PACKET_HEADER_SIZE :]
                 
@@ -65,7 +68,7 @@ class TestClient(protocol.Protocol):
         
     def DEBUG_printPacket(self, crc, timestamp, gameState, packetCounter, dataSize, packetData):
         print 'Data Received - Packet Dump'
-        print 'CRC            :: ' + str(crc)
+        print 'CRC            :: ' + hex(crc)
         print 'Timestamp      :: ' + str(timestamp)
         print 'Game State     :: ' + str(gameState)
         print 'Packet Counter :: ' + str(packetCounter)
