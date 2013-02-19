@@ -16,8 +16,14 @@
     NSString *_profilePic;
     int _win;
     int _loss;
-    NSString *matchStarted;
-    NSString *lastPlayed;
+    NSString *_matchStarted;
+    NSString *_lastPlayed;
+    BOOL _myTurn;
+    NSString *_playerPrevRaceData;
+    NSString *_playerNextRaceData;
+    NSString *_challengerPrevRaceData;
+    NSString *_challengerNextRaceData;
+    NSString *_questionData;
 }
 
 @property (nonatomic, retain) NSString *userID;
@@ -28,6 +34,12 @@
 @property (assign) int loss;
 @property (nonatomic, retain) NSString *matchStarted;
 @property (nonatomic, retain) NSString *lastPlayed;
+@property (assign) BOOL myTurn;
+@property (nonatomic, retain) NSString *playerPrevRaceData;
+@property (nonatomic, retain) NSString *playerNextRaceData;
+@property (nonatomic, retain) NSString *challengerPrevRaceData;
+@property (nonatomic, retain) NSString *challengerNextRaceData;
+@property (nonatomic, retain) NSString *questionData;
 
 -(id) initChallenger:(NSArray*)array;
 
