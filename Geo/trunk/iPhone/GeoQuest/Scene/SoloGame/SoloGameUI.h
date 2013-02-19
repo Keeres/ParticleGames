@@ -36,9 +36,9 @@
     
     GeoQuestQuestion    *currentQuestion;
     GameThemeCache      *theme;
-    NSArray             *currentAnswerChoices;
     NSArray             *themeArray;
 
+    NSMutableArray      *currentAnswerChoices;
     NSMutableArray      *themeTotal;
     NSMutableArray      *themeVisible;
     NSMutableArray      *territoriesChosen; //array of all the territories usable by player
@@ -78,12 +78,12 @@
     float               doublePointsPowerUpTimer;
     float               fiftyFiftyPowerUpTimer;
     float               specialStagePowerUpTimer;
+    float               pointsEarned;
+    float               score;
     
     int                 questionsAsked;
     int                 questionsAnsweredCorrectly;
     int                 powerUpPercentageRequirement;
-    int                 score;
-    int                 pointsEarned;
     int                 answerCorrectlyInRow;
     int                 answerQuickDrawCorrectlyInRow;
     int                 answerIncorrectlyInRow;

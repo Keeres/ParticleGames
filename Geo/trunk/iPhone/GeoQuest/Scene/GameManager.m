@@ -7,11 +7,14 @@
 //
 
 #import "GameManager.h"
+#import "LoadScreenScene.h"
 #import "MainMenuScene.h"
 #import "SoloGameScene.h"
 
 @implementation GameManager
 static GameManager* _sharedGameManager = nil;
+@synthesize username;
+@synthesize password;
 @synthesize isMusicOn;
 @synthesize isSoundEffectsOn;
 @synthesize managerSoundState;
@@ -109,6 +112,9 @@ static GameManager* _sharedGameManager = nil;
     switch(sceneID) {
         case kNoSceneUninitialized:
             result = @"kNoSceneUninitialized";
+            break;
+        case kLoadScreenScene:
+            result = @"kLoadScreenScene";
             break;
         case kMainMenuScene:
             result = @"kMainMenuScene";
@@ -321,7 +327,10 @@ static GameManager* _sharedGameManager = nil;
     
     id sceneToRun = nil;
     switch (sceneID) {
-        case kMainMenuScene: 
+        case kLoadScreenScene:
+            sceneToRun = [LoadScreenScene scene];
+            break;
+        case kMainMenuScene:
             sceneToRun = [MainMenuScene scene];
             break;
         case kSoloGameScene:
@@ -367,6 +376,36 @@ static GameManager* _sharedGameManager = nil;
         CCLOG(@"%@%@",@"Failed to open url:",[urlToOpen description]);
         [self runSceneWithID:kMainMenuScene];
     }    
+}
+
+- (NSString *) saveFilePath
+{
+	NSArray *path =	NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+	return [[path objectAtIndex:0] stringByAppendingPathComponent:@"savefile.plist"];
+    
+}
+
+-(void) saveUsername {
+    NSArray *values = [[NSArray alloc] initWithObjects:self.username, self.password,nil];
+	[values writeToFile:[[GameManager sharedGameManager] saveFilePath] atomically:YES];
+	[values release];
+}
+
+-(void) loadUsername {
+    NSString *myPath = [self saveFilePath];
+    
+	BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:myPath];
+    
+	if (fileExists)
+	{
+		NSArray *values = [[NSArray alloc] initWithContentsOfFile:myPath];
+        if ([values count] != 0) {
+            [GameManager sharedGameManager].username = [values objectAtIndex:0];
+            [GameManager sharedGameManager].password = [values objectAtIndex:1];
+            [values release];
+        }
+	}
 }
 
 @end

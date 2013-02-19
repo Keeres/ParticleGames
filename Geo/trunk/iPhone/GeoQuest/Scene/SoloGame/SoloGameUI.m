@@ -48,12 +48,14 @@
     difficultyChoiceMenu.enabled = NO;
     difficultyBackground.visible = NO;
     [selectDifficulty stopAllActions];
-    
+
     [self setupCorrectAndWrongSprite];
     [self setupUILabels];
     [self setupGameOverMenu];
     [self setupTheme];
     [self setupParticleSystems];
+    
+    [self createQuestions];
 }
 
 
@@ -130,28 +132,28 @@
     prepTimerLabel.color = ccc3(255, 255, 255);
     [self addChild:prepTimerLabel z:20];
     
-    gameTimerLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Time: %.02f", gameTimer] fontName:@"TRS Million" fontSize:18];
+    gameTimerLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Time: %.01f", gameTimer] fontName:@"Arial" fontSize:18];
     gameTimerLabel.position = ccp(winSize.width/2, winSize.height - gameTimerLabel.contentSize.height/2);
-    gameTimerLabel.color = ccc3(255, 255, 255);
+    gameTimerLabel.color = ccc3(0, 0, 0);
     gameTimerLabel.visible = NO;
     [self addChild:gameTimerLabel z:20];
     
-    questionTimerLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.01f", gameTimer] fontName:@"TRS Million" fontSize:14];
+    questionTimerLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.01f", gameTimer] fontName:@"Arial" fontSize:14];
     questionTimerLabel.position = ccp(winSize.width*.9, winSize.height*.8);
     questionTimerLabel.color = ccc3(0, 255, 0);
     questionTimerLabel.visible = NO;
     [self addChild:questionTimerLabel z:20];
     
-    scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Score: %i", score] fontName:@"TRS Million" fontSize:18];
+    scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Score: %.01f", score] fontName:@"Arial" fontSize:18];
     scoreLabel.anchorPoint = ccp(0, 0.5);
     scoreLabel.position = ccp(winSize.width*0.05, winSize.height - scoreLabel.contentSize.height/2);
-    scoreLabel.color = ccc3(255, 255, 255);
+    scoreLabel.color = ccc3(0, 0, 0);
     scoreLabel.visible = NO;
     [self addChild:scoreLabel z:20];
     
-    pointsEarnedLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%i", pointsEarned] fontName:@"TRS Million" fontSize:40];
+    pointsEarnedLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.01f", pointsEarned] fontName:@"Arial" fontSize:40];
     pointsEarnedLabel.position = ccp(winSize.width/2, winSize.height/2);
-    pointsEarnedLabel.color = ccc3(255, 228, 74);
+    pointsEarnedLabel.color = ccc3(0, 0, 0);
     pointsEarnedLabel.visible = NO;
     [self addChild:pointsEarnedLabel z:20];
     
@@ -263,6 +265,27 @@
 }
 
 #pragma mark - Retrieve Information
+
+-(void) createQuestions {
+    NSMutableArray *questionArray = [[[NSMutableArray alloc] init] autorelease];
+    NSString *qString = @"";
+    
+    GeoQuestTerritory *questionTerritory;
+    int i = arc4random() % [territoriesChosen count];
+    questionTerritory = [territoriesChosen objectAtIndex:i];
+    
+    for (int i = 0; i < 50; i++) {
+        GeoQuestQuestion *q = [[GeoQuestDB database] getQuestionFrom:questionTerritory];
+        [questionArray addObject:q];
+        qString = [NSString stringWithFormat:@"%@%@",qString, [NSString stringWithFormat:@"(%@,%@,%@,%@,%@,%@,%@)", q.question, q.questionType, q.answerTable, q.answerType, q.answerID, q.answer, q.info]];
+    }
+    
+    CCLOG(@"qSTRING: %@", qString);
+    
+    
+    //Format the array of questions into String. Send the questions to Server.
+    
+}
 
 -(id) getQuestion {
     //TESTING BACKGROUNDS/////
@@ -556,8 +579,7 @@
         winSize = [[CCDirector sharedDirector] winSize];
         self.isTouchEnabled = YES;
 
-        [self setupGame];
-        
+        [self setupGame];        
         [self scheduleUpdate];
 
         }
@@ -602,12 +624,11 @@
     fiftyFiftyPowerUpParticle.visible = NO;
     specialStagePowerUpParticle.visible  = NO;
     
-    [PlayerDB database].experience += score/10;
+    /*[PlayerDB database].experience += score/10;
     [PlayerDB database].coins += score/10;
     [PlayerDB database].totalQuestions += questionsAsked;
     [PlayerDB database].totalAnswersCorrect += questionsAnsweredCorrectly;
-    [[PlayerDB database] updateInformation];
-    
+    [[PlayerDB database] updateInformation];*/
     
     gameOverMenu.position = ccp(winSize.width/2, winSize.height + gameOverMenu.contentSize.height);
     gameOverMenu.visible = YES;
@@ -633,8 +654,8 @@
     }
     [questionTimerLabel setString:[NSString stringWithFormat:@"%.01f", questionTimer]];
     
-    [scoreLabel setString:[NSString stringWithFormat:@"Score: %i", score]];
-    [pointsEarnedLabel setString:[NSString stringWithFormat:@"%i", pointsEarned]];
+    [scoreLabel setString:[NSString stringWithFormat:@"Score: %.01f", score]];
+    [pointsEarnedLabel setString:[NSString stringWithFormat:@"%.01f", pointsEarned]];
     [inRowLabel setString:[NSString stringWithFormat:@"%i in a row!", answerCorrectlyInRow]];
     [inRowQuickDrawLabel setString:[NSString stringWithFormat:@"%i quick draw in a row!", answerQuickDrawCorrectlyInRow]];
 }
@@ -721,6 +742,13 @@
             if (gameTimer > 0) {
                 
                 questionTimer -= delta;
+                if (questionTimer < 5.0 && [currentAnswerChoices count] > 3) {
+                    [self removeOneAnswerChoice];
+
+                } else if (questionTimer < 3.0 && [currentAnswerChoices count] > 2) {
+                    [self removeOneAnswerChoice];
+                }
+                
                 if (questionTimer <= 0.0) {
                     questionTimer = 0.0;
                     questionTimerLabel.visible = NO;
@@ -751,7 +779,9 @@
                             fiftyFiftyPowerUpParticle.visible = NO;
                         }
                     }
+                    
                     gameTimer -= delta;
+                    
                 } else {
                     if (specialStagePowerUpTimer > 0) {
                         specialStagePowerUpTimer -= delta;
@@ -777,6 +807,24 @@
             }
             
             quickDrawTimer -= delta;
+        }
+        
+        if (score > 100.0) {
+            question.visible = NO;
+            correctMark.visible = NO;
+            wrongMark.visible = NO;
+            answerChoicesMenu.visible = NO;
+            
+            for (int i = 0; i < [themeVisible count]; i++) {
+                CCSprite *t = [themeVisible objectAtIndex:i];
+                t.visible = NO;
+            }
+            
+            [self updateUILabels];
+            if ([self numberOfRunningActions] == 0) {
+                [self unscheduleUpdate];
+                [self gameOver];
+            }
         }
         
         if (gameTimer <= 0) {
@@ -866,7 +914,7 @@
         
         inRowLabel.visible = YES;
         answerCorrectlyInRow++;
-        pointsEarned += 10 * answerCorrectlyInRow;
+        pointsEarned += questionTimer + MIN(3, answerCorrectlyInRow);
         previousAnswerCorrect = YES;
         
         if (quickDrawTimer > 0.0) {
@@ -874,7 +922,7 @@
             inRowQuickDrawLabel.visible = YES;
             quickDrawLabel.visible = YES;
             answerQuickDrawCorrectlyInRow++;
-            pointsEarned += 20 * answerQuickDrawCorrectlyInRow;
+            pointsEarned += 1 + MIN(3, answerQuickDrawCorrectlyInRow);
         } else {
             answerQuickDrawCorrectlyInRow = 0;
         }
@@ -931,11 +979,29 @@
     }
 }
 
+-(void) removeOneAnswerChoice {
+    for (int i = 0; i < [currentAnswerChoices count]; i++) {
+        GeoQuestAnswer *a = [currentAnswerChoices objectAtIndex:i];
+        BOOL correctAnswer = [[GeoQuestDB database] checkAnswer:a withQuestion:currentQuestion];
+        if (!correctAnswer) {
+            [answerChoicesMenu removeChildByTag:i cleanup:YES];
+            [currentAnswerChoices removeObjectAtIndex:i];
+            
+            for (int j = 0; j < [[answerChoicesMenu children] count]; j++) {
+                CCArray *m = [answerChoicesMenu children];
+                CCMenuItemSprite *s = [m objectAtIndex:j];
+                s.tag = j;
+            }
+            break;
+        }
+    }
+}
+
 /*-(void) checkSpecialStageAnswer:(CCMenuItemSprite*)sender {
     int i = sender.tag;
-    
+ 
     CCMenuItemSprite *menuItem = sender;
-    
+ 
     GeoQuestAnswer *a = [currentAnswerChoices objectAtIndex:i];
     
     BOOL correctAnswer = [[GeoQuestDB database] checkAnswer:a withCategory:@"USAStates"];

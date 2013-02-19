@@ -11,6 +11,8 @@
 #import "AppDelegate.h"
 #import "GameManager.h"
 #import "SoloGameScene.h"
+#import "NetworkPacket.h"
+#import "Challenger.h"
 
 #pragma mark - MainMenuUI
 
@@ -20,7 +22,19 @@
     mainMenuBG = menuBG;
 }
 
-#pragma mark - Load Spritesheets
+#pragma mark - Setup Player Database
+
+-(void) setupPlayerDatabase {
+    //Need to check username from online account
+    
+    //[writer writeString:[GKLocalPlayer localPlayer].playerID];
+    //[writer writeString:[GKLocalPlayer localPlayer].alias];
+    
+    //[[PlayerDB database] createNewPlayerStatsTable:[GKLocalPlayer localPlayer].alias];
+    [[PlayerDB database] createNewPlayerStatsTable:@"kelvin"];
+}
+
+#pragma mark - Setup Menus
 
 -(void) loadSpriteSheets {
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"MainMenuUISprites.plist"];
@@ -40,27 +54,13 @@
     [self addChild:questionThemesSheet z:20];
 }
 
-#pragma mark - Setup Player Database
-
--(void) setupPlayerDatabase {
-    //Need to check username from online account
-    
-    //[writer writeString:[GKLocalPlayer localPlayer].playerID];
-    //[writer writeString:[GKLocalPlayer localPlayer].alias];
-    
-    //[[PlayerDB database] createNewPlayerTable:@"Guest"];
-    [[PlayerDB database] createNewPlayerStatsTable:[GKLocalPlayer localPlayer].alias];
-}
-
-#pragma mark - Setup Menus
 
 -(void) setupMenus {
     [self setupTitle];
-    [self setupSidePanel];
-    [self setupPlayMenu];
-    //[self setupChallengeMenu];
+    //[self setupPlayMenu];
+    [self setupChallengeMenu];
     //[self setupExitMenu];
-    [self setupOptionMenu];
+    //[self setupOptionMenu];
 }
 
 -(void) setupTitle {
@@ -73,28 +73,6 @@
     
     title.scale = 0.8;
     [self addChild:title z:1];
-}
-
--(void) setupSidePanel {
-    //Side panel that contains the playMenu and challengeMenu
-    //Also the spinning compass is attached to this panel
-    //The panel will slide left and right
-    
-    sidePanel = [CCSprite spriteWithSpriteFrameName:@"MainMenuUIMetalCard.png"];
-    //sidePanel.position = ccp(winSize.width/2, winSize.height/2);
-    sidePanel.position = ccp(winSize.width/2, winSize.height - sidePanel.textureRect.size.height/2 - title.textureRect.size.height);
-    [self addChild:sidePanel z:1];
-    
-    compass = [CCSprite spriteWithSpriteFrameName:@"MainMenuCompass.png"];
-    compass.position = ccp(sidePanel.position.x, sidePanel.position.y + sidePanel.textureRect.size.height/2);
-    compass.position = [sidePanel convertToNodeSpace:compass.position];
-    [sidePanel addChild:compass z:20];
-    
-    id action = [CCRotateBy actionWithDuration:6 angle:360];
-    compassAction = [CCRepeatForever actionWithAction:action];
-    [compassAction retain];
-    
-    [compass runAction:compassAction];
 }
 
 -(void) setupPlayMenu {
@@ -112,114 +90,124 @@
                                                                   selector:@selector(startMulti)];
     
     gamePlayMenu = [CCMenuAdvancedPlus menuWithItems:soloButton, multiButton, nil];
-    gamePlayMenu.bounceEffect = NO;
     gamePlayMenu.extraTouchPriority = 1;
     
     [gamePlayMenu alignItemsVerticallyWithPadding:0.0 bottomToTop:NO];
     gamePlayMenu.ignoreAnchorPointForPosition = NO;
-    gamePlayMenu.position = ccp(sidePanel.position.x, sidePanel.position.y + sidePanel.textureRect.size.height/2 - gamePlayMenu.contentSize.height/2 - UI_MENU_SPACING);
-    gamePlayMenu.position = [sidePanel convertToNodeSpace:gamePlayMenu.position];
+    gamePlayMenu.position = ccp(winSize.width/2, title.position.y - gamePlayMenu.contentSize.height - UI_MENU_SPACING);
+    //gamePlayMenu.position = [sidePanel convertToNodeSpace:gamePlayMenu.position];
     gamePlayMenu.boundaryRect = CGRectMake(gamePlayMenu.position.x - gamePlayMenu.contentSize.width/2, gamePlayMenu.position.y - gamePlayMenu.contentSize.height/2, gamePlayMenu.contentSize.width, gamePlayMenu.contentSize.height);
     
     
     [gamePlayMenu fixPosition];
     
-    [sidePanel addChild:gamePlayMenu z:20];
+    [self addChild:gamePlayMenu z:20];
 }
 
-/*-(void) setupChallengeMenu {
- //Scrollable menu that shows current challenger games.
- //
- //
- 
- CGPoint currentPos = ccp(0, 0);
- 
- NSMutableArray *currentChallenges = [challengesData objectForKey:@"Current"];
- NSMutableArray *oldChallenges = [challengesData objectForKey:@"Old"];
- 
- if (gameChallengeMenu == nil) {
- gameChallengeMenu = [CCMenuAdvancedPlus menuWithItems:nil];
- CCLOG(@"MainMenuUI: gameChallengeMenu init with nil");
- } else {
- currentPos = gameChallengeMenu.position;
- [gameChallengeMenu removeAllChildrenWithCleanup:YES];
- CCLOG(@"MainMenuUI: gameChallengeMenu removed all children.");
- }
- 
- for (int i = 0; i < [currentChallenges count]; i++) { //autorelease objects?
- 
- CCMenuItemSprite *challengerItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(startChallenge:)];
- challengerItemSprite.tag = i;
- 
- NSMutableDictionary *challenger = [currentChallenges objectAtIndex:i];
- CCLabelTTF *name = [CCLabelTTF labelWithString:[challenger objectForKey:@"Player"] fontName:@"Arial" fontSize:10];
- name.position = ccp(name.contentSize.width/2 + UI_MENU_SPACING, challengerItemSprite.contentSize.height/2);
- name.color = ccc3(255, 0, 0);
- 
- CCLabelTTF *score = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"win: %@ - loss: %@", [challenger objectForKey:@"Win"], [challenger objectForKey:@"Loss"]] fontName:@"Arial" fontSize:10];
- score.position = ccp(challengerItemSprite.contentSize.width - score.contentSize.width/2 - UI_MENU_SPACING, challengerItemSprite.contentSize.height/2);
- score.color = ccc3(0, 0, 0);
- 
- 
- [challengerItemSprite addChild:name];
- [challengerItemSprite addChild:score];
- [gameChallengeMenu addChild:challengerItemSprite];
- 
- }
- 
- for (int i = 0; i < [oldChallenges count]; i++) { //autorelease objects?
- 
- CCMenuItemSprite *challengerItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(startChallenge:)];
- challengerItemSprite.tag = (i*-1)-1;
- 
- NSMutableDictionary *challenger = [oldChallenges objectAtIndex:i];
- CCLabelTTF *name = [CCLabelTTF labelWithString:[challenger objectForKey:@"Player"] fontName:@"Arial" fontSize:10];
- name.position = ccp(name.contentSize.width/2 + UI_MENU_SPACING, challengerItemSprite.contentSize.height/2);
- name.color = ccc3(255, 0, 0);
- 
- CCLabelTTF *score = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"win: %@ - loss: %@", [challenger objectForKey:@"Win"], [challenger objectForKey:@"Loss"]] fontName:@"Arial" fontSize:10];
- score.position = ccp(challengerItemSprite.contentSize.width - score.contentSize.width/2 - UI_MENU_SPACING, challengerItemSprite.contentSize.height/2);
- score.color = ccc3(0, 0, 0);
- 
- 
- [challengerItemSprite addChild:name];
- [challengerItemSprite addChild:score];
- [gameChallengeMenu addChild:challengerItemSprite];
- 
- }
- 
- gameChallengeMenu.bounceEffect = YES;
- 
- [gameChallengeMenu alignItemsVerticallyWithPadding:0.0 bottomToTop:NO];
- gameChallengeMenu.ignoreAnchorPointForPosition = NO;
- 
- 
- if (currentPos.x != 0 && currentPos.y != 0) {
- gameChallengeMenu.position = currentPos;
- } else {
- gameChallengeMenu.position = ccp(sidePanel.contentSize.width - gameChallengeMenu.contentSize.width/2 - UI_MENU_SPACING,
- gamePlayMenu.position.y - gamePlayMenu.contentSize.height/2 - gameChallengeMenu.contentSize.height/2 - UI_MENU_SPACING);
- gameChallengeMenu.originalPos = ccp(gameChallengeMenu.position.x, gameChallengeMenu.position.y);
- 
- }
- 
- gameChallengeMenu.boundaryRect = CGRectMake(sidePanel.contentSize.width - gameChallengeMenu.contentSize.width - UI_MENU_SPACING, //x coordinate
- 0.0, //y coordinate
- gameChallengeMenu.boundingBox.size.width, //width
- gamePlayMenu.position.y - gamePlayMenu.contentSize.height/2 - UI_MENU_SPACING); //height
- 
- [gameChallengeMenu fixPosition];
- 
- BOOL childAdded = NO;
- for (int i = 0; i < [[sidePanel children] count]; i++) {
- if ([[sidePanel children] objectAtIndex:i] == gameChallengeMenu) {
- childAdded = YES;
- }
- }
- if (childAdded == NO) {
- [sidePanel addChild:gameChallengeMenu z:10];
- }
- }*/
+-(void) setupChallengeMenu {
+    //Scrollable menu that shows current challenger games.
+    //
+    //
+    
+    // Update challengers from server DB to client DB
+    // Retrieve challengers from client DB
+    // Place challengers in to array
+    // Create blank buttons for each challenger
+    // Add create game button in gameChallengeMenu;
+    // Add the rest of the challengers
+    // f[[NetworkController sharedInstance] requestServerTerritories];
+    NSMutableArray *challengerArray = [[PlayerDB database] retrievePlayerChallengersTable];
+    
+    CGPoint currentPos = ccp(0, 0);
+    
+    //NSMutableArray *currentChallenges = [challengesData objectForKey:@"Current"];
+    //NSMutableArray *oldChallenges = [challengesData objectForKey:@"Old"];
+    
+    if (gameChallengeMenu == nil) {
+        gameChallengeMenu = [CCMenuAdvancedPlus menuWithItems:nil];
+        CCLOG(@"MainMenuUI: gameChallengeMenu init with nil");
+    } else {
+        currentPos = gameChallengeMenu.position;
+        [gameChallengeMenu removeAllChildrenWithCleanup:YES];
+        CCLOG(@"MainMenuUI: gameChallengeMenu removed all children.");
+    }
+    
+    // Add Create Game Button
+    CCMenuItemSprite *createGameItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(createGame)];
+    //createGameItemSprite.tag = 0;
+    
+    CCLabelTTF *createGameLabel = [CCLabelTTF labelWithString:@"Create Game" fontName:@"Arial" fontSize:10];
+    createGameLabel.position = ccp(createGameLabel.contentSize.width/2 + UI_MENU_SPACING, createGameItemSprite.contentSize.height/2);
+    createGameLabel.color = ccc3(255, 0, 0);
+    
+    [createGameItemSprite addChild:createGameLabel];
+    [gameChallengeMenu addChild:createGameItemSprite];
+    
+    // Add Player vs. Challenger Buttons
+    for (int i = 0; i < [challengerArray count]; i++) {
+        CCMenuItemSprite *challengerItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(startChallenge:)];
+        challengerItemSprite.tag = i;
+        
+        Challenger *c = [challengerArray objectAtIndex:i];
+        
+        CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:c.name fontName:@"Arial" fontSize:10];
+        nameLabel.position = ccp(nameLabel.contentSize.width/2 + UI_MENU_SPACING, challengerItemSprite.contentSize.height/2);
+        nameLabel.color = ccc3(255, 0, 0);
+        
+        [challengerItemSprite addChild:nameLabel];
+        [gameChallengeMenu addChild:challengerItemSprite];
+    }
+    
+    // Add Options Button
+    
+    CCMenuItemSprite *optionItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(openOptions)];
+    //createGameItemSprite.tag = [challengerArray count] + 1;
+    
+    CCLabelTTF *optionLabel = [CCLabelTTF labelWithString:@"Options" fontName:@"Arial" fontSize:10];
+    optionLabel.position = ccp(optionLabel.contentSize.width/2 + UI_MENU_SPACING, optionItemSprite.contentSize.height/2);
+    optionLabel.color = ccc3(255, 0, 0);
+    
+    [optionItemSprite addChild:optionLabel];
+    [gameChallengeMenu addChild:optionItemSprite];
+    
+    gameChallengeMenu.bounceEffectUp = YES;
+    gameChallengeMenu.bounceEffectDown = YES;
+    gameChallengeMenu.bounceDistance = 40.0;
+    
+    [gameChallengeMenu alignItemsVerticallyWithPadding:0.0 bottomToTop:NO];
+    gameChallengeMenu.ignoreAnchorPointForPosition = NO;
+    
+    
+    if (currentPos.x != 0 && currentPos.y != 0) {
+        gameChallengeMenu.position = currentPos;
+    } else {
+        //gameChallengeMenu.position = ccp(winSize.width/2, winSize.height/2 - gameChallengeMenu.contentSize.height/2 - UI_MENU_SPACING);
+        gameChallengeMenu.position = ccp(winSize.width/2, title.position.y - title.contentSize.height/2 - gameChallengeMenu.contentSize.height/2 - UI_MENU_SPACING);
+
+        gameChallengeMenu.originalPos = gameChallengeMenu.position;
+        
+    }
+    
+    float yPos = MAX(0.0, gameChallengeMenu.position.y - gameChallengeMenu.contentSize.height/2);
+    float gHeight = MIN(winSize.height/2 ,gameChallengeMenu.contentSize.height);
+    gameChallengeMenu.boundaryRect = CGRectMake(winSize.width/2 - gameChallengeMenu.contentSize.width/2, //x coordinate
+                                                yPos, //y coordinate
+                                                gameChallengeMenu.boundingBox.size.width, //width
+                                                gHeight); //height
+    
+    [gameChallengeMenu fixPosition];
+    [self addChild:gameChallengeMenu];
+    
+    /*BOOL childAdded = NO;
+    for (int i = 0; i < [[sidePanel children] count]; i++) {
+        if ([[sidePanel children] objectAtIndex:i] == gameChallengeMenu) {
+            childAdded = YES;
+        }
+    }
+    if (childAdded == NO) {
+        [sidePanel addChild:gameChallengeMenu z:10];
+    }*/
+}
 
 -(void) setupExitMenu {
     //Menu to exit button in map view
@@ -298,10 +286,10 @@
     if ((self = [super init])) {
         winSize = [[CCDirector sharedDirector] winSize];
         [NetworkController sharedInstance].delegate = self;
+        [self loadSpriteSheets];
         
         self.isTouchEnabled = YES;
         
-        [self loadSpriteSheets];
         [self setupPlayerDatabase];
         
         [self setupMenus];
@@ -396,6 +384,17 @@
     [[NetworkController sharedInstance] requestServerTerritories];
 }
 
+-(void) createGame {
+    CCLOG(@"MainMenuUI: Create new game!");
+    [self startSolo];
+
+}
+
+-(void) openOptions {
+    CCLOG(@"MainMenuUI: Open options menu!");
+
+}
+
 -(void) startChallenge:(CCMenuItemSprite *)sender {
     int i = sender.tag;
     CCLOG(@"MainMenuUI: Challenger %i!", i);
@@ -417,67 +416,6 @@
 -(void) openEmbargo {
     CCLOG(@"MainMenuUI: Embargo open!");
 }
-
-/*-(void) toggleSidePanel {
- if (optionMenu.enabled == NO) {
- [optionMenu runAction:[CCFadeIn actionWithDuration:UI_FADE_TIME]];
- optionMenu.enabled = YES;
- 
- id sidePanelAction = [CCMoveTo actionWithDuration:0.25 position:ccp(winSize.width - sidePanel.contentSize.width/2, winSize.height/2)];
- id sidePanelEase = [CCEaseInOut actionWithAction:sidePanelAction rate:2];
- [sidePanel runAction:sidePanelEase];
- 
- id tAction = [CCMoveTo actionWithDuration:0.5 position:ccp(title.position.x, winSize.height - title.contentSize.height/2)];
- id titleEase = [CCEaseInOut actionWithAction:tAction rate:2];
- [title runAction:titleEase];
- }
- 
- if (optionMenu.enabled == YES) {
- [optionMenu runAction:[CCFadeOut actionWithDuration:UI_FADE_TIME]];
- optionMenu.enabled = NO;
- 
- id sidePanelAction = [CCMoveTo actionWithDuration:0.25 position:ccp(winSize.width + sidePanel.contentSize.width/2 - compass.contentSize.width/2, winSize.height/2)];
- id sidePanelEase = [CCEaseInOut actionWithAction:sidePanelAction rate:2];
- [sidePanel runAction:sidePanelEase];
- 
- id tAction = [CCMoveTo actionWithDuration:0.5 position:ccp(title.position.x, winSize.height*2)];
- id titleEase = [CCEaseInOut actionWithAction:tAction rate:2];
- [title runAction:titleEase];
- }
- }
- 
- -(void) showSidePanel {
- [sidePanel stopAllActions];
- 
- if (optionMenu.enabled == NO) {
- [optionMenu runAction:[CCFadeIn actionWithDuration:UI_FADE_TIME]];
- optionMenu.enabled = YES;
- }
- id sidePanelAction = [CCMoveTo actionWithDuration:0.25 position:ccp(winSize.width - sidePanel.contentSize.width/2, winSize.height/2)];
- id sidePanelEase = [CCEaseInOut actionWithAction:sidePanelAction rate:2];
- [sidePanel runAction:sidePanelEase];
- 
- id tAction = [CCMoveTo actionWithDuration:0.5 position:ccp(title.position.x, winSize.height - title.contentSize.height/2)];
- id titleEase = [CCEaseInOut actionWithAction:tAction rate:2];
- [title runAction:titleEase];
- }
- 
- -(void) hideSidePanel {
- [sidePanel stopAllActions];
- [title stopAllActions];
- 
- if (optionMenu.enabled == YES) {
- [optionMenu runAction:[CCFadeOut actionWithDuration:UI_FADE_TIME]];
- optionMenu.enabled = NO;
- }
- id sidePanelAction = [CCMoveTo actionWithDuration:0.25 position:ccp(winSize.width + sidePanel.contentSize.width/2 - compass.contentSize.width/2, winSize.height/2)];
- id sidePanelEase = [CCEaseInOut actionWithAction:sidePanelAction rate:2];
- [sidePanel runAction:sidePanelEase];
- 
- id tAction = [CCMoveTo actionWithDuration:0.5 position:ccp(title.position.x, winSize.height*2)];
- id titleEase = [CCEaseInOut actionWithAction:tAction rate:2];
- [title runAction:titleEase];
- }*/
 
 #pragma mark - Methods for Touches
 
@@ -542,37 +480,10 @@
      touchedSidePanel = NO;*/
 }
 
-// Network state changes
-/*- (void)stateChanged:(NetworkState)state {
-    switch(state) {
-        case NetworkStateNotAvailable:
-            //debugLabel.string = @"Not Available";
-            CCLOG(@"NETWORK: Not available");
-            break;
-        case NetworkStatePendingAuthentication:
-            //debugLabel.string = @"Pending Authentication";
-            CCLOG(@"NETWORK: Pending Authentication");
-            break;
-        case NetworkStateAuthenticated:
-            //debugLabel.string = @"Authenticated";
-            CCLOG(@"NETWORK: Authenticated");
-            break;
-        case NetworkStateConnectingToServer:
-            //debugLabel.string = @"Connecting to Server";
-            CCLOG(@"NETWORK: Connecting to Server");
-            break;
-        case NetworkStateConnected:
-            //debugLabel.string = @"Connected";
-            CCLOG(@"NETWORK: Connected");
-            break;
-        case NetworkStatePendingMatchStatus:
-            CCLOG(@"NETWORK: Pending Match Status");
-            break;
-        case NetworkStateReceivedMatchStatus:
-            CCLOG(@"NETWORK: Received Match Status");
-            break;
-    }
-}*/
+// GameState Changes
+-(void) stateChanged:(uint8_t)state {
+    
+}
 
 // on "dealloc" you need to release all your retained objects
 - (void) dealloc
