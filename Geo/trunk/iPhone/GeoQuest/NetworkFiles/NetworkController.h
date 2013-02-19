@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 #import <zlib.h>
+#import "NetworkPacket.h"
 
 typedef enum {
     NetworkStateNotAvailable,
@@ -29,6 +30,7 @@ typedef enum {
     PLAYER_SERVER_SETTINGS = 6,
     PLAYER_DATA_UPLOAD = 7,
     PLAYER_DATA_DOWNLOAD = 8,
+    PLAYER_DATA_EXISTS = 9,
     PLAYER_DATA_DELETE = 40,
     MATCH_INIT = 50,
     MATCH_SYNC = 51,
@@ -69,13 +71,14 @@ typedef enum {
 
 @protocol NetworkControllerDelegate
 //- (void)stateChanged:(NetworkState)state;
--(void) setupPlayerDatabase;
+//-(void) setupPlayerDatabase;
+-(void) stateChanged:(uint8_t)state;
 @end
 
 @interface NetworkController : NSObject <NSStreamDelegate> {
     //GameCenter
-    BOOL _gameCenterAvailable;
-    BOOL _userAuthenticated;
+    //BOOL _gameCenterAvailable;
+    //BOOL _userAuthenticated;
     id <NetworkControllerDelegate> _delegate;
     NetworkState _state;
     
@@ -106,9 +109,9 @@ typedef enum {
 @property (retain) NSMutableData *inputBuffer;
 
 
-+ (NetworkController *)sharedInstance;
-- (void)authenticateLocalUser;
-- (void) sendPlayerInit;
-- (void) requestPlayerHistory;
-- (void) requestServerTerritories;
++(NetworkController *) sharedInstance;
+//-(void) authenticateLocalUser;
+-(void) sendPlayerInitWithUsername:(NSString*)username email:(NSString*)email password:(NSString*)password;
+-(void) requestPlayerHistory;
+-(void) requestServerTerritories;
 @end

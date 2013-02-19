@@ -8,7 +8,6 @@
 
 #import "NetworkController.h"
 #import "MessageWriter.h"
-#import "NetworkPacket.h"
 #import "Challenger.h"
 #import "Territory.h"
 #import "PlayerDB.h"
@@ -46,7 +45,7 @@ static NetworkController *sharedController = nil;
     return sharedController;
 }
 
-- (BOOL)isGameCenterAvailable {
+/*- (BOOL)isGameCenterAvailable {
     // check for presence of GKLocalPlayer API
     Class gcClass = (NSClassFromString(@"GKLocalPlayer"));
     
@@ -57,7 +56,7 @@ static NetworkController *sharedController = nil;
                                            options:NSNumericSearch] != NSOrderedAscending);
     
     return (gcClass && osVersionSupported);
-}
+}*/
 
 /*- (void)setState:(NetworkState)state {
     _state = state;
@@ -71,7 +70,7 @@ static NetworkController *sharedController = nil;
 - (id)init {
     if ((self = [super init])) {
         //[self setState:_state];
-        _gameCenterAvailable = [self isGameCenterAvailable];
+        /*_gameCenterAvailable = [self isGameCenterAvailable];
         if (_gameCenterAvailable) {
             NSNotificationCenter *nc =
             [NSNotificationCenter defaultCenter];
@@ -79,7 +78,8 @@ static NetworkController *sharedController = nil;
                    selector:@selector(authenticationChanged)
                        name:GKPlayerAuthenticationDidChangeNotificationName
                      object:nil];
-        }
+        }*/
+        [self connect];
     }
     return self;
 }
@@ -129,12 +129,12 @@ static NetworkController *sharedController = nil;
  [self sendData:writer.data];
  }*/
 
--(void) sendPlayerInit {
+-(void) sendPlayerInitWithUsername:(NSString *)username email:(NSString *)email password:(NSString *)password {
     MessageWriter *writer = [[[MessageWriter alloc] init] autorelease];
     NetworkPacket *packet = [[[NetworkPacket alloc] init] autorelease];
     
     packet.particle = @"PARTICLE";
-    packet.data = [GKLocalPlayer localPlayer].alias;
+    packet.data = [NSString stringWithFormat:@"(%@,%@,%@)", username, email, password];
     packet.crc = 12345678;
     packet.timeStamp = 2345;
     packet.gameState = PLAYER_INIT;
@@ -290,6 +290,7 @@ static NetworkController *sharedController = nil;
             CCLOG(@"NetworkPacket.data: %@", newPacket.data);
         }
     }
+    //[self.delegate stateChanged:newPacket];
     [self receivedPacket:newPacket];
 }
 
@@ -305,7 +306,7 @@ static NetworkController *sharedController = nil;
         case PLAYER_CONNECTED:
             CCLOG(@"GameState: Player Connected Successfully.");
             //Send PLAYER_INIT
-            [self sendPlayerInit];
+            [self.delegate stateChanged:gameState];
             break;
         case PLAYER_DISCONNECTED:
             break;
@@ -315,7 +316,6 @@ static NetworkController *sharedController = nil;
             CCLOG(@" GameState: Player Requested History Successfully. Updating game list.");
             //Player successfully requested player history. Update games list.
             [self updateHistory:packet];
-            
             break;
         case PLAYER_SERVER_SETTINGS:
             break;
@@ -406,6 +406,7 @@ static NetworkController *sharedController = nil;
 -(void) updateHistory:(NetworkPacket*)packet {
     NSString *historyString = packet.data;
     NSScanner *scanner = [NSScanner scannerWithString:historyString];
+    NSMutableArray *challengerArray = [[[NSMutableArray alloc] init] autorelease];
 
     
     while ([scanner isAtEnd] == NO) {
@@ -415,8 +416,10 @@ static NetworkController *sharedController = nil;
             [scanner scanUpToString:@")" intoString:&challengerString];
             NSArray *components = [challengerString componentsSeparatedByString:@","];
             Challenger* challenger = [[[Challenger alloc] initChallenger:components] autorelease];
+            [challengerArray addObject:challenger];
         }
     }
+    [[PlayerDB database] updatePlayerChallengersTable:challengerArray];
 }
 
 -(void) testParseTerritories:(NetworkPacket*)packet {
@@ -489,7 +492,7 @@ static NetworkController *sharedController = nil;
 }
 
 - (BOOL)writeChunk {
-    int amtToWrite = MIN(_outputBuffer.length, 65535+16);
+    int amtToWrite = MIN(_outputBuffer.length, 65535+24);
     //int amtToWrite = _outputBuffer.length;
     if (amtToWrite == 0) return FALSE;
     
@@ -560,11 +563,11 @@ static NetworkController *sharedController = nil;
 
 #pragma mark - Authentication
 
-- (void)authenticationChanged {
+/*- (void)authenticationChanged {
     
     if ([GKLocalPlayer localPlayer].isAuthenticated && !_userAuthenticated) {
         NSLog(@"Authentication changed: player authenticated.");
-        [self.delegate setupPlayerDatabase];
+        //[self.delegate setupPlayerDatabase];
         //[self setState:NetworkStateAuthenticated];
         _userAuthenticated = TRUE;
         [self connect];
@@ -588,6 +591,6 @@ static NetworkController *sharedController = nil;
     } else {
         NSLog(@"Already authenticated!");
     }
-}
+}*/
 
 @end
