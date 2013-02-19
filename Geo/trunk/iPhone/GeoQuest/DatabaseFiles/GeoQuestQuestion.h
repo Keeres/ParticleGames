@@ -11,15 +11,6 @@
 #import "Constants.h"
 
 @interface GeoQuestQuestion : NSObject {
-    /*NSString *_key;
-    NSString *_type;
-    NSString *_text;
-    NSString *_answer;
-    NSString *_answerTable;
-    NSString *_answerChoice;
-    
-    int _powerUpTypeQuestion;*/
-    
     NSString *_question;
     NSString *_questionType;
     NSString *_answerTable;
@@ -31,16 +22,6 @@
     int _powerUpTypeQuestion;
     
 }
-
-/*@property (nonatomic, copy) NSString *key;
-@property (nonatomic, copy) NSString *type;
-@property (nonatomic, copy) NSString *text;
-@property (nonatomic, copy) NSString *answer;
-@property (nonatomic, copy) NSString *answerTable;
-@property (nonatomic, copy) NSString *answerChoice;
-@property (readwrite) int powerUpTypeQuestion;
-
--(id) initWithKey:(NSString*)key type:(NSString*)type text:(NSString*)text answer:(NSString*)answer answerTable:(NSString*)answerTable answerChoice:(NSString*)answerChoice;*/
 
 @property (nonatomic, copy) NSString *question;
 @property (nonatomic, copy) NSString *questionType;

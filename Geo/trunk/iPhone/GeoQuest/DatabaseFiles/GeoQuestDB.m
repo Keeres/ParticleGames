@@ -224,7 +224,7 @@ static GeoQuestDB *_database;
     return answerChoices;
 }*/
 
--(NSArray*) getAnswerChoicesFrom:(GeoQuestQuestion *)question specialPower:(int)power {
+-(NSMutableArray*) getAnswerChoicesFrom:(GeoQuestQuestion *)question specialPower:(int)power {
     NSMutableArray *answerChoices = [[NSMutableArray alloc] init];
     NSString *sqlAnswerChoices;
     
@@ -252,11 +252,11 @@ static GeoQuestDB *_database;
             break;
             
         case kNormalDifficulty:
-            sqlAnswerChoices = [NSString stringWithFormat:@"SELECT answerID, %@ FROM %@ WHERE answerID !='%@' ORDER BY RANDOM() LIMIT 2", question.answerType, question.answerTable, question.answerID];
+            sqlAnswerChoices = [NSString stringWithFormat:@"SELECT answerID, %@ FROM %@ WHERE answerID !='%@' ORDER BY RANDOM() LIMIT 3", question.answerType, question.answerTable, question.answerID];
             break;
             
         case kExtremeDifficuly:
-            sqlAnswerChoices = [NSString stringWithFormat:@"SELECT answerID, %@ FROM %@ WHERE answerID !='%@' ORDER BY RANDOM() LIMIT 3", question.answerType, question.answerTable, question.answerID];
+            sqlAnswerChoices = [NSString stringWithFormat:@"SELECT answerID, %@ FROM %@ WHERE answerID !='%@' ORDER BY RANDOM() LIMIT 5", question.answerType, question.answerTable, question.answerID];
             break;
 
         default:

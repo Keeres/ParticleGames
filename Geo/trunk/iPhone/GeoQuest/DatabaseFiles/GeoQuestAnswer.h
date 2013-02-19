@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@interface GeoQuestAnswer : NSObject {
+@interface GeoQuestAnswer : CCNode {
     /*NSString *_key;
     NSString *_name;
     NSString *_category;*/

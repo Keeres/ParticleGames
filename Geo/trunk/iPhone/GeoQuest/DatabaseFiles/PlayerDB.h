@@ -14,13 +14,6 @@
     sqlite3 *_database;
     
     NSString *_username;
-    NSString *_name; //1
-    int _experience; //2
-    int _coins; //3
-    NSString *_territoriesOwned; //4
-    float _timePlayed; //5
-    int _totalQuestions; //6
-    int _totalAnswersCorrect; //7
 }
 
 @property (nonatomic, copy) NSString *name;
@@ -34,7 +27,9 @@
 +(PlayerDB*) database;
 
 -(void) createNewPlayerStatsTable:(NSString*)username;
+-(void) updatePlayerChallengersTable:(NSMutableArray*)array;
 -(void) updatePlayerTerritoriesTable:(NSMutableArray*)array;
 -(void) updateInformation;
+-(NSMutableArray*) retrievePlayerChallengersTable;
 
 @end

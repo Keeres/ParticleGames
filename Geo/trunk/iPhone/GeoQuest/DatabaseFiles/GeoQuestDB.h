@@ -33,7 +33,7 @@
 
 -(GeoQuestQuestion*) getQuestionFrom:(GeoQuestTerritory*)questionTable;
 
--(NSArray*) getAnswerChoicesFrom:(GeoQuestQuestion*)question specialPower:(int)power;
+-(NSMutableArray*) getAnswerChoicesFrom:(GeoQuestQuestion*)question specialPower:(int)power;
 
 -(BOOL) checkAnswer:(GeoQuestAnswer*)answer withQuestion:(GeoQuestQuestion*)question;
 
