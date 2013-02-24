@@ -285,15 +285,19 @@
     gameOverMenu.position = ccp(gameOverMenu.position.x, winSize.height - gameOverMenu.contentSize.height);
     gameOverMenu.boundaryRect = CGRectMake(gameOverMenu.position.x - gameOverMenu.contentSize.width/2, gameOverMenu.position.y - gameOverMenu.contentSize.height/2, gameOverMenu.contentSize.width, gameOverMenu.contentSize.height);
     
+    CCSprite *currentTimeLine = [CCSprite spriteWithSpriteFrameName:@"DifficultyDisplay.png"];
+    currentTimeLine.position = ccp(winSize.width/2, winSize.height/4);
+    [self addChild:currentTimeLine z:0];
+    
     playerVehicle.position = ccp(playerVehicle.contentSize.width/2, 30.0);
     
     int renderTextureSize = 2048;
     renderTexture = [CCRenderTexturePlus renderTextureWithWidth:renderTextureSize height:renderTextureSize];
-    renderTexture.position = ccp(winSize.width/2, -renderTexture.boundaryRect.size.height/2 + winSize.height * .75);
+    renderTexture.position = ccp(winSize.width/2, -renderTexture.boundaryRect.size.height/2 + winSize.height * .5);
     [renderTexture updateBoundaryRect];
     renderTextureOrigPos = renderTexture.position;
     
-    [self addChild:renderTexture];
+    [self addChild:renderTexture z:1];
 
     CCSprite *s = [CCSprite spriteWithSpriteFrameName:@"ReplayLine.png"];
     raceLineWidth = s.contentSize.width;
@@ -347,6 +351,7 @@
     
     // Draw being and start
     CCSprite *begin = [CCSprite spriteWithSpriteFrameName:@"MainMenuCompass.png"];
+    raceStartHeight = begin.contentSize.height;
     begin.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4);
     [begin visit];
     begin.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4 - (60 * s.contentSize.width));
@@ -384,10 +389,11 @@
     NSString *qString = @"";
     
     GeoQuestTerritory *questionTerritory;
-    int i = arc4random() % [territoriesChosen count];
-    questionTerritory = [territoriesChosen objectAtIndex:i];
-    
-    for (int i = 0; i < 50; i++) {
+
+    for (int j = 0; j < 50; j++) {
+        int i = arc4random() % [territoriesChosen count];
+        questionTerritory = [territoriesChosen objectAtIndex:i];
+        
         GeoQuestQuestion *q = [[GeoQuestDB database] getQuestionFrom:questionTerritory];
         while ([self checkQuestionInArray:q]) {
             q = [[GeoQuestDB database] getQuestionFrom:questionTerritory];
@@ -404,7 +410,7 @@
 -(BOOL) checkQuestionInArray:(GeoQuestQuestion*)q {
     for (int i = 0; i < [questionArray count]; i++) {
         GeoQuestQuestion* duplicate = [questionArray objectAtIndex:i];
-        if ([q.answerID isEqualToString:duplicate.answerID]) {
+        if ([q.question isEqualToString:duplicate.question] && [q.questionType isEqualToString:duplicate.questionType] && [q.answerID isEqualToString:duplicate.answerID]) {
             CCLOG(@"duplicate");
             return YES;
         }
@@ -1344,16 +1350,17 @@
 #pragma mark - Methods for Touches
 
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+#define BOUNCE_DISTANCE 100
     UITouch *touch = [touches anyObject];
     currentPoint = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
     
     CCLOG(@"rt.sprite boundaryRect: %f, %f, %f, %f", renderTexture.boundaryRect.origin.x, renderTexture.boundaryRect.origin.y , renderTexture.boundaryRect.size.width, renderTexture.boundaryRect.size.height);
     CCLOG(@"curPoint: %f, %f", currentPoint.x, currentPoint.y);
-    if (CGRectContainsPoint(renderTexture.boundaryRect, currentPoint)) {
+    /*if (CGRectContainsPoint(renderTexture.boundaryRect, currentPoint)) {
         touchedRenderTexture = YES;
     } else {
         touchedRenderTexture = NO;
-    }
+    }*/
 }
 
 -(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -1363,14 +1370,13 @@
     currentPoint = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
     
     float yDif = previousPoint.y - currentPoint.y;
-    CCLOG(@"yDif:%f",yDif);
-    float boundaryDistance = renderTexture.boundaryRect.size.height/2 - winSize.height/2;
-    if (touchedRenderTexture) {
-        //if (renderTexture.position.y <= winSize.height/2 + boundaryDistance && renderTexture.position.y >= winSize.height/2 - boundaryDistance) {
+    float boundaryDistance = (raceLineWidth * 60);
+    //if (touchedRenderTexture) {
+        if (renderTexture.position.y <= renderTextureOrigPos.y + boundaryDistance + BOUNCE_DISTANCE && renderTexture.position.y >= renderTextureOrigPos.y - BOUNCE_DISTANCE) {
             renderTexture.position = ccp(renderTexture.position.x, renderTexture.position.y - yDif);
             [renderTexture updateBoundaryRect];
-        //}
-    }
+        }
+    //}
     
     float deltaY = renderTexture.position.y - renderTextureOrigPos.y;
     float currentTime = deltaY/raceLineWidth;
@@ -1410,11 +1416,11 @@
         }
     }
     
-    /*if (renderTexture.position.y > winSize.height/2 + boundaryDistance) {
-        renderTexture.position = ccp(renderTexture.position.x, winSize.height/2 + boundaryDistance);
-    } else if (renderTexture.position.y < winSize.height/2 - boundaryDistance) {
-        renderTexture.position = ccp(renderTexture.position.x, winSize.height/2 - boundaryDistance);
-    }*/
+    if (renderTexture.position.y > renderTextureOrigPos.y + boundaryDistance + BOUNCE_DISTANCE) {
+        renderTexture.position = ccp(renderTexture.position.x, renderTextureOrigPos.y + boundaryDistance + BOUNCE_DISTANCE);
+    } else if (renderTexture.position.y < renderTextureOrigPos.y - BOUNCE_DISTANCE) {
+        renderTexture.position = ccp(renderTexture.position.x, renderTextureOrigPos.y - BOUNCE_DISTANCE);
+    }
 }
 
 
@@ -1422,13 +1428,21 @@
     UITouch *touch = [touches anyObject];
     currentPoint = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
     
-    float boundaryDistance = renderTexture.boundaryRect.size.height/2 - winSize.height/2;
+    float boundaryDistance = (raceLineWidth * 60);
 
-    /*if (renderTexture.position.y > winSize.height/2 + boundaryDistance) {
-        renderTexture.position = ccp(renderTexture.position.x, winSize.height/2 + boundaryDistance);
-    } else if (renderTexture.position.y < winSize.height/2 - boundaryDistance) {
-        renderTexture.position = ccp(renderTexture.position.x, winSize.height/2 - boundaryDistance);
-    }*/
+    if (renderTexture.position.y > renderTextureOrigPos.y + boundaryDistance) {
+        id renderTextureAction = [CCMoveTo actionWithDuration:0.75 position:ccp(renderTexture.position.x, renderTextureOrigPos.y + boundaryDistance)];
+        id renderTextureEase = [CCEaseBackOut actionWithAction:renderTextureAction];
+        
+        [renderTexture runAction:renderTextureEase];
+        //renderTexture.position = ccp(renderTexture.position.x, renderTextureOrigPos.y + boundaryDistance);
+    } else if (renderTexture.position.y < renderTextureOrigPos.y) {
+        id renderTextureAction = [CCMoveTo actionWithDuration:0.75 position:ccp(renderTexture.position.x, renderTextureOrigPos.y)];
+        id renderTextureEase = [CCEaseBackOut actionWithAction:renderTextureAction];
+        
+        [renderTexture runAction:renderTextureEase];
+        //renderTexture.position = ccp(renderTexture.position.x, renderTextureOrigPos.y);
+    }
 }
 
 -(void) dealloc {
