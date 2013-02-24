@@ -5,46 +5,24 @@
 	<key>frames</key>
 	<dict>
 		
-		<key>MainMenuBGMap.png</key>
+		<key>SoloGameBGSky.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
 			
 			</array>
 			<key>spriteColorRect</key>
-			<string>{{4, 2}, {1128, 638}}</string>
-			<key>spriteOffset</key>
-			<string>{0, -1}</string>
-			<key>spriteSize</key>
-			<string>{1128, 638}</string>
-			<key>spriteSourceSize</key>
-			<string>{1136, 640}</string>
-			<key>spriteTrimmed</key>
-			<true/>
-			<key>textureRect</key>
-			<string>{{0, 642}, {1128, 638}}</string>
-			<key>textureRotated</key>
-			<false/>
-		</dict>
-		
-		<key>MainMenuBackPanel.png</key>
-		<dict>
-			<key>aliases</key>
-			<array>
-			
-			</array>
-			<key>spriteColorRect</key>
-			<string>{{0, 0}, {1136, 640}}</string>
+			<string>{{0, 59}, {640, 1930}}</string>
 			<key>spriteOffset</key>
 			<string>{0, -0}</string>
 			<key>spriteSize</key>
-			<string>{1136, 640}</string>
+			<string>{640, 1930}</string>
 			<key>spriteSourceSize</key>
-			<string>{1136, 640}</string>
+			<string>{640, 2048}</string>
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{0, 0}, {1136, 640}}</string>
+			<string>{{0, 0}, {640, 1930}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
@@ -66,9 +44,9 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{1130, 963}, {587, 907}}</string>
+			<string>{{642, 643}, {907, 587}}</string>
 			<key>textureRotated</key>
-			<true/>
+			<false/>
 		</dict>
 		
 		<key>SoloWoodBG.png</key>
@@ -88,9 +66,9 @@
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{1138, 0}, {641, 961}}</string>
+			<string>{{642, 0}, {961, 641}}</string>
 			<key>textureRotated</key>
-			<true/>
+			<false/>
 		</dict>
 		
 	</dict>
@@ -103,13 +81,13 @@
 		<key>size</key>
 		<string>{2048, 2048}</string>
 		<key>name</key>
-		<string>MainMenuBGSprites-hd.zwd</string>
+		<string>MainMenuBGSprites.zwd</string>
 		<key>premultipliedAlpha</key>
 		<false/>
 		<key>target</key>
 		<dict>
 			<key>name</key>
-			<string>default</string>
+			<string>HD</string>
 			<key>textureFileName</key>
 			<string>MainMenuBGSprites-hd</string>
 			<key>textureFileExtension</key>

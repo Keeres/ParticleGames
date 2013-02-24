@@ -15,13 +15,15 @@
 #import "GeoQuestAnswer.h"
 #import "CCMenuAdvanced.h"
 #import "CCMenu+Layout.h"
+#import "CCRenderTexturePlus.h"
 #import "GameTheme.h"
 #import "GameThemeCache.h"
-
+#import "RaceData.h"
 
 #define SOLO_GRID_SPACING 5 //points between menu items
 #define SOLO_GAME_TIMER 60 
 #define SOLO_GAME_QUICKDRAW_TIMER 1.5
+#define SOLO_GAME_SCORE_TO_WIN 200
 
 @class SoloGameBG;
 
@@ -38,14 +40,22 @@
     GameThemeCache      *theme;
     NSArray             *themeArray;
 
+    NSMutableArray      *questionArray;
+    NSMutableArray      *questionLayerTotal;
+    NSMutableArray      *questionLayerVisible;
     NSMutableArray      *currentAnswerChoices;
     NSMutableArray      *themeTotal;
     NSMutableArray      *themeVisible;
     NSMutableArray      *territoriesChosen; //array of all the territories usable by player
+    NSMutableArray      *raceDataArray; //array to store raceData objects
+    NSMutableArray      *reverseRaceDataArray;
     
+    CCRenderTexturePlus *renderTexture;
     CCSprite            *question;
     CCSprite            *correctMark;
     CCSprite            *wrongMark;
+    CCSprite            *playerVehicle;
+    CCSprite            *soloGameTheme;
     CCMenuAdvanced      *difficultyChoiceMenu;
     CCMenuAdvanced      *answerChoicesMenu;
     CCMenuAdvanced      *gameOverMenu;
@@ -70,6 +80,7 @@
     BOOL                doublePointsPowerUpActivated;
     BOOL                fiftyFiftyPowerUpActivated;
     BOOL                specialStagePowerUpActivated;
+    BOOL                touchedRenderTexture;
     float               prepTimer;
     float               gameTimer;
     float               questionTimer;
@@ -80,7 +91,6 @@
     float               specialStagePowerUpTimer;
     float               pointsEarned;
     float               score;
-    
     int                 questionsAsked;
     int                 questionsAnsweredCorrectly;
     int                 powerUpPercentageRequirement;
@@ -88,8 +98,12 @@
     int                 answerQuickDrawCorrectlyInRow;
     int                 answerIncorrectlyInRow;
     int                 difficultyChoice;
+    int                 answerChoicesVisibleCount;
     
-
+    CGPoint             currentPoint;
+    CGPoint             previousPoint;
+    CGPoint             renderTextureOrigPos;
+    float               raceLineWidth;
     
 }
 

@@ -14,6 +14,10 @@
 
 -(void) setupTheme {
     switch (theme) {
+        case kNoTheme:
+            [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:NULL]];
+            themeName = [NSString stringWithFormat:@"None"];
+            break;
         case kMetalTheme:
             //[self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"MainMenuUIMetalCard.png"]];
             [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"Postcard.png"]];
@@ -32,7 +36,12 @@
 }
 
 -(void) setupBoundaryRect {
+    CGSize winSize = [CCDirector sharedDirector].winSize;
     switch (theme) {
+        case kNoTheme:
+            boundaryRect = CGRectMake(self.position.x - winSize.width/2, self.position.y - winSize.height/2, winSize.width, winSize.height);
+            break;
+            
         case kMetalTheme:
             boundaryRect = CGRectMake(self.position.x - self.contentSize.width/2, self.position.y - self.contentSize.height/2, self.contentSize.width, self.contentSize.height);
             break;

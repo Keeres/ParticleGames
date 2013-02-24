@@ -147,6 +147,7 @@
     for (int i = 0; i < [challengerArray count]; i++) {
         CCMenuItemSprite *challengerItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(startChallenge:)];
         challengerItemSprite.tag = i;
+        challengerItemSprite.disabledImage = [CCSprite spriteWithSpriteFrameName:@"MainMenuSoloButton.png"];
         
         Challenger *c = [challengerArray objectAtIndex:i];
         
@@ -249,7 +250,7 @@
     [embargoButton setPosition:ccp(3*embargoButton.contentSize.width/2 + UI_MENU_SPACING*2, embargoButton.contentSize.height/2 + UI_MENU_SPACING)];
     
     
-    CCMenuItemSprite *achievementButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"AchievementButton.png"]
+    /*CCMenuItemSprite *achievementButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"AchievementButton.png"]
                                                                   selectedSprite:[CCSprite spriteWithSpriteFrameName:@"AchievementButton.png"]
                                                                            block:^(id sender){
                                                                                GKAchievementViewController *achivementViewController = [[GKAchievementViewController alloc] init];
@@ -262,11 +263,11 @@
                                                                                [achivementViewController release];
                                                                            }
                                            ];
-    [achievementButton setPosition:ccp(5*achievementButton.contentSize.width/2 + UI_MENU_SPACING*3, achievementButton.contentSize.height/2 + UI_MENU_SPACING)];
+    [achievementButton setPosition:ccp(5*achievementButton.contentSize.width/2 + UI_MENU_SPACING*3, achievementButton.contentSize.height/2 + UI_MENU_SPACING)];*/
     
     
     
-    optionMenu = [CCMenuAdvanced menuWithItems:storeButton, embargoButton, achievementButton, nil];
+    optionMenu = [CCMenuAdvanced menuWithItems:storeButton, embargoButton, nil];
     
     [optionMenu alignItemsHorizontallyWithPadding:5.0 leftToRight:YES];
     optionMenu.ignoreAnchorPointForPosition = NO;
@@ -373,6 +374,19 @@
 
 #pragma mark - Methods for Buttons
 
+-(void) disableButtonsWhenNoNetwork {
+    CCArray *gameChallengeMenuArray = [gameChallengeMenu children];
+    for (int i = 0; i < [gameChallengeMenuArray count] - 1; i++) {
+        CCMenuItemSprite *s = [gameChallengeMenuArray objectAtIndex:i];
+        if (s.isEnabled) {
+            s.isEnabled = NO;
+        } else {
+            s.isEnabled = YES;
+        }
+    }
+    
+}
+
 -(void) startSolo {
     CCLOG(@"MainMenuUI: Start solo game!");
     [[SimpleAudioEngine sharedEngine] stopBackgroundMusic];
@@ -387,12 +401,11 @@
 -(void) createGame {
     CCLOG(@"MainMenuUI: Create new game!");
     [self startSolo];
-
 }
 
 -(void) openOptions {
     CCLOG(@"MainMenuUI: Open options menu!");
-
+    [self disableButtonsWhenNoNetwork];
 }
 
 -(void) startChallenge:(CCMenuItemSprite *)sender {

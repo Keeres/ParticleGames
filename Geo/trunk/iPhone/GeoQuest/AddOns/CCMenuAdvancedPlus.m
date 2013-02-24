@@ -11,18 +11,26 @@
 @implementation CCMenuAdvancedPlus
 
 @synthesize originalPos;
-@synthesize bounceEffect;
+@synthesize bounceEffectLeft;
+@synthesize bounceEffectRight;
+@synthesize bounceEffectUp;
+@synthesize bounceEffectDown;
 @synthesize isRefreshed;
 @synthesize extraTouchPriority;
+@synthesize bounceDistance;
 
 -(id) initWithItems: (CCMenuItem*) item vaList: (va_list) args
 {
 	if ((self = [super initWithItems:item vaList:args])) {
         CGSize winSize = [[CCDirector sharedDirector] winSize];
         originalPos = ccp(winSize.width/2, winSize.height/2);
-        bounceEffect = NO;
+        bounceEffectLeft = NO;
+        bounceEffectRight = NO;
+        bounceEffectUp = NO;
+        bounceEffectDown = NO;
         isRefreshed = NO;
         extraTouchPriority = 0;
+        bounceDistance = 0.0;
     }
 	return self;
 }
@@ -46,28 +54,28 @@
     CGFloat topBoundary;
 
 
-    if (bounceEffect && boundaryRect_.size.width < self.contentSize.width) {
-        leftBoundary = boundaryRect_.origin.x + boundaryRect_.size.width - 80.0;
+    if (bounceEffectLeft && boundaryRect_.size.width <= self.contentSize.width) {
+        leftBoundary = boundaryRect_.origin.x + boundaryRect_.size.width - bounceDistance;
     } else {
         leftBoundary = boundaryRect_.origin.x + boundaryRect_.size.width;
     }
     
-    if (bounceEffect && boundaryRect_.size.width < self.contentSize.width) {
-        rightBoundary = boundaryRect_.origin.x + MAX(s.width + 80.0, boundaryRect_.size.width + 80.0);
+    if (bounceEffectRight && boundaryRect_.size.width <= self.contentSize.width) {
+        rightBoundary = boundaryRect_.origin.x + MAX(s.width + bounceDistance, boundaryRect_.size.width + bounceDistance);
     } else {
         rightBoundary = boundaryRect_.origin.x + MAX(s.width, boundaryRect_.size.width);
     }
     
-    if (bounceEffect && boundaryRect_.size.height < self.contentSize.height) {
-        bottomBoundary = boundaryRect_.origin.y + boundaryRect_.size.height - 80.0;
+    if (bounceEffectDown && boundaryRect_.size.height <= self.contentSize.height) {
+        bottomBoundary = boundaryRect_.origin.y + boundaryRect_.size.height - bounceDistance;
     } else {
         bottomBoundary = boundaryRect_.origin.y + boundaryRect_.size.height;
     }
     
-    if (bounceEffect && boundaryRect_.size.height < self.contentSize.height) {
-        topBoundary = boundaryRect_.origin.y + MAX(s.height + 80.0,boundaryRect_.size.height + 80.0);
+    if (bounceEffectUp && boundaryRect_.size.height <= self.contentSize.height) {
+        topBoundary = boundaryRect_.origin.y + MAX(s.height + bounceDistance, boundaryRect_.size.height + bounceDistance);
     } else {
-        topBoundary = boundaryRect_.origin.y + MAX(s.height,boundaryRect_.size.height);
+        topBoundary = boundaryRect_.origin.y + MAX(s.height, boundaryRect_.size.height);
     }
     
 	rightTopCorner = ccp( CLAMP(rightTopCorner.x,leftBoundary,rightBoundary),
@@ -156,19 +164,25 @@
 	state_ = kCCMenuStateWaiting;
     
     float contentTopBorder = self.position.y + self.contentSize.height/2;
-    float boundaryTopBorder = boundaryRect_.origin.y + boundaryRect_.size.height;
+    float boundaryTopBorder = self.originalPos.y + self.contentSize.height/2;
     
     float contentBotBorder = self.position.y - self.contentSize.height/2;
     float boundaryBotBorder = boundaryRect_.origin.y;
-    
-    float bottomPositionY = boundaryRect_.origin.y + self.contentSize.height/2;
+    float bottomPositionY;
+    if (originalPos.y - self.contentSize.height/2 < 0.0){
+        bottomPositionY = boundaryRect_.origin.y + self.contentSize.height/2;
+    } else {
+        bottomPositionY = originalPos.y;
+    }
 
-    if (contentTopBorder < (boundaryTopBorder - 30.0)) {
+    if (contentTopBorder < (boundaryTopBorder - bounceDistance/2)) {
         CCLOG(@"CCMenuAdvancedPlus: Refresh Menu");
         isRefreshed = YES;
     }
     
+
     if (contentTopBorder < boundaryTopBorder) {
+
         id action = [CCMoveTo actionWithDuration:0.75 position:originalPos];
         id ease = [CCEaseBackOut actionWithAction:action];
         

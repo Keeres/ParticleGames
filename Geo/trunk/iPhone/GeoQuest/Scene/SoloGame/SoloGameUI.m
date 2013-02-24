@@ -50,18 +50,23 @@
     [selectDifficulty stopAllActions];
 
     [self setupCorrectAndWrongSprite];
+    [self setupVehicles];
     [self setupUILabels];
+    [self setupSoloGameTheme];
     [self setupGameOverMenu];
-    [self setupTheme];
+    //[self setupTheme];
+    [self setupQuestionLayer];
     [self setupParticleSystems];
     
     [self createQuestions];
+    [self createRaceData];
+    
+    playerVehicle.visible = YES;
+    soloGameTheme.visible = YES;
 }
 
 
 -(void) setupDifficultyLayer {
-    
-
     difficultyBackground = [CCSprite spriteWithSpriteFrameName:@"MainMenuUIWoodBG.png"];
     difficultyBackground.position = ccp(winSize.width/2, winSize.height/2);
         
@@ -126,6 +131,13 @@
     [self addChild:wrongMark z:20];
 }
 
+-(void) setupVehicles {
+    playerVehicle = [CCSprite spriteWithSpriteFrameName:@"VehicleWhiteOwl.png"];
+    playerVehicle.position = ccp(playerVehicle.contentSize.width/2, 30.0);
+    playerVehicle.visible = NO;
+    [self addChild:playerVehicle z:100];
+}
+
 -(void) setupUILabels {
     prepTimerLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%.f", prepTimer] fontName:@"TRS Million" fontSize:64];
     prepTimerLabel.position = ccp(winSize.width/2, winSize.height/2);
@@ -176,6 +188,13 @@
     [self addChild:inRowQuickDrawLabel z:20];
 }
 
+-(void) setupSoloGameTheme {
+    soloGameTheme = [CCSprite spriteWithSpriteFrameName:@"SoloGameDesertTheme.png"];
+    soloGameTheme.position = ccp(winSize.width/2, soloGameTheme.contentSize.height/2);
+    soloGameTheme.visible = NO;
+    [self addChild:soloGameTheme z:0];
+}
+
 -(void) setupGameOverMenu {
     
     gameOverMenu = [CCMenuAdvanced menuWithItems:nil];
@@ -204,8 +223,8 @@
 
 }
 
--(void) setupTheme {
-    theme = [[GameThemeCache alloc] initWithDifficulty:difficultyChoice andThemeName:kMetalTheme];
+/*-(void) setupTheme {
+    theme = [[GameThemeCache alloc] initWithDifficulty:difficultyChoice andThemeName:kNoTheme];
     themeArray = [theme theme];
     themeTotal = [[NSMutableArray alloc] init];
     themeVisible = [[NSMutableArray alloc] init];
@@ -216,6 +235,19 @@
         [themeTotal addObject:t];
         [self addChild:t z:1];
     }
+}*/
+
+-(void) setupQuestionLayer {
+    questionLayerTotal = [[NSMutableArray alloc] init];
+    questionLayerVisible = [[NSMutableArray alloc] init];
+    
+    for (int i = 0; i < 4; i++) {
+        CCLayerColor *questionLayer = [[[CCLayerColor alloc] initWithColor:ccc4(0, 0, 0, 25)] autorelease];
+        questionLayer.position = ccp(-winSize.width/2, -winSize.height/2);
+        questionLayer.visible = NO;
+        [questionLayerTotal addObject:questionLayer];
+        [self addChild:questionLayer z:1];
+    }  
 }
 
 -(void) setupParticleSystems {
@@ -243,6 +275,86 @@
 
 #pragma mark - Menus Selected
 
+-(void) showReplay {
+    reverseRaceDataArray = [[NSMutableArray alloc] initWithCapacity:[raceDataArray count]];
+    
+    if (renderTexture != NULL) {
+        return;
+    }
+    
+    gameOverMenu.position = ccp(gameOverMenu.position.x, winSize.height - gameOverMenu.contentSize.height);
+    gameOverMenu.boundaryRect = CGRectMake(gameOverMenu.position.x - gameOverMenu.contentSize.width/2, gameOverMenu.position.y - gameOverMenu.contentSize.height/2, gameOverMenu.contentSize.width, gameOverMenu.contentSize.height);
+    
+    playerVehicle.position = ccp(playerVehicle.contentSize.width/2, 30.0);
+    
+    int renderTextureSize = 2048;
+    renderTexture = [CCRenderTexturePlus renderTextureWithWidth:renderTextureSize height:renderTextureSize];
+    renderTexture.position = ccp(winSize.width/2, -renderTexture.boundaryRect.size.height/2 + winSize.height * .75);
+    [renderTexture updateBoundaryRect];
+    renderTextureOrigPos = renderTexture.position;
+    
+    [self addChild:renderTexture];
+
+    CCSprite *s = [CCSprite spriteWithSpriteFrameName:@"ReplayLine.png"];
+    raceLineWidth = s.contentSize.width;
+    s.rotation = 90;
+    s.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4);
+    [renderTexture beginWithClear:0 g:0 b:0 a:.2];
+    
+    // Draw lines from Start to Finish
+    for (int i = 0; i < 60; i++) {
+        s.position = ccp(s.position.x, s.position.y - s.contentSize.width);
+        [s visit];
+    }
+    
+    // Draw individual lines from middle line to answer picture
+    s.rotation = 0;
+    for (int i = 0; i < [raceDataArray count]; i++) {
+        RaceData *r = [raceDataArray objectAtIndex:i];
+
+        s.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4 - (s.contentSize.width * r.time));
+        
+        for (int j = 0; j <= r.points; j++) {
+            s.position = ccp(s.position.x - s.contentSize.width/3, s.position.y);
+            [s visit];
+        }
+        
+        s.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4 - (s.contentSize.width * r.time));
+        
+        if ([r.answerType isEqualToString:@"TP"]) {
+            CCLabelTTF *label = [CCLabelTTF labelWithString:r.answer fontName:@"Arial" fontSize:14];
+            if (r.correct) {
+                label.color = ccc3(0, 255, 0);
+            } else {
+                label.color = ccc3(255, 0, 0);
+            }
+            label.position = ccp(s.position.x - label.contentSize.width/2 - (s.contentSize.width/3 * r.points), s.position.y);
+            [label visit];
+        } else {
+            CCSprite *picture = [CCSprite spriteWithSpriteFrameName:r.answer];
+            picture.scale = 0.3;
+            
+            if (r.correct) {
+                picture.color = ccc3(0, 255, 0);
+            } else {
+                picture.color = ccc3(255, 0, 0);
+            }
+            picture.position = ccp(s.position.x - (picture.contentSize.width/2 * picture.scale) - (s.contentSize.width/3 * r.points), s.position.y);
+            [picture visit];
+        }
+        
+    }
+    
+    // Draw being and start
+    CCSprite *begin = [CCSprite spriteWithSpriteFrameName:@"MainMenuCompass.png"];
+    begin.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4);
+    [begin visit];
+    begin.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4 - (60 * s.contentSize.width));
+    [begin visit];
+    
+    
+    [renderTexture end];
+}
 
 -(void) gameOverSelected:(CCMenuItemSprite*)sender {
     int i = sender.tag;
@@ -253,6 +365,7 @@
             break;
         case 1:
             CCLOG(@"SoloGameUI: Show answers to questions");
+            [self showReplay];
             break;
         case 2:
             CCLOG(@"SoloGameUI: go back to main menu");
@@ -267,7 +380,7 @@
 #pragma mark - Retrieve Information
 
 -(void) createQuestions {
-    NSMutableArray *questionArray = [[[NSMutableArray alloc] init] autorelease];
+    questionArray = [[NSMutableArray alloc] init];
     NSString *qString = @"";
     
     GeoQuestTerritory *questionTerritory;
@@ -276,29 +389,46 @@
     
     for (int i = 0; i < 50; i++) {
         GeoQuestQuestion *q = [[GeoQuestDB database] getQuestionFrom:questionTerritory];
+        while ([self checkQuestionInArray:q]) {
+            q = [[GeoQuestDB database] getQuestionFrom:questionTerritory];
+        }
         [questionArray addObject:q];
         qString = [NSString stringWithFormat:@"%@%@",qString, [NSString stringWithFormat:@"(%@,%@,%@,%@,%@,%@,%@)", q.question, q.questionType, q.answerTable, q.answerType, q.answerID, q.answer, q.info]];
     }
     
     CCLOG(@"qSTRING: %@", qString);
-    
-    
     //Format the array of questions into String. Send the questions to Server.
     
 }
 
+-(BOOL) checkQuestionInArray:(GeoQuestQuestion*)q {
+    for (int i = 0; i < [questionArray count]; i++) {
+        GeoQuestQuestion* duplicate = [questionArray objectAtIndex:i];
+        if ([q.answerID isEqualToString:duplicate.answerID]) {
+            CCLOG(@"duplicate");
+            return YES;
+        }
+    }
+    return NO;
+}
+
+-(void) createRaceData {
+    raceDataArray = [[NSMutableArray alloc] init];
+}
+
 -(id) getQuestion {
     //TESTING BACKGROUNDS/////
-    [soloGameBG changeBG];
+    //[soloGameBG changeBG];
     //////////////////////////
     
-    questionsAsked++;
-    
-    GeoQuestTerritory *questionTerritory;
+    /*GeoQuestTerritory *questionTerritory;
     int i = arc4random() % [territoriesChosen count];
     questionTerritory = [territoriesChosen objectAtIndex:i];
     
-    currentQuestion = [[GeoQuestDB database] getQuestionFrom:questionTerritory];
+    currentQuestion = [[GeoQuestDB database] getQuestionFrom:questionTerritory];*/
+    currentQuestion = [questionArray objectAtIndex:questionsAsked];
+    questionsAsked++;
+    
     
     int powerUpPercentage = arc4random() % 100;
     //int powerUpPercentage = 0;
@@ -308,7 +438,7 @@
         //int whichPowerUp = kSpecialStagePowerUp;
         switch (whichPowerUp) {
             case kFreezeTimePowerUp:
-                currentQuestion.powerUpTypeQuestion = kFreezeTimePowerUp;
+                //currentQuestion.powerUpTypeQuestion = kFreezeTimePowerUp;
                 CCLOG(@"SoloGameUI: Freeze Timer Power UP");
                 break;
             case kDoublePointsPowerUp:
@@ -333,13 +463,15 @@
     }
 
     //Question is a text label
-    GameTheme *tempGameTheme = [themeTotal objectAtIndex:0];
+    //GameTheme *tempGameTheme = [themeTotal objectAtIndex:0];
+    CCLayerColor *tempLayer = [questionLayerTotal objectAtIndex:0];
     
     
     CCSprite *qDisplay = [CCSprite spriteWithSpriteFrameName:@"DifficultyDisplay.png"];
     //qDisplay.position = ccp(winSize.width/2, winSize.height - qDisplay.contentSize.height/2);
-    CCLOG(@"qdisplay = %f", tempGameTheme.textureRect.size.height/2);
-    qDisplay.position = ccp(tempGameTheme.textureRect.size.width/2, tempGameTheme.textureRect.size.height);
+    //CCLOG(@"qDisplay:%f, %f", tempGameTheme.boundaryRect.size.width/2, tempGameTheme.boundaryRect.size.height);
+    //qDisplay.position = ccp(tempGameTheme.boundaryRect.size.width/2, tempGameTheme.boundaryRect.size.height - qDisplay.contentSize.height/2);
+    qDisplay.position = ccp(winSize.width/2, winSize.height - qDisplay.contentSize.height/2 - gameTimerLabel.contentSize.height);
 
     CCLabelTTF *qText = [CCLabelTTF labelWithString:currentQuestion.question fontName:@"Arial" fontSize:28];
     qText.color = ccc3(255, 255, 255);
@@ -401,6 +533,7 @@
 -(CCMenuAdvanced*) getAnswerChoices {
     if (fiftyFiftyPowerUpActivated) {
         currentAnswerChoices = [[GeoQuestDB database] getAnswerChoicesFrom:currentQuestion specialPower:k5050PowerUp];
+        answerChoicesVisibleCount = 2;
     } else {
         currentAnswerChoices = [[GeoQuestDB database] getAnswerChoicesFrom:currentQuestion specialPower:difficultyChoice];
     }
@@ -484,29 +617,57 @@
     }
     
     answerMenu.ignoreAnchorPointForPosition = NO;
-    GameTheme *tempGameTheme = [themeTotal objectAtIndex:0];
+    //GameTheme *tempGameTheme = [themeTotal objectAtIndex:0];
+    CCLayerColor *tempLayer = [questionLayerTotal objectAtIndex:0];
 
     
-    switch (difficultyChoice) {
+    /*switch (difficultyChoice) {
         case kEasyDifficulty:
             if ([currentQuestion.info isEqualToString:@"PT"]) {
-                answerMenu.position = ccp(winSize.width/2, tempGameTheme.textureRect.size.height*.28);
+                answerMenu.position = ccp(winSize.width/2, tempGameTheme.boundaryRect.size.height*.28);
             } else {
-                answerMenu.position = ccp(winSize.width/2, tempGameTheme.textureRect.size.height*.4);
+                answerMenu.position = ccp(winSize.width/2, tempGameTheme.boundaryRect.size.height*.4);
             }
             break;
         case kNormalDifficulty:
             if ([currentQuestion.info isEqualToString:@"PT"]) {
-                answerMenu.position = ccp(winSize.width/2, tempGameTheme.textureRect.size.height*.28);
+                answerMenu.position = ccp(winSize.width/2, tempGameTheme.boundaryRect.size.height*.28);
             } else {
-                answerMenu.position = ccp(winSize.width/2, tempGameTheme.textureRect.size.height*.45);
+                answerMenu.position = ccp(winSize.width/2, tempGameTheme.boundaryRect.size.height*.45);
             }
             break;
         case kExtremeDifficuly:
             if ([currentQuestion.info isEqualToString:@"PT"]) {
-                answerMenu.position = ccp(winSize.width/2, tempGameTheme.textureRect.size.height*.28);
+                answerMenu.position = ccp(winSize.width/2, tempGameTheme.boundaryRect.size.height*.28);
             } else {
-                answerMenu.position = ccp(winSize.width/2, tempGameTheme.textureRect.size.height*.41);
+                answerMenu.position = ccp(winSize.width/2, tempGameTheme.boundaryRect.size.height*.41);
+            }
+            break;
+            
+        default:
+            break;
+    }*/
+    
+    switch (difficultyChoice) {
+        case kEasyDifficulty:
+            if ([currentQuestion.info isEqualToString:@"PT"]) {
+                answerMenu.position = ccp(winSize.width/2, winSize.height*.28);
+            } else {
+                answerMenu.position = ccp(winSize.width/2, winSize.height*.4);
+            }
+            break;
+        case kNormalDifficulty:
+            if ([currentQuestion.info isEqualToString:@"PT"]) {
+                answerMenu.position = ccp(winSize.width/2, winSize.height*.28);
+            } else {
+                answerMenu.position = ccp(winSize.width/2, winSize.height*.45);
+            }
+            break;
+        case kExtremeDifficuly:
+            if ([currentQuestion.info isEqualToString:@"PT"]) {
+                answerMenu.position = ccp(winSize.width/2, winSize.height*.28);
+            } else {
+                answerMenu.position = ccp(winSize.width/2, winSize.height*.41);
             }
             break;
             
@@ -554,7 +715,7 @@
     return answerGrid;
 }*/
 
--(void) getTheme {    
+/*-(void) getTheme {
     for (int i = 0; i < [themeTotal count]; i++) {
         GameTheme *t = [themeTotal objectAtIndex:i];
         if (t.visible == NO) {
@@ -569,7 +730,25 @@
             break;
         }
     }
+}*/
+
+-(void) getQuestionLayer {
+    for (int i = 0; i < [questionLayerTotal count]; i++) {
+        CCLayerColor *c = [questionLayerTotal objectAtIndex:i];
+        if (c.visible == NO) {
+            if ([questionLayerVisible count] != 0) {
+                CCLayerColor *lastLayer = [questionLayerVisible objectAtIndex:([questionLayerVisible count] - 1)];
+                c.position = ccp(lastLayer.position.x + winSize.width, lastLayer.position.y);
+            } else {
+                c.position = ccp(winSize.width, 0);
+            }
+            c.visible = YES;
+            [questionLayerVisible addObject:c];
+            break;
+        }
+    }
 }
+
 
 #pragma mark - Initialize Game
 
@@ -579,7 +758,7 @@
         winSize = [[CCDirector sharedDirector] winSize];
         self.isTouchEnabled = YES;
 
-        [self setupGame];        
+        [self setupGame];
         [self scheduleUpdate];
 
         }
@@ -616,6 +795,7 @@
     answerQuickDrawCorrectlyInRow = 0;
     answerIncorrectlyInRow = 0;
     difficultyChoice = -1;
+    answerChoicesVisibleCount = 4;
 }
 
 -(void) gameOver {
@@ -637,6 +817,11 @@
     id action = [CCMoveTo actionWithDuration:0.75 position:ccp(winSize.width/2, winSize.height/2)];
     id ease = [CCEaseBackInOut actionWithAction:action];
     [gameOverMenu runAction:ease];
+    
+    for (int i = 0; i < [raceDataArray count]; i++) {
+        RaceData *r = [raceDataArray objectAtIndex:i];
+        [r print];
+    }
 }
 
 #pragma mark - Update Game
@@ -660,7 +845,7 @@
     [inRowQuickDrawLabel setString:[NSString stringWithFormat:@"%i quick draw in a row!", answerQuickDrawCorrectlyInRow]];
 }
 
--(void) updateTheme {
+/*-(void) updateTheme {
     //Sets themes to not visible that have gone off screen.
     
     for (int i = 0; i < [themeVisible count]; i ++) {
@@ -668,6 +853,16 @@
         if (t.visible && t.position.x < -t.contentSize.width/2) {
             t.visible = NO;
             [themeVisible removeObjectAtIndex:i];
+        }
+    }
+}*/
+
+-(void) updateQuestionLayer {
+    for (int i = 0; i < [questionLayerVisible count]; i++) {
+        CCLayerColor *c = [questionLayerVisible objectAtIndex:i];
+        if (c.visible && c.position.x < -winSize.width) {
+            c.visible = NO;
+            [questionLayerVisible removeObjectAtIndex:i];
         }
     }
 }
@@ -697,7 +892,8 @@
                 [questionTimerLabel removeAllChildrenWithCleanup:YES];
                 [answerChoicesMenu removeFromParentAndCleanup:YES];
                 
-                [self getTheme];
+                //[self getTheme];
+                [self getQuestionLayer];
                 
                 correctMark.visible = NO;
                 wrongMark.visible = NO;
@@ -719,34 +915,47 @@
                     answerChoicesMenu.visible = YES;
                 }
        
-                GameTheme* themeSprite = [themeVisible objectAtIndex:([themeVisible count]-1)];
+                //GameTheme* themeSprite = [themeVisible objectAtIndex:([themeVisible count]-1)];
+                CCLayerColor *colorLayer = [questionLayerVisible objectAtIndex:([questionLayerVisible count] - 1)];
                 
                 if (question != NULL) {
                     question.position = ccp(winSize.width/2, question.position.y);
-                    [themeSprite addChild:question];
+                    //[themeSprite addChild:question];
+                    [colorLayer addChild:question];
                 }
                 
-                answerChoicesMenu.position = ccp(themeSprite.contentSize.width/2, answerChoicesMenu.position.y);
+                //answerChoicesMenu.position = ccp(themeSprite.contentSize.width/2, answerChoicesMenu.position.y);
+                answerChoicesMenu.position = ccp(winSize.width/2, answerChoicesMenu.position.y);
+
                 answerChoicesMenu.boundaryRect = CGRectMake(answerChoicesMenu.position.x - answerChoicesMenu.contentSize.width/2, answerChoicesMenu.boundaryRect.origin.y, answerChoicesMenu.boundaryRect.size.width, answerChoicesMenu.boundaryRect.size.height);
                 
-                [themeSprite addChild:answerChoicesMenu];
+                //[themeSprite addChild:answerChoicesMenu];
+                [colorLayer addChild:answerChoicesMenu];
                 
-                for (int i = 0; i < [themeVisible count]; i++) {
+                /*for (int i = 0; i < [themeVisible count]; i++) {
                     GameTheme *t = [themeVisible objectAtIndex:i];
                     id themeAction = [CCMoveBy actionWithDuration:0.4 position:ccp(-t.boundaryRect.size.width, 0)];
                     id themeEase = [CCEaseInOut actionWithAction:themeAction rate:2];
                     [t runAction:themeEase];
+                }*/
+                for (int i = 0; i < [questionLayerVisible count]; i++) {
+                    CCLayerColor *c = [questionLayerVisible objectAtIndex:i];
+                    id layerAction = [CCMoveBy actionWithDuration:0.4 position:ccp(-winSize.width, 0)];
+                    id layerEase = [CCEaseInOut actionWithAction:layerAction rate:2];
+                    [c runAction:layerEase];
                 }
             }
             
             if (gameTimer > 0) {
                 
                 questionTimer -= delta;
-                if (questionTimer < 5.0 && [currentAnswerChoices count] > 3) {
-                    [self removeOneAnswerChoice];
+                if (questionTimer < 5.0 && answerChoicesVisibleCount > 3) {
+                    //[self removeOneAnswerChoice];
+                    [self hideOneAnswerChoice];
 
-                } else if (questionTimer < 3.0 && [currentAnswerChoices count] > 2) {
-                    [self removeOneAnswerChoice];
+                } else if (questionTimer < 3.0 && answerChoicesVisibleCount > 2) {
+                    //[self removeOneAnswerChoice];
+                    [self hideOneAnswerChoice];
                 }
                 
                 if (questionTimer <= 0.0) {
@@ -809,7 +1018,7 @@
             quickDrawTimer -= delta;
         }
         
-        if (score > 100.0) {
+        /*if (score > SOLO_GAME_SCORE_TO_WIN) {
             question.visible = NO;
             correctMark.visible = NO;
             wrongMark.visible = NO;
@@ -825,9 +1034,9 @@
                 [self unscheduleUpdate];
                 [self gameOver];
             }
-        }
+        }*/
         
-        if (gameTimer <= 0) {
+        if (gameTimer <= 0 || score > SOLO_GAME_SCORE_TO_WIN) {
             //Game timer finished counting down. Show gameover screen and unschedule the update method.
             
             gameTimer = 0.0;
@@ -836,9 +1045,13 @@
             wrongMark.visible = NO;
             answerChoicesMenu.visible = NO;
             
-            for (int i = 0; i < [themeVisible count]; i++) {
+            /*for (int i = 0; i < [themeVisible count]; i++) {
                 CCSprite *t = [themeVisible objectAtIndex:i];
                 t.visible = NO;
+            }*/
+            for (int i = 0; i < [questionLayerVisible count]; i++) {
+                CCLayerColor *c = [questionLayerVisible objectAtIndex:i];
+                c.visible = NO;
             }
             
             [self updateUILabels];
@@ -852,7 +1065,8 @@
 
 -(void) update:(ccTime)delta {
     [self updateUILabels];
-    [self updateTheme];
+    //[self updateTheme];
+    [self updateQuestionLayer];
     [self updateTime:delta];
 }
 
@@ -860,6 +1074,10 @@
 
 -(void) checkAnswer:(CCMenuItemSprite*)sender {
     //If the answer is correct then make the 'O' sprite visible. If the answer is wrong then make the 'X' sprite visible.
+    if (sender == NULL) {
+        return;
+    }
+    
     int i = sender.tag;
     
     questionTimerLabel.visible = NO;
@@ -876,7 +1094,7 @@
         correctAnswer = [[GeoQuestDB database] checkAnswer:a withQuestion:currentQuestion];
     }
     
-    if (correctAnswer) {
+    if (correctAnswer) {        
         [[GameManager sharedGameManager] playSoundEffect:@"CORRECT_SFX"];
         questionsAnsweredCorrectly++;
         
@@ -933,6 +1151,7 @@
         id ease = [CCEaseExponentialOut actionWithAction:action];
         [correctMark runAction:ease];
         previousAnswerCorrect = YES;
+        
     } else {
         [[GameManager sharedGameManager] playSoundEffect:@"WRONG_SFX"];
         
@@ -963,14 +1182,26 @@
         [self runAction:shakeTotalSequence];
     }
     
-    //id action = [CCMoveTo actionWithDuration:0.35 position:ccp(scoreLabel.position.x, scoreLabel.position.y - pointsEarnedLabel.contentSize.height/2)];
-    id action = [CCMoveTo actionWithDuration:0.35 position:ccp(pointsEarnedLabel.position.x, pointsEarnedLabel.position.y + pointsEarnedLabel.contentSize.height)];
-    id ease = [CCEaseInOut actionWithAction:action rate:2];
-    [pointsEarnedLabel runAction:ease];
-    
     if (doublePointsPowerUpActivated == YES) {
         pointsEarned *= 2;
     }
+    
+    //id action = [CCMoveTo actionWithDuration:0.35 position:ccp(scoreLabel.position.x, scoreLabel.position.y - pointsEarnedLabel.contentSize.height/2)];
+    id pointsAction = [CCMoveTo actionWithDuration:0.35 position:ccp(pointsEarnedLabel.position.x, pointsEarnedLabel.position.y + pointsEarnedLabel.contentSize.height)];
+    id pointsEase = [CCEaseInOut actionWithAction:pointsAction rate:2];
+    [pointsEarnedLabel runAction:pointsEase];
+    
+    RaceData *r = [[RaceData alloc] initWithTime:(60 - gameTimer) answerType:currentQuestion.info answer:currentQuestion.answer correct:correctAnswer points:pointsEarned];
+    [raceDataArray addObject:r];
+    
+    id vehicleAction;
+    if ((playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * pointsEarned)) > winSize.width - playerVehicle.contentSize.width/2) {
+        vehicleAction = [CCMoveTo actionWithDuration:0.35 position:ccp(winSize.width - playerVehicle.contentSize.width/2, playerVehicle.position.y)];
+    } else {
+        vehicleAction = [CCMoveTo actionWithDuration:0.35 position:ccp(playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * pointsEarned), playerVehicle.position.y)];
+    }
+    id vehicleEase = [CCEaseInOut actionWithAction:vehicleAction rate:2];
+    [playerVehicle runAction:vehicleEase];
     
     if (correctAnswer) {
         [self performSelector:@selector(questionAnswered) withObject:nil afterDelay:0.35];
@@ -979,20 +1210,21 @@
     }
 }
 
--(void) removeOneAnswerChoice {
-    for (int i = 0; i < [currentAnswerChoices count]; i++) {
+-(void) hideOneAnswerChoice {
+    BOOL findingAnswer = YES;
+    while (findingAnswer) {
+        int i = arc4random() % 4;
         GeoQuestAnswer *a = [currentAnswerChoices objectAtIndex:i];
         BOOL correctAnswer = [[GeoQuestDB database] checkAnswer:a withQuestion:currentQuestion];
         if (!correctAnswer) {
-            [answerChoicesMenu removeChildByTag:i cleanup:YES];
-            [currentAnswerChoices removeObjectAtIndex:i];
-            
-            for (int j = 0; j < [[answerChoicesMenu children] count]; j++) {
-                CCArray *m = [answerChoicesMenu children];
-                CCMenuItemSprite *s = [m objectAtIndex:j];
-                s.tag = j;
+            CCArray *ansArray = [answerChoicesMenu children];
+            CCMenuItemSprite *s = [ansArray objectAtIndex:i];
+            if (s.visible == YES) {
+                s.visible = NO;
+                s.isEnabled = NO;
+                answerChoicesVisibleCount--;
+                findingAnswer = NO;
             }
-            break;
         }
     }
 }
@@ -1057,7 +1289,8 @@
     previousAnswerCorrect = NO;
     answerCorrectlyInRow = 0;
     answerQuickDrawCorrectlyInRow = 0;
-    
+    pointsEarned = 0;
+        
     wrongMark.scale = 2.0;
     wrongMark.visible = YES;
     id action = [CCScaleTo  actionWithDuration:0.25 scale:1];
@@ -1073,6 +1306,9 @@
     id shakeRepeat = [CCRepeat actionWithAction:shakeMiddleSequence times:2];
     id shakeTotalSequence = [CCSequence actions:shakeAction1, shakeRepeat, shakeAction4, nil];
     [self runAction:shakeTotalSequence];
+    
+    RaceData *r = [[RaceData alloc] initWithTime:(60 - gameTimer) answerType:currentQuestion.info answer:currentQuestion.answer correct:NO points:pointsEarned];
+    [raceDataArray addObject:r];
     
     [self performSelector:@selector(questionAnswered) withObject:nil afterDelay:0.75];
 }
@@ -1102,9 +1338,107 @@
     pointsEarnedLabel.visible = NO;
     questionTimer = 7.0;
     questionChecked = NO;
+    answerChoicesVisibleCount = 4;
+}
+
+#pragma mark - Methods for Touches
+
+-(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    currentPoint = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
+    
+    CCLOG(@"rt.sprite boundaryRect: %f, %f, %f, %f", renderTexture.boundaryRect.origin.x, renderTexture.boundaryRect.origin.y , renderTexture.boundaryRect.size.width, renderTexture.boundaryRect.size.height);
+    CCLOG(@"curPoint: %f, %f", currentPoint.x, currentPoint.y);
+    if (CGRectContainsPoint(renderTexture.boundaryRect, currentPoint)) {
+        touchedRenderTexture = YES;
+    } else {
+        touchedRenderTexture = NO;
+    }
+}
+
+-(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    
+    previousPoint = currentPoint;
+    currentPoint = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
+    
+    float yDif = previousPoint.y - currentPoint.y;
+    CCLOG(@"yDif:%f",yDif);
+    float boundaryDistance = renderTexture.boundaryRect.size.height/2 - winSize.height/2;
+    if (touchedRenderTexture) {
+        //if (renderTexture.position.y <= winSize.height/2 + boundaryDistance && renderTexture.position.y >= winSize.height/2 - boundaryDistance) {
+            renderTexture.position = ccp(renderTexture.position.x, renderTexture.position.y - yDif);
+            [renderTexture updateBoundaryRect];
+        //}
+    }
+    
+    float deltaY = renderTexture.position.y - renderTextureOrigPos.y;
+    float currentTime = deltaY/raceLineWidth;
+    
+    if (yDif < 0) {
+        if ([raceDataArray count] != 0) {
+            RaceData *r = [raceDataArray objectAtIndex:0];
+            if (r.time < currentTime) {
+                
+                if ((playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points)) > winSize.width - playerVehicle.contentSize.width/2) {
+                    playerVehicle.position = ccp(winSize.width - playerVehicle.contentSize.width/2, playerVehicle.position.y);
+                } else {
+                    playerVehicle.position = ccp(playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points), playerVehicle.position.y);
+                }
+                
+                [r retain];
+                [reverseRaceDataArray insertObject:r atIndex:0];
+                [raceDataArray removeObjectAtIndex:0];
+                [r release];
+            }
+        }
+    } else {
+        if ([reverseRaceDataArray count] != 0) {
+            RaceData *r = [reverseRaceDataArray objectAtIndex:0];
+            if (r.time > currentTime) {
+                if ((playerVehicle.position.x - ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points)) < playerVehicle.contentSize.width/2) {
+                    playerVehicle.position = ccp(playerVehicle.contentSize.width/2, playerVehicle.position.y);
+                } else {
+                    playerVehicle.position = ccp(playerVehicle.position.x - ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points), playerVehicle.position.y);
+                }
+
+                [r retain];
+                [raceDataArray insertObject:r atIndex:0];
+                [reverseRaceDataArray removeObjectAtIndex:0];
+                [r release];
+            }
+        }
+    }
+    
+    /*if (renderTexture.position.y > winSize.height/2 + boundaryDistance) {
+        renderTexture.position = ccp(renderTexture.position.x, winSize.height/2 + boundaryDistance);
+    } else if (renderTexture.position.y < winSize.height/2 - boundaryDistance) {
+        renderTexture.position = ccp(renderTexture.position.x, winSize.height/2 - boundaryDistance);
+    }*/
+}
+
+
+-(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    UITouch *touch = [touches anyObject];
+    currentPoint = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
+    
+    float boundaryDistance = renderTexture.boundaryRect.size.height/2 - winSize.height/2;
+
+    /*if (renderTexture.position.y > winSize.height/2 + boundaryDistance) {
+        renderTexture.position = ccp(renderTexture.position.x, winSize.height/2 + boundaryDistance);
+    } else if (renderTexture.position.y < winSize.height/2 - boundaryDistance) {
+        renderTexture.position = ccp(renderTexture.position.x, winSize.height/2 - boundaryDistance);
+    }*/
 }
 
 -(void) dealloc {
+    //[theme release];
+    //[themeTotal release];
+    //[themeVisible release];
+    [questionLayerTotal release];
+    [questionLayerVisible release];
+    [questionArray release];
+    [raceDataArray release];
     [super dealloc];
 }
 

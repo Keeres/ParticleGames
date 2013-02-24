@@ -12,16 +12,24 @@
 
 @interface CCMenuAdvancedPlus : CCMenuAdvanced {
     CGPoint     originalPos;
-    BOOL        bounceEffect;
+    BOOL        bounceEffectLeft;
+    BOOL        bounceEffectRight;
+    BOOL        bounceEffectUp;
+    BOOL        bounceEffectDown;
     BOOL        isRefreshed;
     
     int         extraTouchPriority;
+    float       bounceDistance;
 }
 
-@property CGPoint originalPos;
-@property BOOL bounceEffect;
-@property BOOL isRefreshed;
+@property (assign) CGPoint originalPos;
+@property (assign) BOOL bounceEffectLeft;
+@property (assign) BOOL bounceEffectRight;
+@property (assign) BOOL bounceEffectUp;
+@property (assign) BOOL bounceEffectDown;
+@property (assign) BOOL isRefreshed;
 @property (readwrite) int extraTouchPriority;
+@property (assign) float bounceDistance;
 
 -(void) fixPosition;
 

@@ -14,52 +14,12 @@
 
 @synthesize theme;
 
-/*-(void) createThemeCache {
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    
-    theme = [[NSMutableArray alloc] init];
-    themeEdges = [[NSMutableArray alloc] init];
-    
-    switch (difficultySelected) {
-        case kEasyDifficulty:
-            break;
-            
-        case kNormalDifficulty:
-            for (int i = 0; i < 4; i++) {
-                CCSprite *m = [CCSprite spriteWithSpriteFrameName:@"TrainMid.png"];
-                m.position = ccp(winSize.width/2, winSize.height/2);
-                
-                if (i % 2) {
-                    CCSprite *a = [CCSprite spriteWithSpriteFrameName:@"TrainA.png"];
-                    a.position = ccp(-a.contentSize.width/2, m.contentSize.height/2);
-                    //a.visible = NO;
-                    [m addChild:a];
-                } else {
-                    CCSprite *b = [CCSprite spriteWithSpriteFrameName:@"TrainB.png"];
-                    b.position = ccp(-b.contentSize.width/2, m.contentSize.height/2);
-                    //b.visible = NO;
-                    [m addChild:b];
-                }
-
-                m.visible = NO;
-                [theme addObject:m];
-            }
-            break;
-            
-        case kExtremeDifficuly:
-            break;
-            
-        default:
-            break;
-    }
-}*/
-
 -(void) createThemeCache {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
     theme = [[NSMutableArray alloc] init];
     
-    if (gameThemeSelected == kMetalTheme) {
+    if (gameThemeSelected == kNoTheme) {
         switch (difficultySelected) {
             case kEasyDifficulty:
                 for (int i = 0; i < 4; i++) {
@@ -94,6 +54,42 @@
     } else {
         
     }
+    
+    /*if (gameThemeSelected == kMetalTheme) {
+        switch (difficultySelected) {
+            case kEasyDifficulty:
+                for (int i = 0; i < 4; i++) {
+                    GameTheme *gt = [[[GameTheme alloc] initWithTheme:gameThemeSelected] autorelease];
+                    gt.position = ccp(winSize.width/2, winSize.height/2);
+                    gt.visible = NO;
+                    [theme addObject:gt];
+                }
+                break;
+                
+            case kNormalDifficulty:
+                for (int i = 0; i < 4; i++) {
+                    GameTheme *gt = [[[GameTheme alloc] initWithTheme:gameThemeSelected] autorelease];
+                    gt.position = ccp(winSize.width/2, winSize.height/2);
+                    gt.visible = NO;
+                    [theme addObject:gt];
+                }
+                break;
+                
+            case kExtremeDifficuly:
+                for (int i = 0; i < 4; i++) {
+                    GameTheme *gt = [[[GameTheme alloc] initWithTheme:gameThemeSelected] autorelease];
+                    gt.position = ccp(winSize.width/2, winSize.height/2);
+                    gt.visible = NO;
+                    [theme addObject:gt];
+                }
+                break;
+                
+            default:
+                break;
+        }
+    } else {
+        
+    }*/
 }
 
 

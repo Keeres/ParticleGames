@@ -31,6 +31,7 @@ typedef enum {
 } GameDifficulty;
 
 typedef enum {
+    kNoTheme,
     kMetalTheme,
     kTrainTheme,
     kPlaneTheme,

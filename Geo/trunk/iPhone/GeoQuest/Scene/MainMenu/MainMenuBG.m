@@ -15,14 +15,9 @@
 
 -(void) setupBG {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    BGMap = [CCSprite spriteWithSpriteFrameName:@"MainMenuUIWoodBG.png"];
+    BGMap = [CCSprite spriteWithSpriteFrameName:@"SoloGameBGSky.png"];
     BGMap.position = ccp(winSize.width/2, winSize.height/2);
     [self addChild:BGMap z:1];
-    
-    backPanel = [CCSprite spriteWithSpriteFrameName:@"MainMenuBackPanel.png"];
-    backPanel.position = ccp(winSize.width/2, winSize.height/2);
-    [self addChild:backPanel z:0];
-        
 }
 
 -(id) init {
