@@ -23,7 +23,6 @@
 		B64A84A9164B8DC5004A567A /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B64A84A8164B8DC5004A567A /* libsqlite3.0.dylib */; };
 		B656FC5A16208DCF00757319 /* MainMenuBG.m in Sources */ = {isa = PBXBuildFile; fileRef = B656FC5916208DCF00757319 /* MainMenuBG.m */; };
 		B67470D916C5924400092751 /* Territory.m in Sources */ = {isa = PBXBuildFile; fileRef = B67470D816C5924400092751 /* Territory.m */; };
-		B67470DA16C5978B00092751 /* Territory.h in Sources */ = {isa = PBXBuildFile; fileRef = B67470D716C5924400092751 /* Territory.h */; };
 		B67A7AC816885D7400C8BBC6 /* MainMenuBGSprites-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AC416885D7400C8BBC6 /* MainMenuBGSprites-hd.png */; };
 		B67A7AC916885D7400C8BBC6 /* MainMenuBGSprites.png in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AC516885D7400C8BBC6 /* MainMenuBGSprites.png */; };
 		B67A7ACA16885D7400C8BBC6 /* MainMenuBGSprites.plist in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AC616885D7400C8BBC6 /* MainMenuBGSprites.plist */; };
@@ -178,13 +177,14 @@
 		B6902DC8161F47A300B11872 /* MainMenuUI.m in Sources */ = {isa = PBXBuildFile; fileRef = B6902DC7161F47A300B11872 /* MainMenuUI.m */; };
 		B6902DCB161F47C000B11872 /* MainMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B6902DCA161F47C000B11872 /* MainMenuScene.m */; };
 		B6902DD0161F6D3C00B11872 /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B6902DCD161F490F00B11872 /* GameManager.m */; };
+		B6975C0D16D56A00007C0FD7 /* RaceData.m in Sources */ = {isa = PBXBuildFile; fileRef = B6975C0C16D56A00007C0FD7 /* RaceData.m */; };
+		B6975C1316D6BC2A007C0FD7 /* CCRenderTexturePlus.m in Sources */ = {isa = PBXBuildFile; fileRef = B6975C1216D6BC2A007C0FD7 /* CCRenderTexturePlus.m */; };
 		B69BFA5F162DF43E00F7B209 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = B69BFA5E162DF43E00F7B209 /* test.json */; };
 		B69BFA66162F155100F7B209 /* ChallengerMenuItemSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = B69BFA65162F155100F7B209 /* ChallengerMenuItemSprite.m */; };
 		B6A4709316AC7D2200417830 /* NetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709216AC7D2200417830 /* NetworkController.m */; };
 		B6A4709816AC7EFC00417830 /* MessageReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709716AC7EFC00417830 /* MessageReader.m */; };
 		B6A4709B16AC7F9100417830 /* MessageWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709A16AC7F9100417830 /* MessageWriter.m */; };
 		B6A55AD716C35DF000E6F4A3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A55AD616C35DF000E6F4A3 /* libz.dylib */; };
-		B6A55AD816C35E9400E6F4A3 /* NetworkPacket.h in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD416C35D9D00E6F4A3 /* NetworkPacket.h */; };
 		B6A55AD916C35E9400E6F4A3 /* NetworkPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD516C35D9D00E6F4A3 /* NetworkPacket.m */; };
 		B6BDCEC31667EAFA00A34A48 /* TRSMillion.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B69693F71667E8D300FFFFC7 /* TRSMillion.ttf */; };
 		B6C68218164CE7F300BC9E81 /* USACapitalsSprites-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6C68210164CE7F200BC9E81 /* USACapitalsSprites-hd.plist */; };
@@ -210,7 +210,10 @@
 		B6D509CE1624C4AB0095953B /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = B6D509AE1624C4AB0095953B /* cencode.c */; };
 		B6D509CF1624C4AB0095953B /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D509B11624C4AB0095953B /* LFCGzipUtility.m */; };
 		B6D509D11624C4AB0095953B /* TMXGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D509B41624C4AB0095953B /* TMXGenerator.m */; };
-		B6F160FE16C44755009D79A1 /* Challenger.h in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD216C35D4700E6F4A3 /* Challenger.h */; };
+		B6D8686A16CBF5460012281D /* CCUIViewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D8686916CBF5460012281D /* CCUIViewWrapper.m */; };
+		B6DC1F1D16CAD2E90008FD34 /* LoadScreenScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DC1F1C16CAD2E90008FD34 /* LoadScreenScene.m */; };
+		B6DC1F2016CAD2FC0008FD34 /* LoadScreenUI.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DC1F1F16CAD2FC0008FD34 /* LoadScreenUI.m */; };
+		B6DC1F2316CAD30D0008FD34 /* LoadScreenBG.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DC1F2216CAD30D0008FD34 /* LoadScreenBG.m */; };
 		B6F160FF16C44755009D79A1 /* Challenger.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD316C35D4700E6F4A3 /* Challenger.m */; };
 /* End PBXBuildFile section */
 
@@ -543,6 +546,10 @@
 		B6902DCD161F490F00B11872 /* GameManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
 		B6902DCE161F49D300B11872 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B69693F71667E8D300FFFFC7 /* TRSMillion.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = TRSMillion.ttf; path = Resources/TRSMillion.ttf; sourceTree = "<group>"; };
+		B6975C0B16D56A00007C0FD7 /* RaceData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RaceData.h; sourceTree = "<group>"; };
+		B6975C0C16D56A00007C0FD7 /* RaceData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RaceData.m; sourceTree = "<group>"; };
+		B6975C1116D6BC2A007C0FD7 /* CCRenderTexturePlus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCRenderTexturePlus.h; sourceTree = "<group>"; };
+		B6975C1216D6BC2A007C0FD7 /* CCRenderTexturePlus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCRenderTexturePlus.m; sourceTree = "<group>"; };
 		B69BFA5E162DF43E00F7B209 /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
 		B69BFA64162F155100F7B209 /* ChallengerMenuItemSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengerMenuItemSprite.h; sourceTree = "<group>"; };
 		B69BFA65162F155100F7B209 /* ChallengerMenuItemSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengerMenuItemSprite.m; sourceTree = "<group>"; };
@@ -603,6 +610,14 @@
 		B6D509B21624C4AB0095953B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		B6D509B31624C4AB0095953B /* TMXGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMXGenerator.h; sourceTree = "<group>"; };
 		B6D509B41624C4AB0095953B /* TMXGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMXGenerator.m; sourceTree = "<group>"; };
+		B6D8686816CBF5460012281D /* CCUIViewWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCUIViewWrapper.h; sourceTree = "<group>"; };
+		B6D8686916CBF5460012281D /* CCUIViewWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCUIViewWrapper.m; sourceTree = "<group>"; };
+		B6DC1F1B16CAD2E90008FD34 /* LoadScreenScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadScreenScene.h; path = LoadScreen/LoadScreenScene.h; sourceTree = "<group>"; };
+		B6DC1F1C16CAD2E90008FD34 /* LoadScreenScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadScreenScene.m; path = LoadScreen/LoadScreenScene.m; sourceTree = "<group>"; };
+		B6DC1F1E16CAD2FC0008FD34 /* LoadScreenUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadScreenUI.h; path = LoadScreen/LoadScreenUI.h; sourceTree = "<group>"; };
+		B6DC1F1F16CAD2FC0008FD34 /* LoadScreenUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadScreenUI.m; path = LoadScreen/LoadScreenUI.m; sourceTree = "<group>"; };
+		B6DC1F2116CAD30D0008FD34 /* LoadScreenBG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadScreenBG.h; path = LoadScreen/LoadScreenBG.h; sourceTree = "<group>"; };
+		B6DC1F2216CAD30D0008FD34 /* LoadScreenBG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadScreenBG.m; path = LoadScreen/LoadScreenBG.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -669,6 +684,8 @@
 				B6A55AD316C35D4700E6F4A3 /* Challenger.m */,
 				B67470D716C5924400092751 /* Territory.h */,
 				B67470D816C5924400092751 /* Territory.m */,
+				B6975C0B16D56A00007C0FD7 /* RaceData.h */,
+				B6975C0C16D56A00007C0FD7 /* RaceData.m */,
 			);
 			path = GameObjects;
 			sourceTree = "<group>";
@@ -1114,6 +1131,7 @@
 				B6902DCC161F490F00B11872 /* GameManager.h */,
 				B6902DCD161F490F00B11872 /* GameManager.m */,
 				B6902DCE161F49D300B11872 /* Constants.h */,
+				B6DC1F1A16CAD2CC0008FD34 /* LoadScreen */,
 				B6902DC5161F47A300B11872 /* MainMenu */,
 				B64A849E164B8917004A567A /* SoloGame */,
 			);
@@ -1174,6 +1192,10 @@
 				B6413A7C1638600800A01A2D /* CCMenuAdvancedPlus.m */,
 				B6C68221164CEED400BC9E81 /* CCMenu+Layout.h */,
 				B6C68222164CEED400BC9E81 /* CCMenu+Layout.m */,
+				B6D8686816CBF5460012281D /* CCUIViewWrapper.h */,
+				B6D8686916CBF5460012281D /* CCUIViewWrapper.m */,
+				B6975C1116D6BC2A007C0FD7 /* CCRenderTexturePlus.h */,
+				B6975C1216D6BC2A007C0FD7 /* CCRenderTexturePlus.m */,
 			);
 			path = AddOns;
 			sourceTree = "<group>";
@@ -1327,6 +1349,19 @@
 			path = TMXGenerator;
 			sourceTree = "<group>";
 		};
+		B6DC1F1A16CAD2CC0008FD34 /* LoadScreen */ = {
+			isa = PBXGroup;
+			children = (
+				B6DC1F1B16CAD2E90008FD34 /* LoadScreenScene.h */,
+				B6DC1F1C16CAD2E90008FD34 /* LoadScreenScene.m */,
+				B6DC1F1E16CAD2FC0008FD34 /* LoadScreenUI.h */,
+				B6DC1F1F16CAD2FC0008FD34 /* LoadScreenUI.m */,
+				B6DC1F2116CAD30D0008FD34 /* LoadScreenBG.h */,
+				B6DC1F2216CAD30D0008FD34 /* LoadScreenBG.m */,
+			);
+			name = LoadScreen;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1437,10 +1472,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B67470DA16C5978B00092751 /* Territory.h in Sources */,
-				B6F160FE16C44755009D79A1 /* Challenger.h in Sources */,
 				B6F160FF16C44755009D79A1 /* Challenger.m in Sources */,
-				B6A55AD816C35E9400E6F4A3 /* NetworkPacket.h in Sources */,
 				B6A55AD916C35E9400E6F4A3 /* NetworkPacket.m in Sources */,
 				B6902DD0161F6D3C00B11872 /* GameManager.m in Sources */,
 				B6902C2A161CE53F00B11872 /* CCAction.m in Sources */,
@@ -1582,6 +1614,12 @@
 				B6A4709816AC7EFC00417830 /* MessageReader.m in Sources */,
 				B6A4709B16AC7F9100417830 /* MessageWriter.m in Sources */,
 				B67470D916C5924400092751 /* Territory.m in Sources */,
+				B6DC1F1D16CAD2E90008FD34 /* LoadScreenScene.m in Sources */,
+				B6DC1F2016CAD2FC0008FD34 /* LoadScreenUI.m in Sources */,
+				B6DC1F2316CAD30D0008FD34 /* LoadScreenBG.m in Sources */,
+				B6D8686A16CBF5460012281D /* CCUIViewWrapper.m in Sources */,
+				B6975C0D16D56A00007C0FD7 /* RaceData.m in Sources */,
+				B6975C1316D6BC2A007C0FD7 /* CCRenderTexturePlus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1644,6 +1682,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/GeoQuest/NetworkFiles/Facebook\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GeoQuest/Prefix.pch;
@@ -1665,6 +1707,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/GeoQuest/NetworkFiles/Facebook\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GeoQuest/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"GeoQuest/libs/kazmath/include\"";
