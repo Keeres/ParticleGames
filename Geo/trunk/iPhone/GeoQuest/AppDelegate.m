@@ -90,7 +90,6 @@
     // Setup Audio
     [[GameManager sharedGameManager] setupAudioEngine];
 
-    [[GameManager sharedGameManager] loadUsername];
 	return YES;
 }
 
@@ -107,6 +106,9 @@
         // Setup Audio
         [[GameManager sharedGameManager] setupAudioEngine];
         
+        // Load Username
+        [[PlayerDB database] loadUsername];
+        
         // Run the intro Scene
         [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
 	}
@@ -122,7 +124,7 @@
 // getting a call, pause the game
 -(void) applicationWillResignActive:(UIApplication *)application
 {
-    [[GameManager sharedGameManager] saveUsername];
+    [[PlayerDB database] saveUsername];
     
 	if( [navController_ visibleViewController] == director_ )
 		[director_ pause];
@@ -131,7 +133,7 @@
 // call got rejected
 -(void) applicationDidBecomeActive:(UIApplication *)application
 {
-    [[GameManager sharedGameManager] loadUsername];
+    [[PlayerDB database] loadUsername];
 
 	if( [navController_ visibleViewController] == director_ )
 		[director_ resume];
@@ -139,7 +141,7 @@
 
 -(void) applicationDidEnterBackground:(UIApplication*)application
 {
-    [[GameManager sharedGameManager] saveUsername];
+    [[PlayerDB database] saveUsername];
     
     if( [navController_ visibleViewController] == director_ )
 		[director_ stopAnimation];
@@ -147,7 +149,7 @@
 
 -(void) applicationWillEnterForeground:(UIApplication*)application
 {
-    [[GameManager sharedGameManager] loadUsername];
+    [[PlayerDB database] loadUsername];
 	if( [navController_ visibleViewController] == director_ )
 		[director_ startAnimation];
 }
@@ -155,7 +157,7 @@
 // application will be killed
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    [[GameManager sharedGameManager] saveUsername];
+    [[PlayerDB database] saveUsername];
         
 	CC_DIRECTOR_END();
 }

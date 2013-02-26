@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "SoloGameUI.h"
+#import "SoloGameReplay.h"
+#import "SoloGameTerritory.h"
+#import "SoloGameGameOver.h"
 #import "SoloGameBG.h"
 
 @interface SoloGameScene : CCScene {

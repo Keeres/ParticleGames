@@ -20,10 +20,22 @@
     [self addChild:BGMap z:1];
 }
 
--(id) init {
-    CCLOG(@"MainMenuBG: Do not use init. Use initWithMainMenuUiLayer:(MainMenuUI *)menuUI");
-    return [self initWithMainMenuUILayer:NULL];
-}
+/*-(id) init {
+    //CCLOG(@"MainMenuBG: Do not use init. Use initWithMainMenuUiLayer:(MainMenuUI *)menuUI");
+    //return [self initWithMainMenuUILayer:NULL];
+    if ((self = [super init])) {
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"MainMenuBGSprites.plist"];
+        mainMenuBGSheet = [CCSpriteBatchNode batchNodeWithFile:@"MainMenuBGSprites.png"];
+        [self addChild:mainMenuBGSheet z:0];
+        
+        [self setupBG];
+        
+        self.isTouchEnabled = YES;
+        BGTouched = NO;
+        
+    }
+    return self;
+}*/
 
 -(id) initWithMainMenuUILayer:(MainMenuUI *)menuUI {
     if ((self = [super init])) {        

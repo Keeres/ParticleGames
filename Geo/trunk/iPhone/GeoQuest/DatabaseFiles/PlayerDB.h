@@ -14,22 +14,21 @@
     sqlite3 *_database;
     
     NSString *_username;
+    NSString *_password;
 }
 
-@property (nonatomic, copy) NSString *name;
-@property int experience;
-@property int coins;
-@property (nonatomic, copy) NSString *territoriesOwned;
-@property float timePlayed;
-@property int totalQuestions;
-@property int totalAnswersCorrect;
+@property (nonatomic, retain) NSString *username;
+@property (nonatomic, retain) NSString *password;
 
 +(PlayerDB*) database;
 
 -(void) createNewPlayerStatsTable:(NSString*)username;
 -(void) updatePlayerChallengersTable:(NSMutableArray*)array;
 -(void) updatePlayerTerritoriesTable:(NSMutableArray*)array;
--(void) updateInformation;
+//-(void) updateInformation;
 -(NSMutableArray*) retrievePlayerChallengersTable;
+-(void)saveUsername;
+-(void)loadUsername;
+-(void)logOut;
 
 @end

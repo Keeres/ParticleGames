@@ -12,13 +12,18 @@
 #import "CCMenuAdvanced.h"
 #import "CCMenuAdvancedPlus.h"
 #import "MainMenuBG.h"
+#import "MainMenuLogin.h"
+#import "MainMenuCreateGame.h"
 #import "PlayerDB.h"
 #import "GeoQuestDB.h"
 #import "NetworkController.h"
 
+
 #define UI_FADE_TIME 0.20 //time to fade in/out menu items
 #define UI_MENU_SPACING 10 //points between menu items
 
+@class MainMenuCreateGame;
+@class MainMenuLogin;
 @class MainMenuBG;
 
 //@interface MainMenuUI : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate, NetworkControllerDelegate> {
@@ -33,7 +38,6 @@
     
     //Objects
     CCSprite            *title;
-    CCSprite            *loadScreen;
     
     //Variables
     CGPoint             currentPoint;
@@ -42,16 +46,21 @@
     //Actions
     
     //Menus
-    CCMenuAdvancedPlus  *gamePlayMenu;
     CCMenuAdvancedPlus  *gameChallengeMenu;
-    CCMenuAdvanced      *exitMenu;
-    CCMenuAdvanced      *optionMenu;
-    
+
     //Layers
+    MainMenuLogin       *mainMenuLogin;
+    MainMenuCreateGame  *mainMenuCreateGame;
     MainMenuBG          *mainMenuBG;
 }
 
 -(void) setMainMenuBGLayer:(MainMenuBG *)menuBG;
+-(void) setMainMenuLoginLayer:(MainMenuLogin*)menuLogin;
+-(void) setMainMenuCreateGameLayer:(MainMenuCreateGame*)menuCreateGame;
+-(void) setupPlayerDatabase;
+-(void) showObjects;
+-(void) hideObjects;
+
 //-(void) toggleSidePanel;
 
 @end

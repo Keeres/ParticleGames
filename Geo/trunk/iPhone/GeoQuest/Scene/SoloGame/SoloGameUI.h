@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "SoloGameBG.h"
+#import "SoloGameTerritory.h"
+#import "SoloGameGameOver.h"
+#import "SoloGameReplay.h"
 #import "GeoQuestDB.h"
 #import "PlayerDB.h"
 #import "GeoQuestQuestion.h"
@@ -25,17 +28,20 @@
 #define SOLO_GAME_QUICKDRAW_TIMER 1.5
 #define SOLO_GAME_SCORE_TO_WIN 20
 
+@class SoloGameReplay;
+@class SoloGameGameOver;
+@class SoloGameTerritory;
 @class SoloGameBG;
 
 @interface SoloGameUI : CCLayer {
     CGSize              winSize;
     
     //Layers
+    SoloGameTerritory   *soloGameTerritory;
+    SoloGameReplay      *soloGameReplay;
+    SoloGameGameOver    *soloGameGameOver;
     SoloGameBG          *soloGameBG;
-    CCSprite            *difficultyBackground;
-    CCSprite            *difficultyDisplay;
-    CCSprite            *selectDifficulty;
-    
+
     GeoQuestQuestion    *currentQuestion;
     GameThemeCache      *theme;
     NSArray             *themeArray;
@@ -50,15 +56,12 @@
     NSMutableArray      *raceDataArray; //array to store raceData objects
     NSMutableArray      *reverseRaceDataArray;
     
-    CCRenderTexturePlus *renderTexture;
     CCSprite            *question;
     CCSprite            *correctMark;
     CCSprite            *wrongMark;
     CCSprite            *playerVehicle;
     CCSprite            *soloGameTheme;
-    CCMenuAdvanced      *difficultyChoiceMenu;
     CCMenuAdvanced      *answerChoicesMenu;
-    CCMenuAdvanced      *gameOverMenu;
     CCLabelTTF          *prepTimerLabel;
     CCLabelTTF          *gameTimerLabel;
     CCLabelTTF          *questionTimerLabel;
@@ -97,18 +100,20 @@
     int                 answerCorrectlyInRow;
     int                 answerQuickDrawCorrectlyInRow;
     int                 answerIncorrectlyInRow;
-    int                 difficultyChoice;
     int                 answerChoicesVisibleCount;
     
-    CGPoint             currentPoint;
-    CGPoint             previousPoint;
-    CGPoint             renderTextureOrigPos;
-    float               raceStartHeight;
-    float               raceLineWidth;
+
     
 }
 
--(void) setSoloGameBGLayer:(SoloGameBG*)soloBG;
+@property (nonatomic, retain) SoloGameReplay *soloGameReplay;
+@property (nonatomic, retain) CCSprite *playerVehicle;
 
+-(void) setSoloGameBGLayer:(SoloGameBG*)soloBG;
+-(void) setSoloGameTerritoryLayer:(SoloGameTerritory*)soloTerritory;
+-(void) setSoloGameGameOverLayer:(SoloGameGameOver*)soloGameOver;
+-(void) setSoloReplayLayer:(SoloGameReplay*)soloReplay;
+-(void) setupGame;
+-(void) setTerritoriesChosen:(NSMutableArray*)tChosen;
 
 @end

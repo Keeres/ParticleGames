@@ -12,7 +12,8 @@
 
 
 @implementation PlayerDB
-@synthesize name = _name;
+@synthesize username = _username;
+@synthesize password = _password;
 
 static PlayerDB *_database;
 
@@ -53,7 +54,7 @@ static PlayerDB *_database;
 
 -(void) createNewPlayerStatsTable:(NSString*)username {
     CCLOG(@"username: %@", username);
-    _username = username;
+    _username = [username retain];
     if (_username != NULL) {
         NSString *sqlTable = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS [%@STATS] ("
                               "[Index] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
@@ -182,7 +183,7 @@ static PlayerDB *_database;
     }
 }
 
--(void) retrieveInformation {
+/*-(void) retrieveInformation {
     NSString *sqlQuestion = [NSString stringWithFormat:@"SELECT * FROM Player WHERE Name='%@'", _username];
     
     sqlite3_stmt *compiledStatement;
@@ -201,7 +202,7 @@ static PlayerDB *_database;
     } else {
         CCLOG(@"Could not retrieve Player information");
     }
-}
+}*/
 
 -(NSMutableArray*) retrievePlayerChallengersTable {
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM %@CHALLENGERS", _username];
@@ -234,7 +235,7 @@ static PlayerDB *_database;
     return challengerArray;
 }
 
--(void) updateInformation {
+/*-(void) updateInformation {
     NSString *sql = [NSString stringWithFormat:@"UPDATE Player SET Experience=%i, Coins=%i, TerritoriesOwned='%@', TimePlayed=%f, TotalQuestions=%i, TotalAnswersCorrect=%i WHERE Name='%@'", self.experience, self.coins, self.territoriesOwned, self.timePlayed, self.totalQuestions, self.totalAnswersCorrect, self.name];
     
     char *err;
@@ -245,7 +246,47 @@ static PlayerDB *_database;
     } else {
         CCLOG(@"PlayerDB: Player updated");
     }
+}*/
+
+
+-(NSString *) saveFilePath
+{
+	NSArray *path =	NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    
+	return [[path objectAtIndex:0] stringByAppendingPathComponent:@"savefile.plist"];
+    
 }
+
+-(void) saveUsername {
+    NSArray *values = [[NSArray alloc] initWithObjects:self.username, self.password,nil];
+	[values writeToFile:[[PlayerDB database] saveFilePath] atomically:YES];
+	[values release];
+}
+
+-(void) loadUsername {
+    NSString *myPath = [self saveFilePath];
+    
+	BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:myPath];
+    
+	if (fileExists)
+	{
+		NSArray *values = [[NSArray alloc] initWithContentsOfFile:myPath];
+        if ([values count] != 0) {
+            [PlayerDB database].username = [values objectAtIndex:0];
+            [PlayerDB database].password = [values objectAtIndex:1];
+            [values release];
+            
+            CCLOG(@"GameManager: Loaded username:%@ and password:%@", self.username, self.password);
+        }
+	}
+}
+
+-(void) logOut {
+    self.username = NULL;
+    self.password = NULL;
+    [self saveFilePath];
+}
+
 
 //UPDATE Kelvin SET Experience=101;
 //INSERT INTO Kelvin ("Name") VALUES ('Kelvin');
@@ -253,6 +294,7 @@ static PlayerDB *_database;
 //INSERT INTO table (column) SELECT value WHERE NOT EXISTS (SELECT 1 FROM table WHERE column = value)
 
 -(void) dealloc {
+    [_username release];
     [super dealloc];
 }
 

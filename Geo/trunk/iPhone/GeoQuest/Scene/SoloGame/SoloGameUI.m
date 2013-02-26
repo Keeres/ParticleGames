@@ -10,50 +10,36 @@
 #import "GameManager.h"
 #import "MainMenuScene.h"
 
-
-
 @implementation SoloGameUI
+
+@synthesize soloGameReplay;
+@synthesize playerVehicle;
 
 -(void) setSoloGameBGLayer:(SoloGameBG *)soloBG {
     soloGameBG = soloBG;
+}
+
+-(void) setSoloGameTerritoryLayer:(SoloGameTerritory *)soloTerritory {
+    soloGameTerritory = soloTerritory;
+}
+
+-(void) setSoloGameGameOverLayer:(SoloGameGameOver *)soloGameOver {
+    soloGameGameOver = soloGameOver;
+}
+
+-(void) setSoloReplayLayer:(SoloGameReplay *)soloReplay {
+    soloGameReplay = soloReplay;
 }
 
 #pragma mark - Setup Game
 
 -(void) setupGame {
     [self resetGame];
-    [self setupDifficultyLayer];
-}
-
--(void) difficultySelected:(CCMenuItemSprite*)sender {
-    int i = sender.tag;
-    switch (i) {
-        case 0:
-            difficultyChoice = kEasyDifficulty;
-            break;
-        case 1:
-            difficultyChoice = kNormalDifficulty;
-            break;
-        case 2:
-            difficultyChoice = kExtremeDifficuly;
-            break;
-            
-        default:
-            break;
-    }
-    
-    territoriesChosen = [[GeoQuestDB database] displayTerritories];
-    
-    difficultyChoiceMenu.visible = NO;
-    difficultyChoiceMenu.enabled = NO;
-    difficultyBackground.visible = NO;
-    [selectDifficulty stopAllActions];
-
     [self setupCorrectAndWrongSprite];
     [self setupVehicles];
     [self setupUILabels];
     [self setupSoloGameTheme];
-    [self setupGameOverMenu];
+    //[self setupGameOverMenu];
     //[self setupTheme];
     [self setupQuestionLayer];
     [self setupParticleSystems];
@@ -63,58 +49,12 @@
     
     playerVehicle.visible = YES;
     soloGameTheme.visible = YES;
+    [self scheduleUpdate];
 }
 
-
--(void) setupDifficultyLayer {
-    difficultyBackground = [CCSprite spriteWithSpriteFrameName:@"MainMenuUIWoodBG.png"];
-    difficultyBackground.position = ccp(winSize.width/2, winSize.height/2);
-        
-    difficultyDisplay = [CCSprite spriteWithSpriteFrameName:@"DifficultyDisplay.png"];
-    difficultyDisplay.position = ccp(winSize.width/2, winSize.height*.75);
-    [difficultyBackground addChild:difficultyDisplay];
-    
-    selectDifficulty = [CCSprite spriteWithSpriteFrameName:@"SelectDifficulty01.png"];
-    selectDifficulty.position = ccp(difficultyDisplay.contentSize.width/2, difficultyDisplay.contentSize.height/2);
-    [difficultyDisplay addChild:selectDifficulty];
-    
-    NSMutableArray *selectDifficultyAnimFrames = [NSMutableArray array];
-    for (int i = 0; i < 10; i++) {
-        CCSpriteFrame *frame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"SelectDifficulty%02d.png",i]];
-        [selectDifficultyAnimFrames addObject:frame];
-    }
-    
-    CCAnimation *animation = [CCAnimation animationWithSpriteFrames:selectDifficultyAnimFrames delay:0.30];
-    [selectDifficulty runAction:[CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:animation]]];
-    
-    
-    difficultyChoiceMenu = [CCMenuAdvanced menuWithItems:nil];
-    
-    CCMenuItemSprite *easyButtonSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"EasyButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"EasyButton.png"] target:self selector:@selector(difficultySelected:)];
-    easyButtonSprite.tag = kEasyDifficulty;
-    [difficultyChoiceMenu addChild:easyButtonSprite];
-    
-    CCMenuItemSprite *normButtonSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"NormButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"NormButton.png"] target:self selector:@selector(difficultySelected:)];
-    normButtonSprite.tag = kNormalDifficulty;
-    [difficultyChoiceMenu addChild:normButtonSprite];
-    
-    CCMenuItemSprite *hardButtonSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"HardButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"HardButton.png"] target:self selector:@selector(difficultySelected:)];
-    hardButtonSprite.tag = kExtremeDifficuly;
-    [difficultyChoiceMenu addChild:hardButtonSprite];
-    
-    //[difficultyChoiceMenu alignItemsHorizontallyWithPadding:SOLO_GRID_SPACING/2 leftToRight:YES];
-    [difficultyChoiceMenu alignItemsVerticallyWithPadding:SOLO_GRID_SPACING/2 bottomToTop:NO];
-
-    difficultyChoiceMenu.ignoreAnchorPointForPosition = NO;
-    difficultyChoiceMenu.position = ccp(winSize.width/2, winSize.height*.42);
-    difficultyChoiceMenu.boundaryRect = CGRectMake(difficultyChoiceMenu.position.x - difficultyChoiceMenu.contentSize.width/2, difficultyChoiceMenu.position.y - difficultyChoiceMenu.contentSize.height/2, difficultyChoiceMenu.contentSize.width, difficultyChoiceMenu.contentSize.height);
-    [difficultyChoiceMenu fixPosition];
-    
-    [difficultyBackground addChild:difficultyChoiceMenu z:100];
-    [difficultyChoiceMenu retain];
-    
-    [self addChild:difficultyBackground];
-    
+-(void) setTerritoriesChosen:(NSMutableArray*)tChosen {
+    [tChosen retain];
+    territoriesChosen = tChosen;
 }
 
 -(void) setupCorrectAndWrongSprite {
@@ -195,33 +135,6 @@
     [self addChild:soloGameTheme z:0];
 }
 
--(void) setupGameOverMenu {
-    
-    gameOverMenu = [CCMenuAdvanced menuWithItems:nil];
-    
-    CCMenuItemSprite *gameOverItemSprite;
-    for (int i = 0; i < 3; i++) {
-        gameOverItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuSoloButton.png"] target:self selector:@selector(gameOverSelected:)];
-        gameOverItemSprite.tag = i;
-        
-        [gameOverMenu addChild:gameOverItemSprite];
-    }
-    
-    [gameOverMenu alignItemsHorizontallyWithPadding:SOLO_GRID_SPACING leftToRight:YES];
-    
-    gameOverMenu.ignoreAnchorPointForPosition = NO;
-    gameOverMenu.position = ccp(winSize.width/2, winSize.height/2);
-    gameOverMenu.boundaryRect = CGRectMake(gameOverMenu.position.x - gameOverMenu.contentSize.width/2, gameOverMenu.position.y - gameOverMenu.contentSize.height/2, gameOverMenu.contentSize.width, gameOverMenu.contentSize.height);
-    [gameOverMenu fixPosition];
-    
-    [gameOverMenu retain];
-    
-    [self addChild:gameOverMenu];
-    
-    gameOverMenu.visible = NO;
-    gameOverMenu.enabled = NO;
-
-}
 
 /*-(void) setupTheme {
     theme = [[GameThemeCache alloc] initWithDifficulty:difficultyChoice andThemeName:kNoTheme];
@@ -275,112 +188,6 @@
 
 #pragma mark - Menus Selected
 
--(void) showReplay {
-    reverseRaceDataArray = [[NSMutableArray alloc] initWithCapacity:[raceDataArray count]];
-    
-    if (renderTexture != NULL) {
-        return;
-    }
-    
-    gameOverMenu.position = ccp(gameOverMenu.position.x, winSize.height - gameOverMenu.contentSize.height);
-    gameOverMenu.boundaryRect = CGRectMake(gameOverMenu.position.x - gameOverMenu.contentSize.width/2, gameOverMenu.position.y - gameOverMenu.contentSize.height/2, gameOverMenu.contentSize.width, gameOverMenu.contentSize.height);
-    
-    CCSprite *currentTimeLine = [CCSprite spriteWithSpriteFrameName:@"DifficultyDisplay.png"];
-    currentTimeLine.position = ccp(winSize.width/2, winSize.height/4);
-    [self addChild:currentTimeLine z:0];
-    
-    playerVehicle.position = ccp(playerVehicle.contentSize.width/2, 30.0);
-    
-    int renderTextureSize = 2048;
-    renderTexture = [CCRenderTexturePlus renderTextureWithWidth:renderTextureSize height:renderTextureSize];
-    renderTexture.position = ccp(winSize.width/2, -renderTexture.boundaryRect.size.height/2 + winSize.height * .5);
-    [renderTexture updateBoundaryRect];
-    renderTextureOrigPos = renderTexture.position;
-    
-    [self addChild:renderTexture z:1];
-
-    CCSprite *s = [CCSprite spriteWithSpriteFrameName:@"ReplayLine.png"];
-    raceLineWidth = s.contentSize.width;
-    s.rotation = 90;
-    s.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4);
-    [renderTexture beginWithClear:0 g:0 b:0 a:.2];
-    
-    // Draw lines from Start to Finish
-    for (int i = 0; i < 60; i++) {
-        s.position = ccp(s.position.x, s.position.y - s.contentSize.width);
-        [s visit];
-    }
-    
-    // Draw individual lines from middle line to answer picture
-    s.rotation = 0;
-    for (int i = 0; i < [raceDataArray count]; i++) {
-        RaceData *r = [raceDataArray objectAtIndex:i];
-
-        s.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4 - (s.contentSize.width * r.time));
-        
-        for (int j = 0; j <= r.points; j++) {
-            s.position = ccp(s.position.x - s.contentSize.width/3, s.position.y);
-            [s visit];
-        }
-        
-        s.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4 - (s.contentSize.width * r.time));
-        
-        if ([r.answerType isEqualToString:@"TP"]) {
-            CCLabelTTF *label = [CCLabelTTF labelWithString:r.answer fontName:@"Arial" fontSize:14];
-            if (r.correct) {
-                label.color = ccc3(0, 255, 0);
-            } else {
-                label.color = ccc3(255, 0, 0);
-            }
-            label.position = ccp(s.position.x - label.contentSize.width/2 - (s.contentSize.width/3 * r.points), s.position.y);
-            [label visit];
-        } else {
-            CCSprite *picture = [CCSprite spriteWithSpriteFrameName:r.answer];
-            picture.scale = 0.3;
-            
-            if (r.correct) {
-                picture.color = ccc3(0, 255, 0);
-            } else {
-                picture.color = ccc3(255, 0, 0);
-            }
-            picture.position = ccp(s.position.x - (picture.contentSize.width/2 * picture.scale) - (s.contentSize.width/3 * r.points), s.position.y);
-            [picture visit];
-        }
-        
-    }
-    
-    // Draw being and start
-    CCSprite *begin = [CCSprite spriteWithSpriteFrameName:@"MainMenuCompass.png"];
-    raceStartHeight = begin.contentSize.height;
-    begin.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4);
-    [begin visit];
-    begin.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4 - (60 * s.contentSize.width));
-    [begin visit];
-    
-    
-    [renderTexture end];
-}
-
--(void) gameOverSelected:(CCMenuItemSprite*)sender {
-    int i = sender.tag;
-    switch (i) {
-        case 0:
-            CCLOG(@"SoloGameUI: Reset game");
-            [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
-            break;
-        case 1:
-            CCLOG(@"SoloGameUI: Show answers to questions");
-            [self showReplay];
-            break;
-        case 2:
-            CCLOG(@"SoloGameUI: go back to main menu");
-            [[GameManager sharedGameManager] runSceneWithID:kMainMenuScene];
-            break;
-            
-        default:
-            break;
-    }
-}
 
 #pragma mark - Retrieve Information
 
@@ -537,6 +344,8 @@
 }
 
 -(CCMenuAdvanced*) getAnswerChoices {
+    int difficultyChoice = kNormalDifficulty;
+    
     if (fiftyFiftyPowerUpActivated) {
         currentAnswerChoices = [[GeoQuestDB database] getAnswerChoicesFrom:currentQuestion specialPower:k5050PowerUp];
         answerChoicesVisibleCount = 2;
@@ -764,8 +573,8 @@
         winSize = [[CCDirector sharedDirector] winSize];
         self.isTouchEnabled = YES;
 
-        [self setupGame];
-        [self scheduleUpdate];
+        //[self setupGame];
+        //[self scheduleUpdate];
 
         }
     return self;
@@ -800,15 +609,16 @@
     answerCorrectlyInRow = 0;
     answerQuickDrawCorrectlyInRow = 0;
     answerIncorrectlyInRow = 0;
-    difficultyChoice = -1;
     answerChoicesVisibleCount = 4;
 }
 
 -(void) gameOver {
-    freezeTimePowerUpParticle.visible = NO;
+    /*freezeTimePowerUpParticle.visible = NO;
     doublePointsPowerUpParticle.visible = NO;
     fiftyFiftyPowerUpParticle.visible = NO;
-    specialStagePowerUpParticle.visible  = NO;
+    specialStagePowerUpParticle.visible  = NO;*/
+    
+    [self hideLayerAndObjects];
     
     /*[PlayerDB database].experience += score/10;
     [PlayerDB database].coins += score/10;
@@ -816,18 +626,22 @@
     [PlayerDB database].totalAnswersCorrect += questionsAnsweredCorrectly;
     [[PlayerDB database] updateInformation];*/
     
-    gameOverMenu.position = ccp(winSize.width/2, winSize.height + gameOverMenu.contentSize.height);
+    [soloGameGameOver showLayerAndObjects];
+    
+    /*gameOverMenu.position = ccp(winSize.width/2, winSize.height + gameOverMenu.contentSize.height);
     gameOverMenu.visible = YES;
     gameOverMenu.enabled = NO;
     
     id action = [CCMoveTo actionWithDuration:0.75 position:ccp(winSize.width/2, winSize.height/2)];
     id ease = [CCEaseBackInOut actionWithAction:action];
-    [gameOverMenu runAction:ease];
+    [gameOverMenu runAction:ease];*/
     
     for (int i = 0; i < [raceDataArray count]; i++) {
         RaceData *r = [raceDataArray objectAtIndex:i];
         [r print];
     }
+    
+    [soloGameReplay setRaceData:raceDataArray];
 }
 
 #pragma mark - Update Game
@@ -874,7 +688,7 @@
 }
 
 -(void) updateTime:(ccTime)delta {
-    if (difficultyChoice >= 0) {
+    //if (difficultyChoice >= 0) {
         //Difficulty Selected. (Difficulty < 0 if unselected)
         
         if (prepTimer > 0) {
@@ -1066,7 +880,7 @@
                 [self gameOver];
             }
         }
-    }
+    //}
 }
 
 -(void) update:(ccTime)delta {
@@ -1347,108 +1161,16 @@
     answerChoicesVisibleCount = 4;
 }
 
-#pragma mark - Methods for Touches
-
--(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-#define BOUNCE_DISTANCE 100
-    UITouch *touch = [touches anyObject];
-    currentPoint = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
+-(void) hideLayerAndObjects {
+    freezeTimePowerUpParticle.visible = NO;
+    doublePointsPowerUpParticle.visible = NO;
+    fiftyFiftyPowerUpParticle.visible = NO;
+    specialStagePowerUpParticle.visible = NO;
     
-    CCLOG(@"rt.sprite boundaryRect: %f, %f, %f, %f", renderTexture.boundaryRect.origin.x, renderTexture.boundaryRect.origin.y , renderTexture.boundaryRect.size.width, renderTexture.boundaryRect.size.height);
-    CCLOG(@"curPoint: %f, %f", currentPoint.x, currentPoint.y);
-    /*if (CGRectContainsPoint(renderTexture.boundaryRect, currentPoint)) {
-        touchedRenderTexture = YES;
-    } else {
-        touchedRenderTexture = NO;
-    }*/
-}
-
--(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    
-    previousPoint = currentPoint;
-    currentPoint = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
-    
-    float yDif = previousPoint.y - currentPoint.y;
-    float boundaryDistance = (raceLineWidth * 60);
-    //if (touchedRenderTexture) {
-        if (renderTexture.position.y <= renderTextureOrigPos.y + boundaryDistance + BOUNCE_DISTANCE && renderTexture.position.y >= renderTextureOrigPos.y - BOUNCE_DISTANCE) {
-            renderTexture.position = ccp(renderTexture.position.x, renderTexture.position.y - yDif);
-            [renderTexture updateBoundaryRect];
-        }
-    //}
-    
-    float deltaY = renderTexture.position.y - renderTextureOrigPos.y;
-    float currentTime = deltaY/raceLineWidth;
-    
-    if (yDif < 0) {
-        if ([raceDataArray count] != 0) {
-            RaceData *r = [raceDataArray objectAtIndex:0];
-            if (r.time < currentTime) {
-                
-                if ((playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points)) > winSize.width - playerVehicle.contentSize.width/2) {
-                    playerVehicle.position = ccp(winSize.width - playerVehicle.contentSize.width/2, playerVehicle.position.y);
-                } else {
-                    playerVehicle.position = ccp(playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points), playerVehicle.position.y);
-                }
-                
-                [r retain];
-                [reverseRaceDataArray insertObject:r atIndex:0];
-                [raceDataArray removeObjectAtIndex:0];
-                [r release];
-            }
-        }
-    } else {
-        if ([reverseRaceDataArray count] != 0) {
-            RaceData *r = [reverseRaceDataArray objectAtIndex:0];
-            if (r.time > currentTime) {
-                if ((playerVehicle.position.x - ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points)) < playerVehicle.contentSize.width/2) {
-                    playerVehicle.position = ccp(playerVehicle.contentSize.width/2, playerVehicle.position.y);
-                } else {
-                    playerVehicle.position = ccp(playerVehicle.position.x - ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points), playerVehicle.position.y);
-                }
-
-                [r retain];
-                [raceDataArray insertObject:r atIndex:0];
-                [reverseRaceDataArray removeObjectAtIndex:0];
-                [r release];
-            }
-        }
-    }
-    
-    if (renderTexture.position.y > renderTextureOrigPos.y + boundaryDistance + BOUNCE_DISTANCE) {
-        renderTexture.position = ccp(renderTexture.position.x, renderTextureOrigPos.y + boundaryDistance + BOUNCE_DISTANCE);
-    } else if (renderTexture.position.y < renderTextureOrigPos.y - BOUNCE_DISTANCE) {
-        renderTexture.position = ccp(renderTexture.position.x, renderTextureOrigPos.y - BOUNCE_DISTANCE);
-    }
-}
-
-
--(void) ccTouchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    currentPoint = [[CCDirector sharedDirector] convertToGL:[touch locationInView:[touch view]]];
-    
-    float boundaryDistance = (raceLineWidth * 60);
-
-    if (renderTexture.position.y > renderTextureOrigPos.y + boundaryDistance) {
-        id renderTextureAction = [CCMoveTo actionWithDuration:0.75 position:ccp(renderTexture.position.x, renderTextureOrigPos.y + boundaryDistance)];
-        id renderTextureEase = [CCEaseBackOut actionWithAction:renderTextureAction];
-        
-        [renderTexture runAction:renderTextureEase];
-        //renderTexture.position = ccp(renderTexture.position.x, renderTextureOrigPos.y + boundaryDistance);
-    } else if (renderTexture.position.y < renderTextureOrigPos.y) {
-        id renderTextureAction = [CCMoveTo actionWithDuration:0.75 position:ccp(renderTexture.position.x, renderTextureOrigPos.y)];
-        id renderTextureEase = [CCEaseBackOut actionWithAction:renderTextureAction];
-        
-        [renderTexture runAction:renderTextureEase];
-        //renderTexture.position = ccp(renderTexture.position.x, renderTextureOrigPos.y);
-    }
 }
 
 -(void) dealloc {
-    //[theme release];
-    //[themeTotal release];
-    //[themeVisible release];
+    [territoriesChosen release];
     [questionLayerTotal release];
     [questionLayerVisible release];
     [questionArray release];

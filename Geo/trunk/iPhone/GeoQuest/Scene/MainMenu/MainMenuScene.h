@@ -10,6 +10,8 @@
 #import "cocos2d.h"
 #import "MainMenuUI.h"
 #import "MainMenuBG.h"
+#import "MainMenuLogin.h"
+#import "MainMenuCreateGame.h"
 
 @interface MainMenuScene : CCScene {
 

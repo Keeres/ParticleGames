@@ -11,8 +11,6 @@
 #import "SimpleAudioEngine.h"
 
 @interface GameManager : NSObject {
-    NSString *username;
-    NSString *password;
     
     BOOL isMusicOn;
     BOOL isSoundEffetsOn;
@@ -26,8 +24,6 @@
     NSMutableDictionary *soundEffectsState;
 }
 
-@property (nonatomic, retain) NSString *username;
-@property (nonatomic, retain) NSString *password;
 @property (readwrite) BOOL isMusicOn;
 @property (readwrite) BOOL isSoundEffectsOn;
 @property (readwrite) GameManagerSoundState managerSoundState;
@@ -42,7 +38,5 @@
 -(void)stopSoundEffect:(ALuint)soundEffectID;
 -(void)playBackgroundTrack:(NSString*)trackFileName;
 -(CGSize)getDimensionsOfCurrentScene;
--(void)saveUsername;
--(void)loadUsername;
 
 @end

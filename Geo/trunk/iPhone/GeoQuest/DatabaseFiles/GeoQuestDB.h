@@ -20,15 +20,6 @@
 
 +(GeoQuestDB*) database;
 
-/*-(GeoQuestQuestion*) getQuestionFrom:(NSString*)category;
-
--(NSArray*) getAnswerChoicesFrom:(GeoQuestQuestion*)question difficulty:(int)diff;*/
-//-(NSArray*) getSpecialStageAnswerChoices;
-
-
-
-//-(BOOL) checkAnswer:(GeoQuestAnswer *)answer withCategory:(NSString*)category;
-
 -(NSMutableArray*) displayTerritories;
 
 -(GeoQuestQuestion*) getQuestionFrom:(GeoQuestTerritory*)questionTable;

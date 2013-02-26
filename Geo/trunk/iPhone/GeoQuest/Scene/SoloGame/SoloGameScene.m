@@ -17,6 +17,15 @@
     SoloGameUI *soloGameUI = [SoloGameUI node];
     [scene addChild:soloGameUI z:20];
     
+    SoloGameReplay *soloGameReplay = [[SoloGameReplay alloc] initWithSoloGameUILayer:soloGameUI];
+    [scene addChild:soloGameReplay z:30];
+    
+    SoloGameTerritory *soloGameTerritory = [[SoloGameTerritory alloc] initWithSoloGameUILayer:soloGameUI];
+    [scene addChild:soloGameTerritory z:30];
+    
+    SoloGameGameOver *soloGameGameOver = [[SoloGameGameOver alloc] initWithSoloGameUILayer:soloGameUI];
+    [scene addChild:soloGameGameOver z:30];
+    
     SoloGameBG *soloGameBG = [[SoloGameBG alloc] initWithSoloGameUILayer:soloGameUI];
     [scene addChild:soloGameBG z:10];
     
