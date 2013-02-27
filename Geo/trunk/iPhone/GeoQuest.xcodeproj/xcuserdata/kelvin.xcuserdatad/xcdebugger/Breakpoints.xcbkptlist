@@ -7,12 +7,38 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "GeoQuest/Scene/SoloGame/SoloGameUI.m"
-         timestampString = "383357007.090412"
+         filePath = "GeoQuest/Scene/SoloGame/SoloGameTerritory.m"
+         timestampString = "383604037.295093"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1229"
-         endingLineNumber = "1229"
+         startingLineNumber = "13"
+         endingLineNumber = "13"
+         landmarkName = "-setupTerritoryLayer"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "GeoQuest/Scene/SoloGame/SoloGameUI.m"
+         timestampString = "383620957.507713"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "897"
+         endingLineNumber = "897"
+         landmarkName = "-checkAnswer:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "GeoQuest/Scene/SoloGame/SoloGameUI.m"
+         timestampString = "383620957.507713"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1036"
+         endingLineNumber = "1036"
          landmarkName = "-hideOneAnswerChoice"
          landmarkType = "5">
       </FileBreakpoint>
@@ -21,12 +47,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "GeoQuest/Scene/SoloGame/SoloGameUI.m"
-         timestampString = "383357007.090412"
+         timestampString = "383620957.507713"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "919"
-         endingLineNumber = "919"
-         landmarkName = "-updateTime:"
+         startingLineNumber = "360"
+         endingLineNumber = "360"
+         landmarkName = "-getAnswerChoices"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -34,12 +60,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "GeoQuest/Scene/SoloGame/SoloGameUI.m"
-         timestampString = "383357007.090412"
+         timestampString = "383620957.507713"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "896"
-         endingLineNumber = "896"
-         landmarkName = "-updateTime:"
+         startingLineNumber = "500"
+         endingLineNumber = "500"
+         landmarkName = "-getAnswerChoices"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

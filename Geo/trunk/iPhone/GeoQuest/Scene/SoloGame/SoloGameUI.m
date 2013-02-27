@@ -351,11 +351,13 @@
         answerChoicesVisibleCount = 2;
     } else {
         currentAnswerChoices = [[GeoQuestDB database] getAnswerChoicesFrom:currentQuestion specialPower:difficultyChoice];
+        
     }
+    [currentAnswerChoices retain];
     
     CCMenuAdvanced *answerMenu = [CCMenuAdvanced menuWithItems:nil];
     
-    for (int i = 0; i < [currentAnswerChoices count]; i++) { //autorelease objects?
+    for (int i = 0; i < [currentAnswerChoices count]; i++) {
         GeoQuestAnswer *a = [currentAnswerChoices objectAtIndex:i];
         CCMenuItemSprite *answerItemSprite;
         CCLOG(@"a.answer = %@", a.answer);
@@ -1013,6 +1015,7 @@
     
     RaceData *r = [[RaceData alloc] initWithTime:(60 - gameTimer) answerType:currentQuestion.info answer:currentQuestion.answer correct:correctAnswer points:pointsEarned];
     [raceDataArray addObject:r];
+    [r release];
     
     id vehicleAction;
     if ((playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * pointsEarned)) > winSize.width - playerVehicle.contentSize.width/2) {
@@ -1129,6 +1132,7 @@
     
     RaceData *r = [[RaceData alloc] initWithTime:(60 - gameTimer) answerType:currentQuestion.info answer:currentQuestion.answer correct:NO points:pointsEarned];
     [raceDataArray addObject:r];
+    [r release];
     
     [self performSelector:@selector(questionAnswered) withObject:nil afterDelay:0.75];
 }
@@ -1170,6 +1174,7 @@
 }
 
 -(void) dealloc {
+    [currentAnswerChoices release];
     [territoriesChosen release];
     [questionLayerTotal release];
     [questionLayerVisible release];

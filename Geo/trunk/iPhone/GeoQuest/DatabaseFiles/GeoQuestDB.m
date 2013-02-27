@@ -34,7 +34,7 @@ static GeoQuestDB *_database;
 }
 
 -(NSMutableArray*) displayTerritories {
-    NSMutableArray *territoryChoices = [[NSMutableArray alloc] init];
+    NSMutableArray *territoryChoices = [[[NSMutableArray alloc] init] autorelease];
     NSString *sqlTerritoryChoices = [NSString stringWithFormat:@"SELECT territoryid, name, question, answer FROM UserTerritoryQuestions where weeklyusable = 'YES' OR ownedusable = 'YES'"];
     
     sqlite3_stmt *compiledStatement;
@@ -48,6 +48,7 @@ static GeoQuestDB *_database;
             
             GeoQuestTerritory *territory = [[GeoQuestTerritory alloc] initWithTerritoryID:tTerritoryID name:tName questionTable:tQuestion answerTable:tAnswer];
             [territoryChoices addObject:territory];
+            [territory release];
         }
         
         sqlite3_finalize(compiledStatement);
@@ -65,7 +66,7 @@ static GeoQuestDB *_database;
 #pragma mark - Retreive Question/Answer
 
 -(GeoQuestQuestion*) getQuestionFrom:(GeoQuestTerritory*)territory {
-    GeoQuestQuestion *question;
+    GeoQuestQuestion *question = NULL;
     
     NSString *sqlQuestion = [NSString stringWithFormat:@"SELECT question, questiontype, answertype, info FROM %@ WHERE specialquestion='NO' ORDER BY RANDOM() LIMIT 1", territory.questionTable];
     
@@ -81,7 +82,7 @@ static GeoQuestDB *_database;
             
             NSString *qAnswerTable = territory.answerTable;
             
-            question = [[GeoQuestQuestion alloc] initWithQuestion:qQuestion questionType:qQuestionType answerTable:qAnswerTable answerType:qAnswerType info:qInfo];
+            question = [[[GeoQuestQuestion alloc] initWithQuestion:qQuestion questionType:qQuestionType answerTable:qAnswerTable answerType:qAnswerType info:qInfo] autorelease];
         }
         sqlite3_finalize(compiledStatement);
     } else {
@@ -109,7 +110,7 @@ static GeoQuestDB *_database;
 }
 
 -(NSMutableArray*) getAnswerChoicesFrom:(GeoQuestQuestion *)question specialPower:(int)power {
-    NSMutableArray *answerChoices = [[NSMutableArray alloc] init];
+    NSMutableArray *answerChoices = [[[NSMutableArray alloc] init] autorelease];
     NSString *sqlAnswerChoices;
     
     sqlite3_stmt *compiledStatement;
@@ -125,6 +126,7 @@ static GeoQuestDB *_database;
                         
             GeoQuestAnswer *answer = [[GeoQuestAnswer alloc] initWithAnswerID:aAnswerID answerType:aAnswerType];
             [answerChoices addObject:answer];
+            [answer release];
         }
         sqlite3_finalize(compiledStatement);
     }
@@ -155,6 +157,7 @@ static GeoQuestDB *_database;
                         
             GeoQuestAnswer *answer = [[GeoQuestAnswer alloc] initWithAnswerID:aAnswerID answerType:aAnswerType];
             [answerChoices addObject:answer];
+            [answer release];
         }
         sqlite3_finalize(compiledStatement);
     }

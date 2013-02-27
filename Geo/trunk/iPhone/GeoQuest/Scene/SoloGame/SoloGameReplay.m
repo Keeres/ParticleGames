@@ -225,6 +225,7 @@
 
 -(void) dealloc {
     [raceDataArray release];
+    [reverseRaceDataArray release];
     [super dealloc];
 }
 

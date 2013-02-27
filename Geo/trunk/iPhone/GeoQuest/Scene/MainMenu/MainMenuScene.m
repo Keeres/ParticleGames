@@ -16,13 +16,13 @@
     MainMenuUI *mainMenuUI = [MainMenuUI node];
     [scene addChild:mainMenuUI z:20];
     
-    MainMenuCreateGame *mainMenuCreateGame = [[MainMenuCreateGame alloc] initWithMainMenuUILayer:mainMenuUI];
+    MainMenuCreateGame *mainMenuCreateGame = [[[MainMenuCreateGame alloc] initWithMainMenuUILayer:mainMenuUI] autorelease];
     [scene addChild:mainMenuCreateGame z:30];
     
-    MainMenuLogin *mainMenuLogin = [[MainMenuLogin alloc] initWithMainMenuUILayer:mainMenuUI];
+    MainMenuLogin *mainMenuLogin = [[[MainMenuLogin alloc] initWithMainMenuUILayer:mainMenuUI] autorelease];
     [scene addChild:mainMenuLogin z:30];
     
-    MainMenuBG *mainMenuBG = [[MainMenuBG alloc] initWithMainMenuUILayer:mainMenuUI];
+    MainMenuBG *mainMenuBG = [[[MainMenuBG alloc] initWithMainMenuUILayer:mainMenuUI] autorelease];
     [scene addChild:mainMenuBG z:10];
     
     return scene;

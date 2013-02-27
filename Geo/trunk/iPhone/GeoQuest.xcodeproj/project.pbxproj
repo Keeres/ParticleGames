@@ -11,6 +11,8 @@
 		B6130F361668119500C636A6 /* FiftyFiftyPowerUpParticle.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6130F321668119500C636A6 /* FiftyFiftyPowerUpParticle.plist */; };
 		B6130F371668119500C636A6 /* FreezeTimePowerUpParticle.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6130F331668119500C636A6 /* FreezeTimePowerUpParticle.plist */; };
 		B6130F381668119500C636A6 /* SpecialStagePowerUpParticle.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6130F341668119500C636A6 /* SpecialStagePowerUpParticle.plist */; };
+		B632D8FA16DD1B0A000E529C /* MainMenuLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = B632D8F916DD1B0A000E529C /* MainMenuLogin.m */; };
+		B632D8FD16DD1B21000E529C /* MainMenuCreateGame.m in Sources */ = {isa = PBXBuildFile; fileRef = B632D8FC16DD1B21000E529C /* MainMenuCreateGame.m */; };
 		B636776D16696D1500111BA7 /* PlayerDB.m in Sources */ = {isa = PBXBuildFile; fileRef = B636776C16696D1500111BA7 /* PlayerDB.m */; };
 		B6413A7D1638600800A01A2D /* CCMenuAdvancedPlus.m in Sources */ = {isa = PBXBuildFile; fileRef = B6413A7C1638600800A01A2D /* CCMenuAdvancedPlus.m */; };
 		B64A8498164B880C004A567A /* GeoQuestAnswer.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A8493164B880C004A567A /* GeoQuestAnswer.m */; };
@@ -186,6 +188,9 @@
 		B6A4709B16AC7F9100417830 /* MessageWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709A16AC7F9100417830 /* MessageWriter.m */; };
 		B6A55AD716C35DF000E6F4A3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A55AD616C35DF000E6F4A3 /* libz.dylib */; };
 		B6A55AD916C35E9400E6F4A3 /* NetworkPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD516C35D9D00E6F4A3 /* NetworkPacket.m */; };
+		B6BCFFD416DD50B90077E5A2 /* SoloGameTerritory.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BCFFD316DD50B90077E5A2 /* SoloGameTerritory.m */; };
+		B6BCFFD716DD59A50077E5A2 /* SoloGameGameOver.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BCFFD616DD59A50077E5A2 /* SoloGameGameOver.m */; };
+		B6BCFFDA16DD5A000077E5A2 /* SoloGameReplay.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BCFFD916DD5A000077E5A2 /* SoloGameReplay.m */; };
 		B6BDCEC31667EAFA00A34A48 /* TRSMillion.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B69693F71667E8D300FFFFC7 /* TRSMillion.ttf */; };
 		B6C68218164CE7F300BC9E81 /* USACapitalsSprites-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6C68210164CE7F200BC9E81 /* USACapitalsSprites-hd.plist */; };
 		B6C68219164CE7F300BC9E81 /* USACapitalsSprites-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C68211164CE7F300BC9E81 /* USACapitalsSprites-hd.png */; };
@@ -211,9 +216,6 @@
 		B6D509CF1624C4AB0095953B /* LFCGzipUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D509B11624C4AB0095953B /* LFCGzipUtility.m */; };
 		B6D509D11624C4AB0095953B /* TMXGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D509B41624C4AB0095953B /* TMXGenerator.m */; };
 		B6D8686A16CBF5460012281D /* CCUIViewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D8686916CBF5460012281D /* CCUIViewWrapper.m */; };
-		B6DC1F1D16CAD2E90008FD34 /* LoadScreenScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DC1F1C16CAD2E90008FD34 /* LoadScreenScene.m */; };
-		B6DC1F2016CAD2FC0008FD34 /* LoadScreenUI.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DC1F1F16CAD2FC0008FD34 /* LoadScreenUI.m */; };
-		B6DC1F2316CAD30D0008FD34 /* LoadScreenBG.m in Sources */ = {isa = PBXBuildFile; fileRef = B6DC1F2216CAD30D0008FD34 /* LoadScreenBG.m */; };
 		B6F160FF16C44755009D79A1 /* Challenger.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD316C35D4700E6F4A3 /* Challenger.m */; };
 /* End PBXBuildFile section */
 
@@ -222,6 +224,10 @@
 		B6130F321668119500C636A6 /* FiftyFiftyPowerUpParticle.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FiftyFiftyPowerUpParticle.plist; sourceTree = "<group>"; };
 		B6130F331668119500C636A6 /* FreezeTimePowerUpParticle.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FreezeTimePowerUpParticle.plist; sourceTree = "<group>"; };
 		B6130F341668119500C636A6 /* SpecialStagePowerUpParticle.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SpecialStagePowerUpParticle.plist; sourceTree = "<group>"; };
+		B632D8F816DD1B0A000E529C /* MainMenuLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuLogin.h; sourceTree = "<group>"; };
+		B632D8F916DD1B0A000E529C /* MainMenuLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuLogin.m; sourceTree = "<group>"; };
+		B632D8FB16DD1B21000E529C /* MainMenuCreateGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuCreateGame.h; sourceTree = "<group>"; };
+		B632D8FC16DD1B21000E529C /* MainMenuCreateGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuCreateGame.m; sourceTree = "<group>"; };
 		B636776B16696D1500111BA7 /* PlayerDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDB.h; sourceTree = "<group>"; };
 		B636776C16696D1500111BA7 /* PlayerDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerDB.m; sourceTree = "<group>"; };
 		B6413A7B1638600800A01A2D /* CCMenuAdvancedPlus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMenuAdvancedPlus.h; sourceTree = "<group>"; };
@@ -564,6 +570,12 @@
 		B6A55AD416C35D9D00E6F4A3 /* NetworkPacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkPacket.h; sourceTree = "<group>"; };
 		B6A55AD516C35D9D00E6F4A3 /* NetworkPacket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkPacket.m; sourceTree = "<group>"; };
 		B6A55AD616C35DF000E6F4A3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		B6BCFFD216DD50B90077E5A2 /* SoloGameTerritory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameTerritory.h; sourceTree = "<group>"; };
+		B6BCFFD316DD50B90077E5A2 /* SoloGameTerritory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameTerritory.m; sourceTree = "<group>"; };
+		B6BCFFD516DD59A50077E5A2 /* SoloGameGameOver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameGameOver.h; sourceTree = "<group>"; };
+		B6BCFFD616DD59A50077E5A2 /* SoloGameGameOver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameGameOver.m; sourceTree = "<group>"; };
+		B6BCFFD816DD5A000077E5A2 /* SoloGameReplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameReplay.h; sourceTree = "<group>"; };
+		B6BCFFD916DD5A000077E5A2 /* SoloGameReplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameReplay.m; sourceTree = "<group>"; };
 		B6C68210164CE7F200BC9E81 /* USACapitalsSprites-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "USACapitalsSprites-hd.plist"; sourceTree = "<group>"; };
 		B6C68211164CE7F300BC9E81 /* USACapitalsSprites-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "USACapitalsSprites-hd.png"; sourceTree = "<group>"; };
 		B6C68212164CE7F300BC9E81 /* USACapitalsSprites.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = USACapitalsSprites.plist; sourceTree = "<group>"; };
@@ -612,12 +624,6 @@
 		B6D509B41624C4AB0095953B /* TMXGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMXGenerator.m; sourceTree = "<group>"; };
 		B6D8686816CBF5460012281D /* CCUIViewWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCUIViewWrapper.h; sourceTree = "<group>"; };
 		B6D8686916CBF5460012281D /* CCUIViewWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCUIViewWrapper.m; sourceTree = "<group>"; };
-		B6DC1F1B16CAD2E90008FD34 /* LoadScreenScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadScreenScene.h; path = LoadScreen/LoadScreenScene.h; sourceTree = "<group>"; };
-		B6DC1F1C16CAD2E90008FD34 /* LoadScreenScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadScreenScene.m; path = LoadScreen/LoadScreenScene.m; sourceTree = "<group>"; };
-		B6DC1F1E16CAD2FC0008FD34 /* LoadScreenUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadScreenUI.h; path = LoadScreen/LoadScreenUI.h; sourceTree = "<group>"; };
-		B6DC1F1F16CAD2FC0008FD34 /* LoadScreenUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadScreenUI.m; path = LoadScreen/LoadScreenUI.m; sourceTree = "<group>"; };
-		B6DC1F2116CAD30D0008FD34 /* LoadScreenBG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadScreenBG.h; path = LoadScreen/LoadScreenBG.h; sourceTree = "<group>"; };
-		B6DC1F2216CAD30D0008FD34 /* LoadScreenBG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadScreenBG.m; path = LoadScreen/LoadScreenBG.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -665,6 +671,12 @@
 			children = (
 				B64A849F164B892C004A567A /* SoloGameScene.h */,
 				B64A84A0164B892C004A567A /* SoloGameScene.m */,
+				B6BCFFD816DD5A000077E5A2 /* SoloGameReplay.h */,
+				B6BCFFD916DD5A000077E5A2 /* SoloGameReplay.m */,
+				B6BCFFD216DD50B90077E5A2 /* SoloGameTerritory.h */,
+				B6BCFFD316DD50B90077E5A2 /* SoloGameTerritory.m */,
+				B6BCFFD516DD59A50077E5A2 /* SoloGameGameOver.h */,
+				B6BCFFD616DD59A50077E5A2 /* SoloGameGameOver.m */,
 				B64A84A2164B898E004A567A /* SoloGameUI.h */,
 				B64A84A3164B898E004A567A /* SoloGameUI.m */,
 				B64A84A5164B899D004A567A /* SoloGameBG.h */,
@@ -1131,7 +1143,6 @@
 				B6902DCC161F490F00B11872 /* GameManager.h */,
 				B6902DCD161F490F00B11872 /* GameManager.m */,
 				B6902DCE161F49D300B11872 /* Constants.h */,
-				B6DC1F1A16CAD2CC0008FD34 /* LoadScreen */,
 				B6902DC5161F47A300B11872 /* MainMenu */,
 				B64A849E164B8917004A567A /* SoloGame */,
 			);
@@ -1175,6 +1186,10 @@
 			children = (
 				B6902DC9161F47C000B11872 /* MainMenuScene.h */,
 				B6902DCA161F47C000B11872 /* MainMenuScene.m */,
+				B632D8F816DD1B0A000E529C /* MainMenuLogin.h */,
+				B632D8F916DD1B0A000E529C /* MainMenuLogin.m */,
+				B632D8FB16DD1B21000E529C /* MainMenuCreateGame.h */,
+				B632D8FC16DD1B21000E529C /* MainMenuCreateGame.m */,
 				B6902DC6161F47A300B11872 /* MainMenuUI.h */,
 				B6902DC7161F47A300B11872 /* MainMenuUI.m */,
 				B656FC5816208DCF00757319 /* MainMenuBG.h */,
@@ -1347,19 +1362,6 @@
 				B6D509B41624C4AB0095953B /* TMXGenerator.m */,
 			);
 			path = TMXGenerator;
-			sourceTree = "<group>";
-		};
-		B6DC1F1A16CAD2CC0008FD34 /* LoadScreen */ = {
-			isa = PBXGroup;
-			children = (
-				B6DC1F1B16CAD2E90008FD34 /* LoadScreenScene.h */,
-				B6DC1F1C16CAD2E90008FD34 /* LoadScreenScene.m */,
-				B6DC1F1E16CAD2FC0008FD34 /* LoadScreenUI.h */,
-				B6DC1F1F16CAD2FC0008FD34 /* LoadScreenUI.m */,
-				B6DC1F2116CAD30D0008FD34 /* LoadScreenBG.h */,
-				B6DC1F2216CAD30D0008FD34 /* LoadScreenBG.m */,
-			);
-			name = LoadScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1614,12 +1616,14 @@
 				B6A4709816AC7EFC00417830 /* MessageReader.m in Sources */,
 				B6A4709B16AC7F9100417830 /* MessageWriter.m in Sources */,
 				B67470D916C5924400092751 /* Territory.m in Sources */,
-				B6DC1F1D16CAD2E90008FD34 /* LoadScreenScene.m in Sources */,
-				B6DC1F2016CAD2FC0008FD34 /* LoadScreenUI.m in Sources */,
-				B6DC1F2316CAD30D0008FD34 /* LoadScreenBG.m in Sources */,
 				B6D8686A16CBF5460012281D /* CCUIViewWrapper.m in Sources */,
 				B6975C0D16D56A00007C0FD7 /* RaceData.m in Sources */,
 				B6975C1316D6BC2A007C0FD7 /* CCRenderTexturePlus.m in Sources */,
+				B632D8FA16DD1B0A000E529C /* MainMenuLogin.m in Sources */,
+				B632D8FD16DD1B21000E529C /* MainMenuCreateGame.m in Sources */,
+				B6BCFFD416DD50B90077E5A2 /* SoloGameTerritory.m in Sources */,
+				B6BCFFD716DD59A50077E5A2 /* SoloGameGameOver.m in Sources */,
+				B6BCFFDA16DD5A000077E5A2 /* SoloGameReplay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1682,10 +1686,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/GeoQuest/NetworkFiles/Facebook\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GeoQuest/Prefix.pch;
@@ -1707,10 +1708,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/GeoQuest/NetworkFiles/Facebook\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GeoQuest/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"GeoQuest/libs/kazmath/include\"";

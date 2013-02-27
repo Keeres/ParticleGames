@@ -138,8 +138,7 @@ static GameManager* _sharedGameManager = nil;
     }
     
     // 2: Read in the plist file
-    NSDictionary *plistDictionary = 
-    [NSDictionary dictionaryWithContentsOfFile:plistPath];
+    NSDictionary *plistDictionary = [NSDictionary dictionaryWithContentsOfFile:plistPath];
     
     // 3: If the plistDictionary was null, the file was not found.
     if (plistDictionary == nil) {
@@ -151,8 +150,7 @@ static GameManager* _sharedGameManager = nil;
     if ((listOfSoundEffectFiles == nil) || 
         ([listOfSoundEffectFiles count] < 1)) {
         NSLog(@"Before");
-        [self setListOfSoundEffectFiles:
-         [[NSMutableDictionary alloc] init]];
+        [self setListOfSoundEffectFiles:[[NSMutableDictionary alloc] init]];
         NSLog(@"after");
         for (NSString *sceneSoundDictionary in plistDictionary) {
             [listOfSoundEffectFiles 

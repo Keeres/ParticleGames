@@ -277,6 +277,8 @@ static PlayerDB *_database;
             [values release];
             
             CCLOG(@"GameManager: Loaded username:%@ and password:%@", self.username, self.password);
+        } else {
+            [values release];
         }
 	}
 }
