@@ -120,6 +120,7 @@
 }
 
 -(void) dealloc {
+    [difficultyChoiceMenu release];
     [super dealloc];
 }
 

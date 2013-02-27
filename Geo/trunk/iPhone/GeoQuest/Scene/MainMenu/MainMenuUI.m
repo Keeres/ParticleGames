@@ -238,7 +238,7 @@
     //[self disableButtonsWhenNoNetwork];
     mainMenuLogin.visible = YES;
     [mainMenuLogin checkIfLoggedIn];
-    gameChallengeMenu.visible = NO;
+    [gameChallengeMenu removeAllChildrenWithCleanup:YES];
 }
 
 -(void) openStore {

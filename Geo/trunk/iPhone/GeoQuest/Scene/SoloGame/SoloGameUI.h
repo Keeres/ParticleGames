@@ -26,7 +26,7 @@
 #define SOLO_GRID_SPACING 5 //points between menu items
 #define SOLO_GAME_TIMER 60 
 #define SOLO_GAME_QUICKDRAW_TIMER 1.5
-#define SOLO_GAME_SCORE_TO_WIN 20
+#define SOLO_GAME_SCORE_TO_WIN 20 
 
 @class SoloGameReplay;
 @class SoloGameGameOver;
@@ -43,18 +43,18 @@
     SoloGameBG          *soloGameBG;
 
     GeoQuestQuestion    *currentQuestion;
-    GameThemeCache      *theme;
-    NSArray             *themeArray;
+    //GameThemeCache      *theme;
+    //NSArray             *themeArray;
 
     NSMutableArray      *questionArray;
     NSMutableArray      *questionLayerTotal;
     NSMutableArray      *questionLayerVisible;
+    NSMutableArray      *answerArray;
     NSMutableArray      *currentAnswerChoices;
-    NSMutableArray      *themeTotal;
-    NSMutableArray      *themeVisible;
+    //NSMutableArray      *themeTotal;
+    //NSMutableArray      *themeVisible;
     NSMutableArray      *territoriesChosen; //array of all the territories usable by player
     NSMutableArray      *raceDataArray; //array to store raceData objects
-    NSMutableArray      *reverseRaceDataArray;
     
     CCSprite            *question;
     CCSprite            *correctMark;
@@ -70,10 +70,11 @@
     CCLabelTTF          *quickDrawLabel;
     CCLabelTTF          *inRowLabel;
     CCLabelTTF          *inRowQuickDrawLabel;
-    CCParticleSystemQuad *freezeTimePowerUpParticle;
-    CCParticleSystemQuad *doublePointsPowerUpParticle;
-    CCParticleSystemQuad *fiftyFiftyPowerUpParticle;
-    CCParticleSystemQuad *specialStagePowerUpParticle;
+    
+    //CCParticleSystemQuad *freezeTimePowerUpParticle;
+    //CCParticleSystemQuad *doublePointsPowerUpParticle;
+    //CCParticleSystemQuad *fiftyFiftyPowerUpParticle;
+    //CCParticleSystemQuad *specialStagePowerUpParticle;
 
     BOOL                questionAnswered;
     BOOL                questionChecked;
@@ -106,7 +107,6 @@
     
 }
 
-@property (nonatomic, retain) SoloGameReplay *soloGameReplay;
 @property (nonatomic, retain) CCSprite *playerVehicle;
 
 -(void) setSoloGameBGLayer:(SoloGameBG*)soloBG;
@@ -115,5 +115,6 @@
 -(void) setSoloReplayLayer:(SoloGameReplay*)soloReplay;
 -(void) setupGame;
 -(void) setTerritoriesChosen:(NSMutableArray*)tChosen;
+-(SoloGameReplay*) getSoloGameReplay;
 
 @end

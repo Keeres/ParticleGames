@@ -41,13 +41,28 @@ static GeoQuestDB *_database;
     
     if (sqlite3_prepare_v2(_database, [sqlTerritoryChoices UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
         while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
-            NSString *tTerritoryID = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 0)];
+            char *tID = (char*)sqlite3_column_text(compiledStatement, 0);
+            char *tN = (char*)sqlite3_column_text(compiledStatement, 1);
+            char *tQ = (char*)sqlite3_column_text(compiledStatement, 2);
+            char *tA = (char*)sqlite3_column_text(compiledStatement, 3);
+            
+            NSString *tTerritoryID = [[NSString alloc] initWithUTF8String:tID];
+            NSString *tName = [[NSString alloc] initWithUTF8String:tN];
+            NSString *tQuestion = [[NSString alloc] initWithUTF8String:tQ];
+            NSString *tAnswer = [[NSString alloc] initWithUTF8String:tA];
+            
+            /*NSString *tTerritoryID = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 0)];
             NSString *tName = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 1)];
             NSString *tQuestion = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 2)];
-            NSString *tAnswer = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 3)];
+            NSString *tAnswer = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 3)];*/
             
             GeoQuestTerritory *territory = [[GeoQuestTerritory alloc] initWithTerritoryID:tTerritoryID name:tName questionTable:tQuestion answerTable:tAnswer];
             [territoryChoices addObject:territory];
+            
+            [tTerritoryID release];
+            [tName release];
+            [tQuestion release];
+            [tAnswer release];
             [territory release];
         }
         
@@ -74,15 +89,29 @@ static GeoQuestDB *_database;
     
     if (sqlite3_prepare_v2(_database, [sqlQuestion UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
         while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
-            NSString *qQuestion = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 0)];
+            char *qQues = (char*)sqlite3_column_text(compiledStatement, 0);
+            char *qQuesType = (char*)sqlite3_column_text(compiledStatement, 1);
+            char *qAnsType = (char*)sqlite3_column_text(compiledStatement, 2);
+            char *qI = (char*)sqlite3_column_text(compiledStatement, 3);
+            
+            NSString *qQuestion = [[NSString alloc] initWithUTF8String:qQues];
+            NSString *qQuestionType = [[NSString alloc] initWithUTF8String:qQuesType];
+            NSString *qAnswerType = [[NSString alloc] initWithUTF8String:qAnsType];
+            NSString *qInfo = [[NSString alloc] initWithUTF8String:qI];
+            
+            /*NSString *qQuestion = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 0)];
             NSString *qQuestionType = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 1)];
             NSString *qAnswerType = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 2)];
-            NSString *qInfo = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 3)];
+            NSString *qInfo = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 3)];*/
 
             
             NSString *qAnswerTable = territory.answerTable;
             
             question = [[[GeoQuestQuestion alloc] initWithQuestion:qQuestion questionType:qQuestionType answerTable:qAnswerTable answerType:qAnswerType info:qInfo] autorelease];
+            [qQuestion release];
+            [qQuestionType release];
+            [qAnswerType release];
+            [qInfo release];
         }
         sqlite3_finalize(compiledStatement);
     } else {
@@ -96,11 +125,21 @@ static GeoQuestDB *_database;
     if (sqlite3_prepare_v2(_database, [sqlQuestion UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
         while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
             
-            NSString *aAnswerID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 0)];
-            NSString *aAnswerType = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
+            char *aAnsID = (char *)sqlite3_column_text(compiledStatement, 0);
+            char *aAnsType = (char *)sqlite3_column_text(compiledStatement, 1);
+            
+            NSString *aAnswerID = [[NSString alloc] initWithUTF8String:aAnsID];
+            NSString *aAnswerType = [[NSString alloc] initWithUTF8String:aAnsType];
+            
+            /*NSString *aAnswerID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 0)];
+            NSString *aAnswerType = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];*/
             
             question.answerID = aAnswerID;
             question.answer = aAnswerType;
+            
+            [aAnswerID release];
+            [aAnswerType release];
+            
         }
         sqlite3_finalize(compiledStatement);
     }
@@ -120,18 +159,26 @@ static GeoQuestDB *_database;
     
     if (sqlite3_prepare_v2(_database, [sqlAnswerChoices UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
         while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
+
+            char *ansID = (char *)sqlite3_column_text(compiledStatement, 0);
+            char *ansType = (char *)sqlite3_column_text(compiledStatement, 1);
             
-            NSString *aAnswerID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 0)];
-            NSString *aAnswerType = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
+            NSString *aAnswerID = [[NSString alloc] initWithUTF8String:ansID];
+            NSString *aAnswerType = [[NSString alloc] initWithUTF8String:ansType];
+            
+            //NSString *aAnswerID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 0)];
+            //NSString *aAnswerType = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
                         
             GeoQuestAnswer *answer = [[GeoQuestAnswer alloc] initWithAnswerID:aAnswerID answerType:aAnswerType];
             [answerChoices addObject:answer];
+            [aAnswerID release];
+            [aAnswerType release];
             [answer release];
         }
         sqlite3_finalize(compiledStatement);
     }
 
-    //Get wrong answer choices
+    //Get wrong answer choices	
     switch (power) {
         case k5050PowerUp:
             sqlAnswerChoices = [NSString stringWithFormat:@"SELECT answerID, %@ FROM %@ WHERE answerID !='%@' ORDER BY RANDOM() LIMIT 1", question.answerType, question.answerTable, question.answerID];
@@ -152,11 +199,19 @@ static GeoQuestDB *_database;
     if (sqlite3_prepare_v2(_database, [sqlAnswerChoices UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
         while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
             
-            NSString *aAnswerID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 0)];
-            NSString *aAnswerType = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
+            //NSString *aAnswerID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 0)];
+            //NSString *aAnswerType = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
+            
+            char *ansID = (char *)sqlite3_column_text(compiledStatement, 0);
+            char *ansType = (char *)sqlite3_column_text(compiledStatement, 1);
+            
+            NSString *aAnswerID = [[NSString alloc] initWithUTF8String:ansID];
+            NSString *aAnswerType = [[NSString alloc] initWithUTF8String:ansType];
                         
             GeoQuestAnswer *answer = [[GeoQuestAnswer alloc] initWithAnswerID:aAnswerID answerType:aAnswerType];
             [answerChoices addObject:answer];
+            [aAnswerID release];
+            [aAnswerType release];
             [answer release];
         }
         sqlite3_finalize(compiledStatement);

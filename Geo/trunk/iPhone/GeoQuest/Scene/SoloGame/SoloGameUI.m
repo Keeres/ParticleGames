@@ -12,7 +12,6 @@
 
 @implementation SoloGameUI
 
-@synthesize soloGameReplay;
 @synthesize playerVehicle;
 
 -(void) setSoloGameBGLayer:(SoloGameBG *)soloBG {
@@ -31,6 +30,10 @@
     soloGameReplay = soloReplay;
 }
 
+-(SoloGameReplay*) getSoloGameReplay {
+    return soloGameReplay;
+}
+
 #pragma mark - Setup Game
 
 -(void) setupGame {
@@ -42,9 +45,10 @@
     //[self setupGameOverMenu];
     //[self setupTheme];
     [self setupQuestionLayer];
-    [self setupParticleSystems];
+    //[self setupParticleSystems];
     
     [self createQuestions];
+    [self createAnswers];
     [self createRaceData];
     
     playerVehicle.visible = YES;
@@ -163,7 +167,7 @@
     }  
 }
 
--(void) setupParticleSystems {
+/*-(void) setupParticleSystems {
     freezeTimePowerUpParticle = [CCParticleSystemQuad particleWithFile:@"FreezeTimePowerUpParticle.plist"];
     freezeTimePowerUpParticle.position = ccp(winSize.width/2, freezeTimePowerUpParticle.contentSize.height);
     freezeTimePowerUpParticle.visible = NO;
@@ -183,17 +187,15 @@
     specialStagePowerUpParticle.position = ccp(winSize.width/2, specialStagePowerUpParticle.contentSize.height);
     specialStagePowerUpParticle.visible = NO;
     [self addChild:specialStagePowerUpParticle z:100];
-    
-}
-
-#pragma mark - Menus Selected
+ 
+}*/
 
 
 #pragma mark - Retrieve Information
 
 -(void) createQuestions {
     questionArray = [[NSMutableArray alloc] init];
-    NSString *qString = @"";
+    //NSString *qString = @"";
     
     GeoQuestTerritory *questionTerritory;
 
@@ -206,10 +208,10 @@
             q = [[GeoQuestDB database] getQuestionFrom:questionTerritory];
         }
         [questionArray addObject:q];
-        qString = [NSString stringWithFormat:@"%@%@",qString, [NSString stringWithFormat:@"(%@,%@,%@,%@,%@,%@,%@)", q.question, q.questionType, q.answerTable, q.answerType, q.answerID, q.answer, q.info]];
+        //qString = [NSString stringWithFormat:@"%@%@",qString, [NSString stringWithFormat:@"(%@,%@,%@,%@,%@,%@,%@)", q.question, q.questionType, q.answerTable, q.answerType, q.answerID, q.answer, q.info]];
     }
     
-    CCLOG(@"qSTRING: %@", qString);
+    //CCLOG(@"qSTRING: %@", qString);
     //Format the array of questions into String. Send the questions to Server.
     
 }
@@ -225,20 +227,15 @@
     return NO;
 }
 
+-(void) createAnswers {
+    answerArray = [[NSMutableArray alloc] init];
+}
+
 -(void) createRaceData {
     raceDataArray = [[NSMutableArray alloc] init];
 }
 
 -(id) getQuestion {
-    //TESTING BACKGROUNDS/////
-    //[soloGameBG changeBG];
-    //////////////////////////
-    
-    /*GeoQuestTerritory *questionTerritory;
-    int i = arc4random() % [territoriesChosen count];
-    questionTerritory = [territoriesChosen objectAtIndex:i];
-    
-    currentQuestion = [[GeoQuestDB database] getQuestionFrom:questionTerritory];*/
     currentQuestion = [questionArray objectAtIndex:questionsAsked];
     questionsAsked++;
     
@@ -345,7 +342,7 @@
 
 -(CCMenuAdvanced*) getAnswerChoices {
     int difficultyChoice = kNormalDifficulty;
-    
+        
     if (fiftyFiftyPowerUpActivated) {
         currentAnswerChoices = [[GeoQuestDB database] getAnswerChoicesFrom:currentQuestion specialPower:k5050PowerUp];
         answerChoicesVisibleCount = 2;
@@ -353,7 +350,8 @@
         currentAnswerChoices = [[GeoQuestDB database] getAnswerChoicesFrom:currentQuestion specialPower:difficultyChoice];
         
     }
-    [currentAnswerChoices retain];
+    //[currentAnswerChoices retain];
+    [answerArray addObject:currentAnswerChoices];
     
     CCMenuAdvanced *answerMenu = [CCMenuAdvanced menuWithItems:nil];
     
@@ -498,8 +496,6 @@
     [answerMenu fixPosition];
     
     return answerMenu;
-
-
 }
 
 /*-(CCMenuAdvanced*) getSpecialStageAnswerChoices {
@@ -615,33 +611,9 @@
 }
 
 -(void) gameOver {
-    /*freezeTimePowerUpParticle.visible = NO;
-    doublePointsPowerUpParticle.visible = NO;
-    fiftyFiftyPowerUpParticle.visible = NO;
-    specialStagePowerUpParticle.visible  = NO;*/
     
     [self hideLayerAndObjects];
-    
-    /*[PlayerDB database].experience += score/10;
-    [PlayerDB database].coins += score/10;
-    [PlayerDB database].totalQuestions += questionsAsked;
-    [PlayerDB database].totalAnswersCorrect += questionsAnsweredCorrectly;
-    [[PlayerDB database] updateInformation];*/
-    
     [soloGameGameOver showLayerAndObjects];
-    
-    /*gameOverMenu.position = ccp(winSize.width/2, winSize.height + gameOverMenu.contentSize.height);
-    gameOverMenu.visible = YES;
-    gameOverMenu.enabled = NO;
-    
-    id action = [CCMoveTo actionWithDuration:0.75 position:ccp(winSize.width/2, winSize.height/2)];
-    id ease = [CCEaseBackInOut actionWithAction:action];
-    [gameOverMenu runAction:ease];*/
-    
-    for (int i = 0; i < [raceDataArray count]; i++) {
-        RaceData *r = [raceDataArray objectAtIndex:i];
-        [r print];
-    }
     
     [soloGameReplay setRaceData:raceDataArray];
 }
@@ -798,7 +770,7 @@
                         } else {
                             doublePointsPowerUpTimer = 0.0;
                             doublePointsPowerUpActivated = NO;
-                            doublePointsPowerUpParticle.visible = NO;
+                            //doublePointsPowerUpParticle.visible = NO;
                         }
                     }
                     if (fiftyFiftyPowerUpActivated == YES) {
@@ -807,7 +779,7 @@
                         } else {
                             fiftyFiftyPowerUpTimer = 0.0;
                             fiftyFiftyPowerUpActivated = NO;
-                            fiftyFiftyPowerUpParticle.visible = NO;
+                            //fiftyFiftyPowerUpParticle.visible = NO;
                         }
                     }
                     
@@ -822,7 +794,7 @@
                         }
                         specialStagePowerUpTimer = 0.0;
                         specialStagePowerUpActivated = NO;
-                        specialStagePowerUpParticle.visible = NO;
+                        //specialStagePowerUpParticle.visible = NO;
                     }
                     
                     if (freezeTimePowerUpTimer > 0) {
@@ -830,7 +802,7 @@
                     } else {
                         freezeTimePowerUpTimer = 0.0;
                         freezeTimePowerUpActivated = NO;
-                        freezeTimePowerUpParticle.visible = NO;
+                        //freezeTimePowerUpParticle.visible = NO;
                     }
                 }
             } else {
@@ -860,7 +832,7 @@
         
         if (gameTimer <= 0 || score > SOLO_GAME_SCORE_TO_WIN) {
             //Game timer finished counting down. Show gameover screen and unschedule the update method.
-            
+                        
             gameTimer = 0.0;
             question.visible = NO;
             correctMark.visible = NO;
@@ -906,7 +878,10 @@
     
     answerChoicesMenu.isTouchEnabled = NO;
     
-    GeoQuestAnswer *a = [currentAnswerChoices objectAtIndex:i];
+    NSMutableArray *array = [answerArray objectAtIndex:questionsAsked-1];
+    GeoQuestAnswer *a = [array objectAtIndex:i];
+    CCLOG(@"answer chose:%@", a.answer);
+    //GeoQuestAnswer *a = [currentAnswerChoices objectAtIndex:i];
     
     BOOL correctAnswer = NO;
     if (specialStagePowerUpActivated) {
@@ -923,22 +898,22 @@
         switch (currentQuestion.powerUpTypeQuestion) {
             case kFreezeTimePowerUp:
                 freezeTimePowerUpActivated = YES;
-                freezeTimePowerUpParticle.visible = YES;
+                //freezeTimePowerUpParticle.visible = YES;
                 freezeTimePowerUpTimer += 10.0;
                 break;
             case kDoublePointsPowerUp:
                 doublePointsPowerUpActivated = YES;
-                doublePointsPowerUpParticle.visible = YES;
+                //doublePointsPowerUpParticle.visible = YES;
                 doublePointsPowerUpTimer += 10.0;
                 break;
             case k5050PowerUp:
                 fiftyFiftyPowerUpActivated = YES;
-                fiftyFiftyPowerUpParticle.visible = YES;
+                //fiftyFiftyPowerUpParticle.visible = YES;
                 fiftyFiftyPowerUpTimer += 10.0;
                 break;
             case kSpecialStagePowerUp:
                 specialStagePowerUpActivated = YES;
-                specialStagePowerUpParticle.visible = YES;
+                //specialStagePowerUpParticle.visible = YES;
                 specialStagePowerUpTimer += 10.0;
                 break;
                 
@@ -1003,7 +978,7 @@
         id shakeTotalSequence = [CCSequence actions:shakeAction1, shakeRepeat, shakeAction4, nil];
         [self runAction:shakeTotalSequence];
     }
-    
+        
     if (doublePointsPowerUpActivated == YES) {
         pointsEarned *= 2;
     }
@@ -1037,7 +1012,10 @@
     BOOL findingAnswer = YES;
     while (findingAnswer) {
         int i = arc4random() % 4;
-        GeoQuestAnswer *a = [currentAnswerChoices objectAtIndex:i];
+        
+        NSMutableArray *array = [answerArray objectAtIndex:questionsAsked-1];
+        GeoQuestAnswer *a = [array objectAtIndex:i];
+        //GeoQuestAnswer *a = [currentAnswerChoices objectAtIndex:i];
         BOOL correctAnswer = [[GeoQuestDB database] checkAnswer:a withQuestion:currentQuestion];
         if (!correctAnswer) {
             CCArray *ansArray = [answerChoicesMenu children];
@@ -1103,6 +1081,7 @@
 }*/
 
 -(void) ranOutOfTimeToAnswer {
+
     [[GameManager sharedGameManager] playSoundEffect:@"WRONG_SFX"];
     
     answerChoicesMenu.isTouchEnabled = NO;
@@ -1147,7 +1126,7 @@
         correctCount = 0;
         questionAnswered = YES;
         specialStagePowerUpActivated = NO;
-        specialStagePowerUpParticle.visible = NO;
+        //specialStagePowerUpParticle.visible = NO;
         specialStagePowerUpTimer = 0.0;
     }
 }
@@ -1163,22 +1142,23 @@
     questionTimer = 7.0;
     questionChecked = NO;
     answerChoicesVisibleCount = 4;
+    currentQuestion = nil;
 }
 
 -(void) hideLayerAndObjects {
-    freezeTimePowerUpParticle.visible = NO;
+    /*freezeTimePowerUpParticle.visible = NO;
     doublePointsPowerUpParticle.visible = NO;
     fiftyFiftyPowerUpParticle.visible = NO;
-    specialStagePowerUpParticle.visible = NO;
+    specialStagePowerUpParticle.visible = NO;*/
     
 }
 
 -(void) dealloc {
-    [currentAnswerChoices release];
     [territoriesChosen release];
     [questionLayerTotal release];
     [questionLayerVisible release];
     [questionArray release];
+    [answerArray release];
     [raceDataArray release];
     [super dealloc];
 }

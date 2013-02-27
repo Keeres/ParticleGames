@@ -79,7 +79,7 @@
         soloGameUI = soloUI;
         [soloGameUI setSoloGameGameOverLayer:self];
         
-        soloGameReplay = soloUI.soloGameReplay;
+        soloGameReplay = [soloUI getSoloGameReplay];
         
         self.isTouchEnabled = YES;
         [self setupGameOverLayer];
@@ -134,6 +134,7 @@
 }
 
 -(void) dealloc {
+    [gameOverMenu release];
     [super dealloc];
 }
 

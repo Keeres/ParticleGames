@@ -19,7 +19,7 @@
 -(id) initWithTime:(float)time answerType:(NSString *)answerType answer:(NSString *)answer correct:(BOOL)correct points:(float)points {
     if ((self = [super init])) {
         self.time = time;
-        self.answerType = answerType;
+        self.answerType = [NSString stringWithFormat:answerType];
         self.answer = answer;
         self.correct = correct;
         self.points = points;
@@ -32,7 +32,8 @@
 }
 
 -(void) dealloc {
-    
+    [_answerType release];
+    [_answer release];
     [super dealloc];
 }
 

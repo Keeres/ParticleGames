@@ -21,24 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "GeoQuest/Scene/SoloGame/SoloGameUI.m"
-         timestampString = "383620957.507713"
+         timestampString = "383697662.496091"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "897"
-         endingLineNumber = "897"
-         landmarkName = "-checkAnswer:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "GeoQuest/Scene/SoloGame/SoloGameUI.m"
-         timestampString = "383620957.507713"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1036"
-         endingLineNumber = "1036"
+         startingLineNumber = "1011"
+         endingLineNumber = "1011"
          landmarkName = "-hideOneAnswerChoice"
          landmarkType = "5">
       </FileBreakpoint>
@@ -47,11 +34,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "GeoQuest/Scene/SoloGame/SoloGameUI.m"
-         timestampString = "383620957.507713"
+         timestampString = "383697662.496091"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "360"
-         endingLineNumber = "360"
+         startingLineNumber = "358"
+         endingLineNumber = "358"
          landmarkName = "-getAnswerChoices"
          landmarkType = "5">
       </FileBreakpoint>
@@ -60,12 +47,64 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "GeoQuest/Scene/SoloGame/SoloGameUI.m"
-         timestampString = "383620957.507713"
+         timestampString = "383697662.496091"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "500"
-         endingLineNumber = "500"
+         startingLineNumber = "498"
+         endingLineNumber = "498"
          landmarkName = "-getAnswerChoices"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "GeoQuest/Scene/SoloGame/SoloGameReplay.m"
+         timestampString = "383697771.015144"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "14"
+         endingLineNumber = "14"
+         landmarkName = "-showReplay"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "GeoQuest/Scene/SoloGame/SoloGameUI.m"
+         timestampString = "383697792.131538"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "618"
+         endingLineNumber = "618"
+         landmarkName = "-gameOver"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "GeoQuest/Scene/SoloGame/SoloGameReplay.m"
+         timestampString = "383697954.593331"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "48"
+         endingLineNumber = "48"
+         landmarkName = "-showReplay"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "GeoQuest/Scene/MainMenu/MainMenuUI.m"
+         timestampString = "383698587.874536"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "241"
+         endingLineNumber = "241"
+         landmarkName = "-openOptions"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

@@ -313,6 +313,7 @@ static GameManager* _sharedGameManager = nil;
     }
     return self;
 }
+
 -(void)runSceneWithID:(SceneTypes)sceneID {
     SceneTypes oldScene = currentScene;
     currentScene = sceneID;
@@ -365,6 +366,11 @@ static GameManager* _sharedGameManager = nil;
         CCLOG(@"%@%@",@"Failed to open url:",[urlToOpen description]);
         [self runSceneWithID:kMainMenuScene];
     }    
+}
+
+-(void) dealloc {
+    [self release];
+    [super dealloc];
 }
 
 @end

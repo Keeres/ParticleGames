@@ -273,13 +273,10 @@ static PlayerDB *_database;
 		NSArray *values = [[NSArray alloc] initWithContentsOfFile:myPath];
         if ([values count] != 0) {
             [PlayerDB database].username = [values objectAtIndex:0];
-            [PlayerDB database].password = [values objectAtIndex:1];
-            [values release];
-            
+            [PlayerDB database].password = [values objectAtIndex:1];            
             CCLOG(@"GameManager: Loaded username:%@ and password:%@", self.username, self.password);
-        } else {
-            [values release];
         }
+        [values release];
 	}
 }
 
@@ -297,6 +294,7 @@ static PlayerDB *_database;
 
 -(void) dealloc {
     [_username release];
+    [_password release];
     [super dealloc];
 }
 
