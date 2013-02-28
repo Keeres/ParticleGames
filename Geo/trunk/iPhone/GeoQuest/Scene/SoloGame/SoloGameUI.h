@@ -26,7 +26,7 @@
 #define SOLO_GRID_SPACING 5 //points between menu items
 #define SOLO_GAME_TIMER 60 
 #define SOLO_GAME_QUICKDRAW_TIMER 1.5
-#define SOLO_GAME_SCORE_TO_WIN 20 
+#define SOLO_GAME_SCORE_TO_WIN 200
 
 @class SoloGameReplay;
 @class SoloGameGameOver;

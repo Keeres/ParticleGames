@@ -144,4 +144,6 @@
 - (void) activateSelectedItem;
 - (void) cancelSelectedItem;
 
+-(id) initWithItems:(CCMenuItem*)item vaList:(va_list)args;
+
 @end

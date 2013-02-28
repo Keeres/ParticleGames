@@ -91,10 +91,138 @@
         gameChallengeMenu = [CCMenuAdvancedPlus menuWithItems:nil];
         CCLOG(@"MainMenuUI: gameChallengeMenu init with nil");
     } else {
+        gameChallengeMenu.visible = YES;
+        [gameChallengeMenu removeAllChildrenWithCleanup:YES];
+        CCLOG(@"MainMenuUI: gameChallengerMenu already created.");
+    }
+    
+    // Add Create Game Button
+    CCMenuItemSprite *createGameItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(createGame)];
+    
+    CCLabelTTF *createGameLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@, Create Game", [PlayerDB database].username] fontName:@"Arial" fontSize:10];
+    createGameLabel.position = ccp(createGameLabel.contentSize.width/2 + UI_MENU_SPACING, createGameItemSprite.contentSize.height/2);
+    createGameLabel.color = ccc3(255, 0, 0);
+    
+    [createGameItemSprite addChild:createGameLabel];
+    [gameChallengeMenu addChild:createGameItemSprite];
+    
+    // Add Player vs. Challenger Buttons
+    for (int i = 0; i < [challengerArray count]; i++) {
+        CCMenuItemSprite *challengerItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(startChallenge:)];
+        challengerItemSprite.tag = i;
+        challengerItemSprite.disabledImage = [CCSprite spriteWithSpriteFrameName:@"MainMenuSoloButton.png"];
+        
+        Challenger *c = [challengerArray objectAtIndex:i];
+        
+        CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:c.name fontName:@"Arial" fontSize:10];
+        nameLabel.position = ccp(nameLabel.contentSize.width/2 + UI_MENU_SPACING, challengerItemSprite.contentSize.height/2);
+        nameLabel.color = ccc3(255, 0, 0);
+        
+        [challengerItemSprite addChild:nameLabel];
+        [gameChallengeMenu addChild:challengerItemSprite];
+    }
+    
+    // Add Options Button
+    
+    CCMenuItemSprite *optionItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(openOptions)];
+    
+    CCLabelTTF *optionLabel = [CCLabelTTF labelWithString:@"Options" fontName:@"Arial" fontSize:10];
+    optionLabel.position = ccp(optionLabel.contentSize.width/2 + UI_MENU_SPACING, optionItemSprite.contentSize.height/2);
+    optionLabel.color = ccc3(255, 0, 0);
+    
+    [optionItemSprite addChild:optionLabel];
+    [gameChallengeMenu addChild:optionItemSprite];
+    
+    gameChallengeMenu.bounceEffectUp = YES;
+    gameChallengeMenu.bounceEffectDown = YES;
+    gameChallengeMenu.bounceDistance = 40.0;
+    
+    [gameChallengeMenu alignItemsVerticallyWithPadding:0.0 bottomToTop:NO];
+    gameChallengeMenu.ignoreAnchorPointForPosition = NO;
+    
+    gameChallengeMenu.position = ccp(winSize.width/2, title.position.y - title.contentSize.height/2 - gameChallengeMenu.contentSize.height/2 - UI_MENU_SPACING);
+
+    gameChallengeMenu.originalPos = gameChallengeMenu.position;
+    
+    /*float yPos = MAX(0.0, gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2);
+    float gHeight = MIN(winSize.height/2 ,gameChallengeMenu.contentSize.height);
+    
+    CCLOG(@"yPos: %f", yPos);
+    CCLOG(@"gHeight: %f", gHeight);
+    
+    gameChallengeMenu.boundaryRect = CGRectMake(winSize.width/2 - gameChallengeMenu.contentSize.width/2, //x coordinate
+                                                yPos, //y coordinate
+                                                gameChallengeMenu.boundingBox.size.width, //width
+                                                gHeight); //height*/
+    //float dist = MAX(0.0, gameChallengeMenu.contentSize.height/8 - winSize.height/2);
+    CCLOG(@"%f, %f", winSize.height/2, gameChallengeMenu.contentSize.height);
+    
+    float yPos = 0.0;
+    float gHeight = gameChallengeMenu.originalPos.y + gameChallengeMenu.contentSize.height/2;
+    
+    if (gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2 > 0.0) {
+        yPos = gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2;
+        gHeight = gameChallengeMenu.contentSize.height;
+    }
+    
+    gameChallengeMenu.boundaryRect = CGRectMake(gameChallengeMenu.originalPos.x - gameChallengeMenu.contentSize.width/2, yPos, gameChallengeMenu.contentSize.width, gHeight);
+    
+    [gameChallengeMenu fixPosition];
+    
+    BOOL childAdded = NO;
+    for (int i = 0 ; i < [[self children] count]; i++) {
+        if ([[self children] objectAtIndex:i] == gameChallengeMenu) {
+            childAdded = YES;
+        }
+    }
+    if (childAdded == NO) {
+        [self addChild:gameChallengeMenu z:10];
+    }
+    
+    gameChallengeMenu.debugDraw = YES;
+
+}
+
+#pragma mark - Initialize
+
+
+-(id) init {
+    if ((self = [super init])) {
+        winSize = [[CCDirector sharedDirector] winSize];
+        self.isTouchEnabled = YES;
+
+        //[NetworkController sharedInstance].delegate = self;
+        
+        [self loadSpriteSheets];
+        [self setupTitle];
+        
+        //[self setupPlayerDatabase];
+        //[self setupMenus];
+        
+        [self scheduleUpdate];
+        
+        //[[GameManager sharedGameManager] playBackgroundTrack:@"BGMusic.mp3"];
+        
+        //[self stateChanged:[NetworkController sharedInstance].state];
+        
+    }
+    return self;
+}
+
+-(void) refreshChallengerMenu {
+    NSMutableArray *challengerArray = [[PlayerDB database] retrievePlayerChallengersTable];
+    
+    CGPoint currentPos = ccp(0, 0);
+    
+    if (gameChallengeMenu == nil) {
+        //gameChallengeMenu = [CCMenuAdvancedPlus menuWithItems:nil];
+        return;
+        CCLOG(@"MainMenuUI: gameChallengerMenu is nil");
+    } else {
         currentPos = gameChallengeMenu.position;
         gameChallengeMenu.visible = YES;
         [gameChallengeMenu removeAllChildrenWithCleanup:YES];
-
+        
         CCLOG(@"MainMenuUI: gameChallengeMenu removed all children.");
     }
     
@@ -142,22 +270,30 @@
     [gameChallengeMenu alignItemsVerticallyWithPadding:0.0 bottomToTop:NO];
     gameChallengeMenu.ignoreAnchorPointForPosition = NO;
     
+    gameChallengeMenu.position = currentPos;
     
-    if (currentPos.x != 0 && currentPos.y != 0) {
-        gameChallengeMenu.position = currentPos;
-    } else {
-        gameChallengeMenu.position = ccp(winSize.width/2, title.position.y - title.contentSize.height/2 - gameChallengeMenu.contentSize.height/2 - UI_MENU_SPACING);
-
-        gameChallengeMenu.originalPos = gameChallengeMenu.position;
-        
+    /*float yPos = MAX(0.0, gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2);
+     float gHeight = MIN(winSize.height/2 ,gameChallengeMenu.contentSize.height);
+     
+     CCLOG(@"yPos: %f", yPos);
+     CCLOG(@"gHeight: %f", gHeight);
+     
+     gameChallengeMenu.boundaryRect = CGRectMake(winSize.width/2 - gameChallengeMenu.contentSize.width/2, //x coordinate
+     yPos, //y coordinate
+     gameChallengeMenu.boundingBox.size.width, //width
+     gHeight); //height*/
+    //float dist = MAX(0.0, gameChallengeMenu.contentSize.height/8 - winSize.height/2);
+    CCLOG(@"%f, %f", winSize.height/2, gameChallengeMenu.contentSize.height);
+    
+    float yPos = 0.0;
+    float gHeight = gameChallengeMenu.originalPos.y + gameChallengeMenu.contentSize.height/2;
+    
+    if (gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2 > 0.0) {
+        yPos = gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2;
+        gHeight = gameChallengeMenu.contentSize.height;
     }
     
-    float yPos = MAX(0.0, gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2);
-    float gHeight = MIN(winSize.height/2 ,gameChallengeMenu.contentSize.height);
-    gameChallengeMenu.boundaryRect = CGRectMake(winSize.width/2 - gameChallengeMenu.contentSize.width/2, //x coordinate
-                                                yPos, //y coordinate
-                                                gameChallengeMenu.boundingBox.size.width, //width
-                                                gHeight); //height
+    gameChallengeMenu.boundaryRect = CGRectMake(gameChallengeMenu.originalPos.x - gameChallengeMenu.contentSize.width/2, yPos, gameChallengeMenu.contentSize.width, gHeight);
     
     [gameChallengeMenu fixPosition];
     
@@ -170,38 +306,13 @@
     if (childAdded == NO) {
         [self addChild:gameChallengeMenu z:10];
     }
-
-}
-
-#pragma mark - Initialize
-
-
--(id) init {
-    if ((self = [super init])) {
-        winSize = [[CCDirector sharedDirector] winSize];
-        self.isTouchEnabled = YES;
-
-        //[NetworkController sharedInstance].delegate = self;
-        
-        [self loadSpriteSheets];
-        [self setupTitle];
-        
-        //[self setupPlayerDatabase];
-        //[self setupMenus];
-        
-        [self scheduleUpdate];
-        
-        //[[GameManager sharedGameManager] playBackgroundTrack:@"BGMusic.mp3"];
-        
-        //[self stateChanged:[NetworkController sharedInstance].state];
-        
-    }
-    return self;
+    
+    gameChallengeMenu.debugDraw = YES;
 }
 
 -(void) update:(ccTime)delta {
     if (gameChallengeMenu.isRefreshed) {
-        [self setupChallengeMenu];
+        [self refreshChallengerMenu];
         gameChallengeMenu.isRefreshed = NO;
     }
 }
@@ -223,8 +334,9 @@
 
 -(void) createGame {
     CCLOG(@"MainMenuUI: Create new game!");
-    [mainMenuCreateGame showLayerAndObjects];
-    [self hideObjects];
+    //[mainMenuCreateGame showLayerAndObjects];
+    //[self hideObjects];
+    [self openOptions];
 }
 
 -(void) startChallenge:(CCMenuItemSprite *)sender {
@@ -238,7 +350,7 @@
     //[self disableButtonsWhenNoNetwork];
     mainMenuLogin.visible = YES;
     [mainMenuLogin checkIfLoggedIn];
-    [gameChallengeMenu removeAllChildrenWithCleanup:YES];
+    gameChallengeMenu.visible = NO;
 }
 
 -(void) openStore {
