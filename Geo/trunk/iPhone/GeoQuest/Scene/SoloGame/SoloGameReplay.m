@@ -16,78 +16,80 @@
     if (renderTexture != NULL) {
         return;
     }
+
+    soloGameUI.playerVehicle.position = ccp(soloGameUI.playerVehicle.contentSize.width/2, 30.0);
     
     CCSprite *currentTimeLine = [CCSprite spriteWithSpriteFrameName:@"DifficultyDisplay.png"];
     currentTimeLine.position = ccp(winSize.width/2, winSize.height/4);
     [self addChild:currentTimeLine z:0];
     
-    soloGameUI.playerVehicle.position = ccp(soloGameUI.playerVehicle.contentSize.width/2, 30.0);
+    CCSprite *start = [CCSprite spriteWithSpriteFrameName:@"MainMenuCompass.png"];
+    raceStartHeight = start.contentSize.height;
     
-    int renderTextureSize = 2048;
+    CCSprite *line = [CCSprite spriteWithSpriteFrameName:@"ReplayLine.png"];
+    raceLineWidth = line.contentSize.width;
+    
+    int renderTextureSize = 1024;
     renderTexture = [CCRenderTexturePlus renderTextureWithWidth:renderTextureSize height:renderTextureSize];
-    renderTexture.position = ccp(winSize.width/2, -renderTexture.boundaryRect.size.height/2 + winSize.height * .5);
+    renderTexture.position = ccp(winSize.width/2, -renderTexture.boundaryRect.size.height/2 + winSize.height/4 + start.contentSize.height/2);
     [renderTexture updateBoundaryRect];
     renderTextureOrigPos = renderTexture.position;
+    [renderTexture beginWithClear:0 g:0 b:0 a:.2];
     
     [self addChild:renderTexture z:1];
     
-    CCSprite *s = [CCSprite spriteWithSpriteFrameName:@"ReplayLine.png"];
-    raceLineWidth = s.contentSize.width;
-    s.rotation = 90;
-    s.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4);
-    [renderTexture beginWithClear:0 g:0 b:0 a:.2];
-    
     // Draw lines from Start to Finish
+    line.rotation = 90;
+    line.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2);
+    
     for (int i = 0; i < 60; i++) {
-        s.position = ccp(s.position.x, s.position.y - s.contentSize.width);
-        [s visit];
+        line.position = ccp(line.position.x, line.position.y - line.contentSize.width);
+        [line visit];
     }
     
     // Draw individual lines from middle line to answer picture
-    s.rotation = 0;
+    line.rotation = 0;
     for (int i = 0; i < [raceDataArray count]; i++) {
-        RaceData *r = [raceDataArray objectAtIndex:i];
+        RaceData *raceData = [raceDataArray objectAtIndex:i];
         
-        s.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4 - (s.contentSize.width * r.time));
+        line.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2 - (line.contentSize.width * raceData.time));
         
-        for (int j = 0; j <= r.points; j++) {
-            s.position = ccp(s.position.x - s.contentSize.width/3, s.position.y);
-            [s visit];
+        for (int j = 0; j <= raceData.points; j++) {
+            line.position = ccp(line.position.x - line.contentSize.width/3, line.position.y);
+            [line visit];
         }
         
-        s.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4 - (s.contentSize.width * r.time));
+        line.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2 - (line.contentSize.width * raceData.time));
         
-        if ([r.answerType isEqualToString:@"TP"]) {
-            CCLabelTTF *label = [CCLabelTTF labelWithString:r.answer fontName:@"Arial" fontSize:14];
-            if (r.correct) {
+        if ([raceData.answerType isEqualToString:@"TP"]) {
+            CCLabelTTF *label = [CCLabelTTF labelWithString:raceData.answer fontName:@"Arial" fontSize:14];
+            if (raceData.correct) {
                 label.color = ccc3(0, 255, 0);
             } else {
                 label.color = ccc3(255, 0, 0);
             }
-            label.position = ccp(s.position.x - label.contentSize.width/2 - (s.contentSize.width/3 * r.points), s.position.y);
+            label.position = ccp(line.position.x - label.contentSize.width/2 - (line.contentSize.width/3 * raceData.points), line.position.y);
             [label visit];
         } else {
-            CCSprite *picture = [CCSprite spriteWithSpriteFrameName:r.answer];
+            CCSprite *picture = [CCSprite spriteWithSpriteFrameName:raceData.answer];
             picture.scale = 0.3;
             
-            if (r.correct) {
+            if (raceData.correct) {
                 picture.color = ccc3(0, 255, 0);
             } else {
                 picture.color = ccc3(255, 0, 0);
             }
-            picture.position = ccp(s.position.x - (picture.contentSize.width/2 * picture.scale) - (s.contentSize.width/3 * r.points), s.position.y);
+            picture.position = ccp(line.position.x - (picture.contentSize.width/2 * picture.scale) - (line.contentSize.width/3 * raceData.points), line.position.y);
             [picture visit];
         }
         
     }
     
     // Draw being and start
-    CCSprite *begin = [CCSprite spriteWithSpriteFrameName:@"MainMenuCompass.png"];
-    raceStartHeight = begin.contentSize.height;
-    begin.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4);
-    [begin visit];
-    begin.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - winSize.height/4 - (60 * s.contentSize.width));
-    [begin visit];
+    start.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2);
+    [start visit];
+    start.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2 - (60 * line.contentSize.width));
+    [start visit];
     
     
     [renderTexture end];
@@ -160,35 +162,35 @@
     
     if (yDif < 0) {
         if ([raceDataArray count] != 0) {
-            RaceData *r = [raceDataArray objectAtIndex:0];
-            if (r.time < currentTime) {
+            RaceData *raceData = [raceDataArray objectAtIndex:0];
+            if (raceData.time < currentTime) {
                 
-                if ((soloGameUI.playerVehicle.position.x + ((winSize.width - soloGameUI.playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points)) > winSize.width - soloGameUI.playerVehicle.contentSize.width/2) {
+                if ((soloGameUI.playerVehicle.position.x + ((winSize.width - soloGameUI.playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * raceData.points)) > winSize.width - soloGameUI.playerVehicle.contentSize.width/2) {
                     soloGameUI.playerVehicle.position = ccp(winSize.width - soloGameUI.playerVehicle.contentSize.width/2, soloGameUI.playerVehicle.position.y);
                 } else {
-                    soloGameUI.playerVehicle.position = ccp(soloGameUI.playerVehicle.position.x + ((winSize.width - soloGameUI.playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points), soloGameUI.playerVehicle.position.y);
+                    soloGameUI.playerVehicle.position = ccp(soloGameUI.playerVehicle.position.x + ((winSize.width - soloGameUI.playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * raceData.points), soloGameUI.playerVehicle.position.y);
                 }
                 
-                [r retain];
-                [reverseRaceDataArray insertObject:r atIndex:0];
+                [raceData retain];
+                [reverseRaceDataArray insertObject:raceData atIndex:0];
                 [raceDataArray removeObjectAtIndex:0];
-                [r release];
+                [raceData release];
             }
         }
     } else {
         if ([reverseRaceDataArray count] != 0) {
-            RaceData *r = [reverseRaceDataArray objectAtIndex:0];
-            if (r.time > currentTime) {
-                if ((soloGameUI.playerVehicle.position.x - ((winSize.width - soloGameUI.playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points)) < soloGameUI.playerVehicle.contentSize.width/2) {
+            RaceData *raceData = [reverseRaceDataArray objectAtIndex:0];
+            if (raceData.time > currentTime) {
+                if ((soloGameUI.playerVehicle.position.x - ((winSize.width - soloGameUI.playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * raceData.points)) < soloGameUI.playerVehicle.contentSize.width/2) {
                     soloGameUI.playerVehicle.position = ccp(soloGameUI.playerVehicle.contentSize.width/2, soloGameUI.playerVehicle.position.y);
                 } else {
-                    soloGameUI.playerVehicle.position = ccp(soloGameUI.playerVehicle.position.x - ((winSize.width - soloGameUI.playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points), soloGameUI.playerVehicle.position.y);
+                    soloGameUI.playerVehicle.position = ccp(soloGameUI.playerVehicle.position.x - ((winSize.width - soloGameUI.playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * raceData.points), soloGameUI.playerVehicle.position.y);
                 }
                 
-                [r retain];
-                [raceDataArray insertObject:r atIndex:0];
+                [raceData retain];
+                [raceDataArray insertObject:raceData atIndex:0];
                 [reverseRaceDataArray removeObjectAtIndex:0];
-                [r release];
+                [raceData release];
             }
         }
     }

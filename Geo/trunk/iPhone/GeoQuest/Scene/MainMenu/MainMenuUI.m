@@ -69,7 +69,7 @@
     title.position = ccp(winSize.width/2, winSize.height - title.textureRect.size.height/2);
     
     title.scale = 0.8;
-    [self addChild:title z:1];
+    [self addChild:title z:20];
 }
 
 -(void) setupChallengeMenu {
@@ -83,7 +83,6 @@
     // Create blank buttons for each challenger
     // Add create game button in gameChallengeMenu;
     // Add the rest of the challengers
-    NSMutableArray *challengerArray = [[PlayerDB database] retrievePlayerChallengersTable];
     
     if (gameChallengeMenu == nil) {
         gameChallengeMenu = [CCMenuAdvancedPlus menuWithItems:nil];
@@ -94,49 +93,7 @@
         CCLOG(@"MainMenuUI: gameChallengerMenu already created.");
     }
     
-    // Add Create Game Button
-    CCMenuItemSprite *createGameItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(createGame)];
-    
-    CCLabelTTF *createGameLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@, Create Game", [PlayerDB database].username] fontName:@"Arial" fontSize:10];
-    createGameLabel.position = ccp(createGameLabel.contentSize.width/2 + UI_MENU_SPACING, createGameItemSprite.contentSize.height/2);
-    createGameLabel.color = ccc3(255, 0, 0);
-    
-    [createGameItemSprite addChild:createGameLabel];
-    [gameChallengeMenu addChild:createGameItemSprite];
-    
-    // Add Player vs. Challenger Buttons
-    for (int i = 0; i < [challengerArray count]; i++) {
-        CCMenuItemSprite *challengerItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(startChallenge:)];
-        challengerItemSprite.tag = i;
-        challengerItemSprite.disabledImage = [CCSprite spriteWithSpriteFrameName:@"MainMenuSoloButton.png"];
-        
-        Challenger *c = [challengerArray objectAtIndex:i];
-        
-        CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:c.name fontName:@"Arial" fontSize:10];
-        nameLabel.position = ccp(nameLabel.contentSize.width/2 + UI_MENU_SPACING, challengerItemSprite.contentSize.height/2);
-        nameLabel.color = ccc3(255, 0, 0);
-        
-        [challengerItemSprite addChild:nameLabel];
-        [gameChallengeMenu addChild:challengerItemSprite];
-    }
-    
-    // Add Options Button
-    
-    CCMenuItemSprite *optionItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(openOptions)];
-    
-    CCLabelTTF *optionLabel = [CCLabelTTF labelWithString:@"Options" fontName:@"Arial" fontSize:10];
-    optionLabel.position = ccp(optionLabel.contentSize.width/2 + UI_MENU_SPACING, optionItemSprite.contentSize.height/2);
-    optionLabel.color = ccc3(255, 0, 0);
-    
-    [optionItemSprite addChild:optionLabel];
-    [gameChallengeMenu addChild:optionItemSprite];
-    
-    gameChallengeMenu.bounceEffectUp = YES;
-    gameChallengeMenu.bounceEffectDown = YES;
-    gameChallengeMenu.bounceDistance = 40.0;
-    
-    [gameChallengeMenu alignItemsVerticallyWithPadding:0.0 bottomToTop:NO];
-    gameChallengeMenu.ignoreAnchorPointForPosition = NO;
+    [self addButtonsToChallengerMenu];
     
     gameChallengeMenu.position = ccp(winSize.width/2, title.position.y - title.contentSize.height/2 - gameChallengeMenu.contentSize.height/2 - UI_MENU_SPACING);
 
@@ -194,9 +151,7 @@
     return self;
 }
 
--(void) refreshChallengerMenu {
-    NSMutableArray *challengerArray = [[PlayerDB database] retrievePlayerChallengersTable];
-    
+-(void) refreshChallengerMenu {    
     CGPoint currentPos = ccp(0, 0);
     
     if (gameChallengeMenu == nil) {
@@ -211,6 +166,38 @@
         CCLOG(@"MainMenuUI: gameChallengeMenu removed all children.");
     }
     
+    [self addButtonsToChallengerMenu];
+    
+    gameChallengeMenu.position = currentPos;
+    
+    float yPos = 0.0;
+    float gHeight = gameChallengeMenu.originalPos.y + gameChallengeMenu.contentSize.height/2;
+    
+    if (gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2 > 0.0) {
+        yPos = gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2;
+        gHeight = gameChallengeMenu.contentSize.height;
+    }
+    
+    gameChallengeMenu.boundaryRect = CGRectMake(gameChallengeMenu.originalPos.x - gameChallengeMenu.contentSize.width/2, yPos, gameChallengeMenu.contentSize.width, gHeight);
+    
+    [gameChallengeMenu fixPosition];
+    
+    BOOL childAdded = NO;
+    for (int i = 0 ; i < [[self children] count]; i++) {
+        if ([[self children] objectAtIndex:i] == gameChallengeMenu) {
+            childAdded = YES;
+        }
+    }
+    if (childAdded == NO) {
+        [self addChild:gameChallengeMenu z:10];
+    }
+    
+    gameChallengeMenu.debugDraw = YES;
+}
+
+-(void) addButtonsToChallengerMenu {
+    NSMutableArray *challengerArray = [[PlayerDB database] retrievePlayerChallengersTable];
+
     // Add Create Game Button
     CCMenuItemSprite *createGameItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(createGame)];
     
@@ -254,32 +241,6 @@
     
     [gameChallengeMenu alignItemsVerticallyWithPadding:0.0 bottomToTop:NO];
     gameChallengeMenu.ignoreAnchorPointForPosition = NO;
-    
-    gameChallengeMenu.position = currentPos;
-    
-    float yPos = 0.0;
-    float gHeight = gameChallengeMenu.originalPos.y + gameChallengeMenu.contentSize.height/2;
-    
-    if (gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2 > 0.0) {
-        yPos = gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2;
-        gHeight = gameChallengeMenu.contentSize.height;
-    }
-    
-    gameChallengeMenu.boundaryRect = CGRectMake(gameChallengeMenu.originalPos.x - gameChallengeMenu.contentSize.width/2, yPos, gameChallengeMenu.contentSize.width, gHeight);
-    
-    [gameChallengeMenu fixPosition];
-    
-    BOOL childAdded = NO;
-    for (int i = 0 ; i < [[self children] count]; i++) {
-        if ([[self children] objectAtIndex:i] == gameChallengeMenu) {
-            childAdded = YES;
-        }
-    }
-    if (childAdded == NO) {
-        [self addChild:gameChallengeMenu z:10];
-    }
-    
-    gameChallengeMenu.debugDraw = YES;
 }
 
 -(void) update:(ccTime)delta {
@@ -306,9 +267,8 @@
 
 -(void) createGame {
     CCLOG(@"MainMenuUI: Create new game!");
-    //[mainMenuCreateGame showLayerAndObjects];
-    //[self hideObjects];
-    [self openOptions];
+    [mainMenuCreateGame showLayerAndObjects];
+    [self hideObjects];
 }
 
 -(void) startChallenge:(CCMenuItemSprite *)sender {
