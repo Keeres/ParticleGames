@@ -85,8 +85,6 @@
     // Add the rest of the challengers
     NSMutableArray *challengerArray = [[PlayerDB database] retrievePlayerChallengersTable];
     
-    CGPoint currentPos = ccp(0, 0);
-
     if (gameChallengeMenu == nil) {
         gameChallengeMenu = [CCMenuAdvancedPlus menuWithItems:nil];
         CCLOG(@"MainMenuUI: gameChallengeMenu init with nil");
@@ -143,19 +141,6 @@
     gameChallengeMenu.position = ccp(winSize.width/2, title.position.y - title.contentSize.height/2 - gameChallengeMenu.contentSize.height/2 - UI_MENU_SPACING);
 
     gameChallengeMenu.originalPos = gameChallengeMenu.position;
-    
-    /*float yPos = MAX(0.0, gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2);
-    float gHeight = MIN(winSize.height/2 ,gameChallengeMenu.contentSize.height);
-    
-    CCLOG(@"yPos: %f", yPos);
-    CCLOG(@"gHeight: %f", gHeight);
-    
-    gameChallengeMenu.boundaryRect = CGRectMake(winSize.width/2 - gameChallengeMenu.contentSize.width/2, //x coordinate
-                                                yPos, //y coordinate
-                                                gameChallengeMenu.boundingBox.size.width, //width
-                                                gHeight); //height*/
-    //float dist = MAX(0.0, gameChallengeMenu.contentSize.height/8 - winSize.height/2);
-    CCLOG(@"%f, %f", winSize.height/2, gameChallengeMenu.contentSize.height);
     
     float yPos = 0.0;
     float gHeight = gameChallengeMenu.originalPos.y + gameChallengeMenu.contentSize.height/2;
@@ -271,19 +256,6 @@
     gameChallengeMenu.ignoreAnchorPointForPosition = NO;
     
     gameChallengeMenu.position = currentPos;
-    
-    /*float yPos = MAX(0.0, gameChallengeMenu.originalPos.y - gameChallengeMenu.contentSize.height/2);
-     float gHeight = MIN(winSize.height/2 ,gameChallengeMenu.contentSize.height);
-     
-     CCLOG(@"yPos: %f", yPos);
-     CCLOG(@"gHeight: %f", gHeight);
-     
-     gameChallengeMenu.boundaryRect = CGRectMake(winSize.width/2 - gameChallengeMenu.contentSize.width/2, //x coordinate
-     yPos, //y coordinate
-     gameChallengeMenu.boundingBox.size.width, //width
-     gHeight); //height*/
-    //float dist = MAX(0.0, gameChallengeMenu.contentSize.height/8 - winSize.height/2);
-    CCLOG(@"%f, %f", winSize.height/2, gameChallengeMenu.contentSize.height);
     
     float yPos = 0.0;
     float gHeight = gameChallengeMenu.originalPos.y + gameChallengeMenu.contentSize.height/2;
