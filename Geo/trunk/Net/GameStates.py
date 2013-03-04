@@ -12,9 +12,9 @@ class GameStates(object):
     PLAYER_DATA_UPLOAD = 7
     PLAYER_DATA_DOWNLOAD = 8
     PLAYER_DATA_DELETE = 40
-    
-    
-    MATCH_INIT = 50 
+
+
+    MATCH_INIT = 50
     MATCH_SYNC = 51
     MATCH_SEARCHING = 52
     MATCH_NOTIFY = 53
@@ -30,8 +30,8 @@ class GameStates(object):
     MATCH_RESULTS = 67
     MATCH_FORCE_PEER = 110
     MATCH_FORCE_RESET = 111
-    
-    
+
+
     GAME_GENERATION_INIT = 120
     GAME_DOWNLOAD_INIT = 121
     GAME_QUESTION = 122
@@ -43,8 +43,8 @@ class GameStates(object):
     GAME_HISTORY = 128
     GAME_RESET = 129
     GAME_DUMP = 190
-    
-    
+
+
     REQUEST_MATCH_INFO = 200
     REQUEST_PLAYER_SAVE_DATA = 201
     REQUEST_PLAYER_INFO= 202
@@ -59,23 +59,22 @@ class GameStates(object):
         self.handler = PacketHandler()
 
 
-    def playerInit(self, data):
+    def player_init(self, data):
         return self.handler.create(self.PLAYER_INIT, data)
-        
-        
-    def playerConnected(self, data):
+
+
+    def player_connected(self, data):
         return self.handler.create(self.PLAYER_CONNECTED, data)
-    
-    
-    def playerDisconnected(self):
-        return self.handler.create(self.PLAYER_DISCONNECTED, '')
-        
-        
-    def playerHistory(self, data):
+
+
+    def player_disconnected(self):
+        return self.handler.create(self.PLAYER_DISCONNECT, '')
+
+
+    def player_history(self, data):
         return self.handler.create(self.PLAYER_HISTORY, data)
-        
-        
-    def requestPlayerInfo(self, data):
+
+
+    def request_player_info(self, data):
         return self.handler.create(self.REQUEST_PLAYER_INFO, data)
-    
-    
+
