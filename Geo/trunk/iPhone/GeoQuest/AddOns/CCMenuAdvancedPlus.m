@@ -139,9 +139,15 @@
 	
 	selectedItem_ = [self itemForTouch:touch];
 	[selectedItem_ selected];
+    
+    //challenger = (ChallengerMenuItemSprite*)[self itemForTouch:touch];
+    //[challenger selected];
 	
 	if( selectedItem_ ) {
 		state_ = kCCMenuStateTrackingTouch;
+        
+        startTouchPos = [self convertToNodeSpace:[[CCDirector sharedDirector] convertToGL:[touch locationInView: [touch view]]]];
+        touchedItem = YES;
 		return YES;
 	}
 	
@@ -157,10 +163,39 @@
 -(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
 	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchEnded] -- invalid state");
+    //CGPoint point = [self convertToNodeSpace:[[CCDirector sharedDirector] convertToGL:[touch locationInView: [touch view]]]];
+
+    
+    /*if (challenger) {
+        
+        if ((point.x - startTouchPos.x) > 20) {
+            [challenger showDeleteSprite];
+        } else if ((point.x - startTouchPos.x) < -20) {
+            [challenger hideDeleteSprite];
+        } else {
+            [selectedItem_ unselected];
+        }
+        
+    }
 	
-	[selectedItem_ unselected];
-	[selectedItem_ activate];
-	
+    if (challenger.deleteActive) {
+        CGPoint deletePoint = [challenger convertTouchToNodeSpace:touch];
+        
+        if (CGRectContainsPoint(challenger.deleteBoundaryRect, deletePoint)) {
+            [challenger unselected];
+            [challenger activate];
+        } else {
+            challenger.deleteActive = NO;
+            [challenger hideDeleteSprite];
+            //[challenger unselected];
+        }
+    } else {
+        [selectedItem_ unselected];
+        [selectedItem_ activate];
+    }*/
+
+    [selectedItem_ unselected];
+    [selectedItem_ activate];
 	state_ = kCCMenuStateWaiting;
     
     float contentTopBorder = self.position.y + self.contentSize.height/2;
@@ -174,12 +209,11 @@
     } else {
         bottomPositionY = originalPos.y;
     }
-
+    
     if (contentTopBorder < (boundaryTopBorder - bounceDistance/2)) {
         CCLOG(@"CCMenuAdvancedPlus: Refresh Menu");
         isRefreshed = YES;
     }
-    
 
     if (contentTopBorder < boundaryTopBorder) {
 

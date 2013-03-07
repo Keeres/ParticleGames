@@ -11,7 +11,20 @@
 
 @implementation ChallengerMenuItemSprite
 
-//-(id) initWithChallenger:(NSString *)name withPicture:(NSString *)picture withWin:(NSNumber *)wins withLosses:(NSNumber *)losses {
+@synthesize ID = _ID;
+@synthesize challenger = _challenger;
+@synthesize deleteSprite = _deleteSprite;
+@synthesize deleteBoundaryRect = _deleteBoundaryRect;
+@synthesize deleteActive = _deleteActive;
+
+-(id) init {
+    if ((self = [super init])) {
+        self.ID = nil;
+        self.challenger = nil;
+    }
+    return self;
+}
+
 -(id) initWithChallenger:(NSString *)name withPicture:(NSString *)picture withWin:(int)wins withLosses:(int)losses {
     if ((self = [super init])) {
         //CGSize winSize = [[CCDirector sharedDirector] winSize];
@@ -33,6 +46,36 @@
     }
     return self;
     
+}
+
+-(void) setupDeleteSprite {
+    _deleteSprite = [CCSprite spriteWithSpriteFrameName:@"MainMenuCompass.png"];
+    _deleteSprite.position = ccp(self.contentSize.width - _deleteSprite.contentSize.width/2, self.contentSize.height/2);
+    _deleteSprite.visible = NO;
+    _deleteBoundaryRect = CGRectMake(_deleteSprite.position.x - _deleteSprite.contentSize.width/2, _deleteSprite.position.y - _deleteSprite.contentSize.height/2, _deleteSprite.contentSize.width, _deleteSprite.contentSize.height);
+    [self addChild:_deleteSprite];
+}
+
+-(void) showDeleteSprite {
+    CCLOG(@"show delete");
+    _deleteSprite.visible = YES;
+    self.deleteActive = YES;
+}
+
+-(void) hideDeleteSprite {
+    CCLOG(@"hide delete");
+    _deleteSprite.visible = NO;
+    self.deleteActive = NO;
+}
+
+- (void)dealloc
+{
+    self.ID = nil;
+    self.challenger = nil;
+    
+    [_ID release];
+    [_challenger release];
+    [super dealloc];
 }
 
 @end

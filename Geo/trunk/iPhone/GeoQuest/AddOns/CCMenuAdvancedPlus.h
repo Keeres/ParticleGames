@@ -9,17 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "CCMenuAdvanced.h"
+#import "ChallengerMenuItemSprite.h"
 
 @interface CCMenuAdvancedPlus : CCMenuAdvanced {
     CGPoint     originalPos;
+    CGPoint     startTouchPos;
     BOOL        bounceEffectLeft;
     BOOL        bounceEffectRight;
     BOOL        bounceEffectUp;
     BOOL        bounceEffectDown;
     BOOL        isRefreshed;
+    BOOL        touchedItem;
     
     int         extraTouchPriority;
     float       bounceDistance;
+    
+    ChallengerMenuItemSprite *challenger;
 }
 
 @property (assign) CGPoint originalPos;
