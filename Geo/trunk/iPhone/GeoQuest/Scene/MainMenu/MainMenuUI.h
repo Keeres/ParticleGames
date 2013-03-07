@@ -11,6 +11,7 @@
 #import <sqlite3.h>
 #import "CCMenuAdvanced.h"
 #import "CCMenuAdvancedPlus.h"
+#import "ChallengerMenuItemSprite.h"
 #import "MainMenuBG.h"
 #import "MainMenuLogin.h"
 #import "MainMenuCreateGame.h"
@@ -60,6 +61,7 @@
 -(void) setupPlayerDatabase;
 -(void) showObjects;
 -(void) hideObjects;
+-(void) refreshObjects;
 
 //-(void) toggleSidePanel;
 

@@ -162,7 +162,7 @@
     
     //CGRect userFieldRect = CGRectMake(registerView.bounds.size.width/2, registerView.bounds.size.height/2, 150, 30);
     CGRect userFieldRect = CGRectMake(registerView.bounds.size.width/4, registerView.bounds.size.height/4, 150, 30);
-    userField = [[UITextField alloc] initWithFrame:userFieldRect];
+    userField = [[[UITextField alloc] initWithFrame:userFieldRect] autorelease];
     userField.layer.anchorPoint = ccp(0.5, 0.5);
     userField.placeholder = @"Enter Username";
     userField.backgroundColor = [UIColor whiteColor];
@@ -175,7 +175,7 @@
     [registerView addSubview:userField];
     
     CGRect emailFieldRect = CGRectMake(registerView.bounds.size.width/4, registerView.bounds.size.height/4 + 30, 150, 30);
-    emailField = [[UITextField alloc] initWithFrame:emailFieldRect];
+    emailField = [[[UITextField alloc] initWithFrame:emailFieldRect] autorelease];
     emailField.placeholder = @"Enter E-mail";
     emailField.backgroundColor = [UIColor whiteColor];
     emailField.font = [UIFont systemFontOfSize:14.0f];
@@ -187,7 +187,7 @@
     [registerView addSubview:emailField];
     
     CGRect pwFieldRect = CGRectMake(registerView.bounds.size.width/4, registerView.bounds.size.height/4 + 60, 150, 30);
-    pwField = [[UITextField alloc] initWithFrame:pwFieldRect];
+    pwField = [[[UITextField alloc] initWithFrame:pwFieldRect] autorelease];
     pwField.placeholder = @"Enter Password";
     pwField.backgroundColor = [UIColor whiteColor];
     pwField.font = [UIFont systemFontOfSize:14.0f];
@@ -218,7 +218,7 @@
     
     //CGRect userFieldRect = CGRectMake(registerView.bounds.size.width/2, registerView.bounds.size.height/2, 150, 30);
     CGRect userFieldRect = CGRectMake(registerView.bounds.size.width/4, registerView.bounds.size.height/4, 150, 30);
-    userField = [[UITextField alloc] initWithFrame:userFieldRect];
+    userField = [[[UITextField alloc] initWithFrame:userFieldRect] autorelease];
     userField.layer.anchorPoint = ccp(0.5, 0.5);
     userField.placeholder = @"Enter Username";
     userField.backgroundColor = [UIColor whiteColor];
@@ -231,7 +231,7 @@
     [registerView addSubview:userField];
     
     CGRect pwFieldRect = CGRectMake(registerView.bounds.size.width/4, registerView.bounds.size.height/4 + 30, 150, 30);
-    pwField = [[UITextField alloc] initWithFrame:pwFieldRect];
+    pwField = [[[UITextField alloc] initWithFrame:pwFieldRect] autorelease];
     pwField.placeholder = @"Enter Password";
     pwField.backgroundColor = [UIColor whiteColor];
     pwField.font = [UIFont systemFontOfSize:14.0f];
@@ -328,12 +328,12 @@
 -(id) initWithMainMenuUILayer:(MainMenuUI *)menuUI {
     if ((self = [super init])) {
         winSize = [CCDirector sharedDirector].winSize;
-        
+        self.isTouchEnabled = YES;
+
         // Setup layers
         mainMenuUI = menuUI;
         [mainMenuUI setMainMenuLoginLayer:self];
         
-        self.isTouchEnabled = YES;
         [self setupLoginLayer];
     }
     return self;
@@ -349,7 +349,7 @@
     registerButtonMenu.visible = NO;
     loginButtonMenu.visible = NO;
     wrapper.visible = NO;
-    
+    [mainMenuUI refreshObjects];
 }
 
 -(void) dealloc {

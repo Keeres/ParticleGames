@@ -9,6 +9,10 @@
 #import "cocos2d.h"
 #import "MainMenuUI.h"
 #import "GameManager.h"
+#import "CCUIViewWrapper.h"
+#import "PlayerDB.h"
+#import "Challenger.h"
+#import "Guid.h"
 
 @class MainMenuUI;
 
@@ -16,10 +20,15 @@
     CGSize              winSize;
     
     CCMenuAdvancedPlus  *createGameMenu;
+    CCMenuAdvancedPlus  *findUserMenu;
 
     // Layers
     MainMenuUI          *mainMenuUI;
     
+    // UIView
+    CCUIViewWrapper     *wrapper;
+    UIView              *findUserView;
+    UITextField         *userField;
 }
 
 -(id) initWithMainMenuUILayer:(MainMenuUI *)menuUI;
