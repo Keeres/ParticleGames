@@ -38,6 +38,8 @@
 		B67A7ADA1688E90A00C8BBC6 /* USAStatesSprites-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AD61688E90A00C8BBC6 /* USAStatesSprites-hd.plist */; };
 		B67A7ADB1688E90A00C8BBC6 /* USAStatesSprites.plist in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AD71688E90A00C8BBC6 /* USAStatesSprites.plist */; };
 		B68B1E18169CC78C00D21E82 /* GeoQuestTerritory.m in Sources */ = {isa = PBXBuildFile; fileRef = B68B1E17169CC78C00D21E82 /* GeoQuestTerritory.m */; };
+		B68CA22116E4FC8500FCCA01 /* TerritoryMenuItemSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = B68CA22016E4FC8500FCCA01 /* TerritoryMenuItemSprite.m */; };
+		B68CA22416E5076300FCCA01 /* MimicServer.m in Sources */ = {isa = PBXBuildFile; fileRef = B68CA22316E5076300FCCA01 /* MimicServer.m */; };
 		B68E4276165E1CC000EA8426 /* QuestionThemes-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B68E4272165E1CC000EA8426 /* QuestionThemes-hd.plist */; };
 		B68E4277165E1CC000EA8426 /* QuestionThemes-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B68E4273165E1CC000EA8426 /* QuestionThemes-hd.png */; };
 		B68E427B165E1CEC00EA8426 /* QuestionThemes.plist in Resources */ = {isa = PBXBuildFile; fileRef = B68E4279165E1CEC00EA8426 /* QuestionThemes.plist */; };
@@ -188,6 +190,7 @@
 		B6A4709B16AC7F9100417830 /* MessageWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709A16AC7F9100417830 /* MessageWriter.m */; };
 		B6A55AD716C35DF000E6F4A3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A55AD616C35DF000E6F4A3 /* libz.dylib */; };
 		B6A55AD916C35E9400E6F4A3 /* NetworkPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD516C35D9D00E6F4A3 /* NetworkPacket.m */; };
+		B6B0F2C416DFC40D00D8B79D /* Guid.m in Sources */ = {isa = PBXBuildFile; fileRef = B6B0F2C316DFC31C00D8B79D /* Guid.m */; };
 		B6BCFFD416DD50B90077E5A2 /* SoloGameTerritory.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BCFFD316DD50B90077E5A2 /* SoloGameTerritory.m */; };
 		B6BCFFD716DD59A50077E5A2 /* SoloGameGameOver.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BCFFD616DD59A50077E5A2 /* SoloGameGameOver.m */; };
 		B6BCFFDA16DD5A000077E5A2 /* SoloGameReplay.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BCFFD916DD5A000077E5A2 /* SoloGameReplay.m */; };
@@ -264,6 +267,10 @@
 		B67A7AD71688E90A00C8BBC6 /* USAStatesSprites.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = USAStatesSprites.plist; sourceTree = "<group>"; };
 		B68B1E16169CC78C00D21E82 /* GeoQuestTerritory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoQuestTerritory.h; sourceTree = "<group>"; };
 		B68B1E17169CC78C00D21E82 /* GeoQuestTerritory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoQuestTerritory.m; sourceTree = "<group>"; };
+		B68CA21F16E4FC8500FCCA01 /* TerritoryMenuItemSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerritoryMenuItemSprite.h; sourceTree = "<group>"; };
+		B68CA22016E4FC8500FCCA01 /* TerritoryMenuItemSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerritoryMenuItemSprite.m; sourceTree = "<group>"; };
+		B68CA22216E5076300FCCA01 /* MimicServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MimicServer.h; sourceTree = "<group>"; };
+		B68CA22316E5076300FCCA01 /* MimicServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MimicServer.m; sourceTree = "<group>"; };
 		B68E4272165E1CC000EA8426 /* QuestionThemes-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "QuestionThemes-hd.plist"; sourceTree = "<group>"; };
 		B68E4273165E1CC000EA8426 /* QuestionThemes-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QuestionThemes-hd.png"; sourceTree = "<group>"; };
 		B68E4279165E1CEC00EA8426 /* QuestionThemes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = QuestionThemes.plist; sourceTree = "<group>"; };
@@ -570,6 +577,8 @@
 		B6A55AD416C35D9D00E6F4A3 /* NetworkPacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkPacket.h; sourceTree = "<group>"; };
 		B6A55AD516C35D9D00E6F4A3 /* NetworkPacket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetworkPacket.m; sourceTree = "<group>"; };
 		B6A55AD616C35DF000E6F4A3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		B6B0F2C216DFC31C00D8B79D /* Guid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Guid.h; sourceTree = "<group>"; };
+		B6B0F2C316DFC31C00D8B79D /* Guid.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Guid.m; sourceTree = "<group>"; };
 		B6BCFFD216DD50B90077E5A2 /* SoloGameTerritory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameTerritory.h; sourceTree = "<group>"; };
 		B6BCFFD316DD50B90077E5A2 /* SoloGameTerritory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameTerritory.m; sourceTree = "<group>"; };
 		B6BCFFD516DD59A50077E5A2 /* SoloGameGameOver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameGameOver.h; sourceTree = "<group>"; };
@@ -652,6 +661,8 @@
 			isa = PBXGroup;
 			children = (
 				B64A849C164B884E004A567A /* GeoQuestDB.sqlite */,
+				B68CA22216E5076300FCCA01 /* MimicServer.h */,
+				B68CA22316E5076300FCCA01 /* MimicServer.m */,
 				B64A8494164B880C004A567A /* GeoQuestDB.h */,
 				B64A8495164B880C004A567A /* GeoQuestDB.m */,
 				B64A8492164B880C004A567A /* GeoQuestAnswer.h */,
@@ -1203,6 +1214,8 @@
 			children = (
 				B69BFA64162F155100F7B209 /* ChallengerMenuItemSprite.h */,
 				B69BFA65162F155100F7B209 /* ChallengerMenuItemSprite.m */,
+				B68CA21F16E4FC8500FCCA01 /* TerritoryMenuItemSprite.h */,
+				B68CA22016E4FC8500FCCA01 /* TerritoryMenuItemSprite.m */,
 				B6413A7B1638600800A01A2D /* CCMenuAdvancedPlus.h */,
 				B6413A7C1638600800A01A2D /* CCMenuAdvancedPlus.m */,
 				B6C68221164CEED400BC9E81 /* CCMenu+Layout.h */,
@@ -1211,6 +1224,8 @@
 				B6D8686916CBF5460012281D /* CCUIViewWrapper.m */,
 				B6975C1116D6BC2A007C0FD7 /* CCRenderTexturePlus.h */,
 				B6975C1216D6BC2A007C0FD7 /* CCRenderTexturePlus.m */,
+				B6B0F2C216DFC31C00D8B79D /* Guid.h */,
+				B6B0F2C316DFC31C00D8B79D /* Guid.m */,
 			);
 			path = AddOns;
 			sourceTree = "<group>";
@@ -1474,6 +1489,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6B0F2C416DFC40D00D8B79D /* Guid.m in Sources */,
 				B6F160FF16C44755009D79A1 /* Challenger.m in Sources */,
 				B6A55AD916C35E9400E6F4A3 /* NetworkPacket.m in Sources */,
 				B6902DD0161F6D3C00B11872 /* GameManager.m in Sources */,
@@ -1624,6 +1640,8 @@
 				B6BCFFD416DD50B90077E5A2 /* SoloGameTerritory.m in Sources */,
 				B6BCFFD716DD59A50077E5A2 /* SoloGameGameOver.m in Sources */,
 				B6BCFFDA16DD5A000077E5A2 /* SoloGameReplay.m in Sources */,
+				B68CA22116E4FC8500FCCA01 /* TerritoryMenuItemSprite.m in Sources */,
+				B68CA22416E5076300FCCA01 /* MimicServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
