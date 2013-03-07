@@ -29,11 +29,7 @@
     SoloGameBG *soloGameBG = [[[SoloGameBG alloc] initWithSoloGameUILayer:soloGameUI] autorelease];
     [scene addChild:soloGameBG z:10];
     
-    /*MainMenuUI *mainMenuUI = [MainMenuUI node];
-    [scene addChild:mainMenuUI z:20];
-    
-    MainMenuBG *mainMenuBG = [[MainMenuBG alloc] initWithMainMenuUILayer:mainMenuUI];
-    [scene addChild:mainMenuBG z:10];*/
+    [soloGameReplay loadReplayLayer];
     
     return scene;
 }

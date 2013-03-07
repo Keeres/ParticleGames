@@ -20,11 +20,23 @@
     SoloGameUI          *soloGameUI;
     
     // Arrays
-    NSMutableArray      *raceDataArray; //array to store raceData objects
-    NSMutableArray      *reverseRaceDataArray;
+    NSMutableArray      *playerRaceDataArray; //array to store raceData objects
+    NSMutableArray      *playerReverseRaceDataArray;
+    NSMutableArray      *challengerRaceDataArray;
+    NSMutableArray      *challengerReverseRaceDataArray;
     
     // CCNodes
     CCRenderTexturePlus *renderTexture;
+    CCSprite            *playerVehicle;
+    CCSprite            *challengerVehicle;
+    CCSprite            *theme;
+    CCLabelTTF          *playerName;
+    CCLabelTTF          *challengerName;
+    CCLabelTTF          *playerScore;
+    CCLabelTTF          *challengerScore;
+    
+    //CCMenu
+    CCMenuAdvanced      *nextMenu;
 
     
     // Variables
@@ -33,11 +45,14 @@
     CGPoint             renderTextureOrigPos;
     float               raceStartHeight;
     float               raceLineWidth;
+    float               startingPoint;
+    float               finishingPoint;
 }
 
 -(id) initWithSoloGameUILayer:(SoloGameUI*)soloUI;
--(void) setRaceData:(NSMutableArray*)r;
+//-(void) setRaceData:(NSMutableArray*)r;
 -(void) showLayerAndObjects;
 -(void) hideLayerAndObjects;
+-(void) loadReplayLayer;
 
 @end

@@ -22,6 +22,7 @@
 #import "GameTheme.h"
 #import "GameThemeCache.h"
 #import "RaceData.h"
+#import "PlayerDB.h"
 
 #define SOLO_GRID_SPACING 5 //points between menu items
 #define SOLO_GAME_TIMER 60 
@@ -54,12 +55,14 @@
     //NSMutableArray      *themeTotal;
     //NSMutableArray      *themeVisible;
     NSMutableArray      *territoriesChosen; //array of all the territories usable by player
-    NSMutableArray      *raceDataArray; //array to store raceData objects
+    NSMutableArray      *playerRaceDataArray; //array to store raceData objects
+    NSMutableArray      *challengerRaceDataArray; //array to store CHALLENGERNEXTRACEDATA to move challengerVehicle
     
     CCSprite            *question;
     CCSprite            *correctMark;
     CCSprite            *wrongMark;
     CCSprite            *playerVehicle;
+    CCSprite            *challengerVehicle;
     CCSprite            *soloGameTheme;
     CCMenuAdvanced      *answerChoicesMenu;
     CCLabelTTF          *prepTimerLabel;
@@ -95,6 +98,8 @@
     float               specialStagePowerUpTimer;
     float               pointsEarned;
     float               score;
+    float               startingPoint;
+    float               finishingPoint;
     int                 questionsAsked;
     int                 questionsAnsweredCorrectly;
     int                 powerUpPercentageRequirement;
@@ -108,6 +113,9 @@
 }
 
 @property (nonatomic, retain) CCSprite *playerVehicle;
+@property (nonatomic, retain) CCSprite *challengerVehicle;
+@property (readonly) float startingPoint;
+@property (readonly) float finishingPoint;
 
 -(void) setSoloGameBGLayer:(SoloGameBG*)soloBG;
 -(void) setSoloGameTerritoryLayer:(SoloGameTerritory*)soloTerritory;
@@ -116,5 +124,6 @@
 -(void) setupGame;
 -(void) setTerritoriesChosen:(NSMutableArray*)tChosen;
 -(SoloGameReplay*) getSoloGameReplay;
+-(void) showTerritoryLayer;
 
 @end

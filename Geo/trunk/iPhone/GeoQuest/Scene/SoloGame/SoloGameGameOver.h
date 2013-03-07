@@ -34,5 +34,6 @@
 -(void) showLayerAndObjects;
 -(void) hideLayerAndObjects;
 -(void) moveGameOverMenu;
+-(void) checkGameOverMenu;
 
 @end

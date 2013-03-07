@@ -27,10 +27,10 @@
         
         switch (i) {
             case 0: {
-                CCLabelTTF *retryButtonLabel = [CCLabelTTF labelWithString:@"Retry" fontName:@"Arial" fontSize:14];
-                retryButtonLabel.position = ccp(gameOverItemSprite.contentSize.width/2, gameOverItemSprite.contentSize.height/2);
-                retryButtonLabel.color = ccc3(0, 0, 0);
-                [gameOverItemSprite addChild:retryButtonLabel];
+                CCLabelTTF *nextButtonLabel = [CCLabelTTF labelWithString:@"Next Round" fontName:@"Arial" fontSize:14];
+                nextButtonLabel.position = ccp(gameOverItemSprite.contentSize.width/2, gameOverItemSprite.contentSize.height/2);
+                nextButtonLabel.color = ccc3(0, 0, 0);
+                [gameOverItemSprite addChild:nextButtonLabel];
                 break;
             }
             case 1: {
@@ -38,6 +38,8 @@
                 replayButtonLabel.position = ccp(gameOverItemSprite.contentSize.width/2, gameOverItemSprite.contentSize.height/2);
                 replayButtonLabel.color = ccc3(0, 0, 0);
                 [gameOverItemSprite addChild:replayButtonLabel];
+                gameOverItemSprite.isEnabled = NO;
+                gameOverItemSprite.visible = NO;
                 break;
             }
             case 2: {
@@ -131,6 +133,22 @@
     gameOverMenu.visible = NO;
     gameOverMenu.enabled = NO;
     self.visible = NO;
+}
+
+-(void) checkGameOverMenu {
+    NSString *PNRD = [[PlayerDB database] retrieveDataFromColumn:@"PLAYERNEXTRACEDATA" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+    
+    CCArray *gArray = [gameOverMenu children];
+    
+    CCMenuItemSprite *s = [gArray objectAtIndex:0];
+    
+    if ([PNRD isEqualToString:@""]) {
+        s.isEnabled = YES;
+        s.visible = YES;
+    } else {
+        s.isEnabled = NO;
+        s.visible = NO;
+    }
 }
 
 -(void) dealloc {

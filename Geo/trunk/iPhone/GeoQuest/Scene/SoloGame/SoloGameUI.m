@@ -13,6 +13,9 @@
 @implementation SoloGameUI
 
 @synthesize playerVehicle;
+@synthesize challengerVehicle;
+@synthesize startingPoint;
+@synthesize finishingPoint;
 
 -(void) setSoloGameBGLayer:(SoloGameBG *)soloBG {
     soloGameBG = soloBG;
@@ -52,6 +55,14 @@
     [self createRaceData];
     
     playerVehicle.visible = YES;
+    
+    NSString *CNRD = [[PlayerDB database] retrieveDataFromColumn:@"CHALLENGERNEXTRACEDATA" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+    if (![CNRD isEqualToString:@""]) {
+        challengerVehicle.visible = YES;
+        challengerRaceDataArray = [[PlayerDB database] parseRaceDataFromString:CNRD];
+        [challengerRaceDataArray retain];
+    }
+    
     soloGameTheme.visible = YES;
     [self scheduleUpdate];
 }
@@ -76,10 +87,32 @@
 }
 
 -(void) setupVehicles {
-    playerVehicle = [CCSprite spriteWithSpriteFrameName:@"VehicleWhiteOwl.png"];
-    playerVehicle.position = ccp(playerVehicle.contentSize.width/2, 30.0);
+    // Load pictures from database
+    
+    startingPoint = 20;
+    finishingPoint = winSize.width - startingPoint;
+    
+    NSString *playerVehicleString = [[PlayerDB database] retrieveDataFromColumn:@"PICTURE" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+    NSString *challengerVehicleString = [[PlayerDB database] retrieveDataFromColumn:@"PICTURE" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+    
+    playerVehicle = [CCSprite spriteWithSpriteFrameName:playerVehicleString];
+    playerVehicle.position = ccp(startingPoint, 20.0);
     playerVehicle.visible = NO;
     [self addChild:playerVehicle z:100];
+    
+    challengerVehicle = [CCSprite spriteWithSpriteFrameName:challengerVehicleString];
+    challengerVehicle.position = ccp(startingPoint, 40.0);
+    challengerVehicle.visible = NO;
+    [self addChild:challengerVehicle z:99];
+    
+    CCLabelTTF *playerLabel = [CCLabelTTF labelWithString:[PlayerDB database].username fontName:@"Arial" fontSize:14];
+    playerLabel.position = ccp(playerVehicle.contentSize.width/2, playerVehicle.textureRect.size.height + playerLabel.contentSize.height);
+    [playerVehicle addChild:playerLabel];
+    
+    CCLabelTTF *challengerLabel = [CCLabelTTF labelWithString:[PlayerDB database].challenger fontName:@"Arial" fontSize:14];
+    challengerLabel.position = ccp(challengerVehicle.contentSize.width/2, challengerVehicle.textureRect.size.height + challengerLabel.contentSize.height);
+    [challengerVehicle addChild:challengerLabel];
+
 }
 
 -(void) setupUILabels {
@@ -194,8 +227,38 @@
 #pragma mark - Retrieve Information
 
 -(void) createQuestions {
+    
+    
     questionArray = [[NSMutableArray alloc] init];
-    //NSString *qString = @"";
+    NSString *questionString = [[PlayerDB database] retrieveDataFromColumn:@"QUESTIONDATA" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+    
+    
+    if ([questionString isEqualToString:@""]) {
+        CCLOG(@"SoloGameUI: New set of questions");
+        GeoQuestTerritory *questionTerritory;
+        
+        for (int j = 0; j < 50; j++) {
+            int i = arc4random() % [territoriesChosen count];
+            questionTerritory = [territoriesChosen objectAtIndex:i];
+            
+            GeoQuestQuestion *q = [[GeoQuestDB database] getQuestionFrom:questionTerritory];
+            while ([self checkQuestionInArray:q]) {
+                q = [[GeoQuestDB database] getQuestionFrom:questionTerritory];
+            }
+            [questionArray addObject:q];
+            questionString = [NSString stringWithFormat:@"%@%@",questionString, [NSString stringWithFormat:@"(%@,%@,%@,%@,%@,%@,%@)", q.question, q.questionType, q.answerTable, q.answerType, q.answerID, q.answer, q.info]];
+        }
+        [[PlayerDB database] updateData:questionString intoColumn:@"QUESTIONDATA" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+    } else {
+        CCLOG(@"SoloGameUI: Loaded old set of questions");
+        [questionArray release];
+        questionArray = [[NSMutableArray alloc] initWithArray:[[PlayerDB database] parseQuestionFromString:questionString]];
+        [[PlayerDB database] deleteDataFromColumn:@"QUESTIONDATA" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+    }
+    CCLOG(@"SoloGameUI: Questions - %@", questionString);
+
+    
+    /*NSString *qString = @"";
     
     GeoQuestTerritory *questionTerritory;
 
@@ -208,8 +271,8 @@
             q = [[GeoQuestDB database] getQuestionFrom:questionTerritory];
         }
         [questionArray addObject:q];
-        //qString = [NSString stringWithFormat:@"%@%@",qString, [NSString stringWithFormat:@"(%@,%@,%@,%@,%@,%@,%@)", q.question, q.questionType, q.answerTable, q.answerType, q.answerID, q.answer, q.info]];
-    }
+        qString = [NSString stringWithFormat:@"%@%@",qString, [NSString stringWithFormat:@"(%@,%@,%@,%@,%@,%@,%@)", q.question, q.questionType, q.answerTable, q.answerType, q.answerID, q.answer, q.info]];
+    }*/
     
     //CCLOG(@"qSTRING: %@", qString);
     //Format the array of questions into String. Send the questions to Server.
@@ -232,7 +295,7 @@
 }
 
 -(void) createRaceData {
-    raceDataArray = [[NSMutableArray alloc] init];
+    playerRaceDataArray = [[NSMutableArray alloc] init];
 }
 
 -(id) getQuestion {
@@ -613,9 +676,101 @@
 -(void) gameOver {
     
     [self hideLayerAndObjects];
-    [soloGameGameOver showLayerAndObjects];
     
-    [soloGameReplay setRaceData:raceDataArray];
+    //[soloGameReplay setRaceData:raceDataArray];
+    
+    NSString *raceDataArrayString = @"";
+    
+    for (int i = 0; i < [playerRaceDataArray count]; i++) {
+        RaceData *r = [playerRaceDataArray objectAtIndex:i];
+        raceDataArrayString = [NSString stringWithFormat:@"%@%@", raceDataArrayString, [r stringValue]];
+    }
+    
+    NSString *CNRD = [[PlayerDB database] retrieveDataFromColumn:@"CHALLENGERNEXTRACEDATA" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+    
+    if ([CNRD isEqualToString:@""]) {
+        [[PlayerDB database] updateData:raceDataArrayString intoColumn:@"PLAYERNEXTRACEDATA" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+        [[PlayerDB database] updateData:raceDataArrayString intoColumn:@"CHALLENGERNEXTRACEDATA" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+        
+        [[PlayerDB database] updateData:[NSString stringWithFormat:@"%i", NO] intoColumn:@"MYTURN" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+        [[PlayerDB database] updateData:[NSString stringWithFormat:@"%i", YES] intoColumn:@"MYTURN" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+        
+    } else {
+        [self checkWhoWonRound];
+        
+        [[PlayerDB database] moveDataFromColumn:@"CHALLENGERNEXTRACEDATA" toColumn:@"CHALLENGERPREVRACEDATA" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+        [[PlayerDB database] updateData:raceDataArrayString intoColumn:@"PLAYERPREVRACEDATA" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+        
+        
+        NSString *CPRD = [[PlayerDB database] retrieveDataFromColumn:@"CHALLENGERPREVRACEDATA" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+        [[PlayerDB database] updateData:CPRD intoColumn:@"PLAYERPREVRACEDATA" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+        [[PlayerDB database] updateData:raceDataArrayString intoColumn:@"CHALLENGERPREVRACEDATA" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+        [[PlayerDB database] deleteDataFromColumn:@"PLAYERNEXTRACEDATA" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+
+    }
+    
+    [soloGameGameOver checkGameOverMenu];
+    [soloGameGameOver showLayerAndObjects];
+}
+
+-(void) checkWhoWonRound {
+    NSString *CNRD = [[PlayerDB database] retrieveDataFromColumn:@"CHALLENGERNEXTRACEDATA" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+    NSMutableArray *tempChallengerRaceDataArray = [[PlayerDB database] parseRaceDataFromString:CNRD];
+
+    
+    RaceData *playerLastObject = [playerRaceDataArray objectAtIndex:[playerRaceDataArray count] - 1];
+    RaceData *challengerLastObject = [tempChallengerRaceDataArray objectAtIndex:[tempChallengerRaceDataArray count] - 1];
+    
+    if (playerLastObject.time < 60 && challengerLastObject.time < 60) {
+        if (playerLastObject.time < challengerLastObject.time) {
+            int playerScore = [[[PlayerDB database] retrieveDataFromColumn:@"WIN" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID] intValue];
+            playerScore++;
+            [[PlayerDB database] updateData:[NSString stringWithFormat:@"%i", playerScore] intoColumn:@"WIN" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+            
+            int challengerScore = [[[PlayerDB database] retrieveDataFromColumn:@"LOSS" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID] intValue];
+            challengerScore++;
+            [[PlayerDB database] updateData:[NSString stringWithFormat:@"%i", challengerScore] intoColumn:@"LOSS" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+        } else {
+            int playerScore = [[[PlayerDB database] retrieveDataFromColumn:@"LOSS" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID] intValue];
+            playerScore++;
+            [[PlayerDB database] updateData:[NSString stringWithFormat:@"%i", playerScore] intoColumn:@"LOSS" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+            
+            int challengerScore = [[[PlayerDB database] retrieveDataFromColumn:@"WIN" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID] intValue];
+            challengerScore++;
+            [[PlayerDB database] updateData:[NSString stringWithFormat:@"%i", challengerScore] intoColumn:@"WIN" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+        }
+    } else {
+        int playerGameScore = 0;
+        int challengerGameScore = 0;
+        
+        for (int i = 0; i < [playerRaceDataArray count]; i++) {
+            RaceData *r = [playerRaceDataArray objectAtIndex:i];
+            playerGameScore += r.points;
+        }
+        
+        for (int i = 0; i < [tempChallengerRaceDataArray count]; i++) {
+            RaceData *r = [tempChallengerRaceDataArray objectAtIndex:i];
+            challengerGameScore += r.points;
+        }
+        
+        if (playerGameScore > challengerGameScore) {
+            int playerScore = [[[PlayerDB database] retrieveDataFromColumn:@"WIN" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID] intValue];
+            playerScore++;
+            [[PlayerDB database] updateData:[NSString stringWithFormat:@"%i", playerScore] intoColumn:@"WIN" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+            
+            int challengerScore = [[[PlayerDB database] retrieveDataFromColumn:@"LOSS" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID] intValue];
+            challengerScore++;
+            [[PlayerDB database] updateData:[NSString stringWithFormat:@"%i", challengerScore] intoColumn:@"LOSS" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+        } else {
+            int playerScore = [[[PlayerDB database] retrieveDataFromColumn:@"LOSS" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID] intValue];
+            playerScore++;
+            [[PlayerDB database] updateData:[NSString stringWithFormat:@"%i", playerScore] intoColumn:@"LOSS" forUsername:[PlayerDB database].username andID:[PlayerDB database].gameGUID];
+            
+            int challengerScore = [[[PlayerDB database] retrieveDataFromColumn:@"WIN" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID] intValue];
+            challengerScore++;
+            [[PlayerDB database] updateData:[NSString stringWithFormat:@"%i", challengerScore] intoColumn:@"WIN" forUsername:[PlayerDB database].challenger andID:[PlayerDB database].gameGUID];
+        }
+    }
 }
 
 #pragma mark - Update Game
@@ -741,6 +896,22 @@
             }
             
             if (gameTimer > 0) {
+                
+                // Move challenger vehicle
+                if ([challengerRaceDataArray count] > 0) {
+                    RaceData *r = [challengerRaceDataArray objectAtIndex:0];
+                    if (r.time < (60 - gameTimer)) {
+                        id challengerVehicleAction;
+                        if ((challengerVehicle.position.x + ((winSize.width - challengerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points)) > finishingPoint) {
+                            challengerVehicleAction = [CCMoveTo actionWithDuration:0.35 position:ccp(finishingPoint, challengerVehicle.position.y)];
+                        } else {
+                            challengerVehicleAction = [CCMoveTo actionWithDuration:0.35 position:ccp(challengerVehicle.position.x + ((winSize.width - challengerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points), challengerVehicle.position.y)];
+                        }
+                        id challengerVehicleEase = [CCEaseInOut actionWithAction:challengerVehicleAction rate:2];
+                        [challengerVehicle runAction:challengerVehicleEase];
+                        [challengerRaceDataArray removeObjectAtIndex:0];
+                    }
+                }
                 
                 questionTimer -= delta;
                 if (questionTimer < 5.0 && answerChoicesVisibleCount > 3) {
@@ -989,17 +1160,17 @@
     [pointsEarnedLabel runAction:pointsEase];
     
     RaceData *r = [[RaceData alloc] initWithTime:(60 - gameTimer) answerType:currentQuestion.info answer:currentQuestion.answer correct:correctAnswer points:pointsEarned];
-    [raceDataArray addObject:r];
+    [playerRaceDataArray addObject:r];
     [r release];
     
-    id vehicleAction;
-    if ((playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * pointsEarned)) > winSize.width - playerVehicle.contentSize.width/2) {
-        vehicleAction = [CCMoveTo actionWithDuration:0.35 position:ccp(winSize.width - playerVehicle.contentSize.width/2, playerVehicle.position.y)];
+    id playerVehicleAction;
+    if ((playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * pointsEarned)) > finishingPoint) {
+        playerVehicleAction = [CCMoveTo actionWithDuration:0.35 position:ccp(finishingPoint, playerVehicle.position.y)];
     } else {
-        vehicleAction = [CCMoveTo actionWithDuration:0.35 position:ccp(playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * pointsEarned), playerVehicle.position.y)];
+        playerVehicleAction = [CCMoveTo actionWithDuration:0.35 position:ccp(playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * pointsEarned), playerVehicle.position.y)];
     }
-    id vehicleEase = [CCEaseInOut actionWithAction:vehicleAction rate:2];
-    [playerVehicle runAction:vehicleEase];
+    id playerVehicleEase = [CCEaseInOut actionWithAction:playerVehicleAction rate:2];
+    [playerVehicle runAction:playerVehicleEase];
     
     if (correctAnswer) {
         [self performSelector:@selector(questionAnswered) withObject:nil afterDelay:0.35];
@@ -1110,7 +1281,7 @@
     [self runAction:shakeTotalSequence];
     
     RaceData *r = [[RaceData alloc] initWithTime:(60 - gameTimer) answerType:currentQuestion.info answer:currentQuestion.answer correct:NO points:pointsEarned];
-    [raceDataArray addObject:r];
+    [playerRaceDataArray addObject:r];
     [r release];
     
     [self performSelector:@selector(questionAnswered) withObject:nil afterDelay:0.75];
@@ -1153,13 +1324,18 @@
     
 }
 
+-(void) showTerritoryLayer {
+    [soloGameTerritory showLayerAndObjects];
+}
+
 -(void) dealloc {
     [territoriesChosen release];
     [questionLayerTotal release];
     [questionLayerVisible release];
     [questionArray release];
     [answerArray release];
-    [raceDataArray release];
+    [playerRaceDataArray release];
+    [challengerRaceDataArray release];
     [super dealloc];
 }
 
