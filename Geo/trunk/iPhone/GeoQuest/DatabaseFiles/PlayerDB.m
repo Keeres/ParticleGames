@@ -8,12 +8,13 @@
 
 #import "PlayerDB.h"
 #import "Territory.h"
-#import "Challenger.h"
 
 
 @implementation PlayerDB
 @synthesize username = _username;
 @synthesize password = _password;
+@synthesize gameGUID = _gameGUID;
+@synthesize challenger = _challenger;
 
 static PlayerDB *_database;
 
@@ -50,13 +51,14 @@ static PlayerDB *_database;
     }
 }
 
-#pragma mark - Create new username table
+#pragma mark - Create new username tables
 
 -(void) createNewPlayerStatsTable:(NSString*)username {
     CCLOG(@"username: %@", username);
     _username = [username retain];
     if (_username != NULL) {
-        NSString *sqlTable = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS [%@STATS] ("
+        NSString *sqlTable = [NSString stringWithFormat:
+                              @"CREATE TABLE IF NOT EXISTS [%@Stats] ("
                               "[Index] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                               "[Name] TEXT UNIQUE NOT NULL,"
                               "[Type] TEXT NOT NULL,"
@@ -77,7 +79,8 @@ static PlayerDB *_database;
 
 -(void) createNewPlayerChallengersTable {
     if (_username != NULL) {
-        NSString *sqlTable = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS [%@CHALLENGERS] ("
+        NSString *sqlTable = [NSString stringWithFormat:
+                              @"CREATE TABLE IF NOT EXISTS [%@Challengers] ("
                               "[Index] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                               "[ID] VARCHAR(32) UNIQUE NOT NULL,"
                               "[NAME] TEXT NOT NULL,"
@@ -87,7 +90,7 @@ static PlayerDB *_database;
                               "[LOSS] INTEGER,"
                               "[MATCHSTARTED] TEXT,"
                               "[LASTPLAYED] TEXT,"
-                              "[MYTURN] INTEGER NOT NULL,"
+                              "[MYTURN] BOOL NOT NULL,"
                               "[PLAYERPREVRACEDATA] TEXT,"
                               "[PLAYERNEXTRACEDATA] TEXT,"
                               "[CHALLENGERPREVRACEDATA] TEXT,"
@@ -108,14 +111,15 @@ static PlayerDB *_database;
 
 -(void) createNewPlayerTerritoriesTable {
     if (_username != NULL) {
-        NSString *sqlTable = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS [%@TERRITORIES] ("
+        NSString *sqlTable = [NSString stringWithFormat:
+                              @"CREATE TABLE IF NOT EXISTS [%@Territories] ("
                               "[Index] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
                               "[ID] VARCHAR(32) UNIQUE NOT NULL, [NAME] TEXT NOT NULL,"
                               "[QUESTION] TEXT NOT NULL,"
                               "[ANSWER] TEXT NOT NULL,"
                               "[CONTINENTOFCATEGORY] TEXT NOT NULL,"
-                              "[WEEKLYUSABLE] TEXT NOT NULL,"
-                              "[OWNERUSABLE] TEXT NULL)", _username];
+                              "[WEEKLYUSABLE] BOOL NULL,"
+                              "[OWNERUSABLE] BOOL NULL)", _username];
         
         char *err;
         
@@ -128,14 +132,32 @@ static PlayerDB *_database;
     }
 }
 
+#pragma mark - Update player tables
+
+
+// Updates all rows for playerCHALLENGERS table
 -(void) updatePlayerChallengersTable:(NSMutableArray *)array {
     if (_username != NULL) {
         for (int i = 0; [array count]; i++) {
             Challenger *c = (Challenger*)[array objectAtIndex:i];
             
-            NSString *sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@CHALLENGERS ("
-                             "ID, NAME, EMAIL, PICTURE, WIN, LOSS, MATCHSTARTED, LASTPLAYED, MYTURN, PLAYERPREVRACEDATA, PLAYERNEXTRACEDATA, CHALLENGERPREVRACEDATA, CHALLENGERNEXTRACEDATA, QUESTIONDATA)"
-                             "VALUES ('%@','%@','%@','%@','%i','%i','%@','%@','%i','%@','%@','%@','%@','%@')", _username, c.userID, c.name, c.email, c.profilePic, c.win, c.loss, c.matchStarted, c.lastPlayed, c.myTurn, c.playerPrevRaceData, c.playerNextRaceData, c.challengerPrevRaceData, c.challengerNextRaceData, c.questionData];
+            NSString *sql = [NSString stringWithFormat:
+                             @"INSERT OR REPLACE INTO %@CHALLENGERS ("
+                             "ID,"
+                             "NAME,"
+                             "EMAIL,"
+                             "PICTURE,"
+                             "WIN,"
+                             "LOSS,"
+                             "MATCHSTARTED,"
+                             "LASTPLAYED,"
+                             "MYTURN,"
+                             "PLAYERPREVRACEDATA,"
+                             "PLAYERNEXTRACEDATA,"
+                             "CHALLENGERPREVRACEDATA,"
+                             "CHALLENGERNEXTRACEDATA,"
+                             "QUESTIONDATA)"
+                             "VALUES ('%@','%@','%@','%@','%i','%i','%@','%@','%i','%@','%@','%@','%@','%@')", _username, c.ID, c.name, c.email, c.profilePic, c.win, c.loss, c.matchStarted, c.lastPlayed, c.myTurn, c.playerPrevRaceData, c.playerNextRaceData, c.challengerPrevRaceData, c.challengerNextRaceData, c.questionData];
             
             char *err;
             
@@ -149,27 +171,67 @@ static PlayerDB *_database;
     }
 }
 
+-(void) updatePlayerChallenger:(Challenger*)c inPlayerChallengerDatabase:(NSString*)playerUsername {
+    NSString *sql = [NSString stringWithFormat:
+                     @"INSERT OR REPLACE INTO %@CHALLENGERS ("
+                     "ID,"
+                     "NAME,"
+                     "EMAIL,"
+                     "PICTURE,"
+                     "WIN,"
+                     "LOSS,"
+                     "MATCHSTARTED,"
+                     "LASTPLAYED,"
+                     "MYTURN,"
+                     "PLAYERPREVRACEDATA,"
+                     "PLAYERNEXTRACEDATA,"
+                     "CHALLENGERPREVRACEDATA,"
+                     "CHALLENGERNEXTRACEDATA,"
+                     "QUESTIONDATA)"
+                     "VALUES ('%@','%@','%@','%@','%i','%i','%@','%@','%i','%@','%@','%@','%@','%@')", playerUsername, c.ID, c.name, c.email, c.profilePic, c.win, c.loss, c.matchStarted, c.lastPlayed, c.myTurn, c.playerPrevRaceData, c.playerNextRaceData, c.challengerPrevRaceData, c.challengerNextRaceData, c.questionData];
+    
+    char *err;
+    
+    if (sqlite3_exec(_database, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+        CCLOG(@"err:%s", err);
+        NSAssert(0, @"Could not update Challenger entry");
+    } else {
+        CCLOG(@"PlayerDB: Updated Player Challenger entry");
+    }
+}
+
+
+// Updates all rows for PlayerTERRITORIES table
 -(void) updatePlayerTerritoriesTable:(NSMutableArray*)array {
     if (_username != NULL) {
         for (int i = 0; i < [array count]; i++) {
             Territory *t = (Territory*)[array objectAtIndex:i];
             
-            NSString *sql = [NSString stringWithFormat:@"SELECT OWNERUSABLE FROM %@TERRITORIES WHERE ID = '%@'", _username, t.territoryID];
+            NSString *sql = [NSString stringWithFormat:
+                             @"SELECT OWNERUSABLE FROM %@TERRITORIES WHERE ID = '%@'", _username, t.ID];
             
             sqlite3_stmt *compiledStatement;
             
             if (sqlite3_prepare_v2(_database, [sql UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
                 while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
-                    t.ownerUsable = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 0)];
+                    t.ownerUsable = [[NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 0)] boolValue];
                 }
                 sqlite3_finalize(compiledStatement);
             } else {
                 NSAssert(0, @"Could not retrieve Territory entry");
             }
             
-            sql = [NSString stringWithFormat:@"INSERT OR REPLACE INTO %@TERRITORIES ("
-                   "ID, NAME, QUESTION, ANSWER, CONTINENTOFCATEGORY, OWNERUSABLE, WEEKLYUSABLE)"
-                   "VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@')", _username, t.territoryID, t.name, t.question, t.answer, t.continentOfCategory, t.ownerUsable, t.weeklyUsable];
+            sql = [NSString stringWithFormat:
+                   @"INSERT OR REPLACE INTO %@TERRITORIES ("
+                   "ID,"
+                   "NAME,"
+                   "QUESTION,"
+                   "ANSWER,"
+                   "CONTINENTOFCATEGORY,"
+                   "WEEKLYUSABLE,"
+                   "OWNERUSABLE)"
+                   "VALUES"
+                   "('%@', '%@', '%@', '%@', '%@', '%i', '%i')", _username, t.ID, t.name, t.question, t.answer, t.continentOfCategory, t.weeklyUsable, t.ownerUsable];
             
             char *err;
             
@@ -181,6 +243,93 @@ static PlayerDB *_database;
             }
         }
     }
+}
+
+#pragma mark - Retrieve Data
+
+-(NSString*) retrieveDataFromColumn:(NSString *)column forUsername:(NSString *)username andID:(NSString *)ID {
+    NSString *sql = [NSString stringWithFormat:@"SELECT %@ FROM %@CHALLENGERS WHERE ID='%@'", column, username, ID];
+    sqlite3_stmt *compiledStatement;
+    
+    NSString *data = @"";
+    if (sqlite3_prepare_v2(_database, [sql UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
+        while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
+            data = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 0)];
+        }
+        sqlite3_finalize(compiledStatement);
+    } else {
+        NSAssert(0, @"Could not retrieve data entry");
+    }
+    
+    return data;
+}
+
+#pragma mark - Update Data
+
+-(void) updateData:(NSString *)data intoColumn:(NSString *)column forUsername:(NSString *)username andID:(NSString*)ID {
+    
+    NSString *sql = [NSString stringWithFormat:@"UPDATE %@CHALLENGERS set %@ = '%@' WHERE ID = '%@'", username, column, data, ID];
+    
+    char *err;
+    
+    if (sqlite3_exec(_database, [sql UTF8String], NULL, NULL, &err) != SQLITE_OK) {
+        CCLOG(@"err:%s", err);
+        NSAssert(0, @"Could not update column with race data array.");
+    } else {
+        CCLOG(@"PlayerDB: Updated column with racedata for username/id");
+    }
+    
+}
+
+-(void) moveDataFromColumn:(NSString *)columnA toColumn:(NSString *)columnB forUsername:(NSString *)username andID:(NSString*)ID {
+    NSString *data = [self retrieveDataFromColumn:columnA forUsername:username andID:ID];
+    
+    [self deleteDataFromColumn:columnA forUsername:username andID:ID];
+    
+    [self updateData:data intoColumn:columnB forUsername:username andID:ID];
+}
+
+-(void) deleteDataFromColumn:(NSString *)column forUsername:(NSString *)username andID:(NSString*)ID {
+    [self updateData:@"" intoColumn:column forUsername:username andID:ID];
+}
+
+
+#pragma mark - Parse Data
+
+-(NSMutableArray*) parseRaceDataFromString:(NSString *)raceData {
+    
+    NSScanner *scanner = [NSScanner scannerWithString:raceData];
+    NSMutableArray *raceDataArray = [[[NSMutableArray alloc] init] autorelease];
+    
+    while ([scanner isAtEnd] == NO) {
+        NSString *raceString;
+        if (![scanner scanUpToString:@"(" intoString:NULL]) {
+            [scanner setScanLocation:scanner.scanLocation+1];
+            [scanner scanUpToString:@")" intoString:&raceString];
+            NSArray *components = [raceString componentsSeparatedByString:@","];
+            RaceData *r = [[[RaceData alloc] initWithArray:components] autorelease];
+            [raceDataArray addObject:r];
+        }
+    }
+    return raceDataArray;
+}
+
+-(NSMutableArray*) parseQuestionFromString:(NSString *)questions {
+    
+    NSScanner *scanner = [NSScanner scannerWithString:questions];
+    NSMutableArray *questionsArray = [[[NSMutableArray alloc] init] autorelease];
+    
+    while ([scanner isAtEnd] == NO) {
+        NSString *questionString;
+        if (![scanner scanUpToString:@"(" intoString:NULL]) {
+            [scanner setScanLocation:scanner.scanLocation+1];
+            [scanner scanUpToString:@")" intoString:&questionString];
+            NSArray *components = [questionString componentsSeparatedByString:@","];
+            GeoQuestQuestion *q = [[[GeoQuestQuestion alloc] initWithArray:components] autorelease];
+            [questionsArray addObject:q];
+        }
+    }
+    return questionsArray;
 }
 
 /*-(void) retrieveInformation {
@@ -212,7 +361,7 @@ static PlayerDB *_database;
     if (sqlite3_prepare_v2(_database, [sql UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
         while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
             Challenger *c = [[[Challenger alloc] init] autorelease];
-            c.userID = [NSMutableString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
+            c.ID = [NSMutableString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
             c.name = [NSMutableString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 2)];
             c.email = [NSMutableString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 3)];
             c.profilePic = [NSMutableString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 4)];
@@ -247,6 +396,50 @@ static PlayerDB *_database;
         CCLOG(@"PlayerDB: Player updated");
     }
 }*/
+
+-(NSMutableArray*) availableTerritories {
+    NSMutableArray *territoryChoices = [[[NSMutableArray alloc] init] autorelease];
+    NSString *sqlTerritoryChoices = [NSString stringWithFormat:@"SELECT id, name, question, answer FROM %@TERRITORIES where weeklyusable = 1 OR ownerusable = 1", self.username];
+    
+    sqlite3_stmt *compiledStatement;
+    
+    if (sqlite3_prepare_v2(_database, [sqlTerritoryChoices UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
+        while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
+            /*char *tID = (char*)sqlite3_column_text(compiledStatement, 0);
+            char *tN = (char*)sqlite3_column_text(compiledStatement, 1);
+            char *tQ = (char*)sqlite3_column_text(compiledStatement, 2);
+            char *tA = (char*)sqlite3_column_text(compiledStatement, 3);
+            
+            NSString *tTerritoryID = [[NSString alloc] initWithUTF8String:tID];
+            NSString *tName = [[NSString alloc] initWithUTF8String:tN];
+            NSString *tQuestion = [[NSString alloc] initWithUTF8String:tQ];
+            NSString *tAnswer = [[NSString alloc] initWithUTF8String:tA];*/
+            
+            NSString *tTerritoryID = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 0)];
+            NSString *tName = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 1)];
+            NSString *tQuestion = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 2)];
+            NSString *tAnswer = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 3)];
+            
+            GeoQuestTerritory *territory = [[GeoQuestTerritory alloc] initWithTerritoryID:tTerritoryID name:tName questionTable:tQuestion answerTable:tAnswer];
+            [territoryChoices addObject:territory];
+            
+            /*[tTerritoryID release];
+            [tName release];
+            [tQuestion release];
+            [tAnswer release];*/
+            [territory release];
+        }
+        
+        sqlite3_finalize(compiledStatement);
+    }
+    
+    for (NSInteger i = territoryChoices.count-1; i > 0; i--)
+    {
+        [territoryChoices exchangeObjectAtIndex:i withObjectAtIndex:arc4random_uniform(i+1)];
+    }
+    
+    return territoryChoices;
+}
 
 
 -(NSString *) saveFilePath
@@ -295,6 +488,8 @@ static PlayerDB *_database;
 -(void) dealloc {
     [_username release];
     [_password release];
+    [_gameGUID release];
+    [_challenger release];
     [super dealloc];
 }
 

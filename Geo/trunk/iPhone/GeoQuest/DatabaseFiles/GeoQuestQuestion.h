@@ -33,6 +33,7 @@
 @property (readwrite) int powerUpTypeQuestion;
 
 
+-(id) initWithArray:(NSArray*)array;
 -(id) initWithQuestion:(NSString*)question questionType:(NSString*)questionType answerTable:(NSString*)answerTable answerType:(NSString*)answerType info:(NSString*)info;
 
 @end

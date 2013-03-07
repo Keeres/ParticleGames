@@ -20,6 +20,20 @@
 @synthesize info = _info;
 @synthesize powerUpTypeQuestion = _powerUpTypeQuestion;
 
+-(id) initWithArray:(NSArray *)array {
+    if ((self = [super init])) {
+        self.question = [array objectAtIndex:0];
+        self.questionType = [array objectAtIndex:1];
+        self.answerTable = [array objectAtIndex:2];
+        self.answerType = [array objectAtIndex:3];
+        self.answerID = [array objectAtIndex:4];
+        self.answer = [array objectAtIndex:5];
+        self.info = [array objectAtIndex:6];
+        self.powerUpTypeQuestion = kNullPowerUp;
+    }
+    return self;
+}
+
 -(id) initWithQuestion:(NSString *)question questionType:(NSString *)questionType answerTable:(NSString *)answerTable answerType:(NSString *)answerType info:(NSString *)info {
     if ((self = [super init])) {
         self.question = question;

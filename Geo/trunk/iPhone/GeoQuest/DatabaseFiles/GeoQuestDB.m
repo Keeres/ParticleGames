@@ -33,9 +33,9 @@ static GeoQuestDB *_database;
     return self;
 }
 
--(NSMutableArray*) displayTerritories {
+/*-(NSMutableArray*) displayTerritories {
     NSMutableArray *territoryChoices = [[[NSMutableArray alloc] init] autorelease];
-    NSString *sqlTerritoryChoices = [NSString stringWithFormat:@"SELECT territoryid, name, question, answer FROM UserTerritoryQuestions where weeklyusable = 'YES' OR ownedusable = 'YES'"];
+    NSString *sqlTerritoryChoices = [NSString stringWithFormat:@"SELECT territoryid, name, question, answer FROM UserTerritoryQuestions where weeklyusable = 1 OR ownerusable = 1"];
     
     sqlite3_stmt *compiledStatement;
     
@@ -50,11 +50,6 @@ static GeoQuestDB *_database;
             NSString *tName = [[NSString alloc] initWithUTF8String:tN];
             NSString *tQuestion = [[NSString alloc] initWithUTF8String:tQ];
             NSString *tAnswer = [[NSString alloc] initWithUTF8String:tA];
-            
-            /*NSString *tTerritoryID = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 0)];
-            NSString *tName = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 1)];
-            NSString *tQuestion = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 2)];
-            NSString *tAnswer = [NSString stringWithUTF8String:(char*)sqlite3_column_text(compiledStatement, 3)];*/
             
             GeoQuestTerritory *territory = [[GeoQuestTerritory alloc] initWithTerritoryID:tTerritoryID name:tName questionTable:tQuestion answerTable:tAnswer];
             [territoryChoices addObject:territory];
@@ -75,7 +70,7 @@ static GeoQuestDB *_database;
     }
     
     return territoryChoices;
-}
+}*/
 
 
 #pragma mark - Retreive Question/Answer
@@ -226,7 +221,7 @@ static GeoQuestDB *_database;
 }
 
 /*-(NSArray*) getSpecialStageAnswerChoices {
-    NSMutableArray *answerChoices = [[NSMutableArray alloc] init];
+    NSMutableArray *answerChoices = [[[NSMutableArray alloc] init] autorelease];
     NSString *sqlAnswerChoices;
     
     //////////////////////////////////////////////////////////
@@ -293,6 +288,43 @@ static GeoQuestDB *_database;
         return NO;
     }
 }
+
+#pragma mark - Mimicking Server Functions
+
+-(NSMutableArray*) retrieveTerritories {
+    NSMutableArray *territoriesArray = [[[NSMutableArray alloc] init] autorelease];
+    NSString *sql = @"";
+    
+    sqlite3_stmt *compiledStatement;
+    
+    // Retrieve territories from Local GeoQuestDB.sqlite
+    // Need to retrive territories from playerTERRITORIES instead.
+    //Uncomment tOwner to retrienve ownerUsable information.
+    sql = [NSString stringWithFormat:@"SELECT * FROM UserTerritoryQuestions"];
+    
+    if (sqlite3_prepare_v2(_database, [sql UTF8String], -1, &compiledStatement, NULL) == SQLITE_OK) {
+        while (sqlite3_step(compiledStatement) == SQLITE_ROW) {
+            
+            NSString *tID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 1)];
+            NSString *tName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 2)];
+            NSString *tQuestion = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 3)];
+            NSString *tAnswer = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 4)];
+            NSString *tContinent = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 5)];
+            NSString *tWeekly = [NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 6)];
+            //BOOL *tOwner = [[NSString stringWithUTF8String:(char *)sqlite3_column_text(compiledStatement, 7)] boolValue];
+            BOOL tOwner = NO;
+
+            
+            Territory *t = [[Territory alloc] initTerritoryWithID:tID name:tName question:tQuestion answer:tAnswer continentOfCategory:tContinent weeklyUsable:[tWeekly boolValue] ownerUsable:tOwner];
+            [territoriesArray addObject:t];
+            [t release];
+        }
+        sqlite3_finalize(compiledStatement);
+    }
+    return territoriesArray;
+    
+}
+
 
 - (void)dealloc {
     sqlite3_close(_database);
