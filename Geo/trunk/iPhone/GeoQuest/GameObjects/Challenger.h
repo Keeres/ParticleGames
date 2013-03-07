@@ -10,7 +10,7 @@
 #import "cocos2d.h"
 
 @interface Challenger : NSObject {
-    NSString *_userID;
+    NSString *_ID;
     NSString *_name;
     NSString *_email;
     NSString *_profilePic;
@@ -26,7 +26,7 @@
     NSString *_questionData;
 }
 
-@property (nonatomic, retain) NSString *userID;
+@property (nonatomic, retain) NSString *ID;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *email;
 @property (nonatomic, retain) NSString *profilePic;
@@ -41,6 +41,20 @@
 @property (nonatomic, retain) NSString *challengerNextRaceData;
 @property (nonatomic, retain) NSString *questionData;
 
--(id) initChallenger:(NSArray*)array;
+-(id) initWithArray:(NSArray*)array;
+-(id) initWithUserID:(NSString*)ID
+                name:(NSString*)name
+               email:(NSString*)email
+          profilePic:(NSString*)profilePic
+                 win:(int)win
+                loss:(int)loss
+        matchStarted:(NSString*)matchStarted
+          lastPlayed:(NSString*)lastPlayed
+              myTurn:(BOOL)myTurn
+  playerPrevRaceData:(NSString*)playerPrevRaceData
+  playerNextRaceData:(NSString*)playerNextRaceData
+challengerPrevRaceData:(NSString*)challengerPrevRaceData
+challengerNextRaceData:(NSString*)challengerNextRaceData
+        questionData:(NSString*)questionData;
 
 @end

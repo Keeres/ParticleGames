@@ -10,23 +10,30 @@
 #import "cocos2d.h"
 
 @interface Territory : NSObject {
-    NSString *_territoryID;
-    NSString *_name;
-    NSString *_question;
-    NSString *_answer;
-    NSString *_continentOfCategory;
-    NSString *_ownerUsable;
-    NSString *_weeklyUsable;
+    NSString    *_ID;
+    NSString    *_name;
+    NSString    *_question;
+    NSString    *_answer;
+    NSString    *_continentOfCategory;
+    BOOL        _weeklyUsable;
+    BOOL        _ownerUsable;
 }
 
-@property (nonatomic, retain) NSString *territoryID;
+@property (nonatomic, retain) NSString *ID;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *question;
 @property (nonatomic, retain) NSString *answer;
 @property (nonatomic, retain) NSString *continentOfCategory;
-@property (nonatomic, retain) NSString *ownerUsable;
-@property (nonatomic, retain) NSString *weeklyUsable;
+@property (assign) BOOL weeklyUsable;
+@property (assign) BOOL ownerUsable;
 
 -(id) initTerritory:(NSArray*)array;
+-(id) initTerritoryWithID:(NSString*)ID
+                     name:(NSString*)name
+                 question:(NSString*)question
+                   answer:(NSString*)answer
+      continentOfCategory:(NSString*)continentOfCategory
+             weeklyUsable:(BOOL)weelyUsable
+              ownerUsable:(BOOL)ownerUsable;
 
 @end

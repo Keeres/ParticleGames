@@ -25,6 +25,8 @@
 @property (assign) float points;
 
 -(id) initWithTime:(float)time answerType:(NSString*)answerType answer:(NSString*)answer correct:(BOOL)correct points:(float)points;
+-(id) initWithArray:(NSArray*)array;
 -(void) print;
+-(NSString*) stringValue;
 
 @end

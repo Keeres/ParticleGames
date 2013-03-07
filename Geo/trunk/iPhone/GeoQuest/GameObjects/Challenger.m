@@ -10,7 +10,7 @@
 
 @implementation Challenger
 
-@synthesize userID = _userID;
+@synthesize ID = _id;
 @synthesize name = _name;
 @synthesize email = _email;
 @synthesize profilePic = _profilePic;
@@ -27,7 +27,7 @@
 
 -(id) init {
     if ((self = [super init])) {
-        self.userID = nil;
+        self.ID = nil;
         self.name = nil;
         self.email = nil;
         self.profilePic = nil;
@@ -45,9 +45,9 @@
     return self;
 }
 
--(id) initChallenger:(NSArray*)array {
+-(id) initWithArray:(NSArray*)array {
     if ((self = [super init])) {
-        self.userID = [array objectAtIndex:1];
+        self.ID = [array objectAtIndex:1];
         self.name = [array objectAtIndex:2];
         self.email = [array objectAtIndex:3];
         self.profilePic = [array objectAtIndex:4];
@@ -65,8 +65,40 @@
     return self;
 }
 
+-(id) initWithUserID:(NSString *)ID
+                name:(NSString *)name
+               email:(NSString *)email
+          profilePic:(NSString *)profilePic
+                 win:(int)win loss:(int)loss
+        matchStarted:(NSString *)matchStarted
+          lastPlayed:(NSString *)lastPlayed
+              myTurn:(BOOL)myTurn
+  playerPrevRaceData:(NSString *)playerPrevRaceData
+  playerNextRaceData:(NSString *)playerNextRaceData
+challengerPrevRaceData:(NSString *)challengerPrevRaceData
+challengerNextRaceData:(NSString *)challengerNextRaceData
+        questionData:(NSString *)questionData {
+    if ((self = [super init])) {
+        self.ID = ID;
+        self.name = name;
+        self.email = email;
+        self.profilePic = profilePic;
+        self.win = win;
+        self.loss = loss;
+        self.matchStarted = matchStarted;
+        self.lastPlayed = lastPlayed;
+        self.myTurn = myTurn;
+        self.playerPrevRaceData = playerPrevRaceData;
+        self.playerNextRaceData = playerNextRaceData;
+        self.challengerPrevRaceData = challengerPrevRaceData;
+        self.challengerNextRaceData = challengerNextRaceData;
+        self.questionData = questionData;
+    }
+    return self;
+}
+
 -(void) dealloc {
-    self.userID = nil;
+    self.ID = nil;
     self.name = nil;
     self.email = nil;
     self.profilePic = nil;
@@ -77,6 +109,19 @@
     self.challengerPrevRaceData = nil;
     self.challengerNextRaceData = nil;
     self.questionData = nil;
+    
+    [_ID release];
+    [_name release];
+    [_email release];
+    [_profilePic release];
+    [_profilePic release];
+    [_matchStarted release];
+    [_lastPlayed release];
+    [_playerPrevRaceData release];
+    [_playerNextRaceData release];
+    [_challengerPrevRaceData release];
+    [_challengerNextRaceData release];
+    [_questionData release];
 
     [super dealloc];
 }
