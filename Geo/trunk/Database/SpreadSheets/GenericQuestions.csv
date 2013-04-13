@@ -1,0 +1,101 @@
+Index,Key,Text,Media,Type,Answer,AnswerTable,AnswerChoices,Categories
+1,3b5248a8-7817-415a-b00c-29a10f7fc674,Alabama,Alabama.png,both,9b0f5a4d-efe0-43de-8bf8-fb5f97a3fd3a,USAStates,USAStates,USAStates;
+2,68061180-42f2-4803-b9d4-0d09a132047c,Alaska,Alaska.png,both,ed1dd61a-3e60-410d-b191-c07852b56c35,USAStates,USAStates,USAStates;
+3,7f641986-2b50-49ba-ba03-1f8d214d63f5,Arizona,Arizona.png,both,44fd1a22-a71a-49d2-acd4-423589ed0c6a,USAStates,USAStates,USAStates;
+4,fc014247-9010-47de-b60d-0bfba33b8f54,Arkansas,Arkansas.png,both,4373fe17-03f8-4f4e-abe2-2de3dde5b8ef,USAStates,USAStates,USAStates;
+5,ea8c3c59-39db-4b4a-bba2-909d415d1042,California,California.png,both,703d33f6-95e9-4305-b6ab-a74713ae2a67,USAStates,USAStates,USAStates;
+6,a91118ab-0681-488a-bab0-ca364ce94d28,Colorado,Colorado.png,both,dbeb906e-98b8-4a40-bbd4-cf640041c53c,USAStates,USAStates,USAStates;
+7,5c995e53-d18c-42e2-8233-9589985a4288,Connecticut,Connecticut.png,both,79ef4a58-f187-4ef9-b680-22aaa85d3109,USAStates,USAStates,USAStates;
+8,430b37f4-362f-4076-a4e5-03dd2cd30ee7,Delaware,Delaware.png,both,129c58f5-f91c-42fe-9840-62f24d394949,USAStates,USAStates,USAStates;
+9,ecd310cb-a0e7-4b34-a411-0c5fa86557be,Florida,Florida.png,both,88620eb8-960b-419f-a6f4-28712e2df4e5,USAStates,USAStates,USAStates;
+10,c0d92675-cbf1-4900-b342-6b8f3df7b7eb,Georgia,Georgia.png,both,0a57177d-3a1a-4e61-8bc0-4b3a9b5c9987,USAStates,USAStates,USAStates;
+11,c0db9f34-989f-4672-a507-eccb18900aa6,Hawaii,Hawaii.png,both,561181e6-b593-4731-80d8-1ef55525812f,USAStates,USAStates,USAStates;
+12,148e51bc-3983-4c10-878c-743227afe444,Idaho,Idaho.png,both,557ea7a2-6f41-449d-8634-671df0f3fee4,USAStates,USAStates,USAStates;
+13,f3b8a76b-2ada-4f8a-8466-e4fef91e0d3b,Illinois,Illinois.png,both,cdb245ad-a29a-4887-81a7-a2d0da26e1e9,USAStates,USAStates,USAStates;
+14,1e0d75c2-318f-490c-99c3-1225e2e2f468,Indiana,Indiana.png,both,6d8af815-5236-4bf5-887d-22a8f4512d60,USAStates,USAStates,USAStates;
+15,4f8178e2-6bf2-4dd1-986b-f422baaa05ee,Iowa,Iowa.png,both,1a86a5fc-00f7-44e9-bd53-bb9e1a3aae98,USAStates,USAStates,USAStates;
+16,15c1e054-8a7c-4835-8408-3de00914e0a5,Kansas,Kansas.png,both,4dd81b21-7190-46eb-95a0-bbc22c484699,USAStates,USAStates,USAStates;
+17,df4de160-78c6-4a7e-a635-1ae708a53c78,Kentucky,Kentucky.png,both,bd4e42f8-bb2d-4274-b1b1-aa11ac06fddb,USAStates,USAStates,USAStates;
+18,91659b36-e2d9-4dbc-9d89-e6b4479fd56a,Louisiana,Louisiana.png,both,047bbe08-69a3-4054-af2d-f0df8bdd8df1,USAStates,USAStates,USAStates;
+19,a9f2c7f2-e363-4bdf-94e7-ce2a2445bbff,Maine,Maine.png,both,08242a8b-7766-4f45-ab07-bbe83693ab17,USAStates,USAStates,USAStates;
+20,1540bae5-0db1-4779-b166-db9a78ec0f2c,Maryland,Maryland.png,both,de36f411-7311-46b7-a075-9b95f9253fd5,USAStates,USAStates,USAStates;
+21,17163fb9-0868-46fe-b7cb-05be467919c3,Massachusetts,Massachusetts.png,both,ea46dc2a-85da-4e2e-8b6f-0f3741d8e859,USAStates,USAStates,USAStates;
+22,d93e6a7a-ba78-4440-9406-7fc5adccb1a0,Michigan,Michigan.png,both,deb78bae-bc12-4511-9082-22663f389dc0,USAStates,USAStates,USAStates;
+23,c84c9564-105f-43be-a78b-967353fee0ed,Minnesota,Minnesota.png,both,dc897b85-84cb-48a7-aecf-dcda930d269f,USAStates,USAStates,USAStates;
+24,a95d593a-6729-4f42-9c6b-1df5ba2e3933,Mississippi,Mississippi.png,both,240c8c36-8839-45c7-98ad-9906df4302ab,USAStates,USAStates,USAStates;
+25,d8fa12d1-bffa-46dc-a39b-172c3526a9cc,Missouri,Missouri.png,both,2e74ce1c-eecf-4490-937b-cdf5efe00be2,USAStates,USAStates,USAStates;
+26,fa0059ae-1d37-4a61-9fd7-12e90ad929c3,Montana,Montana.png,both,0c773bac-d968-4bed-8e0e-de1b8b8ffde5,USAStates,USAStates,USAStates;
+27,dfc00629-871d-40d8-a804-9c46e271e3e9,Nebraska,Nebraska.png,both,2a39dc3f-1f30-4c88-b74b-150ec57b5278,USAStates,USAStates,USAStates;
+28,99cc1728-989f-40c6-9438-796ac497deea,Nevada,Nevada.png,both,ff1879ae-52ce-4b09-8d65-7649d7662d0c,USAStates,USAStates,USAStates;
+29,33abb6e9-9d25-4c3b-9b7d-d53fb139451d,New Hampshire,NewHampshire.png,both,245f4565-ea19-40a3-a977-0876ce9b22e0,USAStates,USAStates,USAStates;
+30,98282709-c65c-432a-8aab-a612437fb5b6,New Jersey,NewJersey.png,both,2ab3405b-181d-4e97-ab9b-3a6566426f73,USAStates,USAStates,USAStates;
+31,5479f939-025b-4e95-9aa5-166166997771,New Mexico,NewMexico.png,both,20c2a61e-4067-4439-862a-49ef8e4a0fb4,USAStates,USAStates,USAStates;
+32,93bb5d50-fb13-447c-99db-00baa8d7b0ee,New York,NewYork.png,both,64dbb781-9527-403c-9065-e1514f97c758,USAStates,USAStates,USAStates;
+33,996bd6df-d50c-4d08-8956-d8c8d2184f4b,North Carolina,NorthCarolina.png,both,6f756e08-6c68-4c29-bce5-db8862f5ea18,USAStates,USAStates,USAStates;
+34,a0b44095-ec20-4a06-ba6b-343f4ea0aa4f,North Dakota,NorthDakota.png,both,a41c2d7a-1860-481a-ace9-f8d95ae7f386,USAStates,USAStates,USAStates;
+35,fc5e4219-37be-4a0e-a5bd-200aa89e252b,Ohio,Ohio.png,both,327cfecf-aa37-4242-b541-917bc19d8dbf,USAStates,USAStates,USAStates;
+36,321cab66-3a56-4119-b791-00017c88147c,Oklahoma,Oklahoma.png,both,c37d3e4c-41b3-48df-998f-53258c6db828,USAStates,USAStates,USAStates;
+37,4550922c-eae5-4537-89ac-1f5c94e88b3e,Oregon,Oregon.png,both,354fb75b-e034-4c02-8480-23983b2f6748,USAStates,USAStates,USAStates;
+38,3da067d3-b649-407d-bdc6-44f1c174d2f3,Pennsylvania,Pennsylvania.png,both,47c365cd-9372-4d5d-b4f5-d7e82f651ac1,USAStates,USAStates,USAStates;
+39,9c6e119d-16e9-4376-b8d5-e4790dfcb258,Rhode Island,RhodeIsland.png,both,c8642e57-3768-4155-8734-ecc12a38a016,USAStates,USAStates,USAStates;
+40,0f5f5b0e-9a40-451e-b334-1c8f6dff357e,South Carolina,SouthCarolina.png,both,8a2acc10-a421-4de0-9113-5649c65a1907,USAStates,USAStates,USAStates;
+41,ff1176fd-4ba4-4d0a-ac78-566b0466919a,South Dakota,SouthDakota.png,both,f300f12c-79ad-4b73-8f1d-bbaf70c4f2e6,USAStates,USAStates,USAStates;
+42,3e98f9ec-4b20-4a14-91cc-173a83aeb47a,Tennessee,Tennessee.png,both,6439a5ec-f438-497f-acfe-95c5d98caa51,USAStates,USAStates,USAStates;
+43,cc00da44-5a40-4fb1-a259-d5fe7ba92436,Texas,Texas.png,both,a03221d9-6a1d-46c7-98f5-73a8ead4c029,USAStates,USAStates,USAStates;
+44,02aa38c5-fee5-4f81-b9df-bfa45dd707c4,Utah,Utah.png,both,a93ae5d9-b7b4-4b2d-a37f-db88d7566f57,USAStates,USAStates,USAStates;
+45,fccb6caf-369c-4212-95c3-ee3727342272,Vermont,Vermont.png,both,4bea820f-3ce1-46ad-8e77-381e9e7cfd36,USAStates,USAStates,USAStates;
+46,704b2f7d-b95e-4a79-8ed6-0256ae849420,Virginia,Virginia.png,both,d3344873-5ca8-432d-a180-02ad28a42ad1,USAStates,USAStates,USAStates;
+47,87df527f-a795-4585-b77f-7288ad07a90a,Washington,Washington.png,both,a96eda45-e096-41e3-ac95-452de789e483,USAStates,USAStates,USAStates;
+48,cf1d7ddc-fc0a-4799-82dc-a50183e6980c,West Virginia,WestVirginia.png,both,445354b8-1bc1-484d-b2d9-2c02cbc7e8e5,USAStates,USAStates,USAStates;
+49,972d67b3-97e7-45eb-8b12-e38d546c18fa,Wisconsin,Wisconsin.png,both,6bd4d953-e8ce-4132-b93c-71f0b46131db,USAStates,USAStates,USAStates;
+50,87acfe93-478a-46ac-a434-16c4d0056d57,Wyoming,Wyoming.png,both,8d387847-b1a2-43eb-9b12-104bb7716800,USAStates,USAStates,USAStates;
+51,874633b7-0490-4052-8778-748b439e18e8,Montgomery,AlabamaCapital.png,both,9bb70969-c834-4390-b4c7-5714c8a383c1,USACapitals,USACapitals,USACapitals
+52,58faf465-8a92-4cab-9d78-268b07bc74eb,Juneau,AlaskaCapital.png,both,b42def18-fa68-492c-b41e-545636bfebbe,USACapitals,USACapitals,USACapitals
+53,75f63593-eb05-4816-89cb-8c91c64ad8fb,Phoenix,ArizonaCapital.png,both,860f72c7-64aa-47d3-ad51-c13e3e5d069a,USACapitals,USACapitals,USACapitals
+54,8aed624f-bca8-435e-b6c6-4395d37e279e,Little Rock,ArkansasCapital.png,both,e849a55a-d1b8-45e2-8cbb-115ae549f190,USACapitals,USACapitals,USACapitals
+55,2fe14488-3ab3-41ba-9200-38525d8f5d39,Sacramento,CaliforniaCapital.png,both,eb248829-9a48-40db-a1ea-9da06b2c2e4b,USACapitals,USACapitals,USACapitals
+56,a4734943-086e-434b-967f-8914290d7751,Denver,ColoradoCapital.png,both,8b868dfd-047d-4c6b-b20d-c0ac4c4c1a4e,USACapitals,USACapitals,USACapitals
+57,434646f0-29eb-4344-a5da-f12848ab3a36,Hartford,ConnecticutCapital.png,both,ca5bb277-5201-4a14-9e8d-592641034c1d,USACapitals,USACapitals,USACapitals
+58,75b4fec3-8f70-415c-9126-ad4855b24951,Dover,DelawareCapital.png,both,6dfc98cb-5152-496a-90b6-ce84038479cc,USACapitals,USACapitals,USACapitals
+59,502d3836-ede2-4886-8325-60feff58dc64,Tallahassee,FloridaCapital.png,both,d994d46c-a3bf-4ffa-9f7a-a897cca46b4f,USACapitals,USACapitals,USACapitals
+60,ad2d04c7-e4ea-49a3-9f3f-eb98f39b1f35,Atlanta,GeorgiaCapital.png,both,0b8b7398-e94b-41c9-9052-0bbe043225ee,USACapitals,USACapitals,USACapitals
+61,72b5fdd8-49e2-4ab3-8395-65e2dbf60a22,Honolulu,HawaiiCapital.png,both,01eaf4b9-857a-4188-b5e3-cbb2a74051f8,USACapitals,USACapitals,USACapitals
+62,db6531ca-3397-442c-8325-08130bf611d1,Boise,IdahoCapital.png,both,1693e2dc-763f-4ef5-b442-9fe9a07bcab7,USACapitals,USACapitals,USACapitals
+63,dd2b3368-3c8e-4315-9b50-8cdbd1b3e5db,Springfield,IllinoisCapital.png,both,ffe1c9a1-a8ca-41fb-885a-a5efca3814d6,USACapitals,USACapitals,USACapitals
+64,0e6a26d3-07ec-4eda-a611-0557117b6751,Indianapolis,IndianaCapital.png,both,4aa2a089-1190-4bcd-bc5e-fdce60f8778c,USACapitals,USACapitals,USACapitals
+65,d165ddca-51cf-44c9-af33-cd74c0b878d3,Des Moines,IowaCapital.png,both,e38dfd62-80c6-4788-93fb-e07f185d88c1,USACapitals,USACapitals,USACapitals
+66,4c194c8b-1a59-45c6-a13a-38430f609ed6,Topeka,KansasCapital.png,both,2825ab26-9629-4085-9a9b-6700d41f00e9,USACapitals,USACapitals,USACapitals
+67,b9a3b471-e442-4cfc-93d4-51ee30bf6362,Frankfort,KentuckyCapital.png,both,f7bcca12-b687-4c78-80a0-ef4ff3cd68de,USACapitals,USACapitals,USACapitals
+68,aca933b5-610f-4205-9c74-8593a6c226ec,Baton Rouge,LouisianaCapital.png,both,6cc21f8f-e470-4742-abd8-7f10ee7b63ce,USACapitals,USACapitals,USACapitals
+69,e0a8a9da-f678-4e9a-b890-4a8414d2ec4b,Augusta,MaineCapital.png,both,7dd89bfa-6b55-4d36-8d3b-be4a092c61d7,USACapitals,USACapitals,USACapitals
+70,09c694be-f2cd-4aad-baa5-560d998983d9,Annapolis,MarylandCapital.png,both,054796df-01dc-44c6-8b9b-294ed9fc1ca4,USACapitals,USACapitals,USACapitals
+71,69a78e07-0494-4e90-a79d-c6ece13dba7b,Boston,MassachusettsCapital.png,both,2a33fb1d-45d8-4d33-8b9d-531cb0608585,USACapitals,USACapitals,USACapitals
+72,8be602f0-ead8-4b5b-bf46-35e51612a9fb,Lansing,MichiganCapital.png,both,86f124f1-3378-404e-a2ef-fe221ceff88e,USACapitals,USACapitals,USACapitals
+73,eaec434e-9d77-40e5-bc3a-08b7170cc91c,Saint Paul,MinnesotaCapital.png,both,c7ab9b16-e685-4a02-9f95-766dcf0fd951,USACapitals,USACapitals,USACapitals
+74,8c2e5786-c476-4a18-846b-cf9600e3e06a,Jackson,MississippiCapital.png,both,31884022-a027-42d4-8233-45ee7b4c0de3,USACapitals,USACapitals,USACapitals
+75,ef5d86f4-d399-4529-b7d3-b0abdb0a389a,Jefferson City,MissouriCapital.png,both,56ab8836-7d96-411d-9c8e-65ed74425118,USACapitals,USACapitals,USACapitals
+76,be953293-8256-4c4e-bd91-b43996348de3,Helena,MontanaCapital.png,both,7134d195-d1c9-40d5-b2ca-d31df4b5899d,USACapitals,USACapitals,USACapitals
+77,166ec7ce-06ee-4814-a4cd-ee41dd6223fb,Lincoln,NebraskaCapital.png,both,ba6c51b7-ff03-4088-beef-236ec406c240,USACapitals,USACapitals,USACapitals
+78,21d665c7-de10-4f5d-87a2-10d628cb3d5e,Carson City,NevadaCapital.png,both,7b628b61-7ea0-49fd-a751-a93b3fa42692,USACapitals,USACapitals,USACapitals
+79,19281fd8-faa2-4c9d-bfb7-0d4da1da2e56,Concord,NewHampshireCapital.png,both,bf39e631-ea31-4181-8d35-182acc794ef8,USACapitals,USACapitals,USACapitals
+80,7f1fe980-8ec4-4bab-a585-53e8aca3ae9b,Trenton,NewJerseyCapital.png,both,af04d338-9656-4324-9d17-6745cedde934,USACapitals,USACapitals,USACapitals
+81,b23dcf21-0d08-44ff-a6c3-97ed4c98dd94,Santa Fe,NewMexicoCapital.png,both,a66306c1-84ec-415d-b944-efbea97b79b5,USACapitals,USACapitals,USACapitals
+82,acd04ee9-40b8-4030-941e-a9496d3ca916,Albany,NewYorkCapital.png,both,33a78553-0f6e-4f9b-b062-d02b8f0bb4aa,USACapitals,USACapitals,USACapitals
+83,01f6bfeb-d981-4f0e-9070-7ba816f349c7,Raleigh,NorthCarolinaCapital.png,both,4f824042-4cb9-4f90-8802-230f2f3da073,USACapitals,USACapitals,USACapitals
+84,a262c080-dbf9-4622-9a0c-9d24add2f00b,Bismarck,NorthDakotaCapital.png,both,d7658a1d-3bc7-4c87-b43c-02b8c199308f,USACapitals,USACapitals,USACapitals
+85,d66e5e20-7910-436b-a585-1e3661010434,Columbus,OhioCapital.png,both,e9835d4f-8da2-49fb-b04f-10b557d35c87,USACapitals,USACapitals,USACapitals
+86,eb6fcdfa-2a1e-4de0-94a2-5010db371170,Oklahoma City,OklahomaCapital.png,both,c43cb9bc-4e1a-4c3b-a301-0ee744e48066,USACapitals,USACapitals,USACapitals
+87,782f2d2b-d930-451e-8d99-f88edb2553f2,Salem,OregonCapital.png,both,c1b62132-d2c5-48cc-b130-2ee055fcca12,USACapitals,USACapitals,USACapitals
+88,26f5865d-5eca-474b-a278-50ef3c9a4535,Harrisburg,PennsylvaniaCapital.png,both,87ae1909-8188-4498-bd68-f73c413a4e3d,USACapitals,USACapitals,USACapitals
+89,488c6849-7623-4dff-b3e0-a92e30f59312,Providence,RhodeIslandCapital.png,both,9c30dcae-9cb5-4d86-8f0f-cf33637e2ba6,USACapitals,USACapitals,USACapitals
+90,a374683c-e1b6-430b-91ee-60e5d1fa5bfa,Columbia,SouthCarolinaCapital.png,both,d05c7f91-0a28-4f85-8dfe-0446d4c01e72,USACapitals,USACapitals,USACapitals
+91,6b536649-06a7-4b0c-bb44-1941d95a6222,Pierre,SouthDakotaCapital.png,both,50b61294-dab9-43c8-a163-f6842b93c9c4,USACapitals,USACapitals,USACapitals
+92,c0c458ae-a237-4908-8f20-0c640b581f37,Nashville,TennesseeCapital.png,both,0dfc86eb-f839-4e63-9ee0-4036324d641b,USACapitals,USACapitals,USACapitals
+93,593a6428-3a36-4ba1-8639-943c2970d3c1,Austin,TexasCapital.png,both,e8c422d0-a48b-4246-97e8-0b7c44927338,USACapitals,USACapitals,USACapitals
+94,ac8d8f15-91e7-4755-bc3d-423b60bcba4f,Salt Lake City,UtahCapital.png,both,afd88ac6-0283-4a3b-bfcb-07ca899824b0,USACapitals,USACapitals,USACapitals
+95,ed577f63-118c-4d77-ba88-1cdc9632097a,Montpelier,VermontCapital.png,both,7ba2f515-9702-4a59-9c8d-4d0cd807f799,USACapitals,USACapitals,USACapitals
+96,c6090295-d4a1-469c-accd-b1120e3c4210,Richmond,VirginiaCapital.png,both,e2005662-6452-4108-9db2-78cb5aa91883,USACapitals,USACapitals,USACapitals
+97,9685e2cc-d7dd-4a9f-b081-4bc8ab8ddfe2,Olympia,WashingtonCapital.png,both,9b7044e1-8577-4b92-a04b-aa8b85b64f08,USACapitals,USACapitals,USACapitals
+98,093db42c-de88-44bb-98c4-ce0d83acfb72,Charleston,WestVirginiaCapital.png,both,95ce4592-72b4-4b51-8e86-fd698a63b430,USACapitals,USACapitals,USACapitals
+99,dfaa2180-899b-4285-9207-638ce646229e,Madison,WisconsinCapital.png,both,bfa6a3b3-569e-4cd5-89af-ee28619596c0,USACapitals,USACapitals,USACapitals
+100,c3442946-b508-4746-8d85-722d9d610cb2,Cheyenne,WyomingCapital.png,both,bf755aff-35a5-4d9a-8a8d-d054f1cef10c,USACapitals,USACapitals,USACapitals
