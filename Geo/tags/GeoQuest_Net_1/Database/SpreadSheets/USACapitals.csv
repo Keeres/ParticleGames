@@ -1,0 +1,51 @@
+Index,Key,Name,Media,Info,Category
+1,9bb70969-c834-4390-b4c7-5714c8a383c1,Montgomery,AlabamaCapital.png,Alabama,USACapitals
+2,b42def18-fa68-492c-b41e-545636bfebbe,Juneau,AlaskaCapital.png,Alaska,USACapitals
+3,860f72c7-64aa-47d3-ad51-c13e3e5d069a,Phoenix,ArizonaCapital.png,Arizona,USACapitals
+4,e849a55a-d1b8-45e2-8cbb-115ae549f190,Little Rock,ArkansasCapital.png,Arkansas,USACapitals
+5,eb248829-9a48-40db-a1ea-9da06b2c2e4b,Sacramento,CaliforniaCapital.png,California,USACapitals
+6,8b868dfd-047d-4c6b-b20d-c0ac4c4c1a4e,Denver,ColoradoCapital.png,Colorado,USACapitals
+7,ca5bb277-5201-4a14-9e8d-592641034c1d,Hartford,ConnecticutCapital.png,Connecticut,USACapitals
+8,6dfc98cb-5152-496a-90b6-ce84038479cc,Dover,DelawareCapital.png,Delaware,USACapitals
+9,d994d46c-a3bf-4ffa-9f7a-a897cca46b4f,Tallahassee,FloridaCapital.png,Florida,USACapitals
+10,0b8b7398-e94b-41c9-9052-0bbe043225ee,Atlanta,GeorgiaCapital.png,Georgia,USACapitals
+11,01eaf4b9-857a-4188-b5e3-cbb2a74051f8,Honolulu,HawaiiCapital.png,Hawaii,USACapitals
+12,1693e2dc-763f-4ef5-b442-9fe9a07bcab7,Boise,IdahoCapital.png,Idaho,USACapitals
+13,ffe1c9a1-a8ca-41fb-885a-a5efca3814d6,Springfield,IllinoisCapital.png,Illinois,USACapitals
+14,4aa2a089-1190-4bcd-bc5e-fdce60f8778c,Indianapolis,IndianaCapital.png,Indiana,USACapitals
+15,e38dfd62-80c6-4788-93fb-e07f185d88c1,Des Moines,IowaCapital.png,Iowa,USACapitals
+16,2825ab26-9629-4085-9a9b-6700d41f00e9,Topeka,KansasCapital.png,Kansas,USACapitals
+17,f7bcca12-b687-4c78-80a0-ef4ff3cd68de,Frankfort,KentuckyCapital.png,Kentucky,USACapitals
+18,6cc21f8f-e470-4742-abd8-7f10ee7b63ce,Baton Rouge,LouisianaCapital.png,Louisiana,USACapitals
+19,7dd89bfa-6b55-4d36-8d3b-be4a092c61d7,Augusta,MaineCapital.png,Maine,USACapitals
+20,054796df-01dc-44c6-8b9b-294ed9fc1ca4,Annapolis,MarylandCapital.png,Maryland,USACapitals
+21,2a33fb1d-45d8-4d33-8b9d-531cb0608585,Boston,MassachusettsCapital.png,Massachusetts,USACapitals
+22,86f124f1-3378-404e-a2ef-fe221ceff88e,Lansing,MichiganCapital.png,Michigan,USACapitals
+23,c7ab9b16-e685-4a02-9f95-766dcf0fd951,Saint Paul,MinnesotaCapital.png,Minnesota,USACapitals
+24,31884022-a027-42d4-8233-45ee7b4c0de3,Jackson,MississippiCapital.png,Mississippi,USACapitals
+25,56ab8836-7d96-411d-9c8e-65ed74425118,Jefferson City,MissouriCapital.png,Missouri,USACapitals
+26,7134d195-d1c9-40d5-b2ca-d31df4b5899d,Helena,MontanaCapital.png,Montana,USACapitals
+27,ba6c51b7-ff03-4088-beef-236ec406c240,Lincoln,NebraskaCapital.png,Nebraska,USACapitals
+28,7b628b61-7ea0-49fd-a751-a93b3fa42692,Carson City,NevadaCapital.png,Nevada,USACapitals
+29,bf39e631-ea31-4181-8d35-182acc794ef8,Concord,NewHampshireCapital.png,New Hampshire,USACapitals
+30,af04d338-9656-4324-9d17-6745cedde934,Trenton,NewJerseyCapital.png,New Jersey,USACapitals
+31,a66306c1-84ec-415d-b944-efbea97b79b5,Santa Fe,NewMexicoCapital.png,New Mexico,USACapitals
+32,33a78553-0f6e-4f9b-b062-d02b8f0bb4aa,Albany,NewYorkCapital.png,New York,USACapitals
+33,4f824042-4cb9-4f90-8802-230f2f3da073,Raleigh,NorthCarolinaCapital.png,North Carolina,USACapitals
+34,d7658a1d-3bc7-4c87-b43c-02b8c199308f,Bismarck,NorthDakotaCapital.png,North Dakota,USACapitals
+35,e9835d4f-8da2-49fb-b04f-10b557d35c87,Columbus,OhioCapital.png,Ohio,USACapitals
+36,c43cb9bc-4e1a-4c3b-a301-0ee744e48066,Oklahoma City,OklahomaCapital.png,Oklahoma,USACapitals
+37,c1b62132-d2c5-48cc-b130-2ee055fcca12,Salem,OregonCapital.png,Oregon,USACapitals
+38,87ae1909-8188-4498-bd68-f73c413a4e3d,Harrisburg,PennsylvaniaCapital.png,Pennsylvania,USACapitals
+39,9c30dcae-9cb5-4d86-8f0f-cf33637e2ba6,Providence,RhodeIslandCapital.png,Rhode Island,USACapitals
+40,d05c7f91-0a28-4f85-8dfe-0446d4c01e72,Columbia,SouthCarolinaCapital.png,South Carolina,USACapitals
+41,50b61294-dab9-43c8-a163-f6842b93c9c4,Pierre,SouthDakotaCapital.png,South Dakota,USACapitals
+42,0dfc86eb-f839-4e63-9ee0-4036324d641b,Nashville,TennesseeCapital.png,Tennessee,USACapitals
+43,e8c422d0-a48b-4246-97e8-0b7c44927338,Austin,TexasCapital.png,Texas,USACapitals
+44,afd88ac6-0283-4a3b-bfcb-07ca899824b0,Salt Lake City,UtahCapital.png,Utah,USACapitals
+45,7ba2f515-9702-4a59-9c8d-4d0cd807f799,Montpelier,VermontCapital.png,Vermont,USACapitals
+46,e2005662-6452-4108-9db2-78cb5aa91883,Richmond,VirginiaCapital.png,Virginia,USACapitals
+47,9b7044e1-8577-4b92-a04b-aa8b85b64f08,Olympia,WashingtonCapital.png,Washington,USACapitals
+48,95ce4592-72b4-4b51-8e86-fd698a63b430,Charleston,WestVirginiaCapital.png,West Virginia,USACapitals
+49,bfa6a3b3-569e-4cd5-89af-ee28619596c0,Madison,WisconsinCapital.png,Wisconsin,USACapitals
+50,bf755aff-35a5-4d9a-8a8d-d054f1cef10c,Cheyenne,WyomingCapital.png,Wyoming,USACapitals
