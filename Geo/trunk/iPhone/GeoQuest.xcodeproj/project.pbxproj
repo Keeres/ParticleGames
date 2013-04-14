@@ -17,7 +17,6 @@
 		B6413A7D1638600800A01A2D /* CCMenuAdvancedPlus.m in Sources */ = {isa = PBXBuildFile; fileRef = B6413A7C1638600800A01A2D /* CCMenuAdvancedPlus.m */; };
 		B64A8498164B880C004A567A /* GeoQuestAnswer.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A8493164B880C004A567A /* GeoQuestAnswer.m */; };
 		B64A8499164B880C004A567A /* GeoQuestDB.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A8495164B880C004A567A /* GeoQuestDB.m */; };
-		B64A849A164B880C004A567A /* GeoQuestQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A8497164B880C004A567A /* GeoQuestQuestion.m */; };
 		B64A849D164B884E004A567A /* GeoQuestDB.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = B64A849C164B884E004A567A /* GeoQuestDB.sqlite */; };
 		B64A84A1164B892C004A567A /* SoloGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A84A0164B892C004A567A /* SoloGameScene.m */; };
 		B64A84A4164B898E004A567A /* SoloGameUI.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A84A3164B898E004A567A /* SoloGameUI.m */; };
@@ -37,9 +36,7 @@
 		B67A7AD91688E90A00C8BBC6 /* USAStatesSprites.png in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AD51688E90A00C8BBC6 /* USAStatesSprites.png */; };
 		B67A7ADA1688E90A00C8BBC6 /* USAStatesSprites-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AD61688E90A00C8BBC6 /* USAStatesSprites-hd.plist */; };
 		B67A7ADB1688E90A00C8BBC6 /* USAStatesSprites.plist in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AD71688E90A00C8BBC6 /* USAStatesSprites.plist */; };
-		B68B1E18169CC78C00D21E82 /* GeoQuestTerritory.m in Sources */ = {isa = PBXBuildFile; fileRef = B68B1E17169CC78C00D21E82 /* GeoQuestTerritory.m */; };
 		B68CA22116E4FC8500FCCA01 /* TerritoryMenuItemSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = B68CA22016E4FC8500FCCA01 /* TerritoryMenuItemSprite.m */; };
-		B68CA22416E5076300FCCA01 /* MimicServer.m in Sources */ = {isa = PBXBuildFile; fileRef = B68CA22316E5076300FCCA01 /* MimicServer.m */; };
 		B68E4276165E1CC000EA8426 /* QuestionThemes-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B68E4272165E1CC000EA8426 /* QuestionThemes-hd.plist */; };
 		B68E4277165E1CC000EA8426 /* QuestionThemes-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B68E4273165E1CC000EA8426 /* QuestionThemes-hd.png */; };
 		B68E427B165E1CEC00EA8426 /* QuestionThemes.plist in Resources */ = {isa = PBXBuildFile; fileRef = B68E4279165E1CEC00EA8426 /* QuestionThemes.plist */; };
@@ -199,6 +196,7 @@
 		B69B061E170349B400FE2775 /* libz.1.1.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B69B061D170349B400FE2775 /* libz.1.1.3.dylib */; };
 		B69B062017034AE700FE2775 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69B061F17034AE700FE2775 /* FacebookSDK.framework */; };
 		B69B06261704A34D00FE2775 /* ChallengesInProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = B69B06251704A34D00FE2775 /* ChallengesInProgress.m */; };
+		B69BD2B01715C564001E8AEC /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = B69BD2AF1715C564001E8AEC /* Question.m */; };
 		B69BFA5F162DF43E00F7B209 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = B69BFA5E162DF43E00F7B209 /* test.json */; };
 		B69BFA66162F155100F7B209 /* ChallengerMenuItemSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = B69BFA65162F155100F7B209 /* ChallengerMenuItemSprite.m */; };
 		B6A4709316AC7D2200417830 /* NetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709216AC7D2200417830 /* NetworkController.m */; };
@@ -254,8 +252,6 @@
 		B64A8493164B880C004A567A /* GeoQuestAnswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoQuestAnswer.m; sourceTree = "<group>"; };
 		B64A8494164B880C004A567A /* GeoQuestDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoQuestDB.h; sourceTree = "<group>"; };
 		B64A8495164B880C004A567A /* GeoQuestDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoQuestDB.m; sourceTree = "<group>"; };
-		B64A8496164B880C004A567A /* GeoQuestQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoQuestQuestion.h; sourceTree = "<group>"; };
-		B64A8497164B880C004A567A /* GeoQuestQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoQuestQuestion.m; sourceTree = "<group>"; };
 		B64A849C164B884E004A567A /* GeoQuestDB.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeoQuestDB.sqlite; sourceTree = "<group>"; };
 		B64A849F164B892C004A567A /* SoloGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameScene.h; sourceTree = "<group>"; };
 		B64A84A0164B892C004A567A /* SoloGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameScene.m; sourceTree = "<group>"; };
@@ -280,12 +276,8 @@
 		B67A7AD51688E90A00C8BBC6 /* USAStatesSprites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = USAStatesSprites.png; sourceTree = "<group>"; };
 		B67A7AD61688E90A00C8BBC6 /* USAStatesSprites-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "USAStatesSprites-hd.plist"; sourceTree = "<group>"; };
 		B67A7AD71688E90A00C8BBC6 /* USAStatesSprites.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = USAStatesSprites.plist; sourceTree = "<group>"; };
-		B68B1E16169CC78C00D21E82 /* GeoQuestTerritory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoQuestTerritory.h; sourceTree = "<group>"; };
-		B68B1E17169CC78C00D21E82 /* GeoQuestTerritory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoQuestTerritory.m; sourceTree = "<group>"; };
 		B68CA21F16E4FC8500FCCA01 /* TerritoryMenuItemSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerritoryMenuItemSprite.h; sourceTree = "<group>"; };
 		B68CA22016E4FC8500FCCA01 /* TerritoryMenuItemSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerritoryMenuItemSprite.m; sourceTree = "<group>"; };
-		B68CA22216E5076300FCCA01 /* MimicServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MimicServer.h; sourceTree = "<group>"; };
-		B68CA22316E5076300FCCA01 /* MimicServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MimicServer.m; sourceTree = "<group>"; };
 		B68E4272165E1CC000EA8426 /* QuestionThemes-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "QuestionThemes-hd.plist"; sourceTree = "<group>"; };
 		B68E4273165E1CC000EA8426 /* QuestionThemes-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QuestionThemes-hd.png"; sourceTree = "<group>"; };
 		B68E4279165E1CEC00EA8426 /* QuestionThemes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = QuestionThemes.plist; sourceTree = "<group>"; };
@@ -598,6 +590,8 @@
 		B69B061F17034AE700FE2775 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		B69B06241704A34D00FE2775 /* ChallengesInProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengesInProgress.h; sourceTree = "<group>"; };
 		B69B06251704A34D00FE2775 /* ChallengesInProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengesInProgress.m; sourceTree = "<group>"; };
+		B69BD2AE1715C564001E8AEC /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
+		B69BD2AF1715C564001E8AEC /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
 		B69BFA5E162DF43E00F7B209 /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
 		B69BFA64162F155100F7B209 /* ChallengerMenuItemSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengerMenuItemSprite.h; sourceTree = "<group>"; };
 		B69BFA65162F155100F7B209 /* ChallengerMenuItemSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengerMenuItemSprite.m; sourceTree = "<group>"; };
@@ -706,16 +700,10 @@
 			isa = PBXGroup;
 			children = (
 				B64A849C164B884E004A567A /* GeoQuestDB.sqlite */,
-				B68CA22216E5076300FCCA01 /* MimicServer.h */,
-				B68CA22316E5076300FCCA01 /* MimicServer.m */,
 				B64A8494164B880C004A567A /* GeoQuestDB.h */,
 				B64A8495164B880C004A567A /* GeoQuestDB.m */,
 				B64A8492164B880C004A567A /* GeoQuestAnswer.h */,
 				B64A8493164B880C004A567A /* GeoQuestAnswer.m */,
-				B64A8496164B880C004A567A /* GeoQuestQuestion.h */,
-				B64A8497164B880C004A567A /* GeoQuestQuestion.m */,
-				B68B1E16169CC78C00D21E82 /* GeoQuestTerritory.h */,
-				B68B1E17169CC78C00D21E82 /* GeoQuestTerritory.m */,
 				B636776B16696D1500111BA7 /* PlayerDB.h */,
 				B636776C16696D1500111BA7 /* PlayerDB.m */,
 			);
@@ -760,6 +748,8 @@
 				B6988B111709E210007D213F /* ServerTerritories.m */,
 				B6988B16170B6A81007D213F /* PlayerStats.h */,
 				B6988B17170B6A81007D213F /* PlayerStats.m */,
+				B69BD2AE1715C564001E8AEC /* Question.h */,
+				B69BD2AF1715C564001E8AEC /* Question.m */,
 			);
 			path = GameObjects;
 			sourceTree = "<group>";
@@ -1682,7 +1672,6 @@
 				B6413A7D1638600800A01A2D /* CCMenuAdvancedPlus.m in Sources */,
 				B64A8498164B880C004A567A /* GeoQuestAnswer.m in Sources */,
 				B64A8499164B880C004A567A /* GeoQuestDB.m in Sources */,
-				B64A849A164B880C004A567A /* GeoQuestQuestion.m in Sources */,
 				B64A84A1164B892C004A567A /* SoloGameScene.m in Sources */,
 				B64A84A4164B898E004A567A /* SoloGameUI.m in Sources */,
 				B64A84A7164B899D004A567A /* SoloGameBG.m in Sources */,
@@ -1690,7 +1679,6 @@
 				B68E4280165EBAD200EA8426 /* GameThemeCache.m in Sources */,
 				B68E42871660F6FB00EA8426 /* GameTheme.m in Sources */,
 				B636776D16696D1500111BA7 /* PlayerDB.m in Sources */,
-				B68B1E18169CC78C00D21E82 /* GeoQuestTerritory.m in Sources */,
 				B6A4709316AC7D2200417830 /* NetworkController.m in Sources */,
 				B6A4709816AC7EFC00417830 /* MessageReader.m in Sources */,
 				B6A4709B16AC7F9100417830 /* MessageWriter.m in Sources */,
@@ -1704,10 +1692,10 @@
 				B6BCFFD716DD59A50077E5A2 /* SoloGameGameOver.m in Sources */,
 				B6BCFFDA16DD5A000077E5A2 /* SoloGameReplay.m in Sources */,
 				B68CA22116E4FC8500FCCA01 /* TerritoryMenuItemSprite.m in Sources */,
-				B68CA22416E5076300FCCA01 /* MimicServer.m in Sources */,
 				B69B06261704A34D00FE2775 /* ChallengesInProgress.m in Sources */,
 				B6988B121709E210007D213F /* ServerTerritories.m in Sources */,
 				B6988B18170B6A81007D213F /* PlayerStats.m in Sources */,
+				B69BD2B01715C564001E8AEC /* Question.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
