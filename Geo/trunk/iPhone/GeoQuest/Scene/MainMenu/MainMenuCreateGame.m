@@ -32,9 +32,14 @@
     
     CCMenuItemSprite *cancel = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuMultiButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuMultiButton.png"] target:self selector:@selector(cancelGame)];*/
     
+    errorMessage = [CCLabelTTF labelWithString:@"" fontName:@"Arial" fontSize:20];
+    errorMessage.position = ccp(winSize.width/2, winSize.height * .75);
+    errorMessage.visible = NO;
+    [self addChild:errorMessage];
+    
     createGameMenu = [CCMenuAdvancedPlus menuWithItems:nil];
     for (int i = 0; i < 4; i++) {
-        CCMenuItemSprite *createGameSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(createGameMenuSelected:)];
+        CCMenuItemSprite *createGameSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] target:self selector:@selector(createGameMenuSelected:)];
         createGameSprite.tag = i;
         
         switch (i) {
@@ -88,7 +93,7 @@
     
     [createGameMenu fixPosition];
     
-    createGameMenu.enabled = NO;
+    createGameMenu.isDisabled = YES;
     createGameMenu.visible = NO;
     [self addChild:createGameMenu];
     
@@ -98,7 +103,7 @@
     findUserMenu = [CCMenuAdvancedPlus menuWithItems:nil];
     
     for (int i = 0; i < 2; i++) {
-        CCMenuItemSprite *findUserSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(findUserMenuSelected:)];
+        CCMenuItemSprite *findUserSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] target:self selector:@selector(findUserMenuSelected:)];
         findUserSprite.tag = i;
         
         switch (i) {
@@ -133,7 +138,7 @@
     
     [findUserMenu fixPosition];
     
-    findUserMenu.enabled = NO;
+    findUserMenu.isDisabled = YES;
     findUserMenu.visible = NO;
     [self addChild:findUserMenu];
 
@@ -217,7 +222,7 @@
     createGameMenu.visible = NO;
     wrapper.visible = YES;
     findUserMenu.visible = YES;
-    findUserMenu.enabled = YES;
+    findUserMenu.isDisabled = NO;
 }
 
 #pragma mark - Find User Menu Buttons
@@ -225,16 +230,17 @@
 -(void) findUserMenuSelected:(CCMenuItemSprite*)sender {
     int i = sender.tag;
     switch (i) {
-        case 0: {
+        case 0: { //Find User selected
             CCLOG(@"MainMenuCreateGame: Find User");
             [self findUser];
             break;
         }
-        case 1: {
+        case 1: { //Cancel Find User Menu
             [self showLayerAndObjects];
             wrapper.visible = NO;
+            errorMessage.visible = NO;
             findUserMenu.visible = NO;
-            findUserMenu.enabled = NO;
+            findUserMenu.isDisabled = YES;
             break;
         }
             
@@ -244,7 +250,13 @@
 }
 
 -(void) findUser {
-    wrapper.visible = NO;
+    if ([userField.text isEqualToString:[PFUser currentUser].username]) {
+        [errorMessage setString:@"Stop playing with yourself."];
+        errorMessage.visible = YES;
+        CCLOG(@"LoadScreenUI: Stop playing with yourself.");
+        return;
+    }
+    
     int userFieldLength = userField.text.length;
     
     for (int i = 0; i < userFieldLength; i++) {
@@ -252,48 +264,116 @@
         if (i == 0) {
             BOOL isLetter = (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
             if (!isLetter) {
+                [errorMessage setString:@"First character needs to be a letter."];
+                errorMessage.visible = YES;
                 CCLOG(@"LoadScreenUI: First character needs to be a letter");
                 return;
             }
         }
         BOOL isLetterAndNumber = (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9');
         if (!isLetterAndNumber) { // If a letter in username is not a-z or A-Z then get out of method
+            [errorMessage setString:@"Only letters and numbers are allowed."];
+            errorMessage.visible = YES;
             CCLOG(@"LoadScreenUI: Only letters and numbers are allowed.");
             return;
         }
     }
-    
-    PFQuery *query = [PFUser query];
-    [query whereKey:@"username" equalTo:userField.text];
-    
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if ([objects count] > 0) {
-            CCLOG(@"LoadScreenUI: username ok");
-            PFUser *currentUser = [PFUser currentUser];
-            NSString *playerName = currentUser.username;
-            ChallengesInProgress *challenge = [ChallengesInProgress object];
-            challenge.player1_id = playerName;
-            challenge.player1_last_played = @"";
-            challenge.player1_next_race = @"";
-            challenge.player1_prev_race = @"";
-            challenge.player1_wins = 0;
-            challenge.player2_id = userField.text;
-            challenge.player2_last_played = @"";
-            challenge.player2_next_race = @"";
-            challenge.player2_prev_race = @"";
-            challenge.player2_wins = 0;
-            challenge.question = @"";
-            challenge.turn = playerName;
 
-            [challenge saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                [PlayerDB database].gameGUID = challenge.objectId;
-                [PlayerDB database].playerInPlayer1Column = YES;
-                [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
-            }];
-        } else {
-            CCLOG(@"MainMenuCreateGame: Can't find user");
-        }
+    wrapper.visible = NO;
+    
+    PFUser *currentUser = [PFUser currentUser];
+    NSString *playerName = currentUser.username;
+    ChallengesInProgress *challenge = [ChallengesInProgress object];
+    challenge.player1_id = playerName;
+    challenge.player1_last_played = @"";
+    challenge.player1_next_race = @"";
+    challenge.player1_prev_race = @"";
+    challenge.player1_wins = 0;
+    challenge.player2_id = userField.text;
+    challenge.player2_last_played = @"";
+    challenge.player2_next_race = @"";
+    challenge.player2_prev_race = @"";
+    challenge.player2_wins = 0;
+    challenge.question = @"";
+    challenge.turn = playerName;
+    
+    [challenge saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        PFQuery *player1StatQuery = [PlayerStats query];
+        [player1StatQuery whereKey:@"player_id" equalTo:challenge.player1_id];
+        player1StatQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+        
+        PFQuery *player2StatQuery = [PlayerStats query];
+        [player2StatQuery whereKey:@"player_id" equalTo:challenge.player2_id];
+        player2StatQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+        
+        PFQuery *query = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:player1StatQuery, player2StatQuery, nil]];
+        //PFQuery *query = [PFQuery queryWithClassName:@"PlayerStats"];
+        //[query whereKey:@"player_id" containsAllObjectsInArray:@[challenge.player1_id, challenge.player2_id]];
+        query.cachePolicy = kPFCachePolicyNetworkOnly;
+        
+        [query findObjectsInBackgroundWithBlock:^(NSArray *playerStatArray, NSError *error) {
+            CCLOG(@"count:%i", [playerStatArray count]);
+            PlayerStats *p1Stat = [playerStatArray objectAtIndex:0];
+            PlayerStats *p2Stat = [playerStatArray objectAtIndex:1];
+            
+            if (![challenge.player1_id isEqualToString:p1Stat.player_id]) {
+                PlayerStats *tempStat = p1Stat;
+                p1Stat = p2Stat;
+                p2Stat = tempStat;
+            }
+            
+            [PlayerDB database].player1Stats = p1Stat;
+            [PlayerDB database].player2Stats = p2Stat;
+            [PlayerDB database].currentChallenge = challenge;
+            [PlayerDB database].playerInPlayer1Column = [challenge.player1_id isEqualToString:[PFUser currentUser].username];
+            [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+        }];
     }];
+
+    
+    /*PFQuery *player2StatQuery = [PlayerStats query];
+    [player2StatQuery whereKey:@"player_id" equalTo:userField.text];
+    [player2StatQuery findObjectsInBackgroundWithBlock:^(NSArray *player2StatArray, NSError *error) {
+        
+        PFQuery *player1StatQuery = [PlayerStats query];
+        [player1StatQuery whereKey:@"player_id" equalTo:[PFUser currentUser].username];
+        [player1StatQuery findObjectsInBackgroundWithBlock:^(NSArray *player1StatArray, NSError *error) {
+            if ([player1StatArray count] > 0) {
+                PlayerStats *p1Stat = [player1StatArray objectAtIndex:0];
+                
+                if ([player2StatArray count] > 0) {
+                    PlayerStats *p2Stat = [player2StatArray objectAtIndex:0];
+                    CCLOG(@"LoadScreenUI: username ok");
+                    PFUser *currentUser = [PFUser currentUser];
+                    NSString *playerName = currentUser.username;
+                    ChallengesInProgress *challenge = [ChallengesInProgress object];
+                    challenge.player1_id = playerName;
+                    challenge.player1_last_played = @"";
+                    challenge.player1_next_race = @"";
+                    challenge.player1_prev_race = @"";
+                    challenge.player1_wins = 0;
+                    challenge.player2_id = userField.text;
+                    challenge.player2_last_played = @"";
+                    challenge.player2_next_race = @"";
+                    challenge.player2_prev_race = @"";
+                    challenge.player2_wins = 0;
+                    challenge.question = @"";
+                    challenge.turn = playerName;
+                    
+                    [challenge saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        [PlayerDB database].player1Stats = p1Stat;
+                        [PlayerDB database].player2Stats = p2Stat;
+                        [PlayerDB database].currentChallenge = challenge;
+                        //[PlayerDB database].gameGUID = challenge.objectId;
+                        [PlayerDB database].playerInPlayer1Column = YES;
+                        [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+                    }];
+                }
+            } else {
+                CCLOG(@"MainMenuCreateGame: Can't find user");
+            }
+        }];
+    }];*/
     
     /*Guid *randomGuid = [Guid randomGuid];
     NSString *guidString = [randomGuid stringValue];
@@ -337,11 +417,13 @@
 -(void) showLayerAndObjects {
     self.visible = YES;
     createGameMenu.visible = YES;
+    createGameMenu.isDisabled = NO;
 }
 
 -(void) hideLayerAndObjects {
     self.visible = NO;
     createGameMenu.visible = NO;
+    errorMessage.visible = NO;
     [mainMenuUI refreshObjects];	
 }
 

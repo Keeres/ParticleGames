@@ -18,7 +18,7 @@ static GameManager* _sharedGameManager = nil;
 @synthesize listOfSoundEffectFiles;
 @synthesize soundEffectsState;
 
-+(GameManager*)sharedGameManager {
+/*+(GameManager*)sharedGameManager {
     @synchronized([GameManager class])
     {
         if(!_sharedGameManager)
@@ -38,6 +38,15 @@ static GameManager* _sharedGameManager = nil;
         return _sharedGameManager;
     }
     return nil;  
+}*/
+
++(GameManager*) sharedGameManager {
+    @synchronized(self) {
+        if (!_sharedGameManager) {
+            _sharedGameManager = [[GameManager alloc] init];
+        }
+    }
+    return _sharedGameManager;
 }
 
 
@@ -150,7 +159,7 @@ static GameManager* _sharedGameManager = nil;
     if ((listOfSoundEffectFiles == nil) || 
         ([listOfSoundEffectFiles count] < 1)) {
         NSLog(@"Before");
-        [self setListOfSoundEffectFiles:[[NSMutableDictionary alloc] init]];
+        [self setListOfSoundEffectFiles:[[[NSMutableDictionary alloc] init] autorelease]];
         NSLog(@"after");
         for (NSString *sceneSoundDictionary in plistDictionary) {
             [listOfSoundEffectFiles 
@@ -164,7 +173,7 @@ static GameManager* _sharedGameManager = nil;
     // 5. Load the list of sound effects state, mark them as unloaded
     if ((soundEffectsState == nil) || 
         ([soundEffectsState count] < 1)) {
-        [self setSoundEffectsState:[[NSMutableDictionary alloc] init]];
+        [self setSoundEffectsState:[[[NSMutableDictionary alloc] init] autorelease]];
         for (NSString *SoundEffectKey in listOfSoundEffectFiles) {
             [soundEffectsState setObject:[NSNumber numberWithBool:SFX_NOTLOADED] forKey:SoundEffectKey];
         }
@@ -197,6 +206,7 @@ static GameManager* _sharedGameManager = nil;
     }
     
     if (managerSoundState == kAudioManagerFailed) {
+        [pool release];
         return; // Nothing to load, CocosDenshion not ready
     }
     
@@ -204,6 +214,7 @@ static GameManager* _sharedGameManager = nil;
     [self getSoundEffectsListForSceneWithID:sceneID];
     if (soundEffectsToLoad == nil) {
         CCLOG(@"Error reading SoundEffects.plist");
+        [pool release];
         return;
     }
     // Get all of the entries and PreLoad
@@ -224,6 +235,7 @@ static GameManager* _sharedGameManager = nil;
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     SceneTypes sceneID = (SceneTypes)[sceneIDNumber intValue];
     if (sceneID == kNoSceneUninitialized) {
+        [pool release];
         return; // Nothing to unload
     }
     
@@ -231,6 +243,7 @@ static GameManager* _sharedGameManager = nil;
     NSDictionary *soundEffectsToUnload = 
     [self getSoundEffectsListForSceneWithID:sceneID];
     if (soundEffectsToUnload == nil) {
+        [pool release];
         CCLOG(@"Error reading SoundEffects.plist");
         return;
     }

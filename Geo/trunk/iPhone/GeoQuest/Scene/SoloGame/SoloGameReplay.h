@@ -11,6 +11,10 @@
 #import "CCMenuAdvanced.h"
 #import "CCRenderTexturePlus.h"
 
+#define Z_ORDER_TOP 100
+#define Z_ORDER_MIDDLE 50
+#define Z_ORDER_BACK 10
+
 @class SoloGameUI;
 
 @interface SoloGameReplay : CCLayer {

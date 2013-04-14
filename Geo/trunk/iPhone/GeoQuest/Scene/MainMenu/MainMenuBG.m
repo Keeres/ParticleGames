@@ -15,9 +15,13 @@
 
 -(void) setupBG {
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    BGMap = [CCSprite spriteWithSpriteFrameName:@"SoloGameBGSky.png"];
+    BGMap = [CCSprite spriteWithSpriteFrameName:@"BackgroundSky.png"];
     BGMap.position = ccp(winSize.width/2, winSize.height/2);
     [self addChild:BGMap z:1];
+    
+    CCSprite *themeBG = [CCSprite spriteWithSpriteFrameName:@"ThemeBackgroundDesert.png"];
+    themeBG.position = ccp(winSize.width/2, themeBG.contentSize.height/2);
+    [self addChild:themeBG z:2];
 }
 
 /*-(id) init {

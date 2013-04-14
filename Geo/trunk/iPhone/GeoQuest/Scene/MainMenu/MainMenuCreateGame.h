@@ -30,6 +30,9 @@
     CCUIViewWrapper     *wrapper;
     UIView              *findUserView;
     UITextField         *userField;
+    
+    //Label
+    CCLabelTTF          *errorMessage;
 }
 
 -(id) initWithMainMenuUILayer:(MainMenuUI *)menuUI;

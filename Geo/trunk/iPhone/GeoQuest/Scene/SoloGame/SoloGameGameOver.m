@@ -23,7 +23,7 @@
     
     CCMenuItemSprite *gameOverItemSprite;
     for (int i = 0; i < 3; i++) {
-        gameOverItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(gameOverSelected:)];
+        gameOverItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] target:self selector:@selector(gameOverSelected:)];
         gameOverItemSprite.tag = i;
         
         switch (i) {
@@ -138,7 +138,7 @@
 
 -(void) checkGameOverMenu {
     PFQuery *challengeQuery = [ChallengesInProgress query];
-    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].gameGUID];
+    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].currentChallenge.objectId];
     challengeQuery.cachePolicy = kPFCachePolicyNetworkOnly;
     
     /*NSError *error = nil;

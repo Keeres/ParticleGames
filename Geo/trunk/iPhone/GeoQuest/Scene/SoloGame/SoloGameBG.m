@@ -12,11 +12,15 @@
 @implementation SoloGameBG
 
 -(void) setupBG {
-    backPanel = [CCSprite spriteWithSpriteFrameName:@"SoloGameBGSky.png"];
+    backPanel = [CCSprite spriteWithSpriteFrameName:@"BackgroundSky.png"];
     //int randomBackground = (arc4random() % 16) + 1;
     //backPanel = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"Background_%i.png", randomBackground]];
     backPanel.position = ccp(winSize.width/2, winSize.height/2);
     [self addChild:backPanel z:0];
+    
+    CCSprite *themeBG = [CCSprite spriteWithSpriteFrameName:@"ThemeBackgroundDesert.png"];
+    themeBG.position = ccp(winSize.width/2, themeBG.contentSize.height/2);
+    [self addChild:themeBG];
 }
 
 -(id) init {

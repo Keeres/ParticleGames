@@ -14,9 +14,10 @@
 #import "SoloGameReplay.h"
 #import "GeoQuestDB.h"
 #import "PlayerDB.h"
-#import "GeoQuestQuestion.h"
+//#import "GeoQuestQuestion.h"
+#import "Question.h"
 #import "GeoQuestAnswer.h"
-#import "CCMenuAdvanced.h"
+#import "CCMenuAdvancedPlus.h"
 #import "CCMenu+Layout.h"
 #import "CCRenderTexturePlus.h"
 #import "GameTheme.h"
@@ -24,10 +25,13 @@
 #import "RaceData.h"
 #import "PlayerDB.h"
 
-#define SOLO_GRID_SPACING 5 //points between menu items
+#define SOLO_GRID_SPACING 20 //points between menu items
 #define SOLO_GAME_TIMER 60 
 #define SOLO_GAME_QUICKDRAW_TIMER 1.5
 #define SOLO_GAME_SCORE_TO_WIN 100
+#define Z_ORDER_TOP 100
+#define Z_ORDER_MIDDLE 50
+#define Z_ORDER_BACK 10
 
 @class SoloGameReplay;
 @class SoloGameGameOver;
@@ -47,28 +51,29 @@
     SoloGameGameOver    *soloGameGameOver;
     SoloGameBG          *soloGameBG;
 
-    GeoQuestQuestion    *currentQuestion;
-    //GameThemeCache      *theme;
-    //NSArray             *themeArray;
+    Question            *currentQuestion;
+    GameThemeCache      *theme;
+    NSArray             *themeArray;
 
     NSMutableArray      *questionArray;
     NSMutableArray      *questionLayerTotal;
-    NSMutableArray      *questionLayerVisible;
+    //NSMutableArray      *questionLayerVisible;
     NSMutableArray      *answerArray;
     NSMutableArray      *currentAnswerChoices;
-    //NSMutableArray      *themeTotal;
-    //NSMutableArray      *themeVisible;
+    NSMutableArray      *themeTotal;
+    NSMutableArray      *themeVisible;
     NSMutableArray      *territoriesChosen; //array of all the territories usable by player
     NSMutableArray      *playerRaceDataArray; //array to store raceData objects
     NSMutableArray      *challengerRaceDataArray; //array to store CHALLENGERNEXTRACEDATA to move challengerVehicle
     
+    CCSprite            *clock;
     CCSprite            *question;
     CCSprite            *correctMark;
     CCSprite            *wrongMark;
     CCSprite            *playerVehicle;
     CCSprite            *challengerVehicle;
     CCSprite            *soloGameTheme;
-    CCMenuAdvanced      *answerChoicesMenu;
+    CCMenuAdvancedPlus  *answerChoicesMenu;
     CCLabelTTF          *prepTimerLabel;
     CCLabelTTF          *gameTimerLabel;
     CCLabelTTF          *questionTimerLabel;

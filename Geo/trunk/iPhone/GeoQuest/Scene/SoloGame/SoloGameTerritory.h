@@ -8,7 +8,7 @@
 
 #import "cocos2d.h"
 #import "SoloGameUI.h"
-#import "CCMenuAdvanced.h"
+#import "CCMenuAdvancedPlus.h"
 #import "TerritoryMenuItemSprite.h"
 
 
@@ -27,7 +27,7 @@
     
     // CCMenus
     //CCMenuAdvanced      *difficultyChoiceMenu;
-    __block CCMenuAdvanced      *territoryChoiceMenu;
+    CCMenuAdvancedPlus      *territoryChoiceMenu;
     
     // Arrays
     NSMutableArray      *territoriesChosen; //array of all the territories usable by player

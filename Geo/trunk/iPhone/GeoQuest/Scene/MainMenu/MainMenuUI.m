@@ -53,7 +53,7 @@
             //Set up PlayerTerritories for player if does not exist.
             //Retrieve all objectId from ServerTerritories. Set them as columns for PlayerTerritories.
             //Set all columns for PlayerTerritories = @"NO"
-            PFQuery *playerTerritoriesQuery = [PFQuery queryWithClassName:@"PlayerTerritories"];
+            /*PFQuery *playerTerritoriesQuery = [PFQuery queryWithClassName:@"PlayerTerritories"];
             [playerTerritoriesQuery whereKey:@"player_id" equalTo:currentUser.username];
             [playerTerritoriesQuery findObjectsInBackgroundWithBlock:^(NSArray *players, NSError *error) {
                 
@@ -66,7 +66,7 @@
                     [pTerritory setObject:currentUser.username forKey:@"player_id"];
                     [pTerritory saveInBackground];
                 }
-            }];
+            }];*/
             
             //Set up PlayerStats for player if not exist.
             PFQuery *playerStatsQuery = [PlayerStats query];
@@ -74,8 +74,27 @@
             [playerStatsQuery findObjectsInBackgroundWithBlock:^(NSArray *players, NSError *error) {
                 if ([players count] == 0) {
                     PlayerStats *pStat = [PlayerStats object];
+                    pStat.coins = 0;
                     pStat.player_id = currentUser.username;
                     pStat.selected_vehicle = @"VehicleVolvo.png";
+                    
+                    NSMutableArray *playerTerritoriesArray = [NSMutableArray arrayWithObjects:nil];
+                    for (int i = 0; i < [territories count]; i++) {
+                        ServerTerritories *sTerritory = [territories objectAtIndex:i];
+                        Territory *t = [[Territory alloc] initWithServerTerritory:sTerritory];
+                        [playerTerritoriesArray addObject:t.dictionary];
+                        [t release];
+                    }
+                    
+                    NSError *error = nil;
+                    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:playerTerritoriesArray options:NSJSONWritingPrettyPrinted error:&error];
+                    NSString *jsonString = [[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] autorelease];
+                    pStat.territories = jsonString;
+                    
+                    //NSArray *test = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+                    //CCLOG(@"%@", test);
+                    
+                    
                     [pStat saveInBackground];
                 }
             }];
@@ -181,6 +200,7 @@
         if (childAdded == NO) {
             [self addChild:gameChallengeMenu z:10];
         }
+        
     }];
     
     //gameChallengeMenu.debugDraw = YES;
@@ -286,7 +306,7 @@
     NSArray *challengerArray = [NSArray arrayWithArray:objects];
 
     // Add Create Game Button
-    CCMenuItemSprite *createGameItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(createGame)];
+    CCMenuItemSprite *createGameItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton1.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton1.png"] target:self selector:@selector(createGame)];
     
     CCLabelTTF *createGameLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@, Create Game", currentUser.username] fontName:@"Arial" fontSize:10];
     createGameLabel.position = ccp(createGameLabel.contentSize.width/2 + UI_MENU_SPACING, createGameItemSprite.contentSize.height/2);
@@ -297,9 +317,9 @@
     
     // Add Player vs. Challenger Buttons
     for (int i = 0; i < [challengerArray count]; i++) {
-        ChallengerMenuItemSprite *challengerItemSprite = [ChallengerMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(startChallenge:)];
+        ChallengerMenuItemSprite *challengerItemSprite = [ChallengerMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] target:self selector:@selector(startChallenge:)];
         challengerItemSprite.tag = i;
-        challengerItemSprite.disabledImage = [CCSprite spriteWithSpriteFrameName:@"MainMenuSoloButton.png"];
+        challengerItemSprite.disabledImage = [CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"];
         
         /*Challenger *c = [challengerArray objectAtIndex:i];
         challengerItemSprite.ID = c.ID;
@@ -312,9 +332,9 @@
         challengerItemSprite.challenger_id = challenge.player2_id;
         
         if ([challenge.turn isEqualToString:currentUser.username]) {
-            challengerItemSprite.color = ccc3(0, 255, 0);
+            //challengerItemSprite.color = ccc3(0, 255, 0);
         } else {
-            challengerItemSprite.color = ccc3(255, 0, 0);
+            challengerItemSprite.color = ccc3(255, 100, 100);
             challengerItemSprite.isEnabled = NO;
         }
         
@@ -340,7 +360,7 @@
     
     // Add Options Button
     
-    CCMenuItemSprite *optionItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(openOptions)];
+    CCMenuItemSprite *optionItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton3.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton3.png"] target:self selector:@selector(openOptions)];
     
     CCLabelTTF *optionLabel = [CCLabelTTF labelWithString:@"Options" fontName:@"Arial" fontSize:10];
     optionLabel.position = ccp(optionLabel.contentSize.width/2 + UI_MENU_SPACING, optionItemSprite.contentSize.height/2);
@@ -389,8 +409,10 @@
     int i = sender.tag;
     CCLOG(@"MainMenuUI: Challenger %i!", i);
     if (sender.deleteActive) {
-        CCLOG(@"delete this srptie");
+        CCLOG(@"delete this sprite");
     } else {
+        gameChallengeMenu.isDisabled = YES;
+
         PFQuery *challengeQuery = [ChallengesInProgress query];
         [challengeQuery whereKey:@"objectId" equalTo:sender.objectId];
         challengeQuery.cachePolicy = kPFCachePolicyCacheElseNetwork;
@@ -398,12 +420,38 @@
         [challengeQuery findObjectsInBackgroundWithBlock:^(NSArray *challengeObjectArray, NSError *error) {
             ChallengesInProgress *challenge = [challengeObjectArray objectAtIndex:0];
             
-            [PlayerDB database].gameGUID = sender.objectId;
-            [PlayerDB database].challenger = sender.challenger_id;
-            [PlayerDB database].playerInPlayer1Column = [challenge.player1_id isEqualToString:[PFUser currentUser].username];
-            [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+            PFQuery *player1StatQuery = [PlayerStats query];
+            [player1StatQuery whereKey:@"player_id" equalTo:challenge.player1_id];
+            player1StatQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+            
+            PFQuery *player2StatQuery = [PlayerStats query];
+            [player2StatQuery whereKey:@"player_id" equalTo:challenge.player2_id];
+            player2StatQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+            
+            PFQuery *query = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:player1StatQuery, player2StatQuery, nil]];
+            query.cachePolicy = kPFCachePolicyNetworkOnly;
+            
+            [query findObjectsInBackgroundWithBlock:^(NSArray *playerStatArray, NSError *error) {
+                PlayerStats *p1Stat = [playerStatArray objectAtIndex:0];
+                PlayerStats *p2Stat = [playerStatArray objectAtIndex:1];
+                
+                if (![challenge.player1_id isEqualToString:p1Stat.player_id]) {
+                    PlayerStats *tempStat = p1Stat;
+                    p1Stat = p2Stat;
+                    p2Stat = tempStat;
+                }
+                
+                [PlayerDB database].player1Stats = p1Stat;
+                [PlayerDB database].player2Stats = p2Stat;
+                [PlayerDB database].currentChallenge = challenge;
+                //[PlayerDB database].gameGUID = sender.objectId;
+                //[PlayerDB database].challenger = sender.challenger_id;
+                [PlayerDB database].playerInPlayer1Column = [challenge.player1_id isEqualToString:[PFUser currentUser].username];
+                [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+            }];
+
         }];
-    }    
+    }
 }
 
 -(void) openOptions {

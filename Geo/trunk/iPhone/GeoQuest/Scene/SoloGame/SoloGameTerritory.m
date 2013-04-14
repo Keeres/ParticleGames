@@ -71,25 +71,49 @@
 -(void) setupTerritoryMenu {    
     //NSMutableArray *territoryArray = [[PlayerDB database] availableTerritories];
     
+    NSError *error = nil;
+    NSString *jsonString = [PlayerDB database].player1Stats.territories;
+    NSArray *playerTerritoryArray = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+    
+    if ([[PFUser currentUser].username isEqualToString:[PlayerDB database].player2Stats.player_id]) {
+        jsonString = [PlayerDB database].player2Stats.territories;
+        playerTerritoryArray = [NSJSONSerialization JSONObjectWithData:[jsonString dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+    }
+
+    
     PFQuery *sTerritory = [ServerTerritories query];
     [sTerritory whereKey:@"weekly_usable" equalTo:[NSNumber numberWithBool:YES]];
     sTerritory.cachePolicy = kPFCachePolicyCacheElseNetwork;
     
-    [sTerritory findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    [sTerritory findObjectsInBackgroundWithBlock:^(NSArray *serverTerritoryArray, NSError *error) {
         if (!error) {
             
-            territoryChoiceMenu = [CCMenuAdvanced menuWithItems:nil];
+            territoryChoiceMenu = [CCMenuAdvancedPlus menuWithItems:nil];
             
-            NSMutableArray *territoryArray = [NSMutableArray arrayWithObjects:nil];
-            for (int i = 0; i < [objects count]; i++) {
-                ServerTerritories *territories = [objects objectAtIndex:i];
-                GeoQuestTerritory *geoQuestTerritory = [[[GeoQuestTerritory alloc] initWithTerritoryID:territories.objectId name:territories.name questionTable:territories.question answerTable:territories.answer] autorelease];
-                [territoryArray addObject:geoQuestTerritory];
+            NSMutableArray *serverAndPlayerTerritoryArray = [NSMutableArray arrayWithObjects:nil];
+            for (int i = 0; i < [serverTerritoryArray count]; i++) {
+                ServerTerritories *sTerritory = [serverTerritoryArray objectAtIndex:i];
+                Territory *territory = [[Territory alloc] initWithServerTerritory:sTerritory];
+
+                [serverAndPlayerTerritoryArray addObject:territory];
+                [territory release];
             }
+            
+            for (int i = 0; i < [playerTerritoryArray count]; i++) {
+                Territory *territory = [[Territory alloc] initWithDictionary:[playerTerritoryArray objectAtIndex:i]];
+                if (territory.usable == YES) {
+                    [serverAndPlayerTerritoryArray addObject:territory];
+                }
+                [territory release];
+            }
+            
+            //Remove duplicate territories
+            NSArray *territoryArray = [[NSSet setWithArray:serverAndPlayerTerritoryArray] allObjects];
+            
             
             TerritoryMenuItemSprite *territoryItemSprite;
             for (int i = 0; i < 3; i++) {
-                territoryItemSprite = [TerritoryMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(territorySelected:)];
+                territoryItemSprite = [TerritoryMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] target:self selector:@selector(territorySelected:)];
                 territoryItemSprite.tag = i;
                 [territoryItemSprite setTerritories:territoryArray];
                 
@@ -134,12 +158,14 @@
             [self addChild:territoryChoiceMenu];
             territoryChoiceMenu.visible = NO;
             territoryChoiceMenu.enabled = NO;
+            territoryChoiceMenu.disableScroll = YES;
         }
     }];
 }
 
 -(void) territorySelected:(TerritoryMenuItemSprite*)sender {
     int i = sender.tag;
+    territoryChoiceMenu.isDisabled = YES;
     switch (i) {
         case 0: {
             TerritoryMenuItemSprite *t = [[territoryChoiceMenu children] objectAtIndex:i];
@@ -215,14 +241,14 @@
     //difficultyChoiceMenu.visible = YES;
     //difficultyChoiceMenu.enabled = YES;
     territoryChoiceMenu.visible = YES;
-    territoryChoiceMenu.enabled = YES;
+    territoryChoiceMenu.isDisabled = NO;
 }
 
 -(void) hideLayerAndObjects {
     //difficultyChoiceMenu.visible = NO;
     //difficultyChoiceMenu.enabled = NO;
     territoryChoiceMenu.visible = NO;
-    territoryChoiceMenu.enabled = NO;
+    territoryChoiceMenu.isDisabled = YES;
     self.visible = NO;
 }
 

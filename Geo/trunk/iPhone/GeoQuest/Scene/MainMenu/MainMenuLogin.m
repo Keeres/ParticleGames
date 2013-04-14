@@ -25,8 +25,8 @@
 -(void) setupRegisterLoginUserMenu {
     // Two button menu asking user to either register a new username or login with a previous username
     
-    CCMenuItemSprite *registerButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
-                                                               selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
+    CCMenuItemSprite *registerButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
+                                                               selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
                                                                        target:self
                                                                      selector:@selector(registerUserFields)];
     
@@ -35,8 +35,8 @@
     registerButtonLabel.color = ccc3(0, 0, 0);
     [registerButton addChild:registerButtonLabel];
     
-    CCMenuItemSprite *loginButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
-                                                            selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
+    CCMenuItemSprite *loginButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
+                                                            selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
                                                                     target:self
                                                                   selector:@selector(loginUserFields)];
     CCLabelTTF *loginButtonLabel = [CCLabelTTF labelWithString:@"Login" fontName:@"Arial" fontSize:14];
@@ -54,7 +54,7 @@
     
     [registerLoginUserMenu fixPosition];
     
-    registerLoginUserMenu.enabled = NO;
+    registerLoginUserMenu.isDisabled = YES;
     registerLoginUserMenu.visible = NO;
     [self addChild:registerLoginUserMenu];
 }
@@ -63,8 +63,8 @@
 -(void) setupRegisterMenu {
     // User selected to register a new username. This button is the "OK" button once user has entered the username/email/password
     
-    CCMenuItemSprite *registerButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
-                                                               selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
+    CCMenuItemSprite *registerButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
+                                                               selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
                                                                        target:self
                                                                      selector:@selector(registerUser)];
     CCLabelTTF *registerButtonLabel = [CCLabelTTF labelWithString:@"Create" fontName:@"Arial" fontSize:14];
@@ -72,8 +72,8 @@
     registerButtonLabel.color = ccc3(0, 0, 0);
     [registerButton addChild:registerButtonLabel];
     
-    CCMenuItemSprite *cancelButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
-                                                               selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
+    CCMenuItemSprite *cancelButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
+                                                               selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
                                                                        target:self
                                                                      selector:@selector(cancelRegisterAndLogin)];
     CCLabelTTF *cancelButtonLabel = [CCLabelTTF labelWithString:@"Cancel" fontName:@"Arial" fontSize:14];
@@ -92,15 +92,15 @@
     
     [registerButtonMenu fixPosition];
     
-    registerButtonMenu.enabled = NO;
+    registerButtonMenu.isDisabled = YES;
     registerButtonMenu.visible = NO;
     [self addChild:registerButtonMenu];
 }
 
 -(void) setupLoginMenu {
     // User selected to login with a existing username. This button is the "OK" button once user has entered the username/password to login
-    CCMenuItemSprite *loginButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
-                                                            selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
+    CCMenuItemSprite *loginButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
+                                                            selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
                                                                     target:self
                                                                   selector:@selector(loginUser)];
     
@@ -109,8 +109,8 @@
     loginButtonLabel.color = ccc3(0, 0, 0);
     [loginButton addChild:loginButtonLabel];
     
-    CCMenuItemSprite *cancelButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
-                                                             selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"]
+    CCMenuItemSprite *cancelButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
+                                                             selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"]
                                                                      target:self
                                                                    selector:@selector(cancelRegisterAndLogin)];
     CCLabelTTF *cancelButtonLabel = [CCLabelTTF labelWithString:@"Cancel" fontName:@"Arial" fontSize:14];
@@ -129,7 +129,7 @@
     
     [loginButtonMenu fixPosition];
     
-    loginButtonMenu.enabled = NO;
+    loginButtonMenu.isDisabled = YES;
     loginButtonMenu.visible = NO;
     [self addChild:loginButtonMenu];
 }
@@ -142,7 +142,7 @@
         [mainMenuUI setupPlayerDatabase];
     } else {
         registerLoginUserMenu.visible = YES;
-        registerLoginUserMenu.enabled = YES;
+        registerLoginUserMenu.isDisabled = NO;
     }
 }
 
@@ -150,9 +150,9 @@
 -(void) registerUserFields {
     CCLOG(@"LoadScreenUI: Register User");
     registerLoginUserMenu.visible = NO;
-    registerLoginUserMenu.enabled = NO;
+    registerLoginUserMenu.isDisabled = YES;
     registerButtonMenu.visible = YES;
-    registerButtonMenu.enabled = YES;
+    registerButtonMenu.isDisabled = NO;
     
     registerView = [[[UIView alloc] init] autorelease];
     registerView.frame = CGRectMake(0, 0, 320, 160);
@@ -206,9 +206,9 @@
 -(void) loginUserFields {
     CCLOG(@"LoadScreenUI: Register User");
     registerLoginUserMenu.visible = NO;
-    registerLoginUserMenu.enabled = NO;
+    registerLoginUserMenu.isDisabled = YES;
     loginButtonMenu.visible = YES;
-    loginButtonMenu.enabled = YES;
+    loginButtonMenu.isDisabled = NO;
     
     registerView = [[[UIView alloc] init] autorelease];
     registerView.frame = CGRectMake(0, 0, 320, 160);

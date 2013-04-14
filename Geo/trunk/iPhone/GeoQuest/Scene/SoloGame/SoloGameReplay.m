@@ -15,7 +15,7 @@
 -(void) setupNextMenu {
     nextMenu = [CCMenuAdvanced menuWithItems:nil];
     
-    CCMenuItemSprite *nextItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"] target:self selector:@selector(nextSelected)];
+    CCMenuItemSprite *nextItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] target:self selector:@selector(nextSelected)];
     
     CCLabelTTF *nextLabel = [CCLabelTTF labelWithString:@"Next" fontName:@"Arial" fontSize:14];
     nextLabel.position = ccp(nextItemSprite.contentSize.width/2, nextItemSprite.contentSize.height/2);
@@ -32,7 +32,7 @@
     nextMenu.enabled = NO;
     nextMenu.visible = NO;
 
-    [self addChild:nextMenu z:20];
+    [self addChild:nextMenu z:Z_ORDER_TOP];
 }
 
 -(void) setupVehicles {
@@ -41,8 +41,30 @@
     startingPoint = 20;
     finishingPoint = winSize.width - startingPoint;
     
-    PFQuery *challengeQuery = [ChallengesInProgress query];
-    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].gameGUID];
+    NSString *playerVehicleString = [PlayerDB database].player1Stats.selected_vehicle;
+    NSString *challengerVehicleString = [PlayerDB database].player2Stats.selected_vehicle;
+    
+    playerVehicle = [CCSprite spriteWithSpriteFrameName:playerVehicleString];
+    playerVehicle.position = ccp(startingPoint, 20.0);
+    //playerVehicle.visible = NO;
+    [self addChild:playerVehicle z:Z_ORDER_TOP];
+    
+    challengerVehicle = [CCSprite spriteWithSpriteFrameName:challengerVehicleString];
+    challengerVehicle.position = ccp(startingPoint, 40.0);
+    //challengerVehicle.visible = NO;
+    [self addChild:challengerVehicle z:Z_ORDER_TOP-1];
+    
+    CCLabelTTF *playerLabel = [CCLabelTTF labelWithString:[PlayerDB database].player1Stats.player_id fontName:@"Arial" fontSize:14];
+    playerLabel.position = ccp(playerVehicle.contentSize.width/2, playerVehicle.textureRect.size.height + playerLabel.contentSize.height);
+    [playerVehicle addChild:playerLabel];
+    
+    CCLabelTTF *challengerLabel = [CCLabelTTF labelWithString:[PlayerDB database].player2Stats.player_id fontName:@"Arial" fontSize:14];
+    challengerLabel.position = ccp(challengerVehicle.contentSize.width/2, challengerVehicle.textureRect.size.height + challengerLabel.contentSize.height);
+    [challengerVehicle addChild:challengerLabel];
+
+    
+    /*PFQuery *challengeQuery = [ChallengesInProgress query];
+    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].currentChallenge.objectId];
     challengeQuery.cachePolicy = kPFCachePolicyCacheElseNetwork;
     
     [challengeQuery findObjectsInBackgroundWithBlock:^(NSArray *challengeObjectArray, NSError *error) {
@@ -64,6 +86,10 @@
                 
                 NSString *playerVehicleString = player1.selected_vehicle;
                 NSString *challengerVehicleString = player2.selected_vehicle;
+                [PlayerDB database].player1Vehicle = player1.selected_vehicle;
+                [PlayerDB database].player2Vehicle = player2.selected_vehicle;
+                [PlayerDB database].player1Id = player1.player_id;
+                [PlayerDB database].player2Id = player2.player_id;
                 
                 playerVehicle = [CCSprite spriteWithSpriteFrameName:playerVehicleString];
                 playerVehicle.position = ccp(startingPoint, 20.0);
@@ -86,45 +112,45 @@
 
         }];
         
-    }];
+    }];*/
     
 }
 
 -(void) setupPlayerChallengerLabels {
     
     PFQuery *challengeQuery = [ChallengesInProgress query];
-    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].gameGUID];
+    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].currentChallenge.objectId];
     challengeQuery.cachePolicy = kPFCachePolicyCacheElseNetwork;
     
     [challengeQuery findObjectsInBackgroundWithBlock:^(NSArray *challengeObjectArray, NSError *error) {
         ChallengesInProgress *challenge = [challengeObjectArray objectAtIndex:0];
         
         playerName = [CCLabelTTF labelWithString:challenge.player1_id fontName:@"Arial" fontSize:20];
-        playerName.position = ccp(winSize.width*.25, winSize.height - playerName.contentSize.height);
-        [self addChild:playerName z:10];
+        playerName.position = ccp(winSize.width*.15, winSize.height - playerName.contentSize.height);
+        [self addChild:playerName z:Z_ORDER_TOP];
         
         challengerName = [CCLabelTTF labelWithString:challenge.player2_id fontName:@"Arial" fontSize:20];
-        challengerName.position = ccp(winSize.width*.75, winSize.height - challengerName.contentSize.height);
-        [self addChild:challengerName z:10];
+        challengerName.position = ccp(winSize.width*.85, winSize.height - challengerName.contentSize.height);
+        [self addChild:challengerName z:Z_ORDER_TOP];
         
         NSString *pScore = [NSString stringWithFormat:@"%d", challenge.player1_wins];
         NSString *cScore = [NSString stringWithFormat:@"%d", challenge.player2_wins];
         
         playerScore = [CCLabelTTF labelWithString:pScore fontName:@"Arial" fontSize:20];
-        playerScore.position = ccp(winSize.width*.25, winSize.height - playerName.contentSize.height - playerScore.contentSize.height);
-        [self addChild:playerScore z:10];
+        playerScore.position = ccp(winSize.width*.15, winSize.height - playerName.contentSize.height - playerScore.contentSize.height);
+        [self addChild:playerScore z:Z_ORDER_TOP];
         
         challengerScore = [CCLabelTTF labelWithString:cScore fontName:@"Arial" fontSize:20];
-        challengerScore.position = ccp(winSize.width*.75, winSize.height - challengerName.contentSize.height - challengerScore.contentSize.height);
-        [self addChild:challengerScore z:10];
+        challengerScore.position = ccp(winSize.width*.85, winSize.height - challengerName.contentSize.height - challengerScore.contentSize.height);
+        [self addChild:challengerScore z:Z_ORDER_TOP];
     }];
 }
 
 -(void) setupTheme {
-    theme = [CCSprite spriteWithSpriteFrameName:@"SoloGameDesertTheme.png"];
+    theme = [CCSprite spriteWithSpriteFrameName:@"ThemeTrackDesert.png"];
     theme.position = ccp(winSize.width/2, theme.contentSize.height/2);
     theme.visible = NO;
-    [self addChild:theme z:0];
+    [self addChild:theme z:Z_ORDER_TOP-2];
 }
 
 -(void) showReplay {
@@ -137,7 +163,7 @@
     challengerScore.visible = YES;
     
     PFQuery *challengeQuery = [ChallengesInProgress query];
-    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].gameGUID];
+    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].currentChallenge.objectId];
     challengeQuery.cachePolicy = kPFCachePolicyNetworkOnly;
 
     [challengeQuery findObjectsInBackgroundWithBlock:^(NSArray *challengeObjectArray, NSError *error) {
@@ -161,9 +187,9 @@
         playerVehicle.visible = YES;
         challengerVehicle.visible = YES;
         
-        CCSprite *currentTimeLine = [CCSprite spriteWithSpriteFrameName:@"MainMenuBlankButton.png"];
+        CCSprite *currentTimeLine = [CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"];
         currentTimeLine.position = ccp(winSize.width/2, winSize.height/4);
-        [self addChild:currentTimeLine z:0];
+        [self addChild:currentTimeLine z:Z_ORDER_BACK];
         
         CCSprite *start = [CCSprite spriteWithSpriteFrameName:@"MainMenuCompass.png"];
         raceStartHeight = start.contentSize.height;
@@ -175,7 +201,7 @@
         int renderTextureSize = 1024;
         renderTexture = [CCRenderTexturePlus renderTextureWithWidth:renderTextureSize height:renderTextureSize];
         [renderTexture beginWithClear:0 g:0 b:0 a:0];
-        [self addChild:renderTexture z:15];
+        [self addChild:renderTexture z:Z_ORDER_MIDDLE];
         renderTexture.position = ccp(winSize.width/2, -renderTexture.boundaryRect.size.height/2 + winSize.height/4 + start.contentSize.height/2);
         [renderTexture updateBoundaryRect];
         renderTextureOrigPos = renderTexture.position;
@@ -207,11 +233,11 @@
             line.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2 - (line.contentSize.width * raceData.time));
             
             if ([raceData.answerType isEqualToString:@"TP"]) {
-                CCLabelTTF *label = [CCLabelTTF labelWithString:raceData.answer fontName:@"Arial" fontSize:14];
+                CCLabelTTF *label = [CCLabelTTF labelWithString:raceData.answer fontName:@"Arial" fontSize:16];
                 if (raceData.correct) {
-                    label.color = ccc3(0, 255, 0);
+                    label.color = ccc3(97, 166, 75);
                 } else {
-                    label.color = ccc3(255, 0, 0);
+                    label.color = ccc3(255, 70, 70);
                 }
                 label.position = ccp(line.position.x - label.contentSize.width/2 - (line.contentSize.width/3 * raceData.points), line.position.y);
                 [label visit];
@@ -220,9 +246,9 @@
                 picture.scale = 0.3;
                 
                 if (raceData.correct) {
-                    picture.color = ccc3(0, 255, 0);
+                    picture.color = ccc3(97, 166, 75);
                 } else {
-                    picture.color = ccc3(255, 0, 0);
+                    picture.color = ccc3(255, 70, 70);
                 }
                 picture.position = ccp(line.position.x - (picture.contentSize.width/2 * picture.scale) - (line.contentSize.width/3 * raceData.points), line.position.y);
                 [picture visit];
@@ -244,11 +270,11 @@
             line.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2 - (line.contentSize.width * raceData.time));
             
             if ([raceData.answerType isEqualToString:@"TP"]) {
-                CCLabelTTF *label = [CCLabelTTF labelWithString:raceData.answer fontName:@"Arial" fontSize:14];
+                CCLabelTTF *label = [CCLabelTTF labelWithString:raceData.answer fontName:@"Arial" fontSize:16];
                 if (raceData.correct) {
-                    label.color = ccc3(0, 255, 0);
+                    label.color = ccc3(97, 166, 75);
                 } else {
-                    label.color = ccc3(255, 0, 0);
+                    label.color = ccc3(255, 70, 70);
                 }
                 label.position = ccp(line.position.x + label.contentSize.width/2 + (line.contentSize.width/3 * raceData.points), line.position.y);
                 [label visit];
@@ -257,9 +283,9 @@
                 picture.scale = 0.3;
                 
                 if (raceData.correct) {
-                    picture.color = ccc3(0, 255, 0);
+                    picture.color = ccc3(97, 166, 75);
                 } else {
-                    picture.color = ccc3(255, 0, 0);
+                    picture.color = ccc3(255, 70, 70);
                 }
                 picture.position = ccp(line.position.x + (picture.contentSize.width/2 * picture.scale) + (line.contentSize.width/3 * raceData.points), line.position.y);
                 [picture visit];
@@ -307,7 +333,7 @@
 -(void) checkRaceData {
     
     PFQuery *challengeQuery = [ChallengesInProgress query];
-    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].gameGUID];
+    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].currentChallenge.objectId];
     challengeQuery.cachePolicy = kPFCachePolicyNetworkOnly;
     
     [challengeQuery findObjectsInBackgroundWithBlock:^(NSArray *challengeObjectArray, NSError *error) {
@@ -333,7 +359,7 @@
 -(void) nextSelected {
     
     PFQuery *challengeQuery = [ChallengesInProgress query];
-    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].gameGUID];
+    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].currentChallenge.objectId];
     challengeQuery.cachePolicy = kPFCachePolicyNetworkOnly;
     
     [challengeQuery findObjectsInBackgroundWithBlock:^(NSArray *challengeObjectArray, NSError *error) {
