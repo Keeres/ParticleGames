@@ -9,11 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import <sqlite3.h>
-#import "GeoQuestTerritory.h"
-#import "GeoQuestQuestion.h"
 #import "GeoQuestAnswer.h"
 #import "Constants.h"
 #import "Territory.h"
+#import "Question.h"
 
 @interface GeoQuestDB : NSObject {
     sqlite3 *_database;
@@ -23,14 +22,16 @@
 
 //-(NSMutableArray*) displayTerritories;
 
--(GeoQuestQuestion*) getQuestionFrom:(GeoQuestTerritory*)questionTable;
+//-(GeoQuestQuestion*) getQuestionFrom:(GeoQuestTerritory*)questionTable;
+//-(GeoQuestQuestion*) getQuestionFrom:(Territory*)territory;
+-(Question*) getQuestionFrom:(Territory*)territory;
 
--(NSMutableArray*) getAnswerChoicesFrom:(GeoQuestQuestion*)question specialPower:(int)power;
+//-(NSMutableArray*) getAnswerChoicesFrom:(GeoQuestQuestion*)question specialPower:(int)power;
 
--(BOOL) checkAnswer:(GeoQuestAnswer*)answer withQuestion:(GeoQuestQuestion*)question;
+-(NSMutableArray*) getAnswerChoicesFrom:(Question*)question specialPower:(int)power;
 
+//-(BOOL) checkAnswer:(GeoQuestAnswer*)answer withQuestion:(GeoQuestQuestion*)question;
+-(BOOL) checkAnswer:(GeoQuestAnswer*)answer withQuestion:(Question*)question;
 
-// Mimicking Server Functions
--(NSMutableArray*) retrieveTerritories;
 
 @end
