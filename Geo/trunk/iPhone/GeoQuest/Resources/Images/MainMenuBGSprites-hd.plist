@@ -5,68 +5,68 @@
 	<key>frames</key>
 	<dict>
 		
-		<key>SoloGameBGSky.png</key>
+		<key>BackgroundSky.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
 			
 			</array>
 			<key>spriteColorRect</key>
-			<string>{{0, 59}, {640, 1930}}</string>
+			<string>{{0, 0}, {639, 1929}}</string>
 			<key>spriteOffset</key>
 			<string>{0, -0}</string>
 			<key>spriteSize</key>
-			<string>{640, 1930}</string>
+			<string>{639, 1929}</string>
 			<key>spriteSourceSize</key>
-			<string>{640, 2048}</string>
+			<string>{639, 1929}</string>
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{0, 0}, {640, 1930}}</string>
+			<string>{{0, 0}, {639, 1929}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
 		
-		<key>SoloMetalBG.png</key>
+		<key>ThemeBackgroundDesert.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
 			
 			</array>
 			<key>spriteColorRect</key>
-			<string>{{31, 27}, {907, 587}}</string>
+			<string>{{0, 0}, {1177, 260}}</string>
 			<key>spriteOffset</key>
-			<string>{4, -0}</string>
+			<string>{0, -0}</string>
 			<key>spriteSize</key>
-			<string>{907, 587}</string>
+			<string>{1177, 260}</string>
 			<key>spriteSourceSize</key>
-			<string>{961, 641}</string>
+			<string>{1177, 260}</string>
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{642, 643}, {907, 587}}</string>
+			<string>{{641, 0}, {1177, 260}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
 		
-		<key>SoloWoodBG.png</key>
+		<key>ThemeTrackDesert.png</key>
 		<dict>
 			<key>aliases</key>
 			<array>
 			
 			</array>
 			<key>spriteColorRect</key>
-			<string>{{0, 0}, {961, 641}}</string>
+			<string>{{0, 0}, {640, 201}}</string>
 			<key>spriteOffset</key>
 			<string>{0, -0}</string>
 			<key>spriteSize</key>
-			<string>{961, 641}</string>
+			<string>{640, 201}</string>
 			<key>spriteSourceSize</key>
-			<string>{961, 641}</string>
+			<string>{640, 201}</string>
 			<key>spriteTrimmed</key>
 			<true/>
 			<key>textureRect</key>
-			<string>{{642, 0}, {961, 641}}</string>
+			<string>{{641, 262}, {640, 201}}</string>
 			<key>textureRotated</key>
 			<false/>
 		</dict>
