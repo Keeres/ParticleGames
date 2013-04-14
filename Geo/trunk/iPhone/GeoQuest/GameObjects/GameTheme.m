@@ -20,7 +20,7 @@
             break;
         case kMetalTheme:
             //[self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"MainMenuUIMetalCard.png"]];
-            [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"Postcard.png"]];
+            [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"ThemePostcard.png"]];
             themeName = [NSString stringWithFormat:@"Metal"];
             break;
             

@@ -13,11 +13,10 @@
 
 @dynamic objectId;
 @dynamic answer;
-@dynamic continent_of_category;
+@dynamic continentOfCategory;
 @dynamic name;
 @dynamic question;
-@dynamic uuid;
-@dynamic weekly_usable;
+@dynamic usable;
 
 +(NSString*) parseClassName {
     return @"ServerTerritories";

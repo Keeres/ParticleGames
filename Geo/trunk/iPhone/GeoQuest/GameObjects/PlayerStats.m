@@ -12,8 +12,10 @@
 @implementation PlayerStats
 
 @dynamic objectId;
+@dynamic coins;
 @dynamic player_id;
 @dynamic selected_vehicle;
+@dynamic territories;
 
 +(NSString*) parseClassName {
     return @"PlayerStats";

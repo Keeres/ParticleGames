@@ -19,7 +19,8 @@
     
     theme = [[NSMutableArray alloc] init];
     
-    if (gameThemeSelected == kNoTheme) {
+    //if (gameThemeSelected == kNoTheme) {
+    if (gameThemeSelected == kMetalTheme) {
         switch (difficultySelected) {
             case kEasyDifficulty:
                 for (int i = 0; i < 4; i++) {
@@ -107,6 +108,7 @@
 }
 
 -(void) dealloc {
+    [theme release];
     [super dealloc];
 }
 

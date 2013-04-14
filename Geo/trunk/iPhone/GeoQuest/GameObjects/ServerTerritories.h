@@ -14,10 +14,9 @@
 
 @property (nonatomic, retain) NSString *objectId;
 @property (nonatomic, retain) NSString *answer;
-@property (nonatomic, retain) NSString *continent_of_category;
+@property (nonatomic, retain) NSString *continentOfCategory;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *question;
-@property (nonatomic, retain) NSString *uuid;
-@property BOOL *weekly_usable;
+@property BOOL usable;
 
 @end

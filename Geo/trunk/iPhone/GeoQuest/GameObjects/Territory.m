@@ -10,75 +10,80 @@
 #import "Territory.h"
 
 @implementation Territory
-
-@synthesize ID = _ID;
-@synthesize name = _name;
-@synthesize question = _question;
+@synthesize objectId = _objectId;
 @synthesize answer = _answer;
 @synthesize continentOfCategory = _continentOfCategory;
-@synthesize weeklyUsable = _weeklyUsable;
-@synthesize ownerUsable = _ownerUsable;
+@synthesize name = _name;
+@synthesize question = _question;
+@synthesize usable = _usable;
+@synthesize level = _level;
+@synthesize experience = _experience;
 
--(id) init {
+-(id) initTerritoryWithObjectId:(NSString *)objectId
+                         answer:(NSString *)answer
+            continentOfCategory:(NSString *)continentOfCategory
+                           name:(NSString *)name
+                       question:(NSString *)question
+                         usable:(BOOL)usable
+                          level:(int)level
+                     experience:(int)experience {
     if ((self = [super init])) {
-        self.ID = nil;
-        self.name = nil;
-        self.question = nil;
-        self.answer = nil;
-        self.continentOfCategory = nil;
-        self.weeklyUsable = NO;
-        self.ownerUsable = NO;
-
-    }
-    return self;
-}
-
--(id) initTerritory:(NSArray*)array {
-    if ((self = [super init])) {
-        self.ID = [array objectAtIndex:1];
-        self.name = [array objectAtIndex:2];
-        self.question = [array objectAtIndex:3];
-        self.answer = [array objectAtIndex:4];
-        self.continentOfCategory = [array objectAtIndex:5];
-        self.weeklyUsable = [[array objectAtIndex:6] boolValue];
-        self.ownerUsable = [[array objectAtIndex:7] boolValue];
-    }
-    return self;
-}
-
--(id) initTerritoryWithID:(NSString *)ID
-                     name:(NSString *)name
-                 question:(NSString *)question
-                   answer:(NSString *)answer
-      continentOfCategory:(NSString *)continentOfCategory
-             weeklyUsable:(BOOL)weelyUsable
-              ownerUsable:(BOOL)ownerUsable {
-    
-    if ((self = [super init])) {
-        self.ID = ID;
-        self.name = name;
-        self.question = question;
+        self.objectId = objectId;
         self.answer = answer;
         self.continentOfCategory = continentOfCategory;
-        self.weeklyUsable = weelyUsable;
-        self.ownerUsable = ownerUsable;
+        self.name = name;
+        self.question = question;
+        self.usable = usable;
+        self.level = level;
+        self.experience = experience;
     }
-    
     return self;
+}
+
+-(id) initWithServerTerritory:(ServerTerritories *)s {
+    if ((self = [super init])) {
+        self.objectId = s.objectId;
+        self.answer = s.answer;
+        self.continentOfCategory = s.continentOfCategory;
+        self.name = s.name;
+        self.question = s.question;
+        self.usable = s.usable;
+        self.level = 1;
+        self.experience = 0;
+    }
+    return self;
+}
+
+-(id) initWithDictionary:(NSDictionary *)d {
+    if ((self = [super init])) {
+        self.objectId = [d objectForKey:@"objectId"];
+        self.answer = [d objectForKey:@"answer"];
+        self.continentOfCategory = [d objectForKey:@"continentOfCategory"];
+        self.name = [d objectForKey:@"name"];
+        self.question = [d objectForKey:@"question"];
+        self.usable = [[d objectForKey:@"usable"] boolValue];
+        self.level = [[d objectForKey:@"level"] integerValue];
+        self.experience = [[d objectForKey:@"experience"] integerValue];
+    }
+    return self;
+}
+
+-(NSDictionary*) dictionary {
+    return [NSDictionary dictionaryWithObjectsAndKeys:self.objectId, @"objectId", self.answer, @"answer", self.continentOfCategory, @"continentOfCategory", self.name, @"name", self.question, @"question", [NSNumber numberWithBool:self.usable], @"usable", [NSNumber numberWithInt:self.level], @"level", [NSNumber numberWithInt:self.experience], @"experience", nil];
 }
 
 -(void) dealloc {
-    self.ID = nil;
-    self.name = nil;
-    self.question = nil;
+    self.objectId = nil;
     self.answer = nil;
     self.continentOfCategory = nil;
+    self.name = nil;
+    self.question = nil;
     
-    [_ID release];
-    [_name release];
-    [_question release];
+    [_objectId release];
     [_answer release];
     [_continentOfCategory release];
+    [_name release];
+    [_question release];
     [super dealloc];
 }
 

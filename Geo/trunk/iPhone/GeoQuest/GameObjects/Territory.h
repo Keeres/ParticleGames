@@ -8,32 +8,41 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
+#import "ServerTerritories.h"
 
 @interface Territory : NSObject {
-    NSString    *_ID;
-    NSString    *_name;
-    NSString    *_question;
+    NSString    *_objectId;
     NSString    *_answer;
     NSString    *_continentOfCategory;
-    BOOL        _weeklyUsable;
-    BOOL        _ownerUsable;
+    NSString    *_name;
+    NSString    *_question;
+    BOOL        _usable;
+    int         _level;
+    int         _experience;
 }
 
-@property (nonatomic, retain) NSString *ID;
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *question;
+@property (nonatomic, retain) NSString *objectId;
 @property (nonatomic, retain) NSString *answer;
 @property (nonatomic, retain) NSString *continentOfCategory;
-@property (assign) BOOL weeklyUsable;
-@property (assign) BOOL ownerUsable;
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *question;
+@property BOOL usable;
+@property int level;
+@property int experience;
 
--(id) initTerritory:(NSArray*)array;
--(id) initTerritoryWithID:(NSString*)ID
-                     name:(NSString*)name
-                 question:(NSString*)question
-                   answer:(NSString*)answer
-      continentOfCategory:(NSString*)continentOfCategory
-             weeklyUsable:(BOOL)weelyUsable
-              ownerUsable:(BOOL)ownerUsable;
+-(id) initTerritoryWithObjectId:(NSString*)objectId
+                         answer:(NSString*)answer
+            continentOfCategory:(NSString*)continentOfCategory
+                           name:(NSString*)name
+                       question:(NSString*)question
+                         usable:(BOOL)usable
+                          level:(int)level
+                     experience:(int)experience;
+
+-(id) initWithServerTerritory:(ServerTerritories*)s;
+
+-(id) initWithDictionary:(NSDictionary*)d;
+
+-(NSDictionary*) dictionary;
 
 @end
