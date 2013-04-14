@@ -15,7 +15,7 @@
     [_territories retain];
 }
 
--(NSMutableArray*) getTerritories {
+-(NSArray*) getTerritories {
     return _territories;
 }
 

@@ -9,7 +9,7 @@
 #import "CCMenuItem.h"
 
 @interface TerritoryMenuItemSprite : CCMenuItemSprite {
-    NSMutableArray *_territories;
+    NSArray *_territories;
 }
 
 -(void) setTerritories:(NSArray*)t;

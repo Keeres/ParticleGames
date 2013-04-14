@@ -20,6 +20,7 @@
     BOOL        bounceEffectDown;
     BOOL        isRefreshed;
     BOOL        touchedItem;
+    BOOL        disableScroll;
     
     int         extraTouchPriority;
     float       bounceDistance;
@@ -33,6 +34,7 @@
 @property (assign) BOOL bounceEffectUp;
 @property (assign) BOOL bounceEffectDown;
 @property (assign) BOOL isRefreshed;
+@property (assign) BOOL disableScroll;
 @property (readwrite) int extraTouchPriority;
 @property (assign) float bounceDistance;
 

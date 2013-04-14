@@ -16,6 +16,7 @@
 @synthesize bounceEffectUp;
 @synthesize bounceEffectDown;
 @synthesize isRefreshed;
+@synthesize disableScroll;
 @synthesize extraTouchPriority;
 @synthesize bounceDistance;
 
@@ -29,6 +30,7 @@
         bounceEffectUp = NO;
         bounceEffectDown = NO;
         isRefreshed = NO;
+        disableScroll = NO;
         extraTouchPriority = 0;
         bounceDistance = 0.0;
     }
@@ -158,6 +160,45 @@
 	}
 	
 	return NO;
+}
+
+-(void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchMoved] -- invalid state");
+	
+	CCMenuItem *currentItem = [self itemForTouch:touch];
+	
+	if (currentItem != selectedItem_) {
+		[selectedItem_ unselected];
+		selectedItem_ = currentItem;
+		[selectedItem_ selected];
+	}
+	
+	// scrolling is allowed only with non-zero boundaryRect
+	if (!CGRectIsNull(boundaryRect_) && !disableScroll)
+	{
+		// get touch move delta
+		CGPoint point = [touch locationInView: [touch view]];
+		CGPoint prevPoint = [ touch previousLocationInView: [touch view] ];
+		point =  [ [CCDirector sharedDirector] convertToGL: point ];
+		prevPoint =  [ [CCDirector sharedDirector] convertToGL: prevPoint ];
+		CGPoint delta = ccpSub(point, prevPoint);
+		
+		curTouchLength_ += ccpLength( delta );
+		
+		if (curTouchLength_ >= self.minimumTouchLengthToSlide)
+		{
+			[selectedItem_ unselected];
+			selectedItem_ = nil;
+			
+			// add delta
+			CGPoint newPosition = ccpAdd(self.position, delta );
+			self.position = newPosition;
+			
+			// stay in externalBorders
+			[self fixPosition];
+		}
+	}
 }
 
 -(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
