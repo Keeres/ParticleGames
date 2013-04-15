@@ -416,7 +416,7 @@
     CCSprite *qImageAnswer;
     CCSprite *qImageAnswerFrame;
     CCLabelTTF *qTextAnswer;
-    if ([currentQuestion.info isEqualToString:@"PT"]) { //Question is a picture
+    if ([currentQuestion.info isEqualToString:@"PICTEXT"]) { //Question is a picture
         qImageAnswerFrame = [CCSprite spriteWithSpriteFrameName:@"ThemePictureFrame.png"];
         qImageAnswerFrame.position = ccp(qDisplay.contentSize.width/2, -qImageAnswerFrame.contentSize.height/2 - SOLO_GRID_SPACING/2);
         
@@ -493,7 +493,7 @@
         GeoQuestAnswer *a = [currentAnswerChoices objectAtIndex:i];
         CCMenuItemSprite *answerItemSprite;
         CCLOG(@"a.answer = %@", a.answer);
-        if ([currentQuestion.info isEqualToString:@"PT"]) {
+        if ([currentQuestion.info isEqualToString:@"PICTEXT"]) {
             
             //Answer choices are text labels
             answerItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] target:self selector:@selector(checkAnswer:)];
@@ -529,7 +529,7 @@
         }
     }
     
-    if ([currentQuestion.info isEqualToString:@"PT"]) {
+    if ([currentQuestion.info isEqualToString:@"PICTEXT"]) {
         //Answer choices are text labels
         switch (difficultyChoice) {
             case k5050PowerUp:
@@ -577,7 +577,7 @@
     
     switch (difficultyChoice) {
         case k5050PowerUp:
-            if ([currentQuestion.info isEqualToString:@"PT"]) {
+            if ([currentQuestion.info isEqualToString:@"PICTEXT"]) {
                 answerMenu.position = ccp(winSize.width/2, answerMenu.contentSize.height + SOLO_GRID_SPACING * 2);
 
             } else {
@@ -585,21 +585,21 @@
             }
             break;
         case kEasyDifficulty:
-            if ([currentQuestion.info isEqualToString:@"PT"]) {
+            if ([currentQuestion.info isEqualToString:@"PICTEXT"]) {
                 answerMenu.position = ccp(winSize.width/2, (answerMenu.contentSize.height + SOLO_GRID_SPACING) * 2);
             } else {
                 answerMenu.position = ccp(winSize.width/2, (answerMenu.contentSize.height + SOLO_GRID_SPACING) * 2);
             }
             break;
         case kNormalDifficulty:
-            if ([currentQuestion.info isEqualToString:@"PT"]) {
+            if ([currentQuestion.info isEqualToString:@"PICTEXT"]) {
                 answerMenu.position = ccp(winSize.width/2, answerMenu.contentSize.height/2 + SOLO_GRID_SPACING);
             } else {
                 answerMenu.position = ccp(winSize.width/2, answerMenu.contentSize.height/2 + SOLO_GRID_SPACING * 1.5);
             }
             break;
         case kExtremeDifficuly:
-            if ([currentQuestion.info isEqualToString:@"PT"]) {
+            if ([currentQuestion.info isEqualToString:@"PICTEXT"]) {
                 answerMenu.position = ccp(winSize.width/2, tempGameTheme.boundaryRect.size.height*.28);
             } else {
                 answerMenu.position = ccp(winSize.width/2, tempGameTheme.boundaryRect.size.height*.41);

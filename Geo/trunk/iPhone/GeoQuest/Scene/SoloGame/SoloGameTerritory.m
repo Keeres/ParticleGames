@@ -82,7 +82,7 @@
 
     
     PFQuery *sTerritory = [ServerTerritories query];
-    [sTerritory whereKey:@"weekly_usable" equalTo:[NSNumber numberWithBool:YES]];
+    [sTerritory whereKey:@"usable" equalTo:[NSNumber numberWithBool:YES]];
     sTerritory.cachePolicy = kPFCachePolicyCacheElseNetwork;
     
     [sTerritory findObjectsInBackgroundWithBlock:^(NSArray *serverTerritoryArray, NSError *error) {

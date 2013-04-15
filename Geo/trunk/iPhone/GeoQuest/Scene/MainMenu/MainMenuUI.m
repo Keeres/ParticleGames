@@ -127,7 +127,12 @@
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"QuestionThemes.plist"];
     questionThemesSheet = [CCSpriteBatchNode batchNodeWithFile:@"QuestionThemes.png"];
     [self addChild:questionThemesSheet z:20];
+    
+    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"CountryEurope.plist"];
+    countryEuropeSheet = [CCSpriteBatchNode batchNodeWithFile:@"CountryEurope.png"];
+    [self addChild:countryEuropeSheet z:20];
 }
+
 
 -(void) setupTitle {
     // Game title on the main menu

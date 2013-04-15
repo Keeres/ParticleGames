@@ -36,6 +36,7 @@
     CCSpriteBatchNode   *usaStatesSheet;
     CCSpriteBatchNode   *usaCapitalsSheet;
     CCSpriteBatchNode   *questionThemesSheet;
+    CCSpriteBatchNode   *countryEuropeSheet;
 
     
     //Objects
