@@ -61,58 +61,6 @@
     CCLabelTTF *challengerLabel = [CCLabelTTF labelWithString:[PlayerDB database].player2Stats.player_id fontName:@"Arial" fontSize:14];
     challengerLabel.position = ccp(challengerVehicle.contentSize.width/2, challengerVehicle.textureRect.size.height + challengerLabel.contentSize.height);
     [challengerVehicle addChild:challengerLabel];
-
-    
-    /*PFQuery *challengeQuery = [ChallengesInProgress query];
-    [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].currentChallenge.objectId];
-    challengeQuery.cachePolicy = kPFCachePolicyCacheElseNetwork;
-    
-    [challengeQuery findObjectsInBackgroundWithBlock:^(NSArray *challengeObjectArray, NSError *error) {
-        ChallengesInProgress *challenge = [challengeObjectArray objectAtIndex:0];
-        
-        PFQuery *p1StatQuery = [PlayerStats query];
-        [p1StatQuery whereKey:@"player_id" equalTo:challenge.player1_id];
-        p1StatQuery.cachePolicy = kPFCachePolicyCacheElseNetwork;
-
-        [p1StatQuery findObjectsInBackgroundWithBlock:^(NSArray *player1ObjectArray, NSError *error) {
-            PlayerStats *player1 = [player1ObjectArray objectAtIndex:0];
-            
-            PFQuery *p2StatQuery = [PlayerStats query];
-            [p2StatQuery whereKey:@"player_id" equalTo:challenge.player2_id];
-            p2StatQuery.cachePolicy = kPFCachePolicyCacheElseNetwork;
-
-            [p2StatQuery findObjectsInBackgroundWithBlock:^(NSArray *player2ObjectArray, NSError *error) {
-                PlayerStats *player2 = [player2ObjectArray objectAtIndex:0];
-                
-                NSString *playerVehicleString = player1.selected_vehicle;
-                NSString *challengerVehicleString = player2.selected_vehicle;
-                [PlayerDB database].player1Vehicle = player1.selected_vehicle;
-                [PlayerDB database].player2Vehicle = player2.selected_vehicle;
-                [PlayerDB database].player1Id = player1.player_id;
-                [PlayerDB database].player2Id = player2.player_id;
-                
-                playerVehicle = [CCSprite spriteWithSpriteFrameName:playerVehicleString];
-                playerVehicle.position = ccp(startingPoint, 20.0);
-                //playerVehicle.visible = NO;
-                [self addChild:playerVehicle z:10];
-                
-                challengerVehicle = [CCSprite spriteWithSpriteFrameName:challengerVehicleString];
-                challengerVehicle.position = ccp(startingPoint, 40.0);
-                //challengerVehicle.visible = NO;
-                [self addChild:challengerVehicle z:9];
-                
-                CCLabelTTF *playerLabel = [CCLabelTTF labelWithString:player1.player_id fontName:@"Arial" fontSize:14];
-                playerLabel.position = ccp(playerVehicle.contentSize.width/2, playerVehicle.textureRect.size.height + playerLabel.contentSize.height);
-                [playerVehicle addChild:playerLabel];
-                
-                CCLabelTTF *challengerLabel = [CCLabelTTF labelWithString:player2.player_id fontName:@"Arial" fontSize:14];
-                challengerLabel.position = ccp(challengerVehicle.contentSize.width/2, challengerVehicle.textureRect.size.height + challengerLabel.contentSize.height);
-                [challengerVehicle addChild:challengerLabel];
-            }];
-
-        }];
-        
-    }];*/
     
 }
 
@@ -171,11 +119,16 @@
         ChallengesInProgress *challenge = [challengeObjectArray objectAtIndex:0];
         
         NSString *pRaceDataString = challenge.player1_prev_race;
-        playerRaceDataArray = [[NSMutableArray alloc] initWithArray:[[PlayerDB database] parseRaceDataFromString:pRaceDataString]];
+        NSError *jsonError = nil;
+        playerRaceDataArray = [NSJSONSerialization JSONObjectWithData:[pRaceDataString dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&jsonError];
+        [playerRaceDataArray retain];
+        
         playerReverseRaceDataArray = [[NSMutableArray alloc] initWithCapacity:[playerRaceDataArray count]];
         
         NSString *cRaceDataString = challenge.player2_prev_race;
-        challengerRaceDataArray = [[NSMutableArray alloc] initWithArray:[[PlayerDB database] parseRaceDataFromString:cRaceDataString]];
+        challengerRaceDataArray = [NSJSONSerialization JSONObjectWithData:[cRaceDataString dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&jsonError];
+        [challengerRaceDataArray retain];
+        
         challengerReverseRaceDataArray = [[NSMutableArray alloc] initWithCapacity:[challengerRaceDataArray count]];
         
         if (renderTexture != NULL) {
@@ -221,7 +174,8 @@
         
         // Player Answers
         for (int i = 0; i < [playerRaceDataArray count]; i++) {
-            RaceData *raceData = [playerRaceDataArray objectAtIndex:i];
+            //RaceData *raceData = [playerRaceDataArray objectAtIndex:i];
+            RaceData *raceData = [[[RaceData alloc] initWithDictionary:[playerRaceDataArray objectAtIndex:i]] autorelease];
             
             line.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2 - (line.contentSize.width * raceData.time));
             
@@ -234,7 +188,7 @@
             
             if ([raceData.answerType isEqualToString:@"TP"]) {
                 CCLabelTTF *label = [CCLabelTTF labelWithString:raceData.answer fontName:@"Arial" fontSize:16];
-                if (raceData.correct) {
+                if (raceData.isCorrect) {
                     label.color = ccc3(97, 166, 75);
                 } else {
                     label.color = ccc3(255, 70, 70);
@@ -245,7 +199,7 @@
                 CCSprite *picture = [CCSprite spriteWithSpriteFrameName:raceData.answer];
                 picture.scale = 0.3;
                 
-                if (raceData.correct) {
+                if (raceData.isCorrect) {
                     picture.color = ccc3(97, 166, 75);
                 } else {
                     picture.color = ccc3(255, 70, 70);
@@ -258,7 +212,8 @@
         // Challenger Answers
         
         for (int i = 0; i < [challengerRaceDataArray count]; i++) {
-            RaceData *raceData = [challengerRaceDataArray objectAtIndex:i];
+            //RaceData *raceData = [challengerRaceDataArray objectAtIndex:i];
+            RaceData *raceData = [[[RaceData alloc] initWithDictionary:[challengerRaceDataArray objectAtIndex:i]] autorelease];
             
             line.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2 - (line.contentSize.width * raceData.time));
             
@@ -271,7 +226,7 @@
             
             if ([raceData.answerType isEqualToString:@"TP"]) {
                 CCLabelTTF *label = [CCLabelTTF labelWithString:raceData.answer fontName:@"Arial" fontSize:16];
-                if (raceData.correct) {
+                if (raceData.isCorrect) {
                     label.color = ccc3(97, 166, 75);
                 } else {
                     label.color = ccc3(255, 70, 70);
@@ -282,7 +237,7 @@
                 CCSprite *picture = [CCSprite spriteWithSpriteFrameName:raceData.answer];
                 picture.scale = 0.3;
                 
-                if (raceData.correct) {
+                if (raceData.isCorrect) {
                     picture.color = ccc3(97, 166, 75);
                 } else {
                     picture.color = ccc3(255, 70, 70);
@@ -445,7 +400,8 @@
     if (yDif < 0) {
         // Move player vehicle to the right 
         if ([playerRaceDataArray count] != 0) {
-            RaceData *playerRaceData = [playerRaceDataArray objectAtIndex:0];
+            RaceData *playerRaceData = [[RaceData alloc] initWithDictionary:[playerRaceDataArray objectAtIndex:0]];
+            
             if (playerRaceData.time < currentTime) {
                 
                 if ((playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * playerRaceData.points)) > finishingPoint) {
@@ -454,8 +410,7 @@
                     playerVehicle.position = ccp(playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * playerRaceData.points), playerVehicle.position.y);
                 }
                 
-                [playerRaceData retain];
-                [playerReverseRaceDataArray insertObject:playerRaceData atIndex:0];
+                [playerReverseRaceDataArray insertObject:[playerRaceData dictionary] atIndex:0];
                 [playerRaceDataArray removeObjectAtIndex:0];
                 [playerRaceData release];
             }
@@ -463,7 +418,8 @@
         
         // Move challenger vehicle to the right
         if ([challengerRaceDataArray count] != 0) {
-            RaceData *challengerRaceData = [challengerRaceDataArray objectAtIndex:0];
+            RaceData *challengerRaceData = [[RaceData alloc] initWithDictionary:[challengerRaceDataArray objectAtIndex:0]];
+            
             if (challengerRaceData.time < currentTime) {
                 
                 if ((challengerVehicle.position.x + ((winSize.width - challengerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * challengerRaceData.points)) > finishingPoint) {
@@ -472,8 +428,7 @@
                     challengerVehicle.position = ccp(challengerVehicle.position.x + ((winSize.width - challengerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * challengerRaceData.points), challengerVehicle.position.y);
                 }
                 
-                [challengerRaceData retain];
-                [challengerReverseRaceDataArray insertObject:challengerRaceData atIndex:0];
+                [challengerReverseRaceDataArray insertObject:[challengerRaceData dictionary] atIndex:0];
                 [challengerRaceDataArray removeObjectAtIndex:0];
                 [challengerRaceData release];
             }
@@ -482,7 +437,8 @@
         
         // Move player vehicle to the left
         if ([playerReverseRaceDataArray count] != 0) {
-            RaceData *playerRaceData = [playerReverseRaceDataArray objectAtIndex:0];
+            RaceData *playerRaceData = [[RaceData alloc] initWithDictionary:[playerReverseRaceDataArray objectAtIndex:0]];
+            
             if (playerRaceData.time > currentTime) {
                 if ((playerVehicle.position.x - ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * playerRaceData.points)) < startingPoint) {
                     playerVehicle.position = ccp(startingPoint, playerVehicle.position.y);
@@ -490,8 +446,8 @@
                     playerVehicle.position = ccp(playerVehicle.position.x - ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * playerRaceData.points), playerVehicle.position.y);
                 }
                 
-                [playerRaceData retain];
-                [playerRaceDataArray insertObject:playerRaceData atIndex:0];
+                //[playerRaceData retain];
+                [playerRaceDataArray insertObject:[playerRaceData dictionary] atIndex:0];
                 [playerReverseRaceDataArray removeObjectAtIndex:0];
                 [playerRaceData release];
             }
@@ -499,7 +455,8 @@
         
         // Move challenger vehicle to the left
         if ([challengerReverseRaceDataArray count] != 0) {
-            RaceData *challengerRaceData = [challengerReverseRaceDataArray objectAtIndex:0];
+            RaceData *challengerRaceData = [[RaceData alloc] initWithDictionary:[challengerReverseRaceDataArray objectAtIndex:0]];
+            
             if (challengerRaceData.time > currentTime) {
                 if ((challengerVehicle.position.x - ((winSize.width - challengerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * challengerRaceData.points)) < startingPoint) {
                     challengerVehicle.position = ccp(startingPoint, challengerVehicle.position.y);
@@ -507,8 +464,7 @@
                     challengerVehicle.position = ccp(challengerVehicle.position.x - ((winSize.width - challengerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * challengerRaceData.points), challengerVehicle.position.y);
                 }
                 
-                [challengerRaceData retain];
-                [challengerRaceDataArray insertObject:challengerRaceData atIndex:0];
+                [challengerRaceDataArray insertObject:[challengerRaceData dictionary] atIndex:0];
                 [challengerReverseRaceDataArray removeObjectAtIndex:0];
                 [challengerRaceData release];
             }

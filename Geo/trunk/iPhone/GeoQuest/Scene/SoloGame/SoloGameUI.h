@@ -56,8 +56,6 @@
     NSArray             *themeArray;
 
     NSMutableArray      *questionArray;
-    NSMutableArray      *questionLayerTotal;
-    //NSMutableArray      *questionLayerVisible;
     NSMutableArray      *answerArray;
     NSMutableArray      *currentAnswerChoices;
     NSMutableArray      *themeTotal;
