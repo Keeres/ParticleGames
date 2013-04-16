@@ -187,6 +187,7 @@
 		B698FC35171C1132006CF708 /* CountryEurope.png in Resources */ = {isa = PBXBuildFile; fileRef = B698FC31171C1132006CF708 /* CountryEurope.png */; };
 		B698FC36171C1132006CF708 /* CountryEurope-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B698FC32171C1132006CF708 /* CountryEurope-hd.plist */; };
 		B698FC37171C1132006CF708 /* CountryEurope.plist in Resources */ = {isa = PBXBuildFile; fileRef = B698FC33171C1132006CF708 /* CountryEurope.plist */; };
+		B698FC39171C972E006CF708 /* MoveVehicleParticle.plist in Resources */ = {isa = PBXBuildFile; fileRef = B698FC38171C972E006CF708 /* MoveVehicleParticle.plist */; };
 		B69B060A170345DB00FE2775 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69B0609170345DB00FE2775 /* Parse.framework */; };
 		B69B06111703462600FE2775 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69B060B1703462600FE2775 /* CFNetwork.framework */; };
 		B69B06121703462600FE2775 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69B060C1703462600FE2775 /* CoreLocation.framework */; };
@@ -584,6 +585,7 @@
 		B698FC31171C1132006CF708 /* CountryEurope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CountryEurope.png; sourceTree = "<group>"; };
 		B698FC32171C1132006CF708 /* CountryEurope-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CountryEurope-hd.plist"; sourceTree = "<group>"; };
 		B698FC33171C1132006CF708 /* CountryEurope.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountryEurope.plist; sourceTree = "<group>"; };
+		B698FC38171C972E006CF708 /* MoveVehicleParticle.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MoveVehicleParticle.plist; sourceTree = "<group>"; };
 		B69B0609170345DB00FE2775 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		B69B060B1703462600FE2775 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B69B060C1703462600FE2775 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -1228,6 +1230,7 @@
 				B698FC31171C1132006CF708 /* CountryEurope.png */,
 				B698FC32171C1132006CF708 /* CountryEurope-hd.plist */,
 				B698FC33171C1132006CF708 /* CountryEurope.plist */,
+				B698FC38171C972E006CF708 /* MoveVehicleParticle.plist */,
 				B6130F311668119500C636A6 /* DoublePointsPowerUpParticle.plist */,
 				B6130F321668119500C636A6 /* FiftyFiftyPowerUpParticle.plist */,
 				B6130F331668119500C636A6 /* FreezeTimePowerUpParticle.plist */,
@@ -1548,6 +1551,7 @@
 				B698FC35171C1132006CF708 /* CountryEurope.png in Resources */,
 				B698FC36171C1132006CF708 /* CountryEurope-hd.plist in Resources */,
 				B698FC37171C1132006CF708 /* CountryEurope.plist in Resources */,
+				B698FC39171C972E006CF708 /* MoveVehicleParticle.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1773,8 +1777,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kelvin chan (WAM46WMENN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kelvin chan (WAM46WMENN)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1792,8 +1796,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "B6FABECC-1E1F-4D9E-AAEA-B2A3B9BD00E3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B6FABECC-1E1F-4D9E-AAEA-B2A3B9BD00E3";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1803,7 +1807,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Kelvin chan (WAM46WMENN)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Kelvin chan (WAM46WMENN)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1820,7 +1825,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "B6FABECC-1E1F-4D9E-AAEA-B2A3B9BD00E3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B6FABECC-1E1F-4D9E-AAEA-B2A3B9BD00E3";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

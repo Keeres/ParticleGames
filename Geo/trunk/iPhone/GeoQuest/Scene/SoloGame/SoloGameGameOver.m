@@ -171,6 +171,19 @@
         } else {
             nextRoundSprite.isEnabled = NO;
             nextRoundSprite.visible = NO;
+            
+            PFPush *push = [[PFPush alloc] init];
+            if ([PlayerDB database].playerInPlayer1Column) {
+                [push setChannel:challenge.player2_id];
+            } else {
+                [push setChannel:challenge.player1_id];
+            }
+            NSDictionary *data = [NSDictionary dictionaryWithObjectsAndKeys:@"Your turn is ready!", @"alert", @"1", @"badge", nil];
+            //[push setMessage:[NSString stringWithFormat:@"Your turn is ready!"]];
+            [push setData:data];
+            [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                [push release];
+            }];
         }
         
         [self showLayerAndObjects];

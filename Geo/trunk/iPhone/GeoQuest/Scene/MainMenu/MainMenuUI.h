@@ -33,9 +33,9 @@
     
     // SpriteSheet
     CCSpriteBatchNode   *mainMenuUISheet;
+    //CCSpriteBatchNode   *questionThemesSheet;
     CCSpriteBatchNode   *usaStatesSheet;
     CCSpriteBatchNode   *usaCapitalsSheet;
-    CCSpriteBatchNode   *questionThemesSheet;
     CCSpriteBatchNode   *countryEuropeSheet;
 
     

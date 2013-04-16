@@ -62,6 +62,16 @@
     challengerLabel.position = ccp(challengerVehicle.contentSize.width/2, challengerVehicle.textureRect.size.height + challengerLabel.contentSize.height);
     [challengerVehicle addChild:challengerLabel];
     
+    moveVehicle1Particle = [CCParticleSystemQuad particleWithFile:@"MoveVehicleParticle.plist"];
+    moveVehicle1Particle.position = ccp(winSize.width/2, winSize.height/2);
+    moveVehicle1Particle.visible = NO;
+    [self addChild:moveVehicle1Particle z:Z_ORDER_TOP];
+    
+    moveVehicle2Particle = [CCParticleSystemQuad particleWithFile:@"MoveVehicleParticle.plist"];
+    moveVehicle2Particle.position = ccp(winSize.width/2, winSize.height/2);
+    moveVehicle2Particle.visible = NO;
+    [self addChild:moveVehicle2Particle z:Z_ORDER_TOP];
+    
 }
 
 -(void) setupPlayerChallengerLabels {
@@ -186,7 +196,7 @@
             
             line.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2 - (line.contentSize.width * raceData.time));
             
-            if ([raceData.answerType isEqualToString:@"TP"]) {
+            if ([raceData.answerType isEqualToString:@"TEXTPIC"]) {
                 CCLabelTTF *label = [CCLabelTTF labelWithString:raceData.answer fontName:@"Arial" fontSize:16];
                 if (raceData.isCorrect) {
                     label.color = ccc3(97, 166, 75);
@@ -224,7 +234,7 @@
             
             line.position = ccp(renderTexture.boundaryRect.size.width/2, renderTexture.boundaryRect.size.height - start.contentSize.height/2 - (line.contentSize.width * raceData.time));
             
-            if ([raceData.answerType isEqualToString:@"TP"]) {
+            if ([raceData.answerType isEqualToString:@"TEXTPIC"]) {
                 CCLabelTTF *label = [CCLabelTTF labelWithString:raceData.answer fontName:@"Arial" fontSize:16];
                 if (raceData.isCorrect) {
                     label.color = ccc3(97, 166, 75);
@@ -354,6 +364,8 @@
     challengerName.visible = NO;
     playerScore.visible = NO;
     challengerScore.visible = NO;
+    moveVehicle1Particle.visible = NO;
+    moveVehicle2Particle.visible = NO;
 }
 
 -(void) loadReplayLayer {
@@ -410,6 +422,12 @@
                     playerVehicle.position = ccp(playerVehicle.position.x + ((winSize.width - playerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * playerRaceData.points), playerVehicle.position.y);
                 }
                 
+                if (playerRaceData.isCorrect) {
+                    moveVehicle1Particle.position = ccp(playerVehicle.position.x - playerVehicle.contentSize.width/2, playerVehicle.position.y - playerVehicle.contentSize.height/4);
+                    moveVehicle1Particle.visible = YES;
+                    [moveVehicle1Particle resetSystem];
+                }
+                
                 [playerReverseRaceDataArray insertObject:[playerRaceData dictionary] atIndex:0];
                 [playerRaceDataArray removeObjectAtIndex:0];
                 [playerRaceData release];
@@ -428,6 +446,12 @@
                     challengerVehicle.position = ccp(challengerVehicle.position.x + ((winSize.width - challengerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * challengerRaceData.points), challengerVehicle.position.y);
                 }
                 
+                if (challengerRaceData.isCorrect) {
+                    moveVehicle2Particle.position = ccp(challengerVehicle.position.x - challengerVehicle.contentSize.width/2, challengerVehicle.position.y - challengerVehicle.contentSize.height/4);
+                    moveVehicle2Particle.visible = YES;
+                    [moveVehicle2Particle resetSystem];
+                }
+
                 [challengerReverseRaceDataArray insertObject:[challengerRaceData dictionary] atIndex:0];
                 [challengerRaceDataArray removeObjectAtIndex:0];
                 [challengerRaceData release];

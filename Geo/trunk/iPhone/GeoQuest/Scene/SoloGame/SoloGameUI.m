@@ -64,7 +64,7 @@
     [self setupSoloGameTheme];
     [self setupTheme];
     //[self setupQuestionLayer];
-    //[self setupParticleSystems];
+    [self setupParticleSystems];
     //[self createQuestions];
     
     [self setupVehicles]; //Calls createQuestions after
@@ -229,8 +229,18 @@
     }  
 }*/
 
-/*-(void) setupParticleSystems {
-    freezeTimePowerUpParticle = [CCParticleSystemQuad particleWithFile:@"FreezeTimePowerUpParticle.plist"];
+-(void) setupParticleSystems {
+    moveVehicle1Particle = [CCParticleSystemQuad particleWithFile:@"MoveVehicleParticle.plist"];
+    moveVehicle1Particle.position = ccp(winSize.width/2, winSize.height/2);
+    moveVehicle1Particle.visible = NO;
+    [self addChild:moveVehicle1Particle z:Z_ORDER_TOP];
+    
+    moveVehicle2Particle = [CCParticleSystemQuad particleWithFile:@"MoveVehicleParticle.plist"];
+    moveVehicle2Particle.position = ccp(winSize.width/2, winSize.height/2);
+    moveVehicle2Particle.visible = NO;
+    [self addChild:moveVehicle2Particle z:Z_ORDER_TOP];
+
+    /*freezeTimePowerUpParticle = [CCParticleSystemQuad particleWithFile:@"FreezeTimePowerUpParticle.plist"];
     freezeTimePowerUpParticle.position = ccp(winSize.width/2, freezeTimePowerUpParticle.contentSize.height);
     freezeTimePowerUpParticle.visible = NO;
     [self addChild:freezeTimePowerUpParticle z:100];
@@ -248,9 +258,9 @@
     specialStagePowerUpParticle = [CCParticleSystemQuad particleWithFile:@"SpecialStagePowerUpParticle.plist"];
     specialStagePowerUpParticle.position = ccp(winSize.width/2, specialStagePowerUpParticle.contentSize.height);
     specialStagePowerUpParticle.visible = NO;
-    [self addChild:specialStagePowerUpParticle z:100];
+    [self addChild:specialStagePowerUpParticle z:100];*/
  
-}*/
+}
 
 
 #pragma mark - Retrieve Information
@@ -954,6 +964,11 @@
                         } else {
                             challengerVehicleAction = [CCMoveTo actionWithDuration:0.35 position:ccp(challengerVehicle.position.x + ((winSize.width - challengerVehicle.contentSize.width)/SOLO_GAME_SCORE_TO_WIN * r.points), challengerVehicle.position.y)];
                         }
+                        
+                        moveVehicle2Particle.position = ccp(challengerVehicle.position.x - challengerVehicle.contentSize.width/2, challengerVehicle.position.y - challengerVehicle.contentSize.height/4);
+                        moveVehicle2Particle.visible = YES;
+                        [moveVehicle2Particle resetSystem];
+                        
                         id challengerVehicleEase = [CCEaseInOut actionWithAction:challengerVehicleAction rate:2];
                         [challengerVehicle runAction:challengerVehicleEase];
                         [challengerRaceDataArray removeObjectAtIndex:0];
@@ -1200,6 +1215,9 @@
     [playerVehicle runAction:playerVehicleEase];
     
     if (correctAnswer) {
+        moveVehicle1Particle.position = ccp(playerVehicle.position.x - playerVehicle.contentSize.width/2, playerVehicle.position.y - playerVehicle.contentSize.height/4);
+        moveVehicle1Particle.visible = YES;
+        [moveVehicle1Particle resetSystem];
         [self performSelector:@selector(questionAnswered) withObject:nil afterDelay:0.35];
     } else {
         [self performSelector:@selector(questionAnswered) withObject:nil afterDelay:0.75];
@@ -1341,6 +1359,8 @@
     questionChecked = NO;
     answerChoicesVisibleCount = 4;
     currentQuestion = nil;
+    moveVehicle1Particle.visible = NO;
+    moveVehicle2Particle.visible = NO;
 }
 
 -(void) hideLayerAndObjects {

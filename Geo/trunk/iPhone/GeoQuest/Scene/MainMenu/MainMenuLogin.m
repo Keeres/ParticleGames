@@ -257,6 +257,9 @@
         if (!error) {
             //Signed in
             //Load server territories, create player territories
+            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+            [currentInstallation addUniqueObject:user.username forKey:@"channels"];
+            [currentInstallation saveInBackground];
             
             [mainMenuUI setupPlayerDatabase];
         } else {
@@ -270,6 +273,10 @@
     [PFUser logInWithUsernameInBackground:userField.text password:pwField.text block:^(PFUser *user, NSError *error) {
         if (user) {
             //Logged in
+            PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+            [currentInstallation addUniqueObject:user.username forKey:@"channels"];
+            [currentInstallation saveInBackground];
+            
             [mainMenuUI setupPlayerDatabase];
         } else {
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
@@ -283,6 +290,7 @@
     loginButtonMenu.visible = NO;
     wrapper.visible = NO;
     registerLoginUserMenu.visible = YES;
+    registerLoginUserMenu.isDisabled = NO;
 }
 
 -(id) initWithMainMenuUILayer:(MainMenuUI *)menuUI {

@@ -116,6 +116,10 @@
     mainMenuUISheet = [CCSpriteBatchNode batchNodeWithFile:@"MainMenuUISprites.png"];
     [self addChild:mainMenuUISheet z:20];
     
+    /*[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"QuestionThemes.plist"];
+    questionThemesSheet = [CCSpriteBatchNode batchNodeWithFile:@"QuestionThemes.png"];
+    [self addChild:questionThemesSheet z:20];*/
+    
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"USAStatesSprites.plist"];
     usaStatesSheet = [CCSpriteBatchNode batchNodeWithFile:@"USAStatesSprites.png"];
     [self addChild:usaStatesSheet z:20];
@@ -123,11 +127,7 @@
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"USACapitalsSprites.plist"];
     usaCapitalsSheet = [CCSpriteBatchNode batchNodeWithFile:@"USACapitalsSprites.png"];
     [self addChild:usaCapitalsSheet z:20];
-    
-    [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"QuestionThemes.plist"];
-    questionThemesSheet = [CCSpriteBatchNode batchNodeWithFile:@"QuestionThemes.png"];
-    [self addChild:questionThemesSheet z:20];
-    
+       
     [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"CountryEurope.plist"];
     countryEuropeSheet = [CCSpriteBatchNode batchNodeWithFile:@"CountryEurope.png"];
     [self addChild:countryEuropeSheet z:20];
@@ -464,6 +464,10 @@
     //[[PlayerDB database] logOut];
     //[self disableButtonsWhenNoNetwork];
     
+    
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation removeObject:[PFUser currentUser].username forKey:@"channels"];
+    [currentInstallation saveInBackground];
     [PFUser logOut];
     
     mainMenuLogin.visible = YES;

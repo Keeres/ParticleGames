@@ -41,6 +41,8 @@
     CCLabelTTF          *challengerName;
     CCLabelTTF          *playerScore;
     CCLabelTTF          *challengerScore;
+    CCParticleSystemQuad *moveVehicle1Particle;
+    CCParticleSystemQuad *moveVehicle2Particle;
     
     //CCMenu
     CCMenuAdvanced      *nextMenu;

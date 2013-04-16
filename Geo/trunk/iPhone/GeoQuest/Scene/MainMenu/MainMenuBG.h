@@ -14,7 +14,7 @@
 
 @interface MainMenuBG : CCLayer {
     
-    CCSpriteBatchNode   *mainMenuBGSheet;
+    //CCSpriteBatchNode   *mainMenuBGSheet;
     
     //Variables
     BOOL                    BGTouched; //Has the background been touched?

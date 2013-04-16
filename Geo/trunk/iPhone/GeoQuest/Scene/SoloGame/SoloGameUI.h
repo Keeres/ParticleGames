@@ -85,6 +85,9 @@
     //CCParticleSystemQuad *doublePointsPowerUpParticle;
     //CCParticleSystemQuad *fiftyFiftyPowerUpParticle;
     //CCParticleSystemQuad *specialStagePowerUpParticle;
+    CCParticleSystemQuad *moveVehicle1Particle;
+    CCParticleSystemQuad *moveVehicle2Particle;
+
 
     BOOL                questionAnswered;
     BOOL                questionChecked;

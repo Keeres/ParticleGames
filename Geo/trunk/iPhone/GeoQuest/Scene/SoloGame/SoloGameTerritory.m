@@ -115,7 +115,9 @@
             for (int i = 0; i < 3; i++) {
                 territoryItemSprite = [TerritoryMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"ThemeTextFrame.png"] target:self selector:@selector(territorySelected:)];
                 territoryItemSprite.tag = i;
-                [territoryItemSprite setTerritories:territoryArray];
+                NSArray *tempArray = [NSArray arrayWithObject:[territoryArray objectAtIndex:i]];
+                //[territoryItemSprite setTerritories:territoryArray];
+                [territoryItemSprite setTerritories:tempArray];
                 
                 switch (i) {
                     case 0: {
