@@ -320,6 +320,8 @@
     [createGameItemSprite addChild:createGameLabel];
     [gameChallengeMenu addChild:createGameItemSprite];
     
+    challengerArray = [self sortChallengerArray:challengerArray];
+    
     // Add Player vs. Challenger Buttons
     for (int i = 0; i < [challengerArray count]; i++) {
         ChallengerMenuItemSprite *challengerItemSprite = [ChallengerMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] target:self selector:@selector(startChallenge:)];
@@ -343,7 +345,15 @@
             challengerItemSprite.isEnabled = NO;
         }
         
-        CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@ vs. %@", challenge.player1_id, challenge.player2_id] fontName:@"Arial" fontSize:10];
+        NSDate *currentTime = [NSDate date];
+        NSTimeInterval timeDifference = [currentTime timeIntervalSinceDate:challenge.updatedAt];
+        timeDifference = timeDifference/60;
+        NSString *timeDifferenceString = [NSString stringWithFormat:@"%.0f minutes ago", timeDifference];
+        if (timeDifference < 3) {
+            timeDifferenceString = [NSString stringWithFormat:@"Now"];
+        }
+
+        CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@ vs. %@ | last played: %@", challenge.player1_id, challenge.player2_id, timeDifferenceString] fontName:@"Arial" fontSize:10];
         nameLabel.position = ccp(nameLabel.contentSize.width/2 + UI_MENU_SPACING, challengerItemSprite.contentSize.height/2);
         nameLabel.color = ccc3(0, 0, 0);
         [challengerItemSprite addChild:nameLabel];
@@ -380,6 +390,35 @@
     
     [gameChallengeMenu alignItemsVerticallyWithPadding:0.0 bottomToTop:NO];
     gameChallengeMenu.ignoreAnchorPointForPosition = NO;
+}
+
+-(NSArray*) sortChallengerArray:(NSArray*)array {
+    
+    NSMutableArray *playerTurnArray = [NSMutableArray arrayWithArray:nil];
+    NSMutableArray *challengerTurnArray = [NSMutableArray arrayWithObjects:nil];
+    
+    for (int i = 0; i < [array count]; i++) {
+        ChallengesInProgress *challenge = [array objectAtIndex:i];
+        if ([challenge.turn isEqualToString:[PFUser currentUser].username]) {
+            [playerTurnArray addObject:challenge];
+        } else {
+            [challengerTurnArray addObject:challenge];
+        }
+    }
+    
+    NSSortDescriptor *timeDescriptor;
+    timeDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"updatedAt" ascending:NO] autorelease];
+
+    NSArray *timeDescriptors = [NSArray arrayWithObjects:timeDescriptor, nil];
+    [playerTurnArray sortUsingDescriptors:timeDescriptors];
+    [challengerTurnArray sortUsingDescriptors:timeDescriptors];
+    
+    [playerTurnArray addObjectsFromArray:challengerTurnArray];
+    
+    NSArray *sortedArray;
+    sortedArray = [NSArray arrayWithArray:playerTurnArray];
+    
+    return sortedArray;
 }
 
 -(void) update:(ccTime)delta {

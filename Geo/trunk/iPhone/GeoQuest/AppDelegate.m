@@ -161,6 +161,8 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
 {
 	if( [navController_ visibleViewController] == director_ )
 		[director_ resume];
+    
+    application.applicationIconBadgeNumber = 0;
 }
 
 -(void) applicationDidEnterBackground:(UIApplication*)application
