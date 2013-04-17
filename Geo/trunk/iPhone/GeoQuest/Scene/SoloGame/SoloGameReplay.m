@@ -322,6 +322,7 @@
 }
 
 -(void) nextSelected {
+    nextMenu.isDisabled = YES;
     
     PFQuery *challengeQuery = [ChallengesInProgress query];
     [challengeQuery whereKey:@"objectId" equalTo:[PlayerDB database].currentChallenge.objectId];

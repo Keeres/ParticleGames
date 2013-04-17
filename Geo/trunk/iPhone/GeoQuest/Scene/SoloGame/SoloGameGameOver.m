@@ -92,6 +92,7 @@
 
 -(void) gameOverSelected:(CCMenuItemSprite*)sender {
     int i = sender.tag;
+    gameOverMenu.isDisabled = YES;
     switch (i) {
         case 0:
             CCLOG(@"SoloGameUI: Reset game");

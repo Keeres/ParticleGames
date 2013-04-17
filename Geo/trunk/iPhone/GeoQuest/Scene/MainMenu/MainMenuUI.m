@@ -322,6 +322,18 @@
     
     challengerArray = [self sortChallengerArray:challengerArray];
     
+    // Add Create Real Time Game Button
+    CCMenuItemSprite *createRealTimeItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton1.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton1.png"] target:self selector:@selector(createRealTimeGame)];
+    
+    CCLabelTTF *createRealTimeLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"Create Real Time Game"] fontName:@"Arial" fontSize:10];
+    createRealTimeLabel.position = ccp(createRealTimeLabel.contentSize.width/2 + UI_MENU_SPACING, createRealTimeItemSprite.contentSize.height/2);
+    createRealTimeLabel.color = ccc3(255, 0, 0);
+    
+    [createRealTimeItemSprite addChild:createRealTimeLabel];
+    [gameChallengeMenu addChild:createRealTimeItemSprite];
+    
+    challengerArray = [self sortChallengerArray:challengerArray];
+    
     // Add Player vs. Challenger Buttons
     for (int i = 0; i < [challengerArray count]; i++) {
         ChallengerMenuItemSprite *challengerItemSprite = [ChallengerMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] target:self selector:@selector(startChallenge:)];
@@ -377,7 +389,7 @@
     
     CCMenuItemSprite *optionItemSprite = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton3.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton3.png"] target:self selector:@selector(openOptions)];
     
-    CCLabelTTF *optionLabel = [CCLabelTTF labelWithString:@"Options" fontName:@"Arial" fontSize:10];
+    CCLabelTTF *optionLabel = [CCLabelTTF labelWithString:@"Log Out (Temp)" fontName:@"Arial" fontSize:10];
     optionLabel.position = ccp(optionLabel.contentSize.width/2 + UI_MENU_SPACING, optionItemSprite.contentSize.height/2);
     optionLabel.color = ccc3(255, 0, 0);
     
@@ -447,6 +459,15 @@
     CCLOG(@"MainMenuUI: Create new game!");
     [mainMenuCreateGame showLayerAndObjects];
     [self hideObjects];
+}
+
+-(void) createRealTimeGame {
+    CCLOG(@"MainMenuUI: Create real time game!");
+    
+    //Hide on screen objects
+    //[self hideObjects];
+    
+    // Run App Warp code
 }
 
 -(void) startChallenge:(ChallengerMenuItemSprite *)sender {

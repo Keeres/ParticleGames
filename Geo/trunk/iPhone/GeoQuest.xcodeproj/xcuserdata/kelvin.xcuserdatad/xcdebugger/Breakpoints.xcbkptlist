@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "GeoQuest/Scene/SoloGame/SoloGameReplay.m"
-         timestampString = "387751137.399522"
+         timestampString = "387926626.073843"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "412"
-         endingLineNumber = "412"
+         startingLineNumber = "413"
+         endingLineNumber = "413"
          landmarkName = "-ccTouchesMoved:withEvent:"
          landmarkType = "5">
       </FileBreakpoint>
