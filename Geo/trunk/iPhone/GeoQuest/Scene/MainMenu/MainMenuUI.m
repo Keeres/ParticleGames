@@ -364,6 +364,16 @@
         if (timeDifference < 3) {
             timeDifferenceString = [NSString stringWithFormat:@"Now"];
         }
+        
+        if (timeDifference > 60) {
+            timeDifference = timeDifference/60;
+            timeDifferenceString = [NSString stringWithFormat:@"%.1f hours ago", timeDifference];
+        }
+        
+        if (timeDifference > 24) {
+            timeDifference = timeDifference/24;
+            timeDifferenceString = [NSString stringWithFormat:@"%.1f days ago", timeDifference];
+        }
 
         CCLabelTTF *nameLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%@ vs. %@ | last played: %@", challenge.player1_id, challenge.player2_id, timeDifferenceString] fontName:@"Arial" fontSize:10];
         nameLabel.position = ccp(nameLabel.contentSize.width/2 + UI_MENU_SPACING, challengerItemSprite.contentSize.height/2);
