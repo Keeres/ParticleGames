@@ -34,6 +34,10 @@
     mainMenuCreateGame = menuCreateGame;
 }
 
+/*-(void) setMainMenuRealTimeLayer:(MainMenuRealTime*) menuRealTime {
+    mainMenuRealTime = menuRealTime;
+}*/
+
 #pragma mark - Setup Player Database
 
 -(void) setupPlayerDatabase {
@@ -477,6 +481,9 @@
     //Hide on screen objects
     //[self hideObjects];
     
+    //[self hideObject];
+    //[mainMenuRealTime showObjects];
+    
     // Run App Warp code
 }
 
@@ -556,10 +563,13 @@
 
 -(void) showObjects {
     gameChallengeMenu.visible = YES;
+    gameChallengeMenu.isDisabled = NO;
 }
 
 -(void) hideObjects {
     gameChallengeMenu.visible = NO;
+    gameChallengeMenu.isDisabled = YES;
+
 }
 
 -(void) refreshObjects {

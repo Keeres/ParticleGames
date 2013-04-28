@@ -270,6 +270,26 @@
 }
 
 -(void) loginUser{
+    /*// The permissions requested from the user
+    NSArray *permissionsArray = @[@"email"];
+    
+    // Login PFUser using Facebook
+    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {        
+        if (!user) {
+            if (!error) {
+                NSLog(@"Uh oh. The user cancelled the Facebook login.");
+            } else {
+                NSLog(@"Uh oh. An error occurred: %@", error);
+            }
+        } else if (user.isNew) {
+            NSLog(@"User with facebook signed up and logged in!");
+        } else {
+            NSLog(@"User with facebook logged in!");
+        }
+    }];*/
+    
+    
+    
     [PFUser logInWithUsernameInBackground:userField.text password:pwField.text block:^(PFUser *user, NSError *error) {
         if (user) {
             //Logged in
@@ -277,12 +297,22 @@
             [currentInstallation addUniqueObject:user.username forKey:@"channels"];
             [currentInstallation saveInBackground];
             
+            if (![PFFacebookUtils isLinkedWithUser:user]) {
+                [PFFacebookUtils linkUser:user permissions:nil block:^(BOOL succeeded, NSError *error) {
+                    if (succeeded) {
+                        NSLog(@"Woohoo, user logged in with Facebook!");
+                    }
+                }];
+            }
+            
             [mainMenuUI setupPlayerDatabase];
         } else {
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             CCLOG(@"MainMenuLogin: %@", errorString);
         }
     }];
+    
+
 }
 
 -(void) cancelRegisterAndLogin {

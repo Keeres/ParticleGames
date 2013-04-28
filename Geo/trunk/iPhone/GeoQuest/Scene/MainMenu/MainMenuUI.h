@@ -55,11 +55,13 @@
     MainMenuLogin       *mainMenuLogin;
     MainMenuCreateGame  *mainMenuCreateGame;
     MainMenuBG          *mainMenuBG;
+    MainMenuRealTime    *mainMenuRealTime;
 }
 
 -(void) setMainMenuBGLayer:(MainMenuBG *)menuBG;
 -(void) setMainMenuLoginLayer:(MainMenuLogin*)menuLogin;
 -(void) setMainMenuCreateGameLayer:(MainMenuCreateGame*)menuCreateGame;
+//-(void) setMainMenuRealTimeLayer:(MainMenuRealTime*)menuRealTime;
 -(void) setupPlayerDatabase;
 -(void) showObjects;
 -(void) hideObjects;

@@ -93,16 +93,22 @@
     // Setup Audio
     //[[GameManager sharedGameManager] setupAudioEngine];
     
-    // Register for push notifications
+    // Parse - Register for push notifications
     [application registerForRemoteNotificationTypes:
      UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
-
+    
+    // Parse - initialize Facebook
+    [PFFacebookUtils initializeFacebook];
+    
+    // Parse - Analytics
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 
 	return YES;
 }
+
+//Parse Methods
 
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
@@ -116,6 +122,14 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
 - (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [PFPush handlePush:userInfo];
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [PFFacebookUtils handleOpenURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [PFFacebookUtils handleOpenURL:url];
 }
 
 // This is needed for iOS4 and iOS5 in order to ensure

@@ -332,7 +332,7 @@
         }
         
         playerVehicle.visible = YES;
-        soloGameTheme.visible = YES;
+        //soloGameTheme.visible = YES;
         
         [challenge saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             NSMutableArray *convertedArray = [NSMutableArray arrayWithObjects:nil];
