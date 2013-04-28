@@ -25,8 +25,8 @@
     MainMenuBG *mainMenuBG = [[[MainMenuBG alloc] initWithMainMenuUILayer:mainMenuUI] autorelease];
     [scene addChild:mainMenuBG z:10];
     
-    //MainMenuRealTime *mainMenuRealTime = [[[MainMenuRealTime alloc] initWithMainMenuUILayer:mainMenuUI] autorelease];
-    //[scene addChild:mainMenuUI z:30];
+    MainMenuRealTime *mainMenuRealTime = [[[MainMenuRealTime alloc] initWithMainMenuUILayer:mainMenuUI] autorelease];
+    [scene addChild:mainMenuRealTime z:30];
     
     return scene;
 }

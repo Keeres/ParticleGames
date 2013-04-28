@@ -16,6 +16,7 @@
 		B632D8FA16DD1B0A000E529C /* MainMenuLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = B632D8F916DD1B0A000E529C /* MainMenuLogin.m */; };
 		B632D8FD16DD1B21000E529C /* MainMenuCreateGame.m in Sources */ = {isa = PBXBuildFile; fileRef = B632D8FC16DD1B21000E529C /* MainMenuCreateGame.m */; };
 		B636776D16696D1500111BA7 /* PlayerDB.m in Sources */ = {isa = PBXBuildFile; fileRef = B636776C16696D1500111BA7 /* PlayerDB.m */; };
+		B63E69AF172DA68300481FBB /* MainMenuRealTime.m in Sources */ = {isa = PBXBuildFile; fileRef = B63E69AE172DA68300481FBB /* MainMenuRealTime.m */; };
 		B6413A7D1638600800A01A2D /* CCMenuAdvancedPlus.m in Sources */ = {isa = PBXBuildFile; fileRef = B6413A7C1638600800A01A2D /* CCMenuAdvancedPlus.m */; };
 		B64A8498164B880C004A567A /* GeoQuestAnswer.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A8493164B880C004A567A /* GeoQuestAnswer.m */; };
 		B64A8499164B880C004A567A /* GeoQuestDB.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A8495164B880C004A567A /* GeoQuestDB.m */; };
@@ -254,6 +255,8 @@
 		B632D8FC16DD1B21000E529C /* MainMenuCreateGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuCreateGame.m; sourceTree = "<group>"; };
 		B636776B16696D1500111BA7 /* PlayerDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDB.h; sourceTree = "<group>"; };
 		B636776C16696D1500111BA7 /* PlayerDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerDB.m; sourceTree = "<group>"; };
+		B63E69AD172DA68300481FBB /* MainMenuRealTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuRealTime.h; sourceTree = "<group>"; };
+		B63E69AE172DA68300481FBB /* MainMenuRealTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuRealTime.m; sourceTree = "<group>"; };
 		B6413A7B1638600800A01A2D /* CCMenuAdvancedPlus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMenuAdvancedPlus.h; sourceTree = "<group>"; };
 		B6413A7C1638600800A01A2D /* CCMenuAdvancedPlus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMenuAdvancedPlus.m; sourceTree = "<group>"; };
 		B64A8492164B880C004A567A /* GeoQuestAnswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoQuestAnswer.h; sourceTree = "<group>"; };
@@ -1276,6 +1279,8 @@
 				B6902DC7161F47A300B11872 /* MainMenuUI.m */,
 				B656FC5816208DCF00757319 /* MainMenuBG.h */,
 				B656FC5916208DCF00757319 /* MainMenuBG.m */,
+				B63E69AD172DA68300481FBB /* MainMenuRealTime.h */,
+				B63E69AE172DA68300481FBB /* MainMenuRealTime.m */,
 			);
 			path = MainMenu;
 			sourceTree = "<group>";
@@ -1720,6 +1725,7 @@
 				B6988B121709E210007D213F /* ServerTerritories.m in Sources */,
 				B6988B18170B6A81007D213F /* PlayerStats.m in Sources */,
 				B69BD2B01715C564001E8AEC /* Question.m in Sources */,
+				B63E69AF172DA68300481FBB /* MainMenuRealTime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

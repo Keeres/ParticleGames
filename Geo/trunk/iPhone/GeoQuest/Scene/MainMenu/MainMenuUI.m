@@ -34,9 +34,9 @@
     mainMenuCreateGame = menuCreateGame;
 }
 
-/*-(void) setMainMenuRealTimeLayer:(MainMenuRealTime*) menuRealTime {
+-(void) setMainMenuRealTimeLayer:(MainMenuRealTime*) menuRealTime {
     mainMenuRealTime = menuRealTime;
-}*/
+}
 
 #pragma mark - Setup Player Database
 
@@ -477,14 +477,8 @@
 
 -(void) createRealTimeGame {
     CCLOG(@"MainMenuUI: Create real time game!");
-    
-    //Hide on screen objects
-    //[self hideObjects];
-    
-    //[self hideObject];
-    //[mainMenuRealTime showObjects];
-    
-    // Run App Warp code
+    [mainMenuRealTime showLayerAndObjects];
+    [self hideObjects];
 }
 
 -(void) startChallenge:(ChallengerMenuItemSprite *)sender {

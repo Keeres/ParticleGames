@@ -15,6 +15,7 @@
 #import "MainMenuBG.h"
 #import "MainMenuLogin.h"
 #import "MainMenuCreateGame.h"
+#import "MainMenuRealTime.h"
 #import "PlayerDB.h"
 #import "GeoQuestDB.h"
 #import "NetworkController.h"
@@ -26,6 +27,7 @@
 @class MainMenuCreateGame;
 @class MainMenuLogin;
 @class MainMenuBG;
+@class MainMenuRealTime;
 
 //@interface MainMenuUI : CCLayer <GKAchievementViewControllerDelegate, GKLeaderboardViewControllerDelegate, NetworkControllerDelegate> {
 @interface MainMenuUI : CCLayer <NetworkControllerDelegate> {
@@ -61,7 +63,7 @@
 -(void) setMainMenuBGLayer:(MainMenuBG *)menuBG;
 -(void) setMainMenuLoginLayer:(MainMenuLogin*)menuLogin;
 -(void) setMainMenuCreateGameLayer:(MainMenuCreateGame*)menuCreateGame;
-//-(void) setMainMenuRealTimeLayer:(MainMenuRealTime*)menuRealTime;
+-(void) setMainMenuRealTimeLayer:(MainMenuRealTime*)menuRealTime;
 -(void) setupPlayerDatabase;
 -(void) showObjects;
 -(void) hideObjects;
