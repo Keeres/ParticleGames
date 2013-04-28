@@ -38,6 +38,7 @@
 		B67A7AD91688E90A00C8BBC6 /* USAStatesSprites.png in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AD51688E90A00C8BBC6 /* USAStatesSprites.png */; };
 		B67A7ADA1688E90A00C8BBC6 /* USAStatesSprites-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AD61688E90A00C8BBC6 /* USAStatesSprites-hd.plist */; };
 		B67A7ADB1688E90A00C8BBC6 /* USAStatesSprites.plist in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AD71688E90A00C8BBC6 /* USAStatesSprites.plist */; };
+		B68A7D101727190500E25F4C /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B68A7D0F1727190500E25F4C /* Parse.framework */; };
 		B68CA22116E4FC8500FCCA01 /* TerritoryMenuItemSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = B68CA22016E4FC8500FCCA01 /* TerritoryMenuItemSprite.m */; };
 		B68E4276165E1CC000EA8426 /* QuestionThemes-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B68E4272165E1CC000EA8426 /* QuestionThemes-hd.plist */; };
 		B68E4277165E1CC000EA8426 /* QuestionThemes-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B68E4273165E1CC000EA8426 /* QuestionThemes-hd.png */; };
@@ -190,7 +191,6 @@
 		B698FC36171C1132006CF708 /* CountryEurope-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B698FC32171C1132006CF708 /* CountryEurope-hd.plist */; };
 		B698FC37171C1132006CF708 /* CountryEurope.plist in Resources */ = {isa = PBXBuildFile; fileRef = B698FC33171C1132006CF708 /* CountryEurope.plist */; };
 		B698FC39171C972E006CF708 /* MoveVehicleParticle.plist in Resources */ = {isa = PBXBuildFile; fileRef = B698FC38171C972E006CF708 /* MoveVehicleParticle.plist */; };
-		B69B060A170345DB00FE2775 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69B0609170345DB00FE2775 /* Parse.framework */; };
 		B69B06111703462600FE2775 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69B060B1703462600FE2775 /* CFNetwork.framework */; };
 		B69B06121703462600FE2775 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69B060C1703462600FE2775 /* CoreLocation.framework */; };
 		B69B06131703462600FE2775 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B69B060D1703462600FE2775 /* MobileCoreServices.framework */; };
@@ -284,6 +284,7 @@
 		B67A7AD51688E90A00C8BBC6 /* USAStatesSprites.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = USAStatesSprites.png; sourceTree = "<group>"; };
 		B67A7AD61688E90A00C8BBC6 /* USAStatesSprites-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "USAStatesSprites-hd.plist"; sourceTree = "<group>"; };
 		B67A7AD71688E90A00C8BBC6 /* USAStatesSprites.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = USAStatesSprites.plist; sourceTree = "<group>"; };
+		B68A7D0F1727190500E25F4C /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		B68CA21F16E4FC8500FCCA01 /* TerritoryMenuItemSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerritoryMenuItemSprite.h; sourceTree = "<group>"; };
 		B68CA22016E4FC8500FCCA01 /* TerritoryMenuItemSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerritoryMenuItemSprite.m; sourceTree = "<group>"; };
 		B68E4272165E1CC000EA8426 /* QuestionThemes-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "QuestionThemes-hd.plist"; sourceTree = "<group>"; };
@@ -589,7 +590,6 @@
 		B698FC32171C1132006CF708 /* CountryEurope-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CountryEurope-hd.plist"; sourceTree = "<group>"; };
 		B698FC33171C1132006CF708 /* CountryEurope.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountryEurope.plist; sourceTree = "<group>"; };
 		B698FC38171C972E006CF708 /* MoveVehicleParticle.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MoveVehicleParticle.plist; sourceTree = "<group>"; };
-		B69B0609170345DB00FE2775 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		B69B060B1703462600FE2775 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		B69B060C1703462600FE2775 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B69B060D1703462600FE2775 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
@@ -700,8 +700,8 @@
 				B6902C00161CE53F00B11872 /* UIKit.framework in Frameworks */,
 				B6902C02161CE53F00B11872 /* Foundation.framework in Frameworks */,
 				B6902C06161CE53F00B11872 /* GameKit.framework in Frameworks */,
-				B69B060A170345DB00FE2775 /* Parse.framework in Frameworks */,
 				B6239D83172080A800D61C5A /* FacebookSDK.framework in Frameworks */,
+				B68A7D101727190500E25F4C /* Parse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -803,7 +803,7 @@
 				B69B060D1703462600FE2775 /* MobileCoreServices.framework */,
 				B6902BF9161CE53F00B11872 /* OpenAL.framework */,
 				B6902BF7161CE53F00B11872 /* OpenGLES.framework */,
-				B69B0609170345DB00FE2775 /* Parse.framework */,
+				B68A7D0F1727190500E25F4C /* Parse.framework */,
 				B6902BF5161CE53F00B11872 /* QuartzCore.framework */,
 				B69B060E1703462600FE2775 /* Security.framework */,
 				B69B06181703474600FE2775 /* Social.framework */,
