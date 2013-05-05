@@ -11,10 +11,11 @@
 #import "MainMenuUI.h"
 #import "CCMenuAdvancedPlus.h"
 #import <Parse/Parse.h>
+#import <AppWarp_iOS_SDK/AppWarp_iOS_SDK.h>
 
 @class MainMenuUI;
 
-@interface MainMenuRealTime : CCLayer {
+@interface MainMenuRealTime : CCLayer<ConnectionRequestListener,ZoneRequestListener>{
     CGSize              winSize;
     
     //Layers
@@ -22,6 +23,9 @@
     
     //Button Menu
     CCMenuAdvancedPlus  *realTimeMenu;
+    
+    //Test variable. Remove later
+    int counter;
 
 }
 

@@ -7,9 +7,11 @@
 //
 
 #import "MainMenuRealTime.h"
+#import "MainMenuCreateGame.h"
+#import "NotificationListener.h"
+
 
 @implementation MainMenuRealTime
-
 
 #pragma mark - Setup layer
 
@@ -17,7 +19,17 @@
     //Allocate and initialize buttons
     [self setupRealTimeMenu];
     
-    //Setup AppWarp stuff?
+    [WarpClient initWarp:@"47f841662b281a58b5dc14bac93adbf9d0b4cf16e5e914cc4b98a4504c71d582" secretKey:@"22cb303a5aca990eff63c7a01a7464c9e604311a435859f86d77a1a1e4fc9275"];
+    
+    [[WarpClient getInstance] addConnectionRequestListener: self];
+    [[WarpClient getInstance] addZoneRequestListener: self];
+    [[WarpClient getInstance] connect];
+    RoomListener *roomListener = [[RoomListener alloc] init];
+    [[WarpClient getInstance] addRoomRequestListener:roomListener];
+    NotificationListener *notificationListener = [[NotificationListener alloc]initWithGame:self];
+    [[WarpClient getInstance] addNotificationListener:notificationListener];
+    
+    NSLog(@"AppWarp Client Init");
     
 }
 
@@ -28,7 +40,7 @@
     // Button 1's label
     CCLabelTTF *button1Label = [CCLabelTTF labelWithString:@"Button 1 - AppWarp" fontName:@"Arial" fontSize:14];
     button1Label.position = ccp(button1.contentSize.width/2, button1.contentSize.height/2);
-    button1Label.color = ccc3(0, 0, 0);
+    button1Label.color = ccc3(0, 07, 0);
     [button1 addChild:button1Label];
     
     // Button 2 for real time menu
@@ -57,6 +69,60 @@
     [self addChild:realTimeMenu];
 }
 
+#pragma mark - App Warp Connections
+-(void)onConnectDone:(ConnectEvent*) event{
+
+    if (event.result==0) {
+        NSLog(@"AppWarp Connection established");
+        [[WarpClient getInstance]joinZone:[PFUser currentUser].username];
+    }
+    else {
+        NSLog(@"AppWarp Connection Failed");
+    }
+}
+
+-(void)onJoinZoneDone:(ConnectEvent*) event{
+    if (event.result==0) {
+        NSLog(@"AppWarp Join Zone done");
+        [[WarpClient getInstance] joinRoom:@"1852889716"];
+        [[WarpClient getInstance] subscribeRoom:@"1852889716"];
+        [[WarpClient getInstance] getOnlineUsers];
+    }
+    else {
+        NSLog(@"AppWarp Join Zone Failed!");
+    }
+}
+
+-(void)onCreateRoomDone:(RoomEvent*)roomEvent{
+    RoomData *roomData = roomEvent.roomData;
+    NSLog(@"roomEvent result = %i",roomEvent.result);
+    NSLog(@"room id = %@",roomData.roomId);
+    
+    [[WarpClient getInstance] getAllRooms];
+}
+
+-(void)onDeleteRoomDone:(RoomEvent*)roomEvent{
+    if (roomEvent.result == SUCCESS) {
+        NSLog(@"Room Deleted");
+    }
+    else {
+        NSLog(@"Room Deleted failed");
+    }
+}
+
+-(void)onGetOnlineUsersDone:(AllUsersEvent*)event{
+    if (event.result == SUCCESS) {
+        NSLog(@"usernames = %@",event.userNames);
+    }
+    else {
+        NSLog(@"All Online Users Get Operation failed");
+    }
+}
+
+-(void)onDisconnectDone:(ConnectEvent *)event {
+    NSLog(@"AppWarp Connection Failed");
+}
+
 #pragma mark - Init Layer
 
 -(id) initWithMainMenuUILayer:(MainMenuUI *)menuUI {
@@ -76,8 +142,19 @@
 #pragma  mark - Methods for layer
 
 -(void) button1Pressed {
-    // Do some AppWarp stuff
-    CCLOG(@"Button1 pressed");
+    // Build and Send a json packet to everyone in the room
+    int time = (int)[[NSDate date] timeIntervalSince1970];
+    NSMutableDictionary* jsonPacket = [NSMutableDictionary dictionary];
+    [jsonPacket setObject:[PFUser currentUser].username forKey:@"sender"];
+    [jsonPacket setObject:[NSNumber numberWithInt:time] forKey:@"time"];
+    [jsonPacket setObject:[NSNumber numberWithInt:counter] forKey:@"counter"];
+    
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:jsonPacket options:0 error:&error];
+    NSLog(@"Sent %d - %d", counter, time);
+    [[WarpClient getInstance]sendUpdatePeers:data];
+    
+    counter++;
 }
 
 -(void) button2Pressed {
