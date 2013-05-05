@@ -19,6 +19,7 @@
     [self setupCreateGameMenu];
     [self setupFindUserMenu];
     [self setupFindUserField];
+    [self setupFacebookView];
 }
 
 #pragma mark - Setup Menus and Buttons
@@ -170,6 +171,53 @@
     wrapper.visible = NO;
 }
 
+-(void) setupFacebookView {
+    fbViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
+    fbTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, winSize.width, winSize.height - 60) style:UITableViewStylePlain];
+    [fbViewController.view addSubview:fbTableView];
+    fbTableView.dataSource = self;
+    fbTableView.delegate = self;
+    
+    fbToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, winSize.height - 60, winSize.width, 60)];
+    [fbViewController.view addSubview:fbToolBar];
+    
+    NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
+    UIBarButtonItem *item1 = [[[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelFacebookTable)] autorelease];
+    [tabBarItems addObject:item1];
+    //[tabBarItems addObject:item2];
+    
+    fbToolBar.items = tabBarItems;
+    [tabBarItems release];
+    
+    fbWrapper = [CCUIViewWrapper wrapperForUIView:fbViewController.view];
+    fbWrapper.contentSize = CGSizeMake(winSize.width, winSize.height);
+    fbWrapper.position = ccp(winSize.width/2, winSize.height/2);
+    [self addChild:fbWrapper];
+    fbWrapper.visible = NO;
+}
+
+#pragma mark - UITableView
+
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [testArray count];
+}
+
+-(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    FacebookCell *fbCell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    
+    fbCell = [[FacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    
+    NSUInteger row = [indexPath row];
+    //NSDictionary *rowData = [testArray objectAtIndex:row];
+    
+    NSMutableDictionary *friendObject = [testArray objectAtIndex:row];
+    fbCell.text = [friendObject objectForKey:@"first_name"];
+    
+    return fbCell;
+}
+
+
 #pragma mark - Init
 
 -(id) initWithMainMenuUILayer:(MainMenuUI *)menuUI {
@@ -204,6 +252,8 @@
         }
         case 2: { // Find Friend
             CCLOG(@"MainMenuCreateGame: Selected Find Friend. Select your friend.");
+            //[self testFacebook];
+            [self loadFacebookTable];
             break;
         }
         case 3: { // Cancel Menu
@@ -223,6 +273,110 @@
     wrapper.visible = YES;
     findUserMenu.visible = YES;
     findUserMenu.isDisabled = NO;
+}
+
+-(void) loadFacebookTable {
+    fbWrapper.visible = YES;
+    
+    FBRequest *request = [FBRequest requestForMyFriends];
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (!error) {
+            testArray = [[NSArray alloc] initWithArray:[result objectForKey:@"data"]];
+            [fbTableView reloadData];
+        }
+    }];
+    //UITableView *fbTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, winSize.width, winSize.height) style:UITableViewStylePlain];    
+}
+
+-(void) testFacebook {
+
+    /*NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys:nil];
+    [FBWebDialogs presentRequestsDialogModallyWithSession:nil
+                                                  message:[NSString stringWithFormat:@"Testing the facebook message for App. Let me know what happens."]
+                                                    title:nil
+                                               parameters:params
+                                                  handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                                      if (error) {
+                                                          // Case A: Error launching the dialog or sending request.
+                                                          NSLog(@"Error sending request.");
+                                                      } else {
+                                                          if (result == FBWebDialogResultDialogNotCompleted) {
+                                                              // Case B: User clicked the "x" icon
+                                                              NSLog(@"User canceled request.");
+                                                          } else {
+                                                              NSLog(@"Request Sent.");
+                                                          }
+                                                      }}];
+    */
+    
+
+    
+    FBRequest *request = [FBRequest requestForMyFriends];
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (!error) {
+            NSArray *friendList = [result objectForKey:@"data"];
+            NSMutableArray *friendIdList = [NSMutableArray arrayWithObjects:nil];
+            for (int i = 0; i < [friendList count]; i++) {
+                NSDictionary *friend = [friendList objectAtIndex:i];
+                //CCLOG(@"facebook username: %@ , %i", [friend objectForKey:@"id"], i);
+                [friendIdList addObject:[friend objectForKey:@"id"]];
+            }
+            
+            PFQuery *query = [PFUser query];
+            [query whereKey:@"facebookId" containedIn:friendIdList];
+            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if (!error) {
+                    if ([objects count] > 0) {
+                        PFUser* foundUser = [objects objectAtIndex:0];
+                        CCLOG(@"User found: %@", foundUser.username);
+                        
+                        // This function will invoke the Feed Dialog to post to a user's Timeline and News Feed
+                        // It will first attempt to do this natively through iOS 6
+                        // If that's not supported we'll fall back to the web based dialog.
+                        
+                        UIImage *image = [UIImage imageNamed:@"Icon@2x.png"];
+                        
+                        NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"www.google.com"]];
+                        
+                        
+                        bool bDisplayedDialog = [FBDialogs presentOSIntegratedShareDialogModallyFrom:nil initialText:@"Check out my Test!" image:image url:url handler:^(FBOSIntegratedShareDialogResult result, NSError *error) {}];
+                        //[FBNativeDialogs presentShareDialogModallyFrom:nil initialText:@"Checkout my TEST!" image:image url:url handler:^(FBNativeDialogResult result, NSError *error) {}];
+                        
+                        if (!bDisplayedDialog)
+                        {
+                            // Put together the dialog parameters
+                            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                                           [foundUser objectForKey:@"facebookId"], @"to",
+                                                           @"Testing game feed!", @"name",
+                                                           @"This is a test message!", @"caption",
+                                                           [NSString stringWithFormat:@"I'm testing this feed!"], @"description",
+                                                           @"http://www.friendsmash.com/images/logo_large.jpg", @"picture",
+                                                           // Add the link param for Deep Linking
+                                                           [NSString stringWithFormat:@"www.google.com"], @"link",
+                                                           nil];
+                            
+                            
+                            // Invoke the dialog
+                            [FBWebDialogs presentFeedDialogModallyWithSession:nil
+                                                                   parameters:params
+                                                                      handler:
+                             ^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                 if (error) {
+                                     NSLog(@"Error publishing story.");
+                                 } else {
+                                     if (result == FBWebDialogResultDialogNotCompleted) {
+                                         NSLog(@"User canceled story publishing.");
+                                     } else {
+                                         NSLog(@"Posted story");
+                                     }
+                                 }}];
+                        }
+                    }
+                }
+            }];
+
+        }
+    }];
 }
 
 #pragma mark - Find User Menu Buttons
@@ -413,6 +567,10 @@
     [mainMenuUI showObjects];
 }*/
 
+-(void) cancelFacebookTable {
+    CCLOG(@"MainMenuCreateGame: Facebook Table canceled.");
+    fbWrapper.visible = NO;
+}
 
 -(void) showLayerAndObjects {
     self.visible = YES;
@@ -432,6 +590,9 @@
 }
 
 -(void) dealloc {
+    [fbViewController release];
+    [fbTableView release];
+    [fbToolBar release];
     [super dealloc];
 }
 

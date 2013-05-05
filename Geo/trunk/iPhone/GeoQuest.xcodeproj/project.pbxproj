@@ -228,6 +228,7 @@
 		B6C9CA95167FCEB600C0108F /* SoundEffects.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6C9CA93167FCEB600C0108F /* SoundEffects.plist */; };
 		B6C9CA9B167FCFF800C0108F /* SuperMarioBrothersCoin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B6C9CA9A167FCFF800C0108F /* SuperMarioBrothersCoin.mp3 */; };
 		B6C9CAA916810F7F00C0108F /* Buzzer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = B6C9CAA816810F7F00C0108F /* Buzzer.mp3 */; };
+		B6CE9D1D1736DD9200371B4E /* FacebookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CE9D1C1736DD2700371B4E /* FacebookCell.m */; };
 		B6D509B51624C4AB0095953B /* CCBigImage.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D5097C1624C4AB0095953B /* CCBigImage.m */; };
 		B6D509B61624C4AB0095953B /* CCTextureCache+CCBigImageExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D5097E1624C4AB0095953B /* CCTextureCache+CCBigImageExtensions.m */; };
 		B6D509B81624C4AB0095953B /* CCLayerPanZoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D509821624C4AB0095953B /* CCLayerPanZoom.m */; };
@@ -643,6 +644,8 @@
 		B6C9CA93167FCEB600C0108F /* SoundEffects.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SoundEffects.plist; sourceTree = "<group>"; };
 		B6C9CA9A167FCFF800C0108F /* SuperMarioBrothersCoin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SuperMarioBrothersCoin.mp3; sourceTree = "<group>"; };
 		B6C9CAA816810F7F00C0108F /* Buzzer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Buzzer.mp3; sourceTree = "<group>"; };
+		B6CE9D1B1736DD2700371B4E /* FacebookCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FacebookCell.h; sourceTree = "<group>"; };
+		B6CE9D1C1736DD2700371B4E /* FacebookCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FacebookCell.m; sourceTree = "<group>"; };
 		B6D5097B1624C4AB0095953B /* CCBigImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCBigImage.h; sourceTree = "<group>"; };
 		B6D5097C1624C4AB0095953B /* CCBigImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCBigImage.m; sourceTree = "<group>"; };
 		B6D5097D1624C4AB0095953B /* CCTextureCache+CCBigImageExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CCTextureCache+CCBigImageExtensions.h"; sourceTree = "<group>"; };
@@ -762,6 +765,8 @@
 		B68E427D165EBAA000EA8426 /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
+				B6CE9D1B1736DD2700371B4E /* FacebookCell.h */,
+				B6CE9D1C1736DD2700371B4E /* FacebookCell.m */,
 				B6988B13170A11A5007D213F /* Challenger.h */,
 				B6988B14170A11A5007D213F /* Challenger.m */,
 				B68E42851660F6FB00EA8426 /* GameTheme.h */,
@@ -1588,6 +1593,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6CE9D1D1736DD9200371B4E /* FacebookCell.m in Sources */,
 				B6988B15170A129A007D213F /* Challenger.m in Sources */,
 				B6B0F2C416DFC40D00D8B79D /* Guid.m in Sources */,
 				B6A55AD916C35E9400E6F4A3 /* NetworkPacket.m in Sources */,

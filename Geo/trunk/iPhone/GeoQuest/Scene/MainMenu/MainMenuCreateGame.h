@@ -14,10 +14,11 @@
 #import "Challenger.h"
 #import "Guid.h"
 #import "ChallengesInProgress.h"
+#import "FacebookCell.h"
 
 @class MainMenuUI;
 
-@interface MainMenuCreateGame : CCLayer {
+@interface MainMenuCreateGame : CCLayer <UITableViewDataSource, UITableViewDelegate> {
     CGSize              winSize;
     
     CCMenuAdvancedPlus  *createGameMenu;
@@ -28,8 +29,13 @@
     
     // UIView
     CCUIViewWrapper     *wrapper;
+    CCUIViewWrapper     *fbWrapper;
     UIView              *findUserView;
+    UIViewController    *fbViewController;
+    UITableView         *fbTableView;
+    UIToolbar           *fbToolBar;
     UITextField         *userField;
+    NSArray             *testArray;
     
     //Label
     CCLabelTTF          *errorMessage;

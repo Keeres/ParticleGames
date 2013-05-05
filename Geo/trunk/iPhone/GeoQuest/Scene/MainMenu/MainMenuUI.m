@@ -535,6 +535,11 @@
     //[[PlayerDB database] logOut];
     //[self disableButtonsWhenNoNetwork];
     
+    [PFFacebookUtils unlinkUserInBackground:[PFUser currentUser] block:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"The user is no longer associated with their Facebook account.");
+        }
+    }];
     
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation removeObject:[PFUser currentUser].username forKey:@"channels"];

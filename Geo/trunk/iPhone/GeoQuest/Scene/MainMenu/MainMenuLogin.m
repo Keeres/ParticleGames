@@ -270,8 +270,9 @@
 }
 
 -(void) loginUser{
-    /*// The permissions requested from the user
-    NSArray *permissionsArray = @[@"email"];
+    // The permissions requested from the user
+    //NSArray *permissionsArray = @[@"email"];
+    NSArray *permissionsArray = [NSArray arrayWithObjects:nil];
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {        
@@ -286,7 +287,7 @@
         } else {
             NSLog(@"User with facebook logged in!");
         }
-    }];*/
+    }];
     
     
     
@@ -301,6 +302,16 @@
                 [PFFacebookUtils linkUser:user permissions:nil block:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
                         NSLog(@"Woohoo, user logged in with Facebook!");
+                        
+                        FBRequest *request = [FBRequest requestForMe];
+                        [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                            if (!error) {
+                                NSString *facebookId = [result objectForKey:@"id"];
+                                PFUser *currentUser = [PFUser currentUser];
+                                [currentUser setObject:facebookId forKey:@"facebookId"];
+                                [currentUser saveInBackground];
+                            }
+                        }];
                     }
                 }];
             }
