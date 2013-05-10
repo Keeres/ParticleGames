@@ -9,7 +9,8 @@
 #import "MainMenuCreateGame.h"
 
 @implementation MainMenuCreateGame
-
+@synthesize friendPickerController = _friendPickerController;
+@synthesize viewControllers;
 
 -(void) setMainMenuUI:(MainMenuUI*)menuUI {
     mainMenuUI = menuUI;
@@ -172,23 +173,11 @@
 }
 
 -(void) setupFacebookView {
+    self.friendPickerController = nil;
+    
     fbViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-    fbTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, winSize.width, winSize.height - 60) style:UITableViewStylePlain];
-    [fbViewController.view addSubview:fbTableView];
-    fbTableView.dataSource = self;
-    fbTableView.delegate = self;
-    
-    fbToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, winSize.height - 60, winSize.width, 60)];
-    [fbViewController.view addSubview:fbToolBar];
-    
-    NSMutableArray *tabBarItems = [[NSMutableArray alloc] init];
-    UIBarButtonItem *item1 = [[[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelFacebookTable)] autorelease];
-    [tabBarItems addObject:item1];
-    //[tabBarItems addObject:item2];
-    
-    fbToolBar.items = tabBarItems;
-    [tabBarItems release];
-    
+    //fbViewController = [[UITabBarController alloc] initWithNibName:nil bundle:nil];
+    //fbViewController.delegate = self;
     fbWrapper = [CCUIViewWrapper wrapperForUIView:fbViewController.view];
     fbWrapper.contentSize = CGSizeMake(winSize.width, winSize.height);
     fbWrapper.position = ccp(winSize.width/2, winSize.height/2);
@@ -196,26 +185,183 @@
     fbWrapper.visible = NO;
 }
 
-#pragma mark - UITableView
+#pragma mark - Facebook Friend Picker
 
--(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [testArray count];
+/*
+ * Event: Error during data fetch
+ */
+- (void)friendPickerViewController:(FBFriendPickerViewController *)friendPicker
+                       handleError:(NSError *)error
+{
+    NSLog(@"Error during data fetch.");
 }
 
--(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    FacebookCell *fbCell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    
-    fbCell = [[FacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    
-    NSUInteger row = [indexPath row];
-    //NSDictionary *rowData = [testArray objectAtIndex:row];
-    
-    NSMutableDictionary *friendObject = [testArray objectAtIndex:row];
-    fbCell.text = [friendObject objectForKey:@"first_name"];
-    
-    return fbCell;
+/*
+ * Event: Data loaded
+ */
+- (void)friendPickerViewControllerDataDidChange:(FBFriendPickerViewController *)friendPicker
+{
+    NSLog(@"Friend data loaded.");
 }
+
+/*
+ * Event: Decide if a given user should be displayed
+ */
+-(BOOL)friendPickerViewController:(FBFriendPickerViewController *)friendPicker shouldIncludeUser:(id<FBGraphUser>)user{
+    /*if ([friendPicker.title isEqualToString:@"Challenge Friends"]) {
+        BOOL installed = [user objectForKey:@"installed"] != nil;
+        return installed;
+    } else {
+        return 1;
+    }*/
+    return 1;
+}
+
+
+/*
+ * Event: Selection changed
+ */
+- (void)friendPickerViewControllerSelectionDidChange:
+(FBFriendPickerViewController *)friendPicker
+{
+    NSLog(@"Current friend selections: %@", friendPicker.selection);
+}
+
+/*
+ * Event: Done button clicked
+ */
+- (void)facebookViewControllerDoneWasPressed:(id)sender {
+    FBFriendPickerViewController *friendPickerController = (FBFriendPickerViewController*)sender;
+    NSLog(@"Selected friends: %@", friendPickerController.selection);
+
+    FBGraphObject *fbFriendSelection = [friendPickerController.selection objectAtIndex:0];
+    
+    PFQuery *fbFriendQuery = [PFUser query];
+    [fbFriendQuery whereKey:@"facebookId" containsString:[fbFriendSelection objectForKey:@"id"]];
+    [fbFriendQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            if ([objects count] > 0) {
+                // Found Facebook friend in Parse database
+                // Create Challenge and start playing game.
+                PFUser *challenger = [objects objectAtIndex:0];
+                [self createChallengeAgainstPlayer:challenger.username];
+                
+            } else {
+                UIAlertView *message = [[[UIAlertView alloc] initWithTitle:@"Invite friend to Play!"
+                                                                  message:@"Seems like your friend doesn't have a GeoCup account. Would you like to invite him to download GeoCup to play?"
+                                                                 delegate:self
+                                                        cancelButtonTitle:@"Okay"
+                                                        otherButtonTitles:@"No",nil] autorelease];
+                [message show];
+                //[self sendFacebookInvite];
+                
+            }
+        }
+    }];
+    
+    // Dismiss the friend picker
+    //[[sender presentingViewController] dismissModalViewControllerAnimated:YES];
+    
+    //[self cancelFacebookTable];
+}
+
+/*
+ * Event: Cancel button clicked
+ */
+- (void)facebookViewControllerCancelWasPressed:(id)sender {
+    NSLog(@"Canceled");
+    // Dismiss the friend picker
+    [[sender presentingViewController] dismissModalViewControllerAnimated:YES];
+    
+    [self cancelFacebookTable];
+}
+
+#pragma mark - Alert View
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"Okay"])
+    {
+        CCLOG(@"OK");
+        //[self sendFacebookInvite];
+    }
+    else if([title isEqualToString:@"No"])
+    {
+        
+    }
+}
+
+-(void) sendFacebookInvite {
+    // This function will invoke the Feed Dialog to post to a user's Timeline and News Feed
+    // It will first attempt to do this natively through iOS 6
+    // If that's not supported we'll fall back to the web based dialog.
+    
+    /*UIImage *image = [UIImage imageNamed:@"Icon@2x.png"];
+    
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"www.google.com"]];
+    
+    
+    //bool bDisplayedDialog = [FBDialogs presentOSIntegratedShareDialogModallyFrom:nil initialText:@"Check out my Test!" image:image url:url handler:^(FBOSIntegratedShareDialogResult result, NSError *error) {}];
+    //[FBNativeDialogs presentShareDialogModallyFrom:nil initialText:@"Checkout my TEST!" image:image url:url handler:^(FBNativeDialogResult result, NSError *error) {}];
+    
+    //if (!bDisplayedDialog)
+    //{
+        FBGraphObject *fbFriend = [self.friendPickerController.selection objectAtIndex:0];
+        // Put together the dialog parameters
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       [fbFriend objectForKey:@"id"], @"to",
+                                       @"Testing game feed!", @"name",
+                                       @"This is a test message!", @"caption",
+                                       [NSString stringWithFormat:@"I'm testing this feed!"], @"description",
+                                       @"http://www.friendsmash.com/images/logo_large.jpg", @"picture",
+                                       // Add the link param for Deep Linking
+                                       [NSString stringWithFormat:@"www.google.com"], @"link",
+                                       nil];
+        
+        
+        // Invoke the dialog
+        [FBWebDialogs presentFeedDialogModallyWithSession:nil
+                                               parameters:params
+                                                  handler:
+         ^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+             if (error) {
+                 NSLog(@"Error publishing story.");
+             } else {
+                 if (result == FBWebDialogResultDialogNotCompleted) {
+                     NSLog(@"User canceled story publishing.");
+                 } else {
+                     NSLog(@"Posted story");
+                 }
+             }}];
+    //}*/
+    
+    FBGraphObject *fbFriend = [self.friendPickerController.selection objectAtIndex:0];
+    CCLOG(@"%@", [fbFriend objectForKey:@"id"]);
+    
+    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:[fbFriend objectForKey:@"id"], @"to", nil];
+    //NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"100005824262665", @"to", nil];
+
+    [FBWebDialogs presentRequestsDialogModallyWithSession:nil
+                                                  message:[NSString stringWithFormat:@"Testing the facebook message for App. Let me know what happens."]
+                                                    title:nil
+                                               parameters:params
+                                                  handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                                      if (error) {
+                                                          // Case A: Error launching the dialog or sending request.
+                                                          NSLog(@"Error sending request.");
+                                                      } else {
+                                                          if (result == FBWebDialogResultDialogNotCompleted) {
+                                                              // Case B: User clicked the "x" icon
+                                                              NSLog(@"User canceled request.");
+                                                          } else {
+                                                              NSLog(@"Request Sent.");
+                                                          }
+                                                      }}];
+}
+
+
+
 
 
 #pragma mark - Init
@@ -243,6 +389,7 @@
         case 0: { // Quick Game
             CCLOG(@"MainMenuCreateGame: Selected Quick Game. Looking for challenger.");
             //[[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+            [self sendFacebookInvite];
             break;
         }
         case 1: { // Find User
@@ -278,15 +425,54 @@
 -(void) loadFacebookTable {
     fbWrapper.visible = YES;
     
+    /*if (fbFriendsArray != nil) {
+        [fbFriendsArray release];
+    }
+    
+    fbFriendsArray = [[NSMutableArray alloc] init];
+    [fbTableView reloadData];
+    
     FBRequest *request = [FBRequest requestForMyFriends];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if (!error) {
-            testArray = [[NSArray alloc] initWithArray:[result objectForKey:@"data"]];
+            NSMutableArray *friendList = [NSMutableArray arrayWithArray:[result objectForKey:@"data"]];
+            NSArray *sortedFriendList = [self sortFacebookArray:friendList];
+            [fbFriendsArray addObjectsFromArray:sortedFriendList];
+            
             [fbTableView reloadData];
         }
-    }];
-    //UITableView *fbTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, winSize.width, winSize.height) style:UITableViewStylePlain];    
+    }];*/
+    
+    if (!self.friendPickerController) {
+        self.friendPickerController = [[FBFriendPickerViewController alloc]
+                                       initWithNibName:nil bundle:nil];
+        
+        // Set the friend picker delegate
+        self.friendPickerController.delegate = self;
+        
+        self.friendPickerController.title = @"Select friends";
+        self.friendPickerController.allowsMultipleSelection = NO;
+    }
+    
+    //NSSet *fields = [NSSet setWithObjects:@"installed", nil];
+    //self.friendPickerController.fieldsForRequest = fields;
+    
+    [self.friendPickerController loadData];
+    [self.friendPickerController presentModallyFromViewController:fbViewController animated:YES handler:nil];
+
 }
+
+/*-(NSArray*) sortFacebookArray:(NSMutableArray*)array {
+    NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"first_name" ascending:YES] autorelease];
+    
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    NSArray *sortedArray = [array sortedArrayUsingDescriptors:sortDescriptors];
+    
+    //return [NSMutableArray arrayWithArray:sortedArray];
+    return sortedArray;
+    
+}*/
 
 -(void) testFacebook {
 
@@ -432,10 +618,10 @@
             return;
         }
     }
-
-    wrapper.visible = NO;
     
-    PFUser *currentUser = [PFUser currentUser];
+    [self createChallengeAgainstPlayer:userField.text];
+    
+    /*PFUser *currentUser = [PFUser currentUser];
     NSString *playerName = currentUser.username;
     ChallengesInProgress *challenge = [ChallengesInProgress object];
     challenge.player1_id = playerName;
@@ -482,7 +668,7 @@
             [PlayerDB database].playerInPlayer1Column = [challenge.player1_id isEqualToString:[PFUser currentUser].username];
             [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
         }];
-    }];
+    }];*/
 
     
     /*PFQuery *player2StatQuery = [PlayerStats query];
@@ -549,6 +735,65 @@
 
 }
 
+-(void) createChallengeAgainstPlayer:(NSString*)challengerName {
+    
+    PFUser *currentUser = [PFUser currentUser];
+    NSString *playerName = currentUser.username;
+    ChallengesInProgress *challenge = [ChallengesInProgress object];
+    challenge.player1_id = playerName;
+    challenge.player1_last_played = @"";
+    challenge.player1_next_race = @"";
+    challenge.player1_prev_race = @"";
+    challenge.player1_wins = 0;
+    challenge.player2_id = challengerName;
+    challenge.player2_last_played = @"";
+    challenge.player2_next_race = @"";
+    challenge.player2_prev_race = @"";
+    challenge.player2_wins = 0;
+    challenge.question = @"";
+    challenge.turn = playerName;
+    
+    PFQuery *player1StatQuery = [PlayerStats query];
+    [player1StatQuery whereKey:@"player_id" equalTo:challenge.player1_id];
+    player1StatQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+    
+    PFQuery *player2StatQuery = [PlayerStats query];
+    [player2StatQuery whereKey:@"player_id" equalTo:challenge.player2_id];
+    player2StatQuery.cachePolicy = kPFCachePolicyNetworkOnly;
+    
+    PFQuery *query = [PFQuery orQueryWithSubqueries:[NSArray arrayWithObjects:player1StatQuery, player2StatQuery, nil]];
+    
+    query.cachePolicy = kPFCachePolicyNetworkOnly;
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *playerStatArray, NSError *error) {
+        if ([playerStatArray count] == 2) {
+            wrapper.visible = NO;
+            [challenge saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                
+                CCLOG(@"count:%i", [playerStatArray count]);
+                
+                PlayerStats *p1Stat = [playerStatArray objectAtIndex:0];
+                PlayerStats *p2Stat = [playerStatArray objectAtIndex:1];
+                
+                if (![challenge.player1_id isEqualToString:p1Stat.player_id]) {
+                    PlayerStats *tempStat = p1Stat;
+                    p1Stat = p2Stat;
+                    p2Stat = tempStat;
+                }
+                
+                [PlayerDB database].player1Stats = p1Stat;
+                [PlayerDB database].player2Stats = p2Stat;
+                [PlayerDB database].currentChallenge = challenge;
+                [PlayerDB database].playerInPlayer1Column = [challenge.player1_id isEqualToString:[PFUser currentUser].username];
+                [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+            }];
+        } else {
+            [errorMessage setString:[NSString stringWithFormat:@"Player %@ not found.", challengerName]];
+            errorMessage.visible = YES;
+        }
+    }];
+}
+
 /*-(void) quickGame {
     CCLOG(@"MainMenuUI: Selected Quick Game. Looking for challenger.");
     [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
@@ -582,7 +827,7 @@
     self.visible = NO;
     createGameMenu.visible = NO;
     errorMessage.visible = NO;
-    [mainMenuUI refreshObjects];	
+    //[mainMenuUI refreshObjects];
 }
 
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -590,9 +835,16 @@
 }
 
 -(void) dealloc {
+
+    _friendPickerController = nil;
+
+    
     [fbViewController release];
-    [fbTableView release];
-    [fbToolBar release];
+    [viewControllers release];
+    
+    [self.friendPickerController release];
+
+    
     [super dealloc];
 }
 

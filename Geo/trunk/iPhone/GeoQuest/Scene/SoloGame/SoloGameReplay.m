@@ -432,6 +432,8 @@
                 [playerReverseRaceDataArray insertObject:[playerRaceData dictionary] atIndex:0];
                 [playerRaceDataArray removeObjectAtIndex:0];
                 [playerRaceData release];
+            } else {
+                [playerRaceData release];
             }
         }
         
@@ -456,6 +458,8 @@
                 [challengerReverseRaceDataArray insertObject:[challengerRaceData dictionary] atIndex:0];
                 [challengerRaceDataArray removeObjectAtIndex:0];
                 [challengerRaceData release];
+            } else {
+                [challengerRaceData release];
             }
         }
     } else {
@@ -475,8 +479,10 @@
                 [playerRaceDataArray insertObject:[playerRaceData dictionary] atIndex:0];
                 [playerReverseRaceDataArray removeObjectAtIndex:0];
                 [playerRaceData release];
+            } else {
+                [playerRaceData release];
             }
-        }
+        } 
         
         // Move challenger vehicle to the left
         if ([challengerReverseRaceDataArray count] != 0) {
@@ -492,8 +498,10 @@
                 [challengerRaceDataArray insertObject:[challengerRaceData dictionary] atIndex:0];
                 [challengerReverseRaceDataArray removeObjectAtIndex:0];
                 [challengerRaceData release];
+            } else {
+                [challengerRaceData release];
             }
-        }
+        } 
 
     }
     

@@ -471,14 +471,16 @@
 
 -(void) createGame {
     CCLOG(@"MainMenuUI: Create new game!");
-    [mainMenuCreateGame showLayerAndObjects];
     [self hideObjects];
+
+    [mainMenuCreateGame showLayerAndObjects];
 }
 
 -(void) createRealTimeGame {
     CCLOG(@"MainMenuUI: Create real time game!");
-    [mainMenuRealTime showLayerAndObjects];
     [self hideObjects];
+
+    [mainMenuRealTime showLayerAndObjects];
 }
 
 -(void) startChallenge:(ChallengerMenuItemSprite *)sender {

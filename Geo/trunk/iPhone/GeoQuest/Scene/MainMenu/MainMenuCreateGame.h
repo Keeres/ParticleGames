@@ -18,7 +18,7 @@
 
 @class MainMenuUI;
 
-@interface MainMenuCreateGame : CCLayer <UITableViewDataSource, UITableViewDelegate> {
+@interface MainMenuCreateGame : CCLayer <UITabBarControllerDelegate, UITabBarDelegate, FBFriendPickerDelegate, UIAlertViewDelegate> {
     CGSize              winSize;
     
     CCMenuAdvancedPlus  *createGameMenu;
@@ -32,14 +32,23 @@
     CCUIViewWrapper     *fbWrapper;
     UIView              *findUserView;
     UIViewController    *fbViewController;
-    UITableView         *fbTableView;
-    UIToolbar           *fbToolBar;
+    //UITabBarController  *fbViewController;
+    UITabBarController  *testController;
     UITextField         *userField;
-    NSArray             *testArray;
+    
+    NSArray *viewControllers;
+    FBFriendPickerViewController *_friendPickerController;
+    
+    //Sprite
+    CCSprite            *loadingImage;
     
     //Label
     CCLabelTTF          *errorMessage;
 }
+
+@property (nonatomic, retain) NSArray *viewControllers;
+@property (nonatomic, retain) FBFriendPickerViewController *friendPickerController;
+
 
 -(id) initWithMainMenuUILayer:(MainMenuUI *)menuUI;
 -(void) showLayerAndObjects;

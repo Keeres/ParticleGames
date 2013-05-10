@@ -24,9 +24,9 @@
     [[WarpClient getInstance] addConnectionRequestListener: self];
     [[WarpClient getInstance] addZoneRequestListener: self];
     [[WarpClient getInstance] connect];
-    RoomListener *roomListener = [[RoomListener alloc] init];
+    RoomListener *roomListener = [[[RoomListener alloc] init] autorelease];
     [[WarpClient getInstance] addRoomRequestListener:roomListener];
-    NotificationListener *notificationListener = [[NotificationListener alloc]initWithGame:self];
+    NotificationListener *notificationListener = [[[NotificationListener alloc] initWithGame:self] autorelease];
     [[WarpClient getInstance] addNotificationListener:notificationListener];
     
     NSLog(@"AppWarp Client Init");
