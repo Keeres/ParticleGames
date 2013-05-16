@@ -38,7 +38,7 @@
     CCMenuItemSprite *button1 = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton1.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton1.png"] target:self selector:@selector(button1Pressed)];
     
     // Button 1's label
-    CCLabelTTF *button1Label = [CCLabelTTF labelWithString:@"Button 1 - AppWarp" fontName:@"Arial" fontSize:14];
+    CCLabelTTF *button1Label = [CCLabelTTF labelWithString:@"Button 1 - Quick Game" fontName:@"Arial" fontSize:14];
     button1Label.position = ccp(button1.contentSize.width/2, button1.contentSize.height/2);
     button1Label.color = ccc3(0, 07, 0);
     [button1 addChild:button1Label];
@@ -47,13 +47,32 @@
     CCMenuItemSprite *button2 = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] target:self selector:@selector(button2Pressed)];
     
     // Button 2's label
-    CCLabelTTF *button2Label = [CCLabelTTF labelWithString:@"Button 2 - Hide RealTime" fontName:@"Arial" fontSize:14];
-    button2Label.position = ccp(button2.contentSize.width/2, button1.contentSize.height/2);
+    CCLabelTTF *button2Label = [CCLabelTTF labelWithString:@"Button 2 - Join Game" fontName:@"Arial" fontSize:14];
+    button2Label.position = ccp(button2.contentSize.width/2, button2.contentSize.height/2);
     button2Label.color = ccc3(0, 0, 0);
     [button2 addChild:button2Label];
     
-    // Initializing realTimeMenu, adding button1 and 2, setting align horizontally
-    realTimeMenu = [CCMenuAdvancedPlus menuWithItems:button1, button2, nil];
+    // Button 3 for real time menu
+    CCMenuItemSprite *button3 = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] target:self selector:@selector(button3Pressed)];
+    
+    // Button 3's label
+    CCLabelTTF *button3Label = [CCLabelTTF labelWithString:@"Button 3 - Find Friends" fontName:@"Arial" fontSize:14];
+    button3Label.position = ccp(button3.contentSize.width/2, button3.contentSize.height/2);
+    button3Label.color = ccc3(0, 0, 0);
+    [button3 addChild:button3Label];
+    
+    // Button 4 for real time menu
+    CCMenuItemSprite *button4 = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] target:self selector:@selector(button4Pressed)];
+    
+    // Button 4's label
+    CCLabelTTF *button4Label = [CCLabelTTF labelWithString:@"Button 4 - Hide RealTime" fontName:@"Arial" fontSize:14];
+    button4Label.position = ccp(button4.contentSize.width/2, button4.contentSize.height/2);
+    button4Label.color = ccc3(0, 0, 0);
+    [button4 addChild:button4Label];
+    
+    
+    // Initializing realTimeMenu, adding button1 and 2, setting align vertically
+    realTimeMenu = [CCMenuAdvancedPlus menuWithItems:button1, button2, button3, button4, nil];
     realTimeMenu.extraTouchPriority = 1;
     [realTimeMenu alignItemsVerticallyWithPadding:0.0 bottomToTop:NO];
     realTimeMenu.ignoreAnchorPointForPosition = NO;
@@ -134,7 +153,8 @@
         mainMenuUI = menuUI;
         [mainMenuUI setMainMenuRealTimeLayer:self];
         
-        [self setupRealTimeLayer];
+        //[self setupRealTimeLayer];
+        [self setupRealTimeMenu];
     }
     return self;
 }
@@ -143,7 +163,7 @@
 
 -(void) button1Pressed {
     // Build and Send a json packet to everyone in the room
-    int time = (int)[[NSDate date] timeIntervalSince1970];
+    /*int time = (int)[[NSDate date] timeIntervalSince1970];
     NSMutableDictionary* jsonPacket = [NSMutableDictionary dictionary];
     [jsonPacket setObject:[PFUser currentUser].username forKey:@"sender"];
     [jsonPacket setObject:[NSNumber numberWithInt:time] forKey:@"time"];
@@ -154,10 +174,19 @@
     NSLog(@"Sent %d - %d", counter, time);
     [[WarpClient getInstance]sendUpdatePeers:data];
     
-    counter++;
+    counter++;*/
+    [[GameManager sharedGameManager] runSceneWithID:kRealTimeScene];
+
+
 }
 
 -(void) button2Pressed {
+}
+
+-(void) button3Pressed {
+}
+
+-(void) button4Pressed {
     // Return to Main Menu
     [mainMenuUI showObjects];
     [self hideLayerAndObjects];

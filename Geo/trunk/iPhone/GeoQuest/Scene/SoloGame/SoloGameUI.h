@@ -23,7 +23,6 @@
 #import "GameTheme.h"
 #import "GameThemeCache.h"
 #import "RaceData.h"
-#import "PlayerDB.h"
 
 #define SOLO_GRID_SPACING 20 //points between menu items
 #define SOLO_GAME_TIMER 60 

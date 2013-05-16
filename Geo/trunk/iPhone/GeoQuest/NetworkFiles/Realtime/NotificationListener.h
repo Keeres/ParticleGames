@@ -8,15 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import <AppWarp_iOS_SDK/AppWarp_iOS_SDK.h>
+#import "RealTimeUI.h"
 
 @interface NotificationListener : NSObject<NotifyListener>
 
-@property (nonatomic,retain)MainMenuRealTime *gameView;
+//@property (nonatomic, retain) MainMenuRealTime *gameView;
 
--(id)initWithGame:(MainMenuRealTime*) game;
+@property (nonatomic, retain) RealTimeUI *gameView;
 
+//-(id)initWithGame:(MainMenuRealTime*) game;
+
+-(id)initWithGame:(RealTimeUI*) game;
 
 @end
+
 
 @interface RoomListener : NSObject<RoomRequestListener>
 

@@ -9,6 +9,7 @@
 #import "GameManager.h"
 #import "MainMenuScene.h"
 #import "SoloGameScene.h"
+#import "RealTimeScene.h"
 
 @implementation GameManager
 static GameManager* _sharedGameManager = nil;
@@ -124,6 +125,9 @@ static GameManager* _sharedGameManager = nil;
             break;
         case kSoloGameScene:
             result = @"kSoloGameScene";
+            break;
+        case kRealTimeScene:
+            result = @"kRealTimeScene";
             break;
         default:
             [NSException raise:NSGenericException format:@"Unexpected SceneType."];
@@ -338,6 +342,9 @@ static GameManager* _sharedGameManager = nil;
             break;
         case kSoloGameScene:
             sceneToRun = [SoloGameScene scene];
+            break;
+        case kRealTimeScene:
+            sceneToRun = [RealTimeScene scene];
             break;
         //case kGameScene:
             //sceneToRun = [GameScene scene];

@@ -13,7 +13,12 @@
 
 @synthesize gameView;
 
--(id)initWithGame:(MainMenuRealTime *) game {
+/*-(id)initWithGame:(MainMenuRealTime *) game {
+    self.gameView = game;
+    return self;
+}*/
+
+-(id) initWithGame:(RealTimeUI*)game {
     self.gameView = game;
     return self;
 }

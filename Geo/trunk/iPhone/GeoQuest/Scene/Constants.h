@@ -16,9 +16,10 @@
 typedef enum {
     kNoSceneUninitialized=0,
     kMainMenuScene,
-    kSoloGameScene=100
+    kSoloGameScene=100,
+    kRealTimeScene=101,
 } SceneTypes;
-
+    
 typedef enum {
     kLinkTypeCompanySite
 } LinkTypes;
