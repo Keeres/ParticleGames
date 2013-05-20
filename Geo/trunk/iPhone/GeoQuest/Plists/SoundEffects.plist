@@ -4,7 +4,7 @@
 <dict>
 	<key>kMainMenuScene</key>
 	<dict/>
-	<key>kSoloGameScene</key>
+	<key>kAsyncGameScene</key>
 	<dict>
 		<key>CORRECT_SFX</key>
 		<string>SuperMarioBrothersCoin.mp3</string>
