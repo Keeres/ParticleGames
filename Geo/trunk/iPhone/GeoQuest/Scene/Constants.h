@@ -16,7 +16,7 @@
 typedef enum {
     kNoSceneUninitialized=0,
     kMainMenuScene,
-    kSoloGameScene=100,
+    kAsyncGameScene=100,
     kRealTimeScene=101,
 } SceneTypes;
     

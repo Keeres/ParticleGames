@@ -8,7 +8,7 @@
 
 #import "GameManager.h"
 #import "MainMenuScene.h"
-#import "SoloGameScene.h"
+#import "AsyncGameScene.h"
 #import "RealTimeScene.h"
 
 @implementation GameManager
@@ -123,8 +123,8 @@ static GameManager* _sharedGameManager = nil;
         case kMainMenuScene:
             result = @"kMainMenuScene";
             break;
-        case kSoloGameScene:
-            result = @"kSoloGameScene";
+        case kAsyncGameScene:
+            result = @"kAsyncGameScene";
             break;
         case kRealTimeScene:
             result = @"kRealTimeScene";
@@ -340,8 +340,8 @@ static GameManager* _sharedGameManager = nil;
         case kMainMenuScene:
             sceneToRun = [MainMenuScene scene];
             break;
-        case kSoloGameScene:
-            sceneToRun = [SoloGameScene scene];
+        case kAsyncGameScene:
+            sceneToRun = [AsyncGameScene scene];
             break;
         case kRealTimeScene:
             sceneToRun = [RealTimeScene scene];

@@ -388,7 +388,7 @@
     switch (i) {
         case 0: { // Quick Game
             CCLOG(@"MainMenuCreateGame: Selected Quick Game. Looking for challenger.");
-            //[[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+            //[[GameManager sharedGameManager] runSceneWithID:kAsyncGameScene];
             [self sendFacebookInvite];
             break;
         }
@@ -666,7 +666,7 @@
             [PlayerDB database].player2Stats = p2Stat;
             [PlayerDB database].currentChallenge = challenge;
             [PlayerDB database].playerInPlayer1Column = [challenge.player1_id isEqualToString:[PFUser currentUser].username];
-            [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+            [[GameManager sharedGameManager] runSceneWithID:kAsyncGameScene];
         }];
     }];*/
 
@@ -706,7 +706,7 @@
                         [PlayerDB database].currentChallenge = challenge;
                         //[PlayerDB database].gameGUID = challenge.objectId;
                         [PlayerDB database].playerInPlayer1Column = YES;
-                        [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+                        [[GameManager sharedGameManager] runSceneWithID:kAsyncGameScene];
                     }];
                 }
             } else {
@@ -731,7 +731,7 @@
     [PlayerDB database].challenger = userField.text;
     [challenger release];
     [player release];
-    [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];*/
+    [[GameManager sharedGameManager] runSceneWithID:kAsyncGameScene];*/
 
 }
 
@@ -785,7 +785,7 @@
                 [PlayerDB database].player2Stats = p2Stat;
                 [PlayerDB database].currentChallenge = challenge;
                 [PlayerDB database].playerInPlayer1Column = [challenge.player1_id isEqualToString:[PFUser currentUser].username];
-                [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+                [[GameManager sharedGameManager] runSceneWithID:kAsyncGameScene];
             }];
         } else {
             [errorMessage setString:[NSString stringWithFormat:@"Player %@ not found.", challengerName]];
@@ -796,7 +796,7 @@
 
 /*-(void) quickGame {
     CCLOG(@"MainMenuUI: Selected Quick Game. Looking for challenger.");
-    [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+    [[GameManager sharedGameManager] runSceneWithID:kAsyncGameScene];
 }
 
 -(void) findUser {

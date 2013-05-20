@@ -211,7 +211,7 @@
 		B69BFA66162F155100F7B209 /* ChallengerMenuItemSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = B69BFA65162F155100F7B209 /* ChallengerMenuItemSprite.m */; };
 		B69DEC3D174A7DC400E0151C /* CustomRoomData.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC38174A7DC400E0151C /* CustomRoomData.m */; };
 		B69DEC3E174A7DC400E0151C /* CustomUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC3A174A7DC400E0151C /* CustomUserData.m */; };
-		B69DEC3F174A7DC400E0151C /* RealTimeRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC3C174A7DC400E0151C /* RealTimeRoom.m */; };
+		B69DEC3F174A7DC400E0151C /* RealTimeQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC3C174A7DC400E0151C /* RealTimeQuestion.m */; };
 		B69DEC42174AB65700E0151C /* PlayerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC41174AB65700E0151C /* PlayerAction.m */; };
 		B69DEC50174AC25800E0151C /* AsyncGameBG.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC45174AC25800E0151C /* AsyncGameBG.m */; };
 		B69DEC51174AC25800E0151C /* AsyncGameGameOver.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC47174AC25800E0151C /* AsyncGameGameOver.m */; };
@@ -274,7 +274,7 @@
 		B632D8F816DD1B0A000E529C /* MainMenuLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuLogin.h; sourceTree = "<group>"; };
 		B632D8F916DD1B0A000E529C /* MainMenuLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuLogin.m; sourceTree = "<group>"; };
 		B632D8FB16DD1B21000E529C /* MainMenuCreateGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuCreateGame.h; sourceTree = "<group>"; };
-		B632D8FC16DD1B21000E529C /* MainMenuCreateGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuCreateGame.m; sourceTree = "<group>"; };
+		B632D8FC16DD1B21000E529C /* MainMenuCreateGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MainMenuCreateGame.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B636776B16696D1500111BA7 /* PlayerDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerDB.h; sourceTree = "<group>"; };
 		B636776C16696D1500111BA7 /* PlayerDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerDB.m; sourceTree = "<group>"; };
 		B63E69AD172DA68300481FBB /* MainMenuRealTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuRealTime.h; sourceTree = "<group>"; };
@@ -587,12 +587,12 @@
 		B6902DA3161DE24800B11872 /* Icon_v2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon_v2@2x.png"; path = "Resources/Icon_v2@2x.png"; sourceTree = "<group>"; };
 		B6902DA4161DE24800B11872 /* Icon_v2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon_v2.png; path = Resources/Icon_v2.png; sourceTree = "<group>"; };
 		B6902DC6161F47A300B11872 /* MainMenuUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuUI.h; sourceTree = "<group>"; };
-		B6902DC7161F47A300B11872 /* MainMenuUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuUI.m; sourceTree = "<group>"; };
+		B6902DC7161F47A300B11872 /* MainMenuUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MainMenuUI.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B6902DC9161F47C000B11872 /* MainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuScene.h; sourceTree = "<group>"; };
 		B6902DCA161F47C000B11872 /* MainMenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuScene.m; sourceTree = "<group>"; };
 		B6902DCC161F490F00B11872 /* GameManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
-		B6902DCD161F490F00B11872 /* GameManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
-		B6902DCE161F49D300B11872 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		B6902DCD161F490F00B11872 /* GameManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GameManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		B6902DCE161F49D300B11872 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Constants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		B69693F71667E8D300FFFFC7 /* TRSMillion.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = TRSMillion.ttf; path = Resources/TRSMillion.ttf; sourceTree = "<group>"; };
 		B6975C0B16D56A00007C0FD7 /* RaceData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RaceData.h; sourceTree = "<group>"; };
 		B6975C0C16D56A00007C0FD7 /* RaceData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RaceData.m; sourceTree = "<group>"; };
@@ -630,8 +630,8 @@
 		B69DEC38174A7DC400E0151C /* CustomRoomData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomRoomData.m; sourceTree = "<group>"; };
 		B69DEC39174A7DC400E0151C /* CustomUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUserData.h; sourceTree = "<group>"; };
 		B69DEC3A174A7DC400E0151C /* CustomUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomUserData.m; sourceTree = "<group>"; };
-		B69DEC3B174A7DC400E0151C /* RealTimeRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealTimeRoom.h; sourceTree = "<group>"; };
-		B69DEC3C174A7DC400E0151C /* RealTimeRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealTimeRoom.m; sourceTree = "<group>"; };
+		B69DEC3B174A7DC400E0151C /* RealTimeQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealTimeQuestion.h; sourceTree = "<group>"; };
+		B69DEC3C174A7DC400E0151C /* RealTimeQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealTimeQuestion.m; sourceTree = "<group>"; };
 		B69DEC40174AB65700E0151C /* PlayerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerAction.h; sourceTree = "<group>"; };
 		B69DEC41174AB65700E0151C /* PlayerAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerAction.m; sourceTree = "<group>"; };
 		B69DEC44174AC25800E0151C /* AsyncGameBG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncGameBG.h; sourceTree = "<group>"; };
@@ -1356,8 +1356,8 @@
 				B69DEC38174A7DC400E0151C /* CustomRoomData.m */,
 				B69DEC39174A7DC400E0151C /* CustomUserData.h */,
 				B69DEC3A174A7DC400E0151C /* CustomUserData.m */,
-				B69DEC3B174A7DC400E0151C /* RealTimeRoom.h */,
-				B69DEC3C174A7DC400E0151C /* RealTimeRoom.m */,
+				B69DEC3B174A7DC400E0151C /* RealTimeQuestion.h */,
+				B69DEC3C174A7DC400E0151C /* RealTimeQuestion.m */,
 				B69DEC40174AB65700E0151C /* PlayerAction.h */,
 				B69DEC41174AB65700E0151C /* PlayerAction.m */,
 			);
@@ -1806,7 +1806,7 @@
 				B611074417452BA70005FA3E /* RealTimeBG.m in Sources */,
 				B69DEC3D174A7DC400E0151C /* CustomRoomData.m in Sources */,
 				B69DEC3E174A7DC400E0151C /* CustomUserData.m in Sources */,
-				B69DEC3F174A7DC400E0151C /* RealTimeRoom.m in Sources */,
+				B69DEC3F174A7DC400E0151C /* RealTimeQuestion.m in Sources */,
 				B69DEC42174AB65700E0151C /* PlayerAction.m in Sources */,
 				B69DEC50174AC25800E0151C /* AsyncGameBG.m in Sources */,
 				B69DEC51174AC25800E0151C /* AsyncGameGameOver.m in Sources */,

@@ -10,7 +10,7 @@
 #import "ChallengerMenuItemSprite.h"
 #import "AppDelegate.h"
 #import "GameManager.h"
-#import "SoloGameScene.h"
+#import "AsyncGameScene.h"
 #import "NetworkPacket.h"
 #import "Challenger.h"
 #import "ChallengesInProgress.h"
@@ -525,7 +525,7 @@
                 //[PlayerDB database].gameGUID = sender.objectId;
                 //[PlayerDB database].challenger = sender.challenger_id;
                 [PlayerDB database].playerInPlayer1Column = [challenge.player1_id isEqualToString:[PFUser currentUser].username];
-                [[GameManager sharedGameManager] runSceneWithID:kSoloGameScene];
+                [[GameManager sharedGameManager] runSceneWithID:kAsyncGameScene];
             }];
 
         }];
