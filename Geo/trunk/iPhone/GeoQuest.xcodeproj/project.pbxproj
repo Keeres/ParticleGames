@@ -27,9 +27,6 @@
 		B64A8498164B880C004A567A /* GeoQuestAnswer.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A8493164B880C004A567A /* GeoQuestAnswer.m */; };
 		B64A8499164B880C004A567A /* GeoQuestDB.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A8495164B880C004A567A /* GeoQuestDB.m */; };
 		B64A849D164B884E004A567A /* GeoQuestDB.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = B64A849C164B884E004A567A /* GeoQuestDB.sqlite */; };
-		B64A84A1164B892C004A567A /* SoloGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A84A0164B892C004A567A /* SoloGameScene.m */; };
-		B64A84A4164B898E004A567A /* SoloGameUI.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A84A3164B898E004A567A /* SoloGameUI.m */; };
-		B64A84A7164B899D004A567A /* SoloGameBG.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A84A6164B899D004A567A /* SoloGameBG.m */; };
 		B64A84A9164B8DC5004A567A /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B64A84A8164B8DC5004A567A /* libsqlite3.0.dylib */; };
 		B656FC5A16208DCF00757319 /* MainMenuBG.m in Sources */ = {isa = PBXBuildFile; fileRef = B656FC5916208DCF00757319 /* MainMenuBG.m */; };
 		B67470D916C5924400092751 /* Territory.m in Sources */ = {isa = PBXBuildFile; fileRef = B67470D816C5924400092751 /* Territory.m */; };
@@ -212,15 +209,22 @@
 		B69BD2B01715C564001E8AEC /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = B69BD2AF1715C564001E8AEC /* Question.m */; };
 		B69BFA5F162DF43E00F7B209 /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = B69BFA5E162DF43E00F7B209 /* test.json */; };
 		B69BFA66162F155100F7B209 /* ChallengerMenuItemSprite.m in Sources */ = {isa = PBXBuildFile; fileRef = B69BFA65162F155100F7B209 /* ChallengerMenuItemSprite.m */; };
+		B69DEC3D174A7DC400E0151C /* CustomRoomData.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC38174A7DC400E0151C /* CustomRoomData.m */; };
+		B69DEC3E174A7DC400E0151C /* CustomUserData.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC3A174A7DC400E0151C /* CustomUserData.m */; };
+		B69DEC3F174A7DC400E0151C /* RealTimeRoom.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC3C174A7DC400E0151C /* RealTimeRoom.m */; };
+		B69DEC42174AB65700E0151C /* PlayerAction.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC41174AB65700E0151C /* PlayerAction.m */; };
+		B69DEC50174AC25800E0151C /* AsyncGameBG.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC45174AC25800E0151C /* AsyncGameBG.m */; };
+		B69DEC51174AC25800E0151C /* AsyncGameGameOver.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC47174AC25800E0151C /* AsyncGameGameOver.m */; };
+		B69DEC52174AC25800E0151C /* AsyncGameReplay.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC49174AC25800E0151C /* AsyncGameReplay.m */; };
+		B69DEC53174AC25800E0151C /* AsyncGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC4B174AC25800E0151C /* AsyncGameScene.m */; };
+		B69DEC54174AC25800E0151C /* AsyncGameTerritory.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC4D174AC25800E0151C /* AsyncGameTerritory.m */; };
+		B69DEC55174AC25800E0151C /* AsyncGameUI.m in Sources */ = {isa = PBXBuildFile; fileRef = B69DEC4F174AC25800E0151C /* AsyncGameUI.m */; };
 		B6A4709316AC7D2200417830 /* NetworkController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709216AC7D2200417830 /* NetworkController.m */; };
 		B6A4709816AC7EFC00417830 /* MessageReader.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709716AC7EFC00417830 /* MessageReader.m */; };
 		B6A4709B16AC7F9100417830 /* MessageWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4709A16AC7F9100417830 /* MessageWriter.m */; };
 		B6A55AD716C35DF000E6F4A3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B6A55AD616C35DF000E6F4A3 /* libz.dylib */; };
 		B6A55AD916C35E9400E6F4A3 /* NetworkPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A55AD516C35D9D00E6F4A3 /* NetworkPacket.m */; };
 		B6B0F2C416DFC40D00D8B79D /* Guid.m in Sources */ = {isa = PBXBuildFile; fileRef = B6B0F2C316DFC31C00D8B79D /* Guid.m */; };
-		B6BCFFD416DD50B90077E5A2 /* SoloGameTerritory.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BCFFD316DD50B90077E5A2 /* SoloGameTerritory.m */; };
-		B6BCFFD716DD59A50077E5A2 /* SoloGameGameOver.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BCFFD616DD59A50077E5A2 /* SoloGameGameOver.m */; };
-		B6BCFFDA16DD5A000077E5A2 /* SoloGameReplay.m in Sources */ = {isa = PBXBuildFile; fileRef = B6BCFFD916DD5A000077E5A2 /* SoloGameReplay.m */; };
 		B6BDCEC31667EAFA00A34A48 /* TRSMillion.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B69693F71667E8D300FFFFC7 /* TRSMillion.ttf */; };
 		B6C68218164CE7F300BC9E81 /* USACapitalsSprites-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B6C68210164CE7F200BC9E81 /* USACapitalsSprites-hd.plist */; };
 		B6C68219164CE7F300BC9E81 /* USACapitalsSprites-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B6C68211164CE7F300BC9E81 /* USACapitalsSprites-hd.png */; };
@@ -282,12 +286,6 @@
 		B64A8494164B880C004A567A /* GeoQuestDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeoQuestDB.h; sourceTree = "<group>"; };
 		B64A8495164B880C004A567A /* GeoQuestDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoQuestDB.m; sourceTree = "<group>"; };
 		B64A849C164B884E004A567A /* GeoQuestDB.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeoQuestDB.sqlite; sourceTree = "<group>"; };
-		B64A849F164B892C004A567A /* SoloGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameScene.h; sourceTree = "<group>"; };
-		B64A84A0164B892C004A567A /* SoloGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameScene.m; sourceTree = "<group>"; };
-		B64A84A2164B898E004A567A /* SoloGameUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameUI.h; sourceTree = "<group>"; };
-		B64A84A3164B898E004A567A /* SoloGameUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameUI.m; sourceTree = "<group>"; };
-		B64A84A5164B899D004A567A /* SoloGameBG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameBG.h; sourceTree = "<group>"; };
-		B64A84A6164B899D004A567A /* SoloGameBG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameBG.m; sourceTree = "<group>"; };
 		B64A84A8164B8DC5004A567A /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		B656FC5816208DCF00757319 /* MainMenuBG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuBG.h; sourceTree = "<group>"; };
 		B656FC5916208DCF00757319 /* MainMenuBG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuBG.m; sourceTree = "<group>"; };
@@ -628,6 +626,26 @@
 		B69BFA5E162DF43E00F7B209 /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.json; sourceTree = "<group>"; };
 		B69BFA64162F155100F7B209 /* ChallengerMenuItemSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChallengerMenuItemSprite.h; sourceTree = "<group>"; };
 		B69BFA65162F155100F7B209 /* ChallengerMenuItemSprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChallengerMenuItemSprite.m; sourceTree = "<group>"; };
+		B69DEC37174A7DC400E0151C /* CustomRoomData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomRoomData.h; sourceTree = "<group>"; };
+		B69DEC38174A7DC400E0151C /* CustomRoomData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomRoomData.m; sourceTree = "<group>"; };
+		B69DEC39174A7DC400E0151C /* CustomUserData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUserData.h; sourceTree = "<group>"; };
+		B69DEC3A174A7DC400E0151C /* CustomUserData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomUserData.m; sourceTree = "<group>"; };
+		B69DEC3B174A7DC400E0151C /* RealTimeRoom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RealTimeRoom.h; sourceTree = "<group>"; };
+		B69DEC3C174A7DC400E0151C /* RealTimeRoom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RealTimeRoom.m; sourceTree = "<group>"; };
+		B69DEC40174AB65700E0151C /* PlayerAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerAction.h; sourceTree = "<group>"; };
+		B69DEC41174AB65700E0151C /* PlayerAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerAction.m; sourceTree = "<group>"; };
+		B69DEC44174AC25800E0151C /* AsyncGameBG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncGameBG.h; sourceTree = "<group>"; };
+		B69DEC45174AC25800E0151C /* AsyncGameBG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncGameBG.m; sourceTree = "<group>"; };
+		B69DEC46174AC25800E0151C /* AsyncGameGameOver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncGameGameOver.h; sourceTree = "<group>"; };
+		B69DEC47174AC25800E0151C /* AsyncGameGameOver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncGameGameOver.m; sourceTree = "<group>"; };
+		B69DEC48174AC25800E0151C /* AsyncGameReplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncGameReplay.h; sourceTree = "<group>"; };
+		B69DEC49174AC25800E0151C /* AsyncGameReplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncGameReplay.m; sourceTree = "<group>"; };
+		B69DEC4A174AC25800E0151C /* AsyncGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncGameScene.h; sourceTree = "<group>"; };
+		B69DEC4B174AC25800E0151C /* AsyncGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncGameScene.m; sourceTree = "<group>"; };
+		B69DEC4C174AC25800E0151C /* AsyncGameTerritory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncGameTerritory.h; sourceTree = "<group>"; };
+		B69DEC4D174AC25800E0151C /* AsyncGameTerritory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncGameTerritory.m; sourceTree = "<group>"; };
+		B69DEC4E174AC25800E0151C /* AsyncGameUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncGameUI.h; sourceTree = "<group>"; };
+		B69DEC4F174AC25800E0151C /* AsyncGameUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncGameUI.m; sourceTree = "<group>"; };
 		B6A4709116AC7D2200417830 /* NetworkController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkController.h; sourceTree = "<group>"; };
 		B6A4709216AC7D2200417830 /* NetworkController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkController.m; sourceTree = "<group>"; };
 		B6A4709616AC7EFC00417830 /* MessageReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageReader.h; sourceTree = "<group>"; };
@@ -639,12 +657,6 @@
 		B6A55AD616C35DF000E6F4A3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		B6B0F2C216DFC31C00D8B79D /* Guid.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Guid.h; sourceTree = "<group>"; };
 		B6B0F2C316DFC31C00D8B79D /* Guid.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Guid.m; sourceTree = "<group>"; };
-		B6BCFFD216DD50B90077E5A2 /* SoloGameTerritory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameTerritory.h; sourceTree = "<group>"; };
-		B6BCFFD316DD50B90077E5A2 /* SoloGameTerritory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameTerritory.m; sourceTree = "<group>"; };
-		B6BCFFD516DD59A50077E5A2 /* SoloGameGameOver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameGameOver.h; sourceTree = "<group>"; };
-		B6BCFFD616DD59A50077E5A2 /* SoloGameGameOver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameGameOver.m; sourceTree = "<group>"; };
-		B6BCFFD816DD5A000077E5A2 /* SoloGameReplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoloGameReplay.h; sourceTree = "<group>"; };
-		B6BCFFD916DD5A000077E5A2 /* SoloGameReplay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoloGameReplay.m; sourceTree = "<group>"; };
 		B6C68210164CE7F200BC9E81 /* USACapitalsSprites-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "USACapitalsSprites-hd.plist"; sourceTree = "<group>"; };
 		B6C68211164CE7F300BC9E81 /* USACapitalsSprites-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "USACapitalsSprites-hd.png"; sourceTree = "<group>"; };
 		B6C68212164CE7F300BC9E81 /* USACapitalsSprites.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = USACapitalsSprites.plist; sourceTree = "<group>"; };
@@ -770,28 +782,10 @@
 			path = DatabaseFiles;
 			sourceTree = "<group>";
 		};
-		B64A849E164B8917004A567A /* SoloGame */ = {
-			isa = PBXGroup;
-			children = (
-				B64A849F164B892C004A567A /* SoloGameScene.h */,
-				B64A84A0164B892C004A567A /* SoloGameScene.m */,
-				B6BCFFD816DD5A000077E5A2 /* SoloGameReplay.h */,
-				B6BCFFD916DD5A000077E5A2 /* SoloGameReplay.m */,
-				B6BCFFD216DD50B90077E5A2 /* SoloGameTerritory.h */,
-				B6BCFFD316DD50B90077E5A2 /* SoloGameTerritory.m */,
-				B6BCFFD516DD59A50077E5A2 /* SoloGameGameOver.h */,
-				B6BCFFD616DD59A50077E5A2 /* SoloGameGameOver.m */,
-				B64A84A2164B898E004A567A /* SoloGameUI.h */,
-				B64A84A3164B898E004A567A /* SoloGameUI.m */,
-				B64A84A5164B899D004A567A /* SoloGameBG.h */,
-				B64A84A6164B899D004A567A /* SoloGameBG.m */,
-			);
-			path = SoloGame;
-			sourceTree = "<group>";
-		};
 		B68E427D165EBAA000EA8426 /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
+				B69DEC36174A7DC400E0151C /* RealTime */,
 				B6CE9D1B1736DD2700371B4E /* FacebookCell.h */,
 				B6CE9D1C1736DD2700371B4E /* FacebookCell.m */,
 				B6988B13170A11A5007D213F /* Challenger.h */,
@@ -1272,7 +1266,7 @@
 				B6902DCD161F490F00B11872 /* GameManager.m */,
 				B6902DCE161F49D300B11872 /* Constants.h */,
 				B6902DC5161F47A300B11872 /* MainMenu */,
-				B64A849E164B8917004A567A /* SoloGame */,
+				B69DEC43174AC25800E0151C /* AsyncGame */,
 				B611073217452AD40005FA3E /* RealTimeGame */,
 			);
 			path = Scene;
@@ -1353,6 +1347,40 @@
 				B6B0F2C316DFC31C00D8B79D /* Guid.m */,
 			);
 			path = AddOns;
+			sourceTree = "<group>";
+		};
+		B69DEC36174A7DC400E0151C /* RealTime */ = {
+			isa = PBXGroup;
+			children = (
+				B69DEC37174A7DC400E0151C /* CustomRoomData.h */,
+				B69DEC38174A7DC400E0151C /* CustomRoomData.m */,
+				B69DEC39174A7DC400E0151C /* CustomUserData.h */,
+				B69DEC3A174A7DC400E0151C /* CustomUserData.m */,
+				B69DEC3B174A7DC400E0151C /* RealTimeRoom.h */,
+				B69DEC3C174A7DC400E0151C /* RealTimeRoom.m */,
+				B69DEC40174AB65700E0151C /* PlayerAction.h */,
+				B69DEC41174AB65700E0151C /* PlayerAction.m */,
+			);
+			path = RealTime;
+			sourceTree = "<group>";
+		};
+		B69DEC43174AC25800E0151C /* AsyncGame */ = {
+			isa = PBXGroup;
+			children = (
+				B69DEC44174AC25800E0151C /* AsyncGameBG.h */,
+				B69DEC45174AC25800E0151C /* AsyncGameBG.m */,
+				B69DEC46174AC25800E0151C /* AsyncGameGameOver.h */,
+				B69DEC47174AC25800E0151C /* AsyncGameGameOver.m */,
+				B69DEC48174AC25800E0151C /* AsyncGameReplay.h */,
+				B69DEC49174AC25800E0151C /* AsyncGameReplay.m */,
+				B69DEC4A174AC25800E0151C /* AsyncGameScene.h */,
+				B69DEC4B174AC25800E0151C /* AsyncGameScene.m */,
+				B69DEC4C174AC25800E0151C /* AsyncGameTerritory.h */,
+				B69DEC4D174AC25800E0151C /* AsyncGameTerritory.m */,
+				B69DEC4E174AC25800E0151C /* AsyncGameUI.h */,
+				B69DEC4F174AC25800E0151C /* AsyncGameUI.m */,
+			);
+			path = AsyncGame;
 			sourceTree = "<group>";
 		};
 		B6A4709016AC7D2200417830 /* NetworkFiles */ = {
@@ -1752,9 +1780,6 @@
 				B6413A7D1638600800A01A2D /* CCMenuAdvancedPlus.m in Sources */,
 				B64A8498164B880C004A567A /* GeoQuestAnswer.m in Sources */,
 				B64A8499164B880C004A567A /* GeoQuestDB.m in Sources */,
-				B64A84A1164B892C004A567A /* SoloGameScene.m in Sources */,
-				B64A84A4164B898E004A567A /* SoloGameUI.m in Sources */,
-				B64A84A7164B899D004A567A /* SoloGameBG.m in Sources */,
 				B6C68223164CEED400BC9E81 /* CCMenu+Layout.m in Sources */,
 				B68E4280165EBAD200EA8426 /* GameThemeCache.m in Sources */,
 				B68E42871660F6FB00EA8426 /* GameTheme.m in Sources */,
@@ -1768,9 +1793,6 @@
 				B6975C1316D6BC2A007C0FD7 /* CCRenderTexturePlus.m in Sources */,
 				B632D8FA16DD1B0A000E529C /* MainMenuLogin.m in Sources */,
 				B632D8FD16DD1B21000E529C /* MainMenuCreateGame.m in Sources */,
-				B6BCFFD416DD50B90077E5A2 /* SoloGameTerritory.m in Sources */,
-				B6BCFFD716DD59A50077E5A2 /* SoloGameGameOver.m in Sources */,
-				B6BCFFDA16DD5A000077E5A2 /* SoloGameReplay.m in Sources */,
 				B68CA22116E4FC8500FCCA01 /* TerritoryMenuItemSprite.m in Sources */,
 				B69B06261704A34D00FE2775 /* ChallengesInProgress.m in Sources */,
 				B6988B121709E210007D213F /* ServerTerritories.m in Sources */,
@@ -1782,6 +1804,16 @@
 				B611073E17452B920005FA3E /* RealTimeUI.m in Sources */,
 				B611074117452B9A0005FA3E /* RealTimeRoom.m in Sources */,
 				B611074417452BA70005FA3E /* RealTimeBG.m in Sources */,
+				B69DEC3D174A7DC400E0151C /* CustomRoomData.m in Sources */,
+				B69DEC3E174A7DC400E0151C /* CustomUserData.m in Sources */,
+				B69DEC3F174A7DC400E0151C /* RealTimeRoom.m in Sources */,
+				B69DEC42174AB65700E0151C /* PlayerAction.m in Sources */,
+				B69DEC50174AC25800E0151C /* AsyncGameBG.m in Sources */,
+				B69DEC51174AC25800E0151C /* AsyncGameGameOver.m in Sources */,
+				B69DEC52174AC25800E0151C /* AsyncGameReplay.m in Sources */,
+				B69DEC53174AC25800E0151C /* AsyncGameScene.m in Sources */,
+				B69DEC54174AC25800E0151C /* AsyncGameTerritory.m in Sources */,
+				B69DEC55174AC25800E0151C /* AsyncGameUI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

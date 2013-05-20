@@ -14,6 +14,9 @@
 @synthesize currentChallenge = _currentChallenge;
 @synthesize player1Stats = _player1Stats;
 @synthesize player2Stats = _player2Stats;
+@synthesize roomId = _roomId;
+@synthesize roomPassword = _roomPassword;
+
 static PlayerDB *_database;
 
 #pragma mark - Initialize
@@ -52,7 +55,7 @@ static PlayerDB *_database;
 
 #pragma mark - Parse Data
 
--(NSMutableArray*) parseRaceDataFromString:(NSString *)raceData {
+/*-(NSMutableArray*) parseRaceDataFromString:(NSString *)raceData {
     
     NSScanner *scanner = [NSScanner scannerWithString:raceData];
     NSMutableArray *raceDataArray = [[[NSMutableArray alloc] init] autorelease];
@@ -68,7 +71,7 @@ static PlayerDB *_database;
         }
     }
     return raceDataArray;
-}
+}*/
 
 /*-(NSMutableArray*) parseQuestionFromString:(NSString *)questions {
     
@@ -98,10 +101,14 @@ static PlayerDB *_database;
     self.currentChallenge = nil;
     self.player1Stats = nil;
     self.player2Stats = nil;
+    self.roomId = nil;
+    self.roomPassword = nil;
 
     [_currentChallenge release];
     [_player1Stats release];
     [_player2Stats release];
+    [_roomId release];
+    [_roomPassword release];
     [super dealloc];
 }
 

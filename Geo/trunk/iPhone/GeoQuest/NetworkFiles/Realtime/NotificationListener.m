@@ -102,6 +102,7 @@
 -(void)onJoinRoomDone:(RoomEvent*)roomEvent{
     if (roomEvent.result == SUCCESS) {
         NSLog(@"Room Joined");
+        [[WarpClient getInstance] getLiveRoomInfo:@"1852889716"];
     }
     else {
         NSLog(@"Room Join failed");
@@ -117,7 +118,14 @@
     }
 }
 -(void)onGetLiveRoomInfoDone:(LiveRoomInfoEvent*)event{
-    
+    if (event.result == SUCCESS) {
+        CCLOG(@"Room Live Info retrieved");
+        for (int i = 0; i < [event.joinedUsers count]; i++) {
+            CCLOG(@"%@", [event.joinedUsers objectAtIndex:i]);
+        }
+    } else {
+        CCLOG(@"Room Live Info failed");
+    }
 }
 -(void)onSetCustomRoomDataDone:(LiveRoomInfoEvent*)event{
     NSLog(@"event joined users = %@",event.joinedUsers);

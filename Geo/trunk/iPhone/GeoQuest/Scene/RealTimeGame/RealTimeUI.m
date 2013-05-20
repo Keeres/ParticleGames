@@ -38,11 +38,14 @@
     [[WarpClient getInstance] addRoomRequestListener:roomListener];
     NotificationListener *notificationListener = [[[NotificationListener alloc] initWithGame:self] autorelease];
     [[WarpClient getInstance] addNotificationListener:notificationListener];
+
     
     CCLOG(@"RealTimeUI: AppWarp Init");
 }
 
 #pragma mark - App Warp Connections
+#pragma mark -
+#pragma mark ConnectionRequestListener Methods
 
 -(void)onConnectDone:(ConnectEvent*) event{
     
@@ -61,11 +64,27 @@
         [[WarpClient getInstance] joinRoom:@"1852889716"];
         [[WarpClient getInstance] subscribeRoom:@"1852889716"];
         [[WarpClient getInstance] getOnlineUsers];
+        
     }
     else {
         NSLog(@"AppWarp Join Zone Failed!");
     }
 }
+
+-(void)onDisconnectDone:(ConnectEvent *)event {
+    NSLog(@"AppWarp Connection Failed");
+}
+
+#pragma mark ZoneRequestListener Methods
+
+-(void) onGetAllRoomsDone:(AllRoomsEvent *)event {
+    for (int i = 0; i < [event.roomIds count]; i++) {
+        //RoomData *room = [event.roomIds objectAtIndex:i];
+        CCLOG(@"Room id: %@", [event.roomIds objectAtIndex:i]);
+        //[[WarpClient getInstance] deleteRoom:[event.roomIds objectAtIndex:i]];
+    }
+}
+
 
 -(void)onCreateRoomDone:(RoomEvent*)roomEvent{
     RoomData *roomData = roomEvent.roomData;
@@ -93,8 +112,12 @@
     }
 }
 
--(void)onDisconnectDone:(ConnectEvent *)event {
-    NSLog(@"AppWarp Connection Failed");
+-(void) onGetLiveUserInfoDone:(LiveUserInfoEvent *)event {
+    
+}
+
+-(void) onSetCustomUserDataDone:(LiveUserInfoEvent *)event {
+    
 }
 
 #pragma mark - Get Question/Answer

@@ -10,6 +10,8 @@
 
 @implementation RealTimeRoom
 
+#pragma mark - Setup
+
 -(void) setupRoom {
     // Button 1 for real time menu
     CCMenuItemSprite *button1 = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton1.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton1.png"] target:self selector:@selector(button1Pressed)];
@@ -38,7 +40,28 @@
 
 }
 
+-(void) setupTerritoryMenu {
+    realTimeTerritoryMenu = [CCMenuAdvancedPlus menuWithItems:nil];
+    
+    for (int i = 0; i < 3; i++) {
+        CCMenuItemSprite *territoryButton = [CCMenuItemSprite itemWithNormalSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton1.png"] selectedSprite:[CCSprite spriteWithSpriteFrameName:@"MainMenuButton2.png"] target:self selector:@selector(territoryButtonPressed:)];
+        territoryButton.tag = i;
+        [realTimeTerritoryMenu addChild:territoryButton];
+    }
+    
+    [realTimeTerritoryMenu alignItemsVertically];
+    realTimeTerritoryMenu.ignoreAnchorPointForPosition = NO;
+    
+    realTimeTerritoryMenu.position = ccp(winSize.width/2, winSize.height/2);
+    realTimeTerritoryMenu.boundaryRect = CGRectMake(realTimeTerritoryMenu.position.x - realTimeTerritoryMenu.contentSize.width/2, realTimeTerritoryMenu.position.y - realTimeTerritoryMenu.contentSize.height/2, realTimeTerritoryMenu.contentSize.width, realTimeTerritoryMenu.contentSize.height);
+    [realTimeTerritoryMenu fixPosition];
+    
+    [self addChild:realTimeTerritoryMenu];
+    
+    
+}
 
+#pragma mark - Init
 
 -(id) initWithRealTimeUILayer:(RealTimeUI *)realUI {
     if ((self = [super init])) {
@@ -47,12 +70,39 @@
         
         _realTimeUI = realUI;
         [self setupRoom];
+        [self scheduleUpdate];
     }
     return self;
 }
 
+#pragma mark - Update
+
+-(void) update:(ccTime)delta {
+    
+}
+
+#pragma mark - Methods
+
+-(void) territoryButtonPressed:(CCMenuItemSprite*)sender {
+    int i = sender.tag;
+    switch (i) {
+        case 0: {
+            break;
+        }
+        case 1: {
+            break;
+        }
+        case 2: {
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
 -(void) button1Pressed {
-    int time = (int)[[NSDate date] timeIntervalSince1970];
+    /*int time = (int)[[NSDate date] timeIntervalSince1970];
     NSMutableDictionary* jsonPacket = [NSMutableDictionary dictionary];
     [jsonPacket setObject:[PFUser currentUser].username forKey:@"sender"];
     [jsonPacket setObject:[NSNumber numberWithInt:time] forKey:@"time"];
@@ -61,8 +111,12 @@
     NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:jsonPacket options:0 error:&error];
     NSLog(@"Sent %d - %d", counter, time);
-    [[WarpClient getInstance]sendUpdatePeers:data];
+    [[WarpClient getInstance]sendUpdatePeers:data];*/
+    [[WarpClient getInstance] getAllRooms];
+    //[[WarpClient getInstance] createRoomWithRoomName:@"Testing" roomOwner:[PFUser currentUser].username maxUsers:4];
 }
+
+#pragma mark - dealloc
 
 -(void) dealloc {
     [super dealloc];

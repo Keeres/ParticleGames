@@ -22,6 +22,7 @@
     
     //Button Menu
     CCMenuAdvancedPlus  *realTimeMenu;
+    CCMenuAdvancedPlus  *realTimeTerritoryMenu;
 }
 
 -(id) initWithRealTimeUILayer:(RealTimeUI*)realUI;

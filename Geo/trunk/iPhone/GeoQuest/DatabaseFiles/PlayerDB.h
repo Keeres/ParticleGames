@@ -21,6 +21,8 @@
     ChallengesInProgress *_currentChallenge;
     PlayerStats *_player1Stats;
     PlayerStats *_player2Stats;
+    NSString    *_roomId;
+    NSString    *_roomPassword;
     
     BOOL    _playerInPlayer1Column;
 }
@@ -28,13 +30,15 @@
 @property (nonatomic, retain) ChallengesInProgress *currentChallenge;
 @property (nonatomic, retain) PlayerStats *player1Stats;
 @property (nonatomic, retain) PlayerStats *player2Stats;
+@property (nonatomic, retain) NSString *roomId;
+@property (nonatomic, retain) NSString *roomPassword;
 
 @property BOOL playerInPlayer1Column;
 
 +(PlayerDB*) database;
 
 #pragma mark - Parse Data
--(NSMutableArray*) parseRaceDataFromString:(NSString*)raceData;
+//-(NSMutableArray*) parseRaceDataFromString:(NSString*)raceData;
 //-(NSMutableArray*) parseQuestionFromString:(NSString*)questions;
 
 @end

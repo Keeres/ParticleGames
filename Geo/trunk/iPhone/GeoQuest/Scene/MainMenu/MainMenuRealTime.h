@@ -15,7 +15,7 @@
 
 @class MainMenuUI;
 
-@interface MainMenuRealTime : CCLayer<ConnectionRequestListener,ZoneRequestListener>{
+@interface MainMenuRealTime : CCLayer { //<ConnectionRequestListener,ZoneRequestListener>{
     CGSize              winSize;
     
     //Layers

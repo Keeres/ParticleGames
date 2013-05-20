@@ -15,7 +15,7 @@
 
 #pragma mark - Setup layer
 
--(void) setupRealTimeLayer {
+/*-(void) setupRealTimeLayer {
     //Allocate and initialize buttons
     [self setupRealTimeMenu];
     
@@ -31,7 +31,7 @@
     
     NSLog(@"AppWarp Client Init");
     
-}
+}*/
 
 -(void) setupRealTimeMenu {
     // Button 1 for real time menu
@@ -88,7 +88,7 @@
     [self addChild:realTimeMenu];
 }
 
-#pragma mark - App Warp Connections
+/*#pragma mark - App Warp Connections
 -(void)onConnectDone:(ConnectEvent*) event{
 
     if (event.result==0) {
@@ -140,7 +140,7 @@
 
 -(void)onDisconnectDone:(ConnectEvent *)event {
     NSLog(@"AppWarp Connection Failed");
-}
+}*/
 
 #pragma mark - Init Layer
 
