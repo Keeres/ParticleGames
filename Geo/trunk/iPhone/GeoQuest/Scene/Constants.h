@@ -47,6 +47,29 @@ typedef enum {
     kTotalPowerUps
 } GamePowerUp;
 
+typedef enum {
+    kIdle,
+    kCreateGame,
+    kFindGame,
+    kJoinGame,
+    kJoinRandomGame,
+    kGetLiveRoomInfo,
+    kUpdateReceived,
+    kGameStart,
+    kLoadGameLayer,
+    kTotalRealTimeStates
+} RealTimeState;
+
+typedef enum {
+    kCirclePopUp,
+    /*kCircleRoulette,
+    kHammer,
+    kGeography,
+    kPointBlank,
+    kMathematics,*/
+    kTotalGameLayerTypes,
+} GameLayerTypes;
+
 // Audio Items
 #define AUDIO_MAX_WAITTIME 150
 

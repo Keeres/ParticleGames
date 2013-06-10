@@ -8,14 +8,22 @@
 
 #import "MainMenuRealTime.h"
 #import "MainMenuCreateGame.h"
-#import "NotificationListener.h"
+#import "GameManager.h"
 
 
 @implementation MainMenuRealTime
 
+@synthesize roomIds = _roomIds;
+@synthesize gameState = _gameState;
+@synthesize roomIdToJoin = _roomIdToJoin;
+
+
+
+
+
 #pragma mark - Setup layer
 
-/*-(void) setupRealTimeLayer {
+-(void) setupRealTimeLayer {
     //Allocate and initialize buttons
     [self setupRealTimeMenu];
     
@@ -24,14 +32,18 @@
     [[WarpClient getInstance] addConnectionRequestListener: self];
     [[WarpClient getInstance] addZoneRequestListener: self];
     [[WarpClient getInstance] connect];
-    RoomListener *roomListener = [[[RoomListener alloc] init] autorelease];
-    [[WarpClient getInstance] addRoomRequestListener:roomListener];
-    NotificationListener *notificationListener = [[[NotificationListener alloc] initWithGame:self] autorelease];
-    [[WarpClient getInstance] addNotificationListener:notificationListener];
+
+    _roomListener = [[[RoomListener alloc] init] autorelease];
+    [[WarpClient getInstance] addRoomRequestListener:_roomListener];
+    _roomListener.mainMenuRealTime = self;
+
+    _notificationListener = [[[NotificationListener alloc] init] autorelease];
+    [[WarpClient getInstance] addNotificationListener:_notificationListener];
+    _notificationListener.mainMenuRealTime = self;
     
     NSLog(@"AppWarp Client Init");
     
-}*/
+}
 
 -(void) setupRealTimeMenu {
     // Button 1 for real time menu
@@ -88,9 +100,14 @@
     [self addChild:realTimeMenu];
 }
 
-/*#pragma mark - App Warp Connections
--(void)onConnectDone:(ConnectEvent*) event{
 
+
+#pragma mark - App Warp Connections
+#pragma mark -
+#pragma mark ConnectionRequestListener Methods
+
+-(void)onConnectDone:(ConnectEvent*) event{
+    
     if (event.result==0) {
         NSLog(@"AppWarp Connection established");
         [[WarpClient getInstance]joinZone:[PFUser currentUser].username];
@@ -103,21 +120,78 @@
 -(void)onJoinZoneDone:(ConnectEvent*) event{
     if (event.result==0) {
         NSLog(@"AppWarp Join Zone done");
-        [[WarpClient getInstance] joinRoom:@"1852889716"];
-        [[WarpClient getInstance] subscribeRoom:@"1852889716"];
-        [[WarpClient getInstance] getOnlineUsers];
+        //[[WarpClient getInstance] getAllRooms];
+        
+        //[[WarpClient getInstance] joinRoom:@"1852889716"];
+        //[[WarpClient getInstance] subscribeRoom:@"1852889716"];
+        
+        //[[WarpClient getInstance] createRoomWithRoomName:@"test" roomOwner:[PFUser currentUser].username maxUsers:4];
+        //[[WarpClient getInstance] subscribeRoom:@"test"];
+        
+        
     }
     else {
         NSLog(@"AppWarp Join Zone Failed!");
     }
 }
 
+-(void)onDisconnectDone:(ConnectEvent *)event {
+    NSLog(@"AppWarp Connection Disconnected");
+}
+
+
+
+
+#pragma mark ZoneRequestListener Methods
+
+-(void) onGetAllRoomsDone:(AllRoomsEvent *)event {
+    CCLOG(@"RealTimeUI: Total rooms: %i", [event.roomIds count]);
+    
+    self.roomIds = [NSMutableArray arrayWithArray:event.roomIds];
+    self.gameState = kJoinRandomGame;
+    
+    /*switch (self.gameState) {
+        case kIdle:
+            break;
+            
+        case kJoinRandomGame: {
+            if ([self.roomIds count] > 0) {
+                
+                NSString* roomId = [self.roomIds objectAtIndex:0];
+                
+                
+                
+                [[WarpClient getInstance] getLiveRoomInfo:roomId];
+                [self.roomIds removeObjectAtIndex:0];
+                
+            } else {
+                [[WarpClient getInstance] createRoomWithRoomName:[PFUser currentUser].username roomOwner:[PFUser currentUser].username maxUsers:4];
+                self.gameState = kIdle;
+            }
+            break;
+        }
+            
+        default:
+            break;
+    }*/
+}
+
+
 -(void)onCreateRoomDone:(RoomEvent*)roomEvent{
     RoomData *roomData = roomEvent.roomData;
     NSLog(@"roomEvent result = %i",roomEvent.result);
     NSLog(@"room id = %@",roomData.roomId);
     
-    [[WarpClient getInstance] getAllRooms];
+    if (roomEvent.result == SUCCESS) {
+        CCLOG(@"RealTimeUI: Successfully created room: %@", roomEvent.roomData.roomId);
+        
+        self.gameState = kJoinGame;
+        self.roomIdToJoin = roomEvent.roomData.roomId;
+        
+    } else {
+        CCLOG(@"RealTimeUI: Failed to create room");
+    }
+    
 }
 
 -(void)onDeleteRoomDone:(RoomEvent*)roomEvent{
@@ -138,9 +212,17 @@
     }
 }
 
--(void)onDisconnectDone:(ConnectEvent *)event {
-    NSLog(@"AppWarp Connection Failed");
-}*/
+-(void) onGetLiveUserInfoDone:(LiveUserInfoEvent *)event {
+    
+}
+
+-(void) onSetCustomUserDataDone:(LiveUserInfoEvent *)event {
+    
+}
+
+
+
+
 
 #pragma mark - Init Layer
 
@@ -152,32 +234,76 @@
         // Setup layers
         mainMenuUI = menuUI;
         [mainMenuUI setMainMenuRealTimeLayer:self];
+        _gameState = kIdle;
         
-        //[self setupRealTimeLayer];
-        [self setupRealTimeMenu];
+        [self setupRealTimeLayer];        
+        [self scheduleUpdate];
     }
     return self;
 }
 
+
+
+
+
+#pragma mark - Update
+
+-(void) update:(ccTime)delta {
+    [self checkState];
+}
+
+-(void) checkState {
+    switch (self.gameState) {
+        case kIdle: {
+            break;
+        }
+            
+        case kCreateGame: {
+            break;
+        }
+            
+        case kFindGame: {
+            self.gameState = kIdle;
+            [[WarpClient getInstance] getAllRooms];
+            break;
+        }
+            
+        case kJoinGame: {
+            self.gameState = kIdle; 
+            [[WarpClient getInstance] joinRoom:self.roomIdToJoin];
+            [[WarpClient getInstance] removeNotificationListener:_notificationListener];
+            [[GameManager sharedGameManager] runSceneWithID:kRealTimeScene];
+            break;
+        }
+            
+        case kJoinRandomGame: {
+            if ([self.roomIds count] > 0) {
+                //self.gameState = kIdle;
+                NSString* roomId = [self.roomIds objectAtIndex:0];
+                
+                [[WarpClient getInstance] getLiveRoomInfo:roomId];
+                [self.roomIds removeObjectAtIndex:0];
+                
+            } else {
+                [[WarpClient getInstance] createRoomWithRoomName:[PFUser currentUser].username roomOwner:[PFUser currentUser].username maxUsers:4];
+                self.gameState = kIdle;
+            }
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
+
+
 #pragma  mark - Methods for layer
 
 -(void) button1Pressed {
-    // Build and Send a json packet to everyone in the room
-    /*int time = (int)[[NSDate date] timeIntervalSince1970];
-    NSMutableDictionary* jsonPacket = [NSMutableDictionary dictionary];
-    [jsonPacket setObject:[PFUser currentUser].username forKey:@"sender"];
-    [jsonPacket setObject:[NSNumber numberWithInt:time] forKey:@"time"];
-    [jsonPacket setObject:[NSNumber numberWithInt:counter] forKey:@"counter"];
-    
-    NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:jsonPacket options:0 error:&error];
-    NSLog(@"Sent %d - %d", counter, time);
-    [[WarpClient getInstance]sendUpdatePeers:data];
-    
-    counter++;*/
-    [[GameManager sharedGameManager] runSceneWithID:kRealTimeScene];
-
-
+    CCLOG(@"MainMenuRealTime: Quick Game");
+    self.gameState = kFindGame;
+    //[[GameManager sharedGameManager] runSceneWithID:kRealTimeScene];
 }
 
 -(void) button2Pressed {
@@ -204,9 +330,17 @@
     realTimeMenu.isDisabled = NO;
 }
 
+
+
+
 #pragma mark - dealloc
 
 -(void) dealloc {
+    _roomIds = nil;
+    _roomIdToJoin = nil;
+    [self.roomIds release];
+    [self.roomIdToJoin release];
+
     [super dealloc];
 }
 

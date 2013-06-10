@@ -28,6 +28,14 @@
 		B64A8499164B880C004A567A /* GeoQuestDB.m in Sources */ = {isa = PBXBuildFile; fileRef = B64A8495164B880C004A567A /* GeoQuestDB.m */; };
 		B64A849D164B884E004A567A /* GeoQuestDB.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = B64A849C164B884E004A567A /* GeoQuestDB.sqlite */; };
 		B64A84A9164B8DC5004A567A /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B64A84A8164B8DC5004A567A /* libsqlite3.0.dylib */; };
+		B64AAFB51763FE8D004EE1DB /* CirclePopUp-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B64AAFAD1763FE8D004EE1DB /* CirclePopUp-hd.png */; };
+		B64AAFB61763FE8D004EE1DB /* CirclePopUp.png in Resources */ = {isa = PBXBuildFile; fileRef = B64AAFAE1763FE8D004EE1DB /* CirclePopUp.png */; };
+		B64AAFB71763FE8D004EE1DB /* RealTimeMenu-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B64AAFAF1763FE8D004EE1DB /* RealTimeMenu-hd.png */; };
+		B64AAFB81763FE8D004EE1DB /* RealTimeMenu.png in Resources */ = {isa = PBXBuildFile; fileRef = B64AAFB01763FE8D004EE1DB /* RealTimeMenu.png */; };
+		B64AAFB91763FE8D004EE1DB /* CirclePopUp-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B64AAFB11763FE8D004EE1DB /* CirclePopUp-hd.plist */; };
+		B64AAFBA1763FE8D004EE1DB /* CirclePopUp.plist in Resources */ = {isa = PBXBuildFile; fileRef = B64AAFB21763FE8D004EE1DB /* CirclePopUp.plist */; };
+		B64AAFBB1763FE8D004EE1DB /* RealTimeMenu-hd.plist in Resources */ = {isa = PBXBuildFile; fileRef = B64AAFB31763FE8D004EE1DB /* RealTimeMenu-hd.plist */; };
+		B64AAFBC1763FE8D004EE1DB /* RealTimeMenu.plist in Resources */ = {isa = PBXBuildFile; fileRef = B64AAFB41763FE8D004EE1DB /* RealTimeMenu.plist */; };
 		B656FC5A16208DCF00757319 /* MainMenuBG.m in Sources */ = {isa = PBXBuildFile; fileRef = B656FC5916208DCF00757319 /* MainMenuBG.m */; };
 		B67470D916C5924400092751 /* Territory.m in Sources */ = {isa = PBXBuildFile; fileRef = B67470D816C5924400092751 /* Territory.m */; };
 		B67A7AC816885D7400C8BBC6 /* MainMenuBGSprites-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = B67A7AC416885D7400C8BBC6 /* MainMenuBGSprites-hd.png */; };
@@ -287,6 +295,14 @@
 		B64A8495164B880C004A567A /* GeoQuestDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeoQuestDB.m; sourceTree = "<group>"; };
 		B64A849C164B884E004A567A /* GeoQuestDB.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeoQuestDB.sqlite; sourceTree = "<group>"; };
 		B64A84A8164B8DC5004A567A /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		B64AAFAD1763FE8D004EE1DB /* CirclePopUp-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CirclePopUp-hd.png"; sourceTree = "<group>"; };
+		B64AAFAE1763FE8D004EE1DB /* CirclePopUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CirclePopUp.png; sourceTree = "<group>"; };
+		B64AAFAF1763FE8D004EE1DB /* RealTimeMenu-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RealTimeMenu-hd.png"; sourceTree = "<group>"; };
+		B64AAFB01763FE8D004EE1DB /* RealTimeMenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RealTimeMenu.png; sourceTree = "<group>"; };
+		B64AAFB11763FE8D004EE1DB /* CirclePopUp-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CirclePopUp-hd.plist"; sourceTree = "<group>"; };
+		B64AAFB21763FE8D004EE1DB /* CirclePopUp.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CirclePopUp.plist; sourceTree = "<group>"; };
+		B64AAFB31763FE8D004EE1DB /* RealTimeMenu-hd.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RealTimeMenu-hd.plist"; sourceTree = "<group>"; };
+		B64AAFB41763FE8D004EE1DB /* RealTimeMenu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RealTimeMenu.plist; sourceTree = "<group>"; };
 		B656FC5816208DCF00757319 /* MainMenuBG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuBG.h; sourceTree = "<group>"; };
 		B656FC5916208DCF00757319 /* MainMenuBG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuBG.m; sourceTree = "<group>"; };
 		B67470D716C5924400092751 /* Territory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Territory.h; sourceTree = "<group>"; };
@@ -756,6 +772,7 @@
 		B611073217452AD40005FA3E /* RealTimeGame */ = {
 			isa = PBXGroup;
 			children = (
+				B62DEC27175547FE00D07CF8 /* GameLayers */,
 				B611073317452AD40005FA3E /* RealTimeScene.h */,
 				B611073417452AD40005FA3E /* RealTimeScene.m */,
 				B611073C17452B920005FA3E /* RealTimeUI.h */,
@@ -766,6 +783,13 @@
 				B611074317452BA70005FA3E /* RealTimeBG.m */,
 			);
 			path = RealTimeGame;
+			sourceTree = "<group>";
+		};
+		B62DEC27175547FE00D07CF8 /* GameLayers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = GameLayers;
 			sourceTree = "<group>";
 		};
 		B64A8491164B880C004A567A /* DatabaseFiles */ = {
@@ -1275,6 +1299,14 @@
 		B6902DB8161E2DAA00B11872 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B64AAFAD1763FE8D004EE1DB /* CirclePopUp-hd.png */,
+				B64AAFAE1763FE8D004EE1DB /* CirclePopUp.png */,
+				B64AAFAF1763FE8D004EE1DB /* RealTimeMenu-hd.png */,
+				B64AAFB01763FE8D004EE1DB /* RealTimeMenu.png */,
+				B64AAFB11763FE8D004EE1DB /* CirclePopUp-hd.plist */,
+				B64AAFB21763FE8D004EE1DB /* CirclePopUp.plist */,
+				B64AAFB31763FE8D004EE1DB /* RealTimeMenu-hd.plist */,
+				B64AAFB41763FE8D004EE1DB /* RealTimeMenu.plist */,
 				B698FC30171C1132006CF708 /* CountryEurope-hd.png */,
 				B698FC31171C1132006CF708 /* CountryEurope.png */,
 				B698FC32171C1132006CF708 /* CountryEurope-hd.plist */,
@@ -1639,6 +1671,14 @@
 				B698FC37171C1132006CF708 /* CountryEurope.plist in Resources */,
 				B698FC39171C972E006CF708 /* MoveVehicleParticle.plist in Resources */,
 				B6239D811720809E00D61C5A /* FacebookSDKResources.bundle in Resources */,
+				B64AAFB51763FE8D004EE1DB /* CirclePopUp-hd.png in Resources */,
+				B64AAFB61763FE8D004EE1DB /* CirclePopUp.png in Resources */,
+				B64AAFB71763FE8D004EE1DB /* RealTimeMenu-hd.png in Resources */,
+				B64AAFB81763FE8D004EE1DB /* RealTimeMenu.png in Resources */,
+				B64AAFB91763FE8D004EE1DB /* CirclePopUp-hd.plist in Resources */,
+				B64AAFBA1763FE8D004EE1DB /* CirclePopUp.plist in Resources */,
+				B64AAFBB1763FE8D004EE1DB /* RealTimeMenu-hd.plist in Resources */,
+				B64AAFBC1763FE8D004EE1DB /* RealTimeMenu.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

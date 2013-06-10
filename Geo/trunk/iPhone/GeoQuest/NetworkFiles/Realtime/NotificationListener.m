@@ -11,36 +11,33 @@
 
 @implementation NotificationListener
 
-@synthesize gameView;
-
-/*-(id)initWithGame:(MainMenuRealTime *) game {
-    self.gameView = game;
-    return self;
-}*/
-
--(id) initWithGame:(RealTimeUI*)game {
-    self.gameView = game;
-    return self;
-}
 
 -(void)onRoomCreated:(RoomData*)roomEvent{
-    
+
 }
+
 -(void)onRoomDestroyed:(RoomData*)roomEvent{
     
 }
+
 -(void)onUserLeftRoom:(RoomData*)roomData username:(NSString*)username{
-    
+    CCLOG(@"NotificationListner: User left the room.");
+    self.realTimeUI.realTimeRoom.countdownTimer = COUNTDOWN_TIMER;
 }
+
 -(void)onUserJoinedRoom:(RoomData*)roomData username:(NSString*)username{
-    
+    CCLOG(@"NotificationListner: User joined the room.");
+    self.realTimeUI.realTimeRoom.countdownTimer = COUNTDOWN_TIMER;
 }
+
 -(void)onUserLeftLobby:(LobbyData*)lobbyData username:(NSString*)username{
     
 }
+
 -(void)onUserJoinedLobby:(LobbyData*)lobbyData username:(NSString*)username{
     
 }
+
 -(void)onChatReceived:(ChatEvent*)chatEvent{
     
 }
@@ -55,6 +52,8 @@
 
 -(void)onUpdatePeersReceived:(UpdateEvent*)updateEvent {
     
+    self.realTimeUI.gameState = kUpdateReceived;
+    
     NSLog(@"onUpdate peers received");
     NSError* error = nil;
     
@@ -63,8 +62,10 @@
                           options:kNilOptions
                           error:&error];
     
+    self.realTimeUI.updateReceiveDictionary = json;
     
-    int time = [[json objectForKey:@"time"]intValue];
+    
+    /*int time = [[json objectForKey:@"time"]intValue];
     int counter = [[json objectForKey:@"counter"]intValue];
     NSString* sender = [json objectForKey:@"sender"];
     
@@ -74,7 +75,7 @@
         nil;
     }
     NSLog(@"Received @ %d = %@,%i,%i",(int)[[NSDate date] timeIntervalSince1970], sender,time,counter);
-    
+    */
     
 }
 
@@ -91,6 +92,7 @@
         NSLog(@"subscribed failed");
     }
 }
+
 -(void)onUnSubscribeRoomDone:(RoomEvent*)roomEvent{
     if (roomEvent.result == SUCCESS) {
         NSLog(@"Room Unsubscribed");
@@ -99,16 +101,19 @@
         NSLog(@"Room Unsubscribed failed");
     }
 }
+
 -(void)onJoinRoomDone:(RoomEvent*)roomEvent{
+    CCLOG(@"Attemping to join roomId: %@", roomEvent.roomData.roomId);
+    
     if (roomEvent.result == SUCCESS) {
         NSLog(@"Room Joined");
-        [[WarpClient getInstance] getLiveRoomInfo:@"1852889716"];
+        [[WarpClient getInstance] subscribeRoom:roomEvent.roomData.roomId];
     }
     else {
         NSLog(@"Room Join failed");
     }
-    
 }
+
 -(void)onLeaveRoomDone:(RoomEvent*)roomEvent{
     if (roomEvent.result == SUCCESS) {
         NSLog(@"Room Left");
@@ -117,19 +122,38 @@
         NSLog(@"Room Left failed");
     }
 }
+
 -(void)onGetLiveRoomInfoDone:(LiveRoomInfoEvent*)event{
     if (event.result == SUCCESS) {
-        CCLOG(@"Room Live Info retrieved");
-        for (int i = 0; i < [event.joinedUsers count]; i++) {
-            CCLOG(@"%@", [event.joinedUsers objectAtIndex:i]);
+        switch (self.realTimeUI.gameState) {
+            case kJoinRandomGame: {
+                if([event.joinedUsers count] < 4) {
+                    self.mainMenuRealTime.gameState = kJoinGame;
+                    self.mainMenuRealTime.roomIdToJoin = event.roomData.roomId;
+                } else {
+                    self.mainMenuRealTime.gameState = kJoinRandomGame;
+                }
+                break;
+            }
+                
+            case kGetLiveRoomInfo: {
+                
+                break;
+            }
+                
+            default:
+                break;
         }
+        
+
     } else {
         CCLOG(@"Room Live Info failed");
     }
 }
+
 -(void)onSetCustomRoomDataDone:(LiveRoomInfoEvent*)event{
-    NSLog(@"event joined users = %@",event.joinedUsers);
-    NSLog(@"event custom data = %@",event.customData);
+    //NSLog(@"event joined users = %@",event.joinedUsers);
+    //NSLog(@"event custom data = %@",event.customData);
 }
 
 @end

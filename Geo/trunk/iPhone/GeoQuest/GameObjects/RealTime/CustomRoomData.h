@@ -8,14 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CustomRoomData : NSObject
+@interface CustomRoomData : NSObject {
+    BOOL        _isLocked;
+    NSString    *_password;
+    float       _countdownTimer;
+    int         _numPlayers;
+}
 
-@property BOOL isLocked;
+@property (assign) BOOL isLocked;
 @property (nonatomic, retain) NSString *password;
-@property float countdownTimer;
-@property int numPlayers;
+@property (assign) float countdownTimer;
+@property (assign) int numPlayers;
 
 -(id) initWithDictionary:(NSDictionary*)d;
 -(NSDictionary*) dictionary;
+-(NSString*) jsonString;
 
 @end

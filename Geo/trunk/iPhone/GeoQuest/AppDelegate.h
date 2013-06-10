@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
 #import "PlayerDB.h"
+#import <FacebookSDK/FacebookSDK.h>
+
 
 @interface AppController : NSObject <UIApplicationDelegate, CCDirectorDelegate>
 {

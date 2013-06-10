@@ -11,6 +11,7 @@
 #import "AsyncGameScene.h"
 #import "RealTimeScene.h"
 
+
 @implementation GameManager
 static GameManager* _sharedGameManager = nil;
 @synthesize isMusicOn;

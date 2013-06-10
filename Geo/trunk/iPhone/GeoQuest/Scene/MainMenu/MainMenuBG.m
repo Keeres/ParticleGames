@@ -44,9 +44,9 @@
 -(id) initWithMainMenuUILayer:(MainMenuUI *)menuUI {
     if ((self = [super init])) {        
         
-        /*[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"MainMenuBGSprites.plist"];
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"MainMenuBGSprites.plist"];
         mainMenuBGSheet = [CCSpriteBatchNode batchNodeWithFile:@"MainMenuBGSprites.png"];
-        [self addChild:mainMenuBGSheet z:0];*/
+        [self addChild:mainMenuBGSheet z:0];
         
         //Setup Layers
         mainMenuUI = menuUI;

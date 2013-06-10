@@ -19,7 +19,7 @@
 /**
  * Gives the custom data associated with the room.
  */
-@property (nonatomic, retain) NSString* customData;
+    @property (nonatomic, retain) NSString* customData;
 
 /**
  * Gives the result code 
